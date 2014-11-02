@@ -1,10 +1,155 @@
-	 ---
+   ---
       layout: post
       title: 个人简介
-     category: 个人简介
+     category: js-label2
       ---
+<!DOCTYPE html>
 <html>
-<body>
-<h1>Hello World!</h1>
-</body> 
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--[if lte IE 9]><meta http-equiv="refresh" content="0;url=/ie.html"><![endif]-->
+
+    <title>Sublime Text 的个人设置</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+
+    <!-- <script type="text/javascript" data-project="ghost" src="http://localhost:48626/takana.js"></script> -->
+  </head>
+  <body>
+    <aside id="sidebar">
+      <nav id="tags">
+        <a href="/index.html" id="avatar"></a>
+
+        <ul id="tags__ul">
+          <li id="js-label1" class="tags__li tags-btn active">All Posts</li>
+          <li id="js-label2" class="tags__li tags-btn">个人简介</li>
+          <li id="js-label3" class="tags__li tags-btn">记录</li>
+          <li id="js-label4" class="tags__li tags-btn">软件技术</li>
+          <li id="js-label5" class="tags__li tags-btn">网络技术</li>
+          <li id="js-label6" class="tags__li tags-btn">其他</li>
+        </ul>
+
+        <div id="tags__bottom">
+          <a href="mailto:422296631@qq.com" id="icon-email" class="tags-btn fontello"></a>
+          <a href="/rss.xml" id="icon-feed" class="tags-btn fontello"></a>
+        </div>      </nav> <!-- end #tags -->
+
+      <div id="posts-list">
+        <form action="" id="search-form">
+          <a href="/index.html" id="mobile-avatar"></a>
+          <!-- NOTE: input field is disabled by default -->
+          <input id="search-input" type="text" placeholder="Search..." disabled >
+        </form>
+
+
+        <nav id="pl__container">
+          <div id="slider" class="js-position-1">
+            <div id="slide-1">
+              
+            </div>
+
+            <div id="slide-2"></div>
+          </div>
+        </nav>
+      </div> <!-- end #posts-list -->
+    </aside> <!-- end #sidebar -->
+
+    <div id="post">
+      <div id="pjax">
+        
+
+
+<article id="post__content">
+  <h1 id="post__title" data-identifier="20130420">Sublime Text 的个人设置</h1>
+  <h2 id="">自定义设置</h2>
+
+<p>以下是 Peter 用着比较顺手的 Sublime Text 设置，其中 <code>wide_caret</code> 是个隐藏属性，大尺寸光标视觉效果更好。</p>
+
+<pre><code class="language-javascript">{
+  "caret_style": "phase",
+  "close_windows_when_empty": true,
+  "color_scheme": "Packages/Syntax highlighting for Sass/Color Scheme/Solarized (Light).tmTheme",
+  "dictionary": "Packages/Language - English/en_GB.dic",
+  "drag_text": false,
+  "draw_white_space": "all",
+  "font_face": "Consolas",
+  "font_size": 18.0,
+  "highlight_line": true,
+  "ignored_packages":
+  [
+    "Vintage"
+  ],
+  "indent_to_bracket": true,
+  "soda_classic_tabs": true,
+  "tab_size": 2,
+  "theme": "Soda Light.sublime-theme",
+  "translate_tabs_to_spaces": true,
+  "trim_trailing_white_space_on_save": true,
+  "wide_caret": true,
+  "word_wrap": true
+}
+</code></pre>
+
+<h2 id="sodaminimap">自定义 Soda 主题的侧边栏与 Minimap</h2>
+
+<p>这个主题好用没的说，美中不足的是侧边栏字体太小，研究了一下自定义的方法：在 User 文件夹中 (Packages 文件夹内) 创建名为 <code>Soda Light.sublime-theme</code> 或者 <code>Soda Dark.sublime-theme</code> 的文件，然后输入以下代码：</p>
+
+<pre><code class="language-javascript">[
+  {
+    "class": "sidebar_tree",
+    "row_padding": [8, 4.5]
+  },
+  {
+    "class": "sidebar_label",
+    "font.size": 13.5
+  },
+  {
+    "class": "minimap_control",
+    "viewport_color": [0, 0, 0, 35]
+  }
+]
+</code></pre>
+
+<p>第一条调整侧边栏条目的间距，第二条调整字体大小。第三条用于调整 Minimap 窗口的颜色，使用深色系的 Color Scheme 时窗口通常不容易分辨，修改这一条就可以了（RGBA 格式）。其他设置可以在 Soda 文件夹内找到，选中需要修改的项目复制粘贴到这个文件里，即使 Soda 更新也不担心丢失设置。</p>
+</article> <!-- end #post__content -->
+
+<div id="post__share">
+  <a id="icon-twitter" class="fontello" href="https://twitter.com/intent/tweet?url=http://peiwen.lu/2013/04/sublime-text-settings/&text=Sublime Text 的个人设置" target="_blank"></a>
+  <a id="icon-cc" class="fontello" href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank"></a>
+  <a id="icon-weibo" class="fontello" href="http://v.t.sina.com.cn/share/share.php?url=http://peiwen.lu/2013/04/sublime-text-settings/&title=Sublime Text 的个人设置" target="_blank"></a>
+</div> <!-- end #post__share -->
+
+
+
+<p id="copyright">Powered by <a href="https://ghost.org" target="_blank">Ghost</a>&nbsp;&nbsp;|&nbsp;&nbsp;Theme <a href="https://github.com/P233/3-Ghost" target="_blank">3-Ghost</a>&nbsp;&nbsp;|&nbsp;&nbsp;Hosted on <a href="https://www.digitalocean.com/?refcode=d4ad992e5119" target="_blank">DigitalOcean</a></p>
+      </div> <!-- end #pjax -->
+
+      <div id="post__toc-trigger">
+        <div id="post__toc">
+          <span id="post__toc-title">文章目录：</span>
+          <ul id="post__toc-ul"></ul>
+        </div>
+      </div>
+    </div> <!-- end #post -->
+
+    <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46130299-1', 'peiwen.lu');
+      ga('send', 'pageview');
+    </script>
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/jquery.pjax.js"></script>
+    <script src="/assets/js/nprogress.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <script src="/assets/js/jquery-tapir.js"></script>
+    <script src="/assets/js/script.js"></script>
+  </body>
 </html>
