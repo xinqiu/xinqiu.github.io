@@ -9,8 +9,10 @@ comments: false
 ---
 
 Hello World!
-Welcome to my blog.Nice to meet you.
-很高兴见到你。
+
+Welcome to my blog.
+
+Nice to meet you.很高兴见到你。
 
 ## My profile
 
