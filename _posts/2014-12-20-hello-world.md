@@ -26,6 +26,5 @@ image:
  }
 {% endhighlight %}
 
-{% gist xinqiu/893f52fffcecdf0a6601 %}
 
 
