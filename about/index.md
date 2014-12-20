@@ -21,4 +21,4 @@ Nice to meet you.很高兴见到你。
 * Major in Network Engineering.
 * Living in China now.
 
-<div markdown="0"><a href="https://github.com/xinqiu/xinqiu.github.io/fork" class="btn btn-info">Fork Me</a></div>
+<div markdown="0"><center><a href="https://github.com/xinqiu/xinqiu.github.io/fork" class="btn btn-info">Fork Me</a></center></div>
