@@ -1,6 +1,6 @@
 ---
 layout: post
-title: hello world
+title: Hello World
 description: "hello world"
 modified: 2014-12-20
 tags: [sample post]
