@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Sample Post
+title: Hello World
 description: "test"
 modified: 2014-12-20
 tags: [test]
