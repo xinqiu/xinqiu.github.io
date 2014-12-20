@@ -1,4 +1,4 @@
-title:            Hello World
+title:            孤独的程序猿|Lonely Coder
 description:      
 disqus_shortname: xinqiu
 reading_time:     true
@@ -9,9 +9,9 @@ url:             //xinqiu.github.io
 
 # Owner/author information
 owner:
-  name:           仇鑫
+  name:           仇鑫(Xin Qiu)
   avatar:         avatar.jpg
-  bio:            "什么都没有."
+  bio:            "你脚踩的地狱只是天堂的倒影，我唇角的故事也是时间的灰烬。|Coder Never Alone"
   email:          xinqiu.94@email.com
   # Social networking links used in footer. Update and remove as you like.
   twitter:        QX_Xin        
@@ -30,13 +30,13 @@ owner:
 background: 
 
 # Analytics and webmaster tools stuff goes here
-google_analytics:   
+google_analytics: UA-57881840-1   
 google_verify:      
 # https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
 bing_verify:         
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone:    China/Shanghai
+timezone:    China/Beijing
 future:      true
 highlighter: pygments
 markdown:    kramdown
