@@ -1,5 +1,5 @@
-title:            Site Title
-description:      Describe your website here.
+title:            Hello World
+description:      My Blog
 disqus_shortname: hpstrtheme
 reading_time:     true
 words_per_minute: 200
@@ -9,14 +9,14 @@ url:
 
 # Owner/author information
 owner:
-  name:           Your Name
+  name:           Qiu Xin
   avatar:         avatar.jpg
-  bio:            "Your bio goes here. It shouldn't be super long but a good two sentences or two should suffice."
-  email:          you@email.com
+  bio:            "Nothing."
+  email:          xinqiu.94@email.com
   # Social networking links used in footer. Update and remove as you like.
   twitter:        
   facebook:       
-  github:         
+  github: github.com/xinqiu        
   stackexchange:  
   linkedin:       
   instagram:      
@@ -36,7 +36,7 @@ google_verify:
 bing_verify:         
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone:    America/New_York
+timezone:    China/Shanghai
 future:      true
 highlighter: pygments
 markdown:    kramdown
