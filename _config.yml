@@ -1,5 +1,5 @@
 title:            Hello World
-description:      My Blog
+description:      
 disqus_shortname: hpstrtheme
 reading_time:     true
 words_per_minute: 200
@@ -9,7 +9,7 @@ url:
 
 # Owner/author information
 owner:
-  name:           Qiu Xin
+  name:           仇鑫
   avatar:         avatar.jpg
   bio:            "Nothing."
   email:          xinqiu.94@email.com
