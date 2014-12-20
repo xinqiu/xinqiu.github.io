@@ -15,6 +15,7 @@ image:
  Theme作者的教程先不删，我还要研究研究，就是这样。
 
  # Hello World
+
 {% highlight c %}
  #include <stdio.h>
  int main()
