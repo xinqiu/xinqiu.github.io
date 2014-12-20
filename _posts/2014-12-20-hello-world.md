@@ -14,7 +14,7 @@ image:
  打算就一直用这个了。
  Theme作者的教程先不删，我还要研究研究，就是这样。
 
- # Hello World
+ #Hello World
 
 {% highlight c %}
  #include <stdio.h>
