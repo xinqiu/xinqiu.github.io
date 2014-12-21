@@ -14,7 +14,7 @@ comments: false
 
 * 三体 [刘慈欣] 
 
-<div markdown="0"><a href="http://book.douban.com/subject/2567698/" class="btn btn-success">douban</a></div>
+<a href="http://book.douban.com/subject/2567698/" class="btn btn-success">douban</a>
 
 * 暗时间 [刘未鹏]
 
