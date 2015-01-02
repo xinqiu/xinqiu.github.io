@@ -4,7 +4,7 @@ title: C Project-Student Score Management System
 description: "C Project"
 tags: [c,code]
 image:
-  	background: geometry.png
+  background: geometry.png
 ---
 
 ##	简介
