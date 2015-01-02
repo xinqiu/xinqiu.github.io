@@ -13,6 +13,8 @@ image:
 
 这两天写完这么多，感觉对C又有了新的感悟。
 
+* * *
+
 ### Student Score Management System
 
 {% highlight C %}
