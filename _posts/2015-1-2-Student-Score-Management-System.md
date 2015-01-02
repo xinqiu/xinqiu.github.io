@@ -2,7 +2,6 @@
 layout: post
 title: C Project-Student Score Management System 
 description: "C Project"
-modified: 2014-12-20
 tags: [c,code]
 image:
   	background: geometry.png
