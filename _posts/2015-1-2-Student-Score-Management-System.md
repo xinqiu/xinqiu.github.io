@@ -2,7 +2,7 @@
 layout: post
 title: C Project-Student Score Management System 
 description: "C Project"
-tags: [c,code]
+tags: [C,code]
 image:
   background: geometry.png
 ---
