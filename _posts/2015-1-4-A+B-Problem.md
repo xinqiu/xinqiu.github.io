@@ -1,6 +1,6 @@
 ---
 layout: post
-title: HDOJ - 1001 A + B Problem
+title: HDOJ - 1000  A + B Problem
 description: "HDOJ ACM"
 tags: [ACM,HDOJ,code]
 image:
