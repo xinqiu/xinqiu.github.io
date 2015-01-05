@@ -28,7 +28,7 @@ For each pair of input integers a and b you should output the sum of a and b in 
 2
 
 
-```
+{% highlight c %}
 #include <stdio.h>
 int main()
 {
@@ -37,4 +37,4 @@ int main()
 		printf("%d\n",a+b);
 	return 0;
 }
-```
+{% endhighlight %}
