@@ -2,7 +2,7 @@
 layout: post
 title: HDOJ - 1001 A + B Problem
 description: "HDOJ ACM"
-tags: [acm,hdoj,code]
+tags: [ACM,HDOJ,code]
 image:
   background: triangular.png
 ---
