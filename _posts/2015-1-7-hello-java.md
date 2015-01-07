@@ -9,8 +9,8 @@ image:
 
 ##IntelliJ IDEA Java入门
 
-		首先申明下，我是纯新手，没有Java开发经验，本来想用Eclipse，介于网上普遍说IntelliJ IDEA是最好的Java IDE，于是从Eclipse转IntelliJ IDEA。网上关于新建普通的Hello World的Java程序的介绍很少，只好自己捣鼓。
-		
+首先申明下，我是纯新手，没有Java开发经验，本来想用Eclipse，介于网上普遍说IntelliJ IDEA是最好的Java IDE，于是从Eclipse转IntelliJ IDEA。网上关于新建普通的Hello World的Java程序的介绍很少，只好自己捣鼓。
+
 ####IntelliJ IDEA 14
 
 * `File`->`New Project`->`Empty Project`->`Next`->改Project name/location->`Finish`
