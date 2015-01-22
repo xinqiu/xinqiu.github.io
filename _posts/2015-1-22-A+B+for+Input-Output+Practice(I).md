@@ -7,7 +7,9 @@ image:
   background: triangular.png
 ---
 
-#Problem Description
+#A+B for Input-Output Practice (I)
+
+##Problem Description
 
 Your task is to Calculate a + b.
 Too easy?! Of course! I specially designed the problem for acm beginners. 
