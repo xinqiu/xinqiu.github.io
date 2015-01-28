@@ -20,7 +20,7 @@ comments: false
 	│ 
 	├──Jekyll博客上线 Dec 21 2014
 	│       ├──购买自己的域名 Jan 11 2015
-	│ 			    ├─CDN优化 Jan 13 2015
+	│               ├─CDN优化 Jan 13 2015
 	│
 	├──寒假 Jan 22
 	│   │
