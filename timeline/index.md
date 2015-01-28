@@ -26,8 +26,7 @@ comments: false
 	│   │
 	│   ├──Coding Everday	
 	│   │        ├─C++ Primer Plus
-	│   │        ├─Data Structures and 
-	│   │        │   └─Algorithm Analysis in C
+	│   │        ├─Data Structures and Algorithm Analysis in C 
 	│   │        ├─A Byte of Python                    
 	│   │        ├─
 	│   │        │
