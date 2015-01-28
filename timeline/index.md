@@ -14,7 +14,7 @@ comments: false
 
 ##START  
 
-{% raw %}
+~~~
   大一 
 	│ 
 	├──Jekyll博客上线 Dec 21 2014
@@ -30,4 +30,4 @@ comments: false
 	│   │        ├─A Byte of Python                    
 	│   │        ├─
 	│   │        │
-{% endraw %}
+~~~
