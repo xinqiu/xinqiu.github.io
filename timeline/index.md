@@ -10,12 +10,13 @@ share: false
 comments: false
 ---
 
->Timeline 我打算从拥有自己的网站开始吧，本打算从大一上学开始
+>Timeline是我从这个Jekyll建站开始记录的，因为是后做的Timeline
+>所以刚开始的记录不是很全
 
 ##START  
 
-~~~
-  大一 
+~~~ html 
+  &nbsp;&nbsp;大一 
 	│ 
 	├──Jekyll博客上线 Dec 21 2014
 	│       ├──购买自己的域名 Jan 11 2015
