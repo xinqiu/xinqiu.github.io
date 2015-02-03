@@ -28,12 +28,14 @@ For each pair of input integers a and b you should output the sum of a and b in 
 ##Sample Input
 
 1 5
+
 10 20
  
 
 ##Sample Output
 
 6
+
 30
  
 
