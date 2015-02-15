@@ -20,6 +20,8 @@ comments: false
 
 * [暗时间](http://book.douban.com/subject/6709809/)
 
+* [知乎周刊·读书这件小事](http://read.douban.com/ebook/1869677/?dcs=book-search)
+
 * [再美也美不过想象](http://book.douban.com/subject/25978608/)
 
 * [世界上所有童话都是写给大人看的](http://book.douban.com/subject/25982794/)
