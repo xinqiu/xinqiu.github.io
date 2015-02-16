@@ -18,6 +18,10 @@ comments: false
 
 # History
 
+* [知乎周刊· 新技能 get✓](http://read.douban.com/ebook/3443508/)
+
+* [知乎周刊·程序人生](http://read.douban.com/ebook/3069929/)
+
 * [暗时间](http://book.douban.com/subject/6709809/)
 
 * [知乎周刊·读书这件小事](http://read.douban.com/ebook/1869677/?dcs=book-search)
