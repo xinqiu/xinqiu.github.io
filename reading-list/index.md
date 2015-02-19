@@ -18,19 +18,23 @@ comments: false
 
 # History
 
-* [知乎周刊· 新技能 get✓](http://read.douban.com/ebook/3443508/)
+* [2014：知乎日报年度回顾](http://www.amazon.cn/dp/B00R12WW88/)
 
-* [知乎周刊·程序人生](http://read.douban.com/ebook/3069929/)
+* [知乎周刊· 新技能 get✓](http://www.amazon.cn/知乎周刊·新技能get-知乎/dp/B00HE8NUR6/)
 
-* [暗时间](http://book.douban.com/subject/6709809/)
+* [知乎周刊·程序人生](http://www.amazon.cn/知乎周刊·程序人生-知乎/dp/B00HE8NT2C/)
 
-* [知乎周刊·读书这件小事](http://read.douban.com/ebook/1869677/?dcs=book-search)
+* [暗时间](http://www.amazon.cn/暗时间-刘未鹏/dp/B005DSK4W8/)
 
-* [再美也美不过想象](http://book.douban.com/subject/25978608/)
+* [知乎周刊·读书这件小事](http://www.amazon.cn/知乎周刊·读书这件小事-知乎/dp/B00FZB97TE/)
 
-* [世界上所有童话都是写给大人看的](http://book.douban.com/subject/25982794/)
+* [再美也美不过想象](http://www.amazon.cn/再美也美不过想象-耀一/dp/B00NG9FX5E/)
 
-* [你的孤独，虽败犹荣](http://book.douban.com/subject/25895442/)
+* [世界上所有童话都是写给大人看的](http://www.amazon.cn/dp/B00N2L0E96/)
 
-* [从你的全世界路过](http://book.douban.com/subject/25747921/)
+* [你的孤独，虽败犹荣](http://www.amazon.cn/你的孤独-虽败犹荣-刘同/dp/B00M2EU0C0/)
+
+* [让我留在你身边](http://www.amazon.cn/让我留在你身边-张嘉佳/dp/B00M0EAQ8K/)
+
+* [从你的全世界路过](http://www.amazon.cn/从你的全世界路过-让所有人心动的故事-张嘉佳/dp/B00FXONTU6/)
 
