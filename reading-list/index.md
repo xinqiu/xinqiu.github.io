@@ -18,6 +18,8 @@ comments: false
 
 # History
 
+*[Git教程 By 廖雪峰](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
+
 * [2014：知乎日报年度回顾](http://www.amazon.cn/dp/B00R12WW88/)
 
 * [知乎周刊· 新技能 get✓](http://www.amazon.cn/知乎周刊·新技能get-知乎/dp/B00HE8NUR6/)
