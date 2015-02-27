@@ -17,7 +17,7 @@ Nice to meet you.很高兴见到你。
 ## My profile
 
 * Student
-* [My Email](mailto:xinqiu.94@gmail.com)
+* [Email Me](mailto:xinqiu.94@gmail.com)
 * Major in Network Engineering.
 * Living in China now.
 
