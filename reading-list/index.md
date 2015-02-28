@@ -14,9 +14,9 @@ comments: false
 
 * [三体](http://book.douban.com/subject/2567698/)
 
-
-
 # History
+
+* [扛得住,世界就是你的](http://www.amazon.cn/扛得住-世界就是你的-小川叔/dp/B00N4M07SQ/)
 
 * [Git教程 By 廖雪峰](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000)
 
