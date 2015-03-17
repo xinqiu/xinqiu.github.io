@@ -14,7 +14,7 @@ comments: false
 
 * [三体](http://book.douban.com/subject/2567698/)
 
-*[深度学习的艺术：知乎采铜自选集](http://www.amazon.cn/深度学习的艺术-知乎采铜自选集-知乎采铜/dp/B00OH7B740)
+* [深度学习的艺术：知乎采铜自选集](http://www.amazon.cn/深度学习的艺术-知乎采铜自选集-知乎采铜/dp/B00OH7B740)
 
 # History
 
