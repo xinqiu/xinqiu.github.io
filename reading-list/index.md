@@ -14,9 +14,10 @@ comments: false
 
 * [三体](http://book.douban.com/subject/2567698/)
 
-* [深度学习的艺术：知乎采铜自选集](http://www.amazon.cn/深度学习的艺术-知乎采铜自选集-知乎采铜/dp/B00OH7B740)
 
 # History
+
+* [深度学习的艺术：知乎采铜自选集](http://www.amazon.cn/深度学习的艺术-知乎采铜自选集-知乎采铜/dp/B00OH7B740)
 
 * [黑客与画家](http://www.amazon.cn/黑客与画家-硅谷创业之父Paul-Graham文集-Paul-Graham/dp/B004WHZGZQ)
 
