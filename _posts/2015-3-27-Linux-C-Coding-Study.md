@@ -23,7 +23,7 @@ image:
 {% highlight bash %}
 ~$ gcc [options][filenames]
 
-```
+{% endhighlight %}
 ######常用编译选项
  
  * -o : out_putfilename: 确定可执行文件的名称为output_filename，缺省则位a.out
