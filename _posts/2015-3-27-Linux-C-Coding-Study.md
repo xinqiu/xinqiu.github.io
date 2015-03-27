@@ -7,24 +7,24 @@ image:
   background: geometry2.png
 ---
 
-##Linux C 编程学习
+#Linux C 编程学习
 
 > 这是我学习Linux C编程的笔记
 
-##前期准备
+#前期准备
 
 ---
 
-###GCC相关
+##GCC相关
 
 
-####gcc基本用法
+###gcc基本用法
 	
 {% highlight bash %}
 ~$ gcc [options][filenames]
 
 {% endhighlight %}
-######常用编译选项
+#####常用编译选项
  
  * -o : out_putfilename: 确定可执行文件的名称为output_filename，缺省则位a.out
  
@@ -53,38 +53,38 @@ image:
   
  > 运行是在终端里执行程序前加time可得到运行程序的时间情况
  
-#####GDB程序调试
+####GDB程序调试
 
-######1.启动GDB
+#####1.启动GDB
 
 {% highlight bash %}
 ~$ gdb filename
 {% endhighlight %}
 
-######2.在main函数处设置断点
+#####2.在main函数处设置断点
 
 {% highlight bash %}
 (gdb) break main
 {% endhighlight %}
 
-######3.运行程序13
+#####3.运行程序13
 
 {% highlight bash %}
 (gdb) run
 {% endhighlight %}
 
-######4.单步调试
+#####4.单步调试
 
 {% highlight bash %}
 (gdb) next
 {% endhighlight %}
 
-######.继续运行
+#####.继续运行
 {% highlight bash %}
 (gdb) continue
 {% endhighlight %}
 
-#####GDB命令
+####GDB命令
 
 * list(l) 查看程序
 * break(b) 函数名 在函数入口添加断点
@@ -103,7 +103,7 @@ image:
 * quit(q) 退出gdb
 
 
-####Makefile 工程管理
+###Makefile 工程管理
 
 规则:
 
