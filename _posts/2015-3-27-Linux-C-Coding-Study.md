@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Linux C 程序设计基础
+title: Linux C 程序设计基础学习
 description: "Linux C"
 tags: [Linux,code]
 image:
