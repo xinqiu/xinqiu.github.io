@@ -17,7 +17,7 @@ comments: false
 
 # History
 
-*[我是一只IT小小鸟](http://book.douban.com/subject/4006425/)
+* [我是一只IT小小鸟](http://book.douban.com/subject/4006425/)
 
 * [深度学习的艺术：知乎采铜自选集](http://www.amazon.cn/深度学习的艺术-知乎采铜自选集-知乎采铜/dp/B00OH7B740)
 
