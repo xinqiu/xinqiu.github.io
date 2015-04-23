@@ -17,6 +17,8 @@ comments: false
 
 # History
 
+* [C专家编程](http://www.amazon.cn/C专家编程Expert-C-Programming-Deep-C-Secrets-Peter-Van-Der-Linden/dp/B0012NIW9K)
+
 * [我是一只IT小小鸟](http://book.douban.com/subject/4006425/)
 
 * [深度学习的艺术：知乎采铜自选集](http://www.amazon.cn/深度学习的艺术-知乎采铜自选集-知乎采铜/dp/B00OH7B740)
