@@ -12,8 +12,9 @@ comments: false
 
 # Reading Now
 
-* [三体](http://book.douban.com/subject/2567698/)
+* [编码的奥秘](http://www.amazon.cn/编码-隐匿在计算机软硬件背后的语言-佩措尔德/dp/B003INLVRM)
 
+* [三体](http://www.amazon.cn/三体-刘慈欣/dp/B00OB3SNMY/)
 
 # History
 

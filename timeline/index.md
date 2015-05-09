@@ -35,12 +35,20 @@ comments: false
 	│    │ 
 	│    │        
 	│    └──Linux服务器运维学习
-	│                └─Ubuntu
-	│                     ├─Webmin
-	│                     ├─Minecraft Server
-	│                     └─Git Server
+	│                ├─Ubuntu
+	│                │    ├─Webmin   
+	│                │    ├─Minecraft Server
+	│                │    ├─Git Server
+	│                │    └─Docker
+	│                │  
+	│                └─CentOS
+	│                     └─常用软件的搭建
 	│
 	├──青软实训
 	│
 	├──深入学习C语言
+	│
+	├──数学建模省赛
+	│
+	├──TinyOS的搭建
 ~~~
