@@ -16,7 +16,7 @@ image:
 
 插入排序(insertion sort)是最简单的排序算法之一。插入排序由 `N - 1` 趟(pass)排序组成。对于`P = 1` 趟到 `P = N - 1` 趟，插入算法保证从位置 0 到位置 P 上的元素为已排序状态。
 
-```
+{% highlight c %}
 void InsertionSort(ElementType A[],int N)
 {
     int j, P;
@@ -31,7 +31,7 @@ void InsertionSort(ElementType A[],int N)
     }
 }
 
-```
+{% endhighlight %}
 
 ####插入排序的分析
 
