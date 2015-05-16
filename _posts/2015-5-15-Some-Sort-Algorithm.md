@@ -35,7 +35,12 @@ void InsertionSort(ElementType A[],int N)
 
 ####插入排序的分析
 
-嵌套循环的每一个都花费 `N` 次迭代,因此插入排序为O(N^2)。
+嵌套循环的每一个都花费 `N` 次迭代,
+对所有的P进行求和，得到总数为
+![](http://latex.codecogs.com/gif.latex?%5Csum_%7Bi%3D2%7D%5E%7BN%7Di%3D2&plus;3&plus;4&plus;...&plus;N)
+
+因此插入排序为![](http://chart.googleapis.com/chart?cht=tx&chl=O(N^{2}\))。
+
 
 
 
