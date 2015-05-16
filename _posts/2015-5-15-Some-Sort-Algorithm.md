@@ -37,7 +37,7 @@ void InsertionSort(ElementType A[],int N)
 
 嵌套循环的每一个都花费 `N` 次迭代,
 对所有的P进行求和，得到总数为
-![](http://latex.codecogs.com/gif.latex?%5Csum_%7Bi%3D2%7D%5E%7BN%7Di%3D2&plus;3&plus;4&plus;...&plus;N)
+![](http://latex.codecogs.com/gif.latex?%5Csum_%7Bi%3D2%7D%5E%7BN%7Di%3D2&plus;3&plus;4&plus;...&plus;N= \Theta(N^{2}\))
 
 因此插入排序为![](http://chart.googleapis.com/chart?cht=tx&chl=O(N^{2}\))。
 
@@ -76,5 +76,14 @@ void ShellSort(ElementType A[], int N)
 
 {% endhighlight %}
 
+####总结
+
+希尔排序的性能取决于增量的选择。希尔排序说白了就是先使相同间隔的元素有序，然后缩写间隔，从而完成整个排序。
+
+###堆排序
+
+####介绍
+
+堆排序(heapsort)，基于优先队列可以用花费![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))时间的排序的特性。然而实践中它却慢于使用Sedgewick增量序列的希尔排序。
 
 (To be continued)
