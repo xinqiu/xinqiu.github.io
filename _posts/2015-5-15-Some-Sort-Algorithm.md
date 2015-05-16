@@ -86,4 +86,59 @@ void ShellSort(ElementType A[], int N)
 
 堆排序(heapsort)，基于优先队列可以用花费![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))时间的排序的特性。然而实践中它却慢于使用Sedgewick增量序列的希尔排序。
 
+建立堆花费的时间是![](http://chart.googleapis.com/chart?cht=tx&chl=O(N\))，然后执行`N`次`DeleteMin`操作。按照顺序，最小的元素先离开该堆。每次`DeleteMin`花费时间![](http://chart.googleapis.com/chart?cht=tx&chl=O(\log{N}\)),因此总的运行时间是![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\)).
+
+该算法的主要问题在于它使用了一个附加数组。因此，存储需求增加一倍。在每次`DeleteMin`之后，堆缩小1，将堆中最后一个单元用来存放刚刚删去的元素，即可避免使用第二个数组。
+
+####算法分析
+
+堆排序的过程是先建堆，后操作。
+
+#####建堆
+
+将数组视为一颗完全二叉树，从其最后一个非叶子节点`n / 2`开始调整。将该节点的儿子节点中，较大的节点与该节点互换。
+![](http://images.cnitblog.com/blog/305504/201301/23175544-9a438436abaa4043a5f00191fbc4626b.png)
+
+#####DeleteMax
+
+将堆中最后一个元素与第一个元素交换，缩减堆的大小并进行下滤，来执行`N - 1`次DeleteMax操作。
+
+####总结
+
+堆排序的总结起来就两步，建堆的部分比较重要，需要慢慢理解才能弄懂。
+
+{% highlight c %}
+void PercDown(ElementType A[],int i,int N)
+{
+    int Child;
+    ElementType Tmp;
+
+    for(Tmp = A[i];LeftChild(i) < N;i = Child)    
+    {
+        Child = LeftChild(i);                            // 以下修改可实现从大到小排序
+        if(Child != N - 1 && A[Child + 1] > A[Child])    // A[Child + 1] < A[Child]
+            Child++;
+        if(Tmp < A[Child])                               // Tmp > A[Child]
+            A[i] = A[Child];
+        else
+            break;
+    }
+    A[i] = Tmp;
+}
+void Heapsort(ElementType A[],int N)
+{
+    int i;
+
+    for(i = N / 2;i >= 0;i--)   // BuildHeap
+        PercDown(A,i,N);
+    for(i = N - 1;i > 0;i--)    // DeletMax
+    {
+        swap(&A[0],&A[i]);
+        PercDown(A,0,i);
+    }
+}
+{% endhighlight %}
+
+
+
 (To be continued)
