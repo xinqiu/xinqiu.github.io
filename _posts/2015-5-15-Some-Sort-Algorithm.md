@@ -139,6 +139,16 @@ void Heapsort(ElementType A[],int N)
 }
 {% endhighlight %}
 
+###快速排序
+
+####介绍
+快速排序(quicksort)是实践中最快的已知排序算法，它的平均运行时间是
+![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))。它的最坏情形的性能为![](http://chart.googleapis.com/chart?cht=tx&chl=O(N^{2}\))。快速排序也是一种分治的递归算法。讲数组S排序的基本算法由下列简单的四步组成:
+
+* 1: 如果S中元素个数是0或1，则返回。
+* 2: 取S中任一元素v，称之为`枢纽元(pivot)`。
+* 3: 将S - {v}(S中其余元素)分成两个不相交的集合:![](http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cleqslant%20v%5C%7D)和![](http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cgeqslant%20v%5C%7D)。
+* 4: 返回{quicksort(![](http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D))后，继随v,继而quicksort(![](http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D))}。
 
 
 (To be continued)
