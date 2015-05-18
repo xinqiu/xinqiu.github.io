@@ -150,5 +150,71 @@ void Heapsort(ElementType A[],int N)
 * 3: 将S - {v}(S中其余元素)分成两个不相交的集合:![](http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cleqslant%20v%5C%7D)和![](http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cgeqslant%20v%5C%7D)。
 * 4: 返回{quicksort(![](http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D))后，继随v,继而quicksort(![](http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D))}。
 
+####算法分析
+
+#####选取枢纽元
+
+枢纽元的选取对算法性能的影响很大，一种错误的方法是选择第一个元素用作枢纽元，另一种想法是选取前两个互异的关键字中较大者作为枢纽元。一种安全的做法是随机选取枢纽元，然而随机数的生成一般是昂贵的，根本减少不了算法其余部分的平均运行时间。比较常用的是三数中值分割法(Median-of-Three Partitioning)。枢纽元的最好的选择是数组的中值。然而这很难算出。一般的做法是使用左端、右端和中心位置的三个元素的中值作为枢纽元。
+
+#####小数组
+
+对于很小的数组(N<=20),快速排序不如插入排序好。通常的解决方法是对于小的数组不递归的使用快速排序，而代之以诸如插入排序这样的对小数组有效的排序算法。一种好的截止范围(cutoff range)是N=10。
+
+#####算法核心
+
+快速排序真正的核心包括**分割**和**递归调用**。选取枢纽元最容易的方法是对`A[Left]`、`A[Right]`、`A[Center]`适当地排序。将三元素中的最小者放在`A[Left]`，这正是分割阶段应该将它放到的位置。三元素中的最大者被分在`A[Right]`，因为它大于枢纽元。因此，我们可以把枢纽元放到`A[Right-1]`并在分割阶段将`i`和`j`初始化到`Left+1`和`Right-2`。
+
+{% highlight c %}
+ElementType Median3(ElementType A[], int Left, int Right)
+{
+    int Center = (Left + Right) / 2;
+
+    if(A[Left] > A[Center])
+        Swap(&A[Left],&A[Center]);
+    if(A[Left] > A[Right])
+        Swap(&A[Left],&A[Right]);
+    if(A[Center] > A[Right])
+        Swap(&A[Center],&A[Right]);
+
+    // Invariant:A[Left] <= A[Center] <= A[Right]
+
+    Swap(&A[Center],&A[Right - 1]);     // Hide pivot
+    return A[Right - 1];                // Return pivot
+}
+
+void Qsort(ElementType A[], int Left, int Right)
+{
+    int i, j;
+    ElementType Pivot;
+
+    if(Left + Cutoff <= Right)
+    {
+        Pivot = Median3(A, Left, Right);
+        i = Left; j = Right - 1;
+        for( ; ; )
+        {
+            while(A[++i] < Pivot){}
+            while(A[--j] > Pivot){}
+            if(i < j)
+                Swap(&A[i], &A[j]);
+            else 
+                break;
+        }
+        Swap(&A[i],&A[Right - 1]);  // Restore pivot
+
+        Qsort(A, Left, i - 1);
+        Qsort(A, i + 1, Right);
+    }
+    else    // Do an insertion sort on the subarray
+        InsertionSort(A + Left, Right - Left + 1);
+}
+{% endhighlight %}
+
+for循环里的两个while循环，实现了从左到右和从右到左寻找第一个不满足条件的元素进行交换。
+
+#####总结
+
+在理解堆排序和归并排序后，快速排序的理解就容易对了。和归并排序一样，难点都在于递归的调用。快速排序的细节也需要注意，稍微一个改变都有可能使该算法不能正确运行。
+
 
 (To be continued)
