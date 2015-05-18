@@ -10,9 +10,9 @@ image:
 
 > 排序算法是面试中常被提及的算法种类之一，以下记录了我学排序的一些想法。
 
-###插入排序
+##插入排序
 
-####介绍
+###介绍
 
 插入排序(insertion sort)是最简单的排序算法之一。插入排序由 `N - 1` 趟(pass)排序组成。对于`P = 1` 趟到 `P = N - 1` 趟，插入算法保证从位置 0 到位置 P 上的元素为已排序状态。
 
@@ -33,7 +33,7 @@ void InsertionSort(ElementType A[],int N)
 
 {% endhighlight %}
 
-####插入排序的分析
+###插入排序的分析
 
 嵌套循环的每一个都花费 `N` 次迭代,
 对所有的P进行求和，得到总数为
@@ -41,13 +41,13 @@ void InsertionSort(ElementType A[],int N)
 
 因此插入排序为![](http://chart.googleapis.com/chart?cht=tx&chl=O(N^{2}\))。
 
-####总结
+###总结
 
 其实就是从左到右，取每个元素，通过比较让其放在正确的位置。相比同样是![](http://www.forkosh.com/mathtex.cgi?%20O(N^{2}\))的冒泡排序，插入排序减少了交换元素的次数。
 
-###希尔排序
+##希尔排序
 
-####介绍
+###介绍
 
 希尔排序(Shellsort)，有时也叫缩小增量排序(deminishing increment sort)，通过比较相距一定间隔的元素来工作；各趟比较所用的距离随着算法的进行而减小，直到只比较相距相邻元素的最后一趟排序为止。
 
@@ -76,13 +76,13 @@ void ShellSort(ElementType A[], int N)
 
 {% endhighlight %}
 
-####总结
+###总结
 
 希尔排序的性能取决于增量的选择。希尔排序说白了就是先使相同间隔的元素有序，然后缩写间隔，从而完成整个排序。
 
-###堆排序
+##堆排序
 
-####介绍
+###介绍
 
 堆排序(heapsort)，基于优先队列可以用花费![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))时间的排序的特性。然而实践中它却慢于使用Sedgewick增量序列的希尔排序。
 
@@ -90,20 +90,20 @@ void ShellSort(ElementType A[], int N)
 
 该算法的主要问题在于它使用了一个附加数组。因此，存储需求增加一倍。在每次`DeleteMin`之后，堆缩小1，将堆中最后一个单元用来存放刚刚删去的元素，即可避免使用第二个数组。
 
-####算法分析
+###算法分析
 
 堆排序的过程是先建堆，后操作。
 
-#####建堆
+####建堆
 
 将数组视为一颗完全二叉树，从其最后一个非叶子节点`n / 2`开始调整。将该节点的儿子节点中，较大的节点与该节点互换。
 ![](http://images.cnitblog.com/blog/305504/201301/23175544-9a438436abaa4043a5f00191fbc4626b.png)
 
-#####DeleteMax
+####DeleteMax
 
 将堆中最后一个元素与第一个元素交换，缩减堆的大小并进行下滤，来执行`N - 1`次DeleteMax操作。
 
-####总结
+###总结
 
 堆排序的总结起来就两步，建堆的部分比较重要，需要慢慢理解才能弄懂。
 
@@ -139,9 +139,9 @@ void Heapsort(ElementType A[],int N)
 }
 {% endhighlight %}
 
-###快速排序
+##快速排序
 
-####介绍
+###介绍
 快速排序(quicksort)是实践中最快的已知排序算法，它的平均运行时间是
 ![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))。它的最坏情形的性能为![](http://chart.googleapis.com/chart?cht=tx&chl=O(N^{2}\))。快速排序也是一种分治的递归算法。讲数组S排序的基本算法由下列简单的四步组成:
 
@@ -150,17 +150,17 @@ void Heapsort(ElementType A[],int N)
 * 3: 将S - {v}(S中其余元素)分成两个不相交的集合:![](http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cleqslant%20v%5C%7D)和![](http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cgeqslant%20v%5C%7D)。
 * 4: 返回{quicksort(![](http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D))后，继随v,继而quicksort(![](http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D))}。
 
-####算法分析
+###算法分析
 
-#####选取枢纽元
+####选取枢纽元
 
 枢纽元的选取对算法性能的影响很大，一种错误的方法是选择第一个元素用作枢纽元，另一种想法是选取前两个互异的关键字中较大者作为枢纽元。一种安全的做法是随机选取枢纽元，然而随机数的生成一般是昂贵的，根本减少不了算法其余部分的平均运行时间。比较常用的是三数中值分割法(Median-of-Three Partitioning)。枢纽元的最好的选择是数组的中值。然而这很难算出。一般的做法是使用左端、右端和中心位置的三个元素的中值作为枢纽元。
 
-#####小数组
+####小数组
 
 对于很小的数组(N<=20),快速排序不如插入排序好。通常的解决方法是对于小的数组不递归的使用快速排序，而代之以诸如插入排序这样的对小数组有效的排序算法。一种好的截止范围(cutoff range)是N=10。
 
-#####算法核心
+####算法核心
 
 快速排序真正的核心包括**分割**和**递归调用**。选取枢纽元最容易的方法是对`A[Left]`、`A[Right]`、`A[Center]`适当地排序。将三元素中的最小者放在`A[Left]`，这正是分割阶段应该将它放到的位置。三元素中的最大者被分在`A[Right]`，因为它大于枢纽元。因此，我们可以把枢纽元放到`A[Right-1]`并在分割阶段将`i`和`j`初始化到`Left+1`和`Right-2`。
 
@@ -212,7 +212,7 @@ void Qsort(ElementType A[], int Left, int Right)
 
 for循环里的两个while循环，实现了从左到右和从右到左寻找第一个不满足条件的元素进行交换。
 
-#####总结
+###总结
 
 在理解堆排序和归并排序后，快速排序的理解就容易对了。和归并排序一样，难点都在于递归的调用。快速排序的细节也需要注意，稍微一个改变都有可能使该算法不能正确运行。
 
