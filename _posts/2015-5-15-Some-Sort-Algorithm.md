@@ -139,6 +139,81 @@ void Heapsort(ElementType A[],int N)
 }
 {% endhighlight %}
 
+##归并排序
+
+###介绍
+
+归并排序以![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))最坏情形运行时间运行，而使用的比较次数几乎是最优的。它的基本操作是合并两个已排好序的表。基本的合并算法是取两个输入数组A和B，一个输出数组C，以及三个计数器*Aptr*,*Bptr*,*Cptr*,它们初始置于对应数组的开始端。A[*Aptr*]和B[*Bptr*]中的较小者被拷贝到C中的下一个位置，相关的计数器向前推进一步。当两个输入表有一个用完的时候，则将另一个表中的剩余部分拷贝到C中。
+合并两个已排序的表的时间显然是线性的，因为最多进行了N-1次比较，其中N是元素的总数。
+
+该算法是递归地将前半部分数据和后半部分数据鸽子归并排序，得到排序后的两个部分数据，然后使用上面描述的合并算法再将这两部分合并到一起。这是经典的分治(divide-and-conquer)策略，它将问题分成一些小的问题然后递归求解，而治的阶段则将分的阶段解得的各个答案修补到一起。
+
+{% highlight c %}
+void MSort(ElementType A[],ElementType TmpArray[],int Left,int Right)
+{
+    int Center;
+    
+    if(Left < Right)
+    {
+        Center = (Left + Right) / 2;
+        MSort(A, TmpArray, Left, Center);
+        MSort(A, TmpArray, Center + 1, Right);
+        Merge(A, TmpArray, Left, Center + 1, Right);
+    }
+}
+
+void Mergesort(ElementType A[],int N)
+{
+    ElementType *TmpArray;
+    
+    TmpArray = malloc(N * sizeof(ElementType));
+    if(TmpArray != NULL)
+    {
+        MSort(A, TmpArray, 0, N - 1);
+        free(TmpArray);
+    }
+    else
+        FatalError("No space for tmp array!!!");
+}
+
+{% endhighlight %}
+
+Merge函数的精妙在于任何时刻只用一个临时数组活动，而且使用该临时数组的任意部分。
+
+###算法分析
+
+{% highlight c %}
+// Lpos = start of left halt,Rpos = start of right half
+void Merge(ElementType A[],ElementType TmpArray[],int Lpos,int Rpos,int RightEnd)
+{
+    int i,LeftEnd,NumElements,TmpPos;
+    
+    LeftEnd = Rpos - 1;
+    TmpPos = Lpos;
+    NumElements = RightEnd - Lpos +1;
+    
+    // main loop
+    while (Lpos <= LeftEnd && Rpos <= RightEnd)
+        if(A[Lpos] <= A[Rpos])
+            TmpArray[TmpPos++] = A[Lpos++];
+        else
+            TmpArray[TmpPos++] = A[Rpos++];
+    while (Lpos <= LeftEnd)
+        TmpArray[TmpPos++] = A[Lpos++];     // Copy rest of first half
+    while (Rpos <= RightEnd)
+        TmpArray[TmpPos++] = A[Rpos++];     // Copy rest of second half
+    
+    // Copy TmpArray back
+    for (i = 0; i < NumElements; i++,RightEnd--)
+        A[RightEnd] = TmpArray[RightEnd];
+}
+
+{% endhighlight %}
+
+###总结
+
+虽然归并排序的运行时间是![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))，但它很难用于主存排序，主要问题在于合并两个排序的表需要线性附加内存，在整个算法中还要花费将数据拷贝到临时数组再拷贝回来这样一些附加的工作，其结果严重放慢了排序的速度。这种拷贝可以通过在递归交替层次时审慎地转换A和TmpArray的角色得到避免。
+
 ##快速排序
 
 ###介绍
