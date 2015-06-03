@@ -8,8 +8,7 @@ share: false
 comments: false
 ---
 
->Timeline是我从这个Jekyll建站开始记录的，因为是后做的Timeline
->所以刚开始的记录不是很全
+>Timeline是我从这个Jekyll建站开始记录的.
 
 ##START  
 
@@ -26,7 +25,7 @@ comments: false
 	│    │        ├─C++ Primer Plus
 	│    │        ├─Data Structures and Algorithm Analysis in C 
 	│    │        ├─A Byte of Python                    
-	│    │        └─Mooc
+	│    │        └─MOOC
 	│    │
 	│    ├──Raspberry Pi GPIO 入门
 	│    │        └─Python控制LED
@@ -50,4 +49,6 @@ comments: false
 	│		└─三等奖
 	│
 	├──服务器搭建OnlineJudge
+	│
+
 ~~~
