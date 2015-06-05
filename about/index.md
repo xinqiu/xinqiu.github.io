@@ -3,22 +3,22 @@ layout: page
 title: About Me
 image:
   feature: abstract-5.jpg
-  credit: dargadgetz
-  creditlink: http://www.dargadgetz.com/ios-7-abstract-wallpaper-pack-for-iphone-5-and-ipod-touch-retina/
 comments: false
 ---
 
-Hello World!
-
-Welcome to my blog.
-
-Nice to meet you.很高兴见到你。
-
 ## My profile
 
-* Student
-* [Email Me](mailto:xinqiu.94@gmail.com)
-* Major in Network Engineering.
-* Living in China now.
+我是仇鑫，大一网络工程专业。
+
+熟悉C，了解C++，Python，HTML+CSS，	Linux/Unix，docker,Raspberry Pi.
+
+想做iOS开发。
+
+
+## Contact Me
+
+[Email Me](mailto:xinqiu.94@gmail.com)
+
+
 
 <div markdown="0"><center><a href="https://github.com/xinqiu/xinqiu.github.io/fork" class="btn btn-info">Fork Me</a></center></div>
