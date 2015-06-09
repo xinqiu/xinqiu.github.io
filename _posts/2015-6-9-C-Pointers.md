@@ -17,11 +17,12 @@ image:
 ```
 const int *pci;
 ```
+
 | Explanation |  Declaration   |
 | ------------- |:-------------:| 
 |1.pci is a variable|const int ** *pci **| 
 |2.pci is a pointer variable| const int ** *pci ** | 
-|3.pci is a pointer variable to an integer|const ** int *pci ** |  
+|3.pci is a pointer variable to an integer|const ** int *pci ** |
 |4.pci is a pointer variable to a constant integer| **const int *pci **|
  
  
