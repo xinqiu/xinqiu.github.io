@@ -18,6 +18,8 @@ image:
 const int *pci;
 ```
 
+---
+
 | Explanation |  Declaration   |
 | ------------- |:-------------:| 
 |1.pci is a variable|const int <strong>*pci</strong> | 
@@ -25,6 +27,7 @@ const int *pci;
 |3.pci is a pointer variable to an integer|const <strong> int *pci</strong> |
 |4.pci is a pointer variable to a constant integer| <strong>const int *pci </strong>|
  
+ ---
  
 ##常量与指针
  
