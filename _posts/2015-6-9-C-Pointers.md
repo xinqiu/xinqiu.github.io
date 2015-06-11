@@ -22,7 +22,7 @@ const int *pci;
 
 | Explanation |  Declaration   |
 | ------------- |:-------------:| 
-|1.pci is a variable|const int <strong>*pci</strong> | 
+|1.pci is a variable|const int *<strong>pci</strong> | 
 |2.pci is a pointer variable| const int <strong> *pci</strong>| 
 |3.pci is a pointer variable to an integer|const <strong> int *pci</strong> |
 |4.pci is a pointer variable to a constant integer| <strong>const int *pci </strong>|
