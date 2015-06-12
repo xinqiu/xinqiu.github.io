@@ -18,6 +18,8 @@ comments: false
 
 # History
 
+* [自控力](http://www.amazon.cn/自控力-凯利•麦格尼格尔/dp/B008AGHPM2/)
+
 * [C专家编程](http://www.amazon.cn/C专家编程Expert-C-Programming-Deep-C-Secrets-Peter-Van-Der-Linden/dp/B0012NIW9K)
 
 * [我是一只IT小小鸟](http://book.douban.com/subject/4006425/)
