@@ -64,4 +64,44 @@ const int *const ptr;
 const int * const * ptr;
 ```
 
+##动态内存分配
+
+* malloc
+* realloc
+* calloc
+
+| Function |  Declaration   |
+| ------------- |:-------------:| 
+|malloc|从堆上分配内存| 
+|realloc|在之前分配的内存块基础上，将内存重新分配为更大或者更小的部分|
+|calloc|从堆上分配内存并清零|  
+
+###变长数组
+
+使用alloca函数(微软为maalloca)在函数的栈帧上分配内存。函数返回后自动释放内存。
+
+####栈帧
+栈帧由以下几种元素组成
+
+* 返回地址
+* 局部数据存储
+* 参数存储
+* 栈指针和基指针
+
+##动态分配二维数组
+###动态分配可能不连续的内存
+
+以下代码演示了如何创建一个内存可能不连续的二维数组。
+
+{% highlight c %}
+int rows = 2;
+int columns = 5;
+
+int **matrix = (int **) malloc(rows * sizeof(int *));
+
+for(int i = 0; i < rows; i++){
+	matrix[i] = (int *) malloc(columns * sizeof(int))
+}
+{% endhighlight %}
+
 (To be continued)
