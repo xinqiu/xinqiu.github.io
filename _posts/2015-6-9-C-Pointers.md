@@ -104,4 +104,23 @@ for(int i = 0; i < rows; i++){
 }
 {% endhighlight %}
 
+###动态分配连续内存
+
+{% highlight c %}
+int rows = 2;
+int columns = 5;
+
+int **matrix = (int **) malloc(rows * sizeof(int *));
+matrix[0] = (int *) malloc(rows * columns * sizeof(int));
+for(int i = 0; i < rows; i++){
+	matrix[i] = matrix[0] + i * columns;
+}
+{% endhighlight %}
+以上代码演示了第一种技术，第一个malloc分配了一个整数指针数组，一个元素用来存储一行的指针。第二个malloc在存储每行第一个元素的地址。
+
+第二种技术是一次性分配数组所需的所有内存。
+{% highlight c %}
+int *matrix = (int *) malloc(rows * columns * sizeof(int));
+{% endhighlight %}
+
 (To be continued)
