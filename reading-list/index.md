@@ -10,13 +10,13 @@ comments: false
 
 # Reading Now
 
+* [深入理解C指针](http://www.amazon.cn/深入理解C指针-里斯/dp/B00INLQY7Q/)
+
 * [编码的奥秘](http://www.amazon.cn/编码-隐匿在计算机软硬件背后的语言-佩措尔德/dp/B003INLVRM)
 
 * [三体](http://www.amazon.cn/三体-刘慈欣/dp/B00OB3SNMY/)
 
 # History
-
-* [深入理解C指针](http://www.amazon.cn/深入理解C指针-里斯/dp/B00INLQY7Q/)
 
 * [自控力](http://www.amazon.cn/自控力-凯利•麦格尼格尔/dp/B008AGHPM2/)
 
