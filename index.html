@@ -5,7 +5,7 @@ description: "lonely Coder"
 tags: [blog, coder]
 comments: false
 image:
-  feature: http://web.xinqiu.me/background.png
+  feature: background.png
 ---
 
 {% for post in paginator.posts %}
@@ -13,7 +13,7 @@ image:
   <header>
     {% if post.image.feature %}
       <div class="entry-image-index">
-        <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}"><img src="{{ site.url }}/images/{{ post.image.feature }}" alt="{{ post.title }}"></a>
+        <a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}"><img src="http://7xjii2.com1.z0.glb.clouddn.com/{{ post.image.feature }}" alt="{{ post.title }}"></a>
       </div><!-- /.entry-image -->
     {% endif %}
     <div class="entry-meta">
