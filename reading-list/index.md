@@ -10,7 +10,7 @@ comments: false
 
 # Reading Now
 
-* [编码的奥秘](http://www.amazon.cn/编码-隐匿在计算机软硬件背后的语言-佩措尔德/dp/B003INLVRM)
+* [Code: The Hidden Language of Computer Hardware and Software](http://www.amazon.cn/Code-The-Hidden-Language-of-Computer-Hardware-and-Software-Petzold-Charles/dp/0735611319/)
 
 * [三体](http://www.amazon.cn/三体-刘慈欣/dp/B00OB3SNMY/)
 
