@@ -12,6 +12,8 @@ comments: false
 
 熟悉C，了解C++，Python，HTML+CSS，	Linux/Unix，docker,Raspberry Pi.
 
+vim初学者/轻度用户,oh-my-zsh初学者。
+
 想做iOS开发。
 
 
