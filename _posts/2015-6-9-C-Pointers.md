@@ -141,4 +141,76 @@ int *matrix = (int *) malloc(rows * columns * sizeof(int));
 
 assert函数判断表达式是否为真，表达式为假，程序会终止。
 
+##函数指针
+
+###声明函数指针
+
+{% highlight c %}
+void (*foo)();
+{% endhighlight %}
+foo为函数指针。要注意的是，如果声明是
+
+{% highlight c %}
+int *foo();
+{% endhighlight %}
+意义就变了，代表foo函数返回一个int型指针。
+
+为函数指针声明一个类型定义会比较方便，但类型定义看起来有点奇怪，通常，类型定义的名字是声明的最后一个元素。
+
+{% highlight c %}
+typedef int (*funcptr)(int);
+{% endhighlight %}
+
+举个栗子
+
+{% highlight c %}
+typedef int (*funcptr)(int);
+funcptr fptr2;
+fptr2 = foo; // 	foo为函数名
+fptr(n);	// 调用foo函数
+{% endhighlight %}
+### 传递函数指针
+
+只要把函数指针声明最为函数参数即可。
+
+举个栗子
+
+{% highlight c %}
+int add(int num1, int num2){
+	return num1 + num2;
+}
+
+int substract(int num1, int num2){
+	return num1 - num2;
+}
+
+typedef int (*fptrOperation)(int, int);
+
+int compute(fptrOperation operation, int num1, int num2){
+	return operation(num1, num2);
+}
+{% endhighlight %}
+
+###返回函数指针
+返回函数指针需要把函数的返回类型声明为函数指针。
+
+接着上一个的例子
+
+{% highlight c %}
+fptrOperation select(char opcode){
+    switch(opcode){
+        case '+': return add;
+        case '-': return substract;
+    }
+    return 0;
+}
+// evaluate函数整合了其他函数。该函数接受两个整数和一个字符，
+// 字符代表要做的操作，它会把opcode传递给select函数，
+// 后者返回要执行的函数指针。
+int evaluate(char opcode, int num1, int num2)
+{
+    fptrOperation operation = select(opcode);
+    return operation(num1, num2);
+}
+{% endhighlight %}
 (To be continued)
