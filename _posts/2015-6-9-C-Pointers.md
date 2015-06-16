@@ -2,6 +2,7 @@
 layout: post
 title: <<深入理解C指针>>读书笔记
 description: "Understanding and Using C Pointers"
+modified: 2015-6-16
 tags: [Notes]
 image:
   background: photography.png
@@ -213,4 +214,28 @@ int evaluate(char opcode, int num1, int num2)
     return operation(num1, num2);
 }
 {% endhighlight %}
+
+###函数指针数组
+
+把函数指针声明为数组的类型。
+接着上面的例子
+
+{% highlight c %}
+typedef int (*opertation)(int, int);
+operation operations[128] = {NULL};
+// 或者 int(*operations[128])(int, int) = {NULL};
+// 用指针数组来避免使用switch
+void initializeOperationsArray(){
+	operations['+'] = add;
+	operations['-'] = subtract;
+}
+// 所以evaluate需要改写为evaluateArray.
+int evaluateArray(char opcode, int num1, int num2){
+	fptrOperation operation;
+	operation = operations[opcode];
+	return operation(num1, num2);
+}
+{% endhighlight %}
+
+
 (To be continued)
