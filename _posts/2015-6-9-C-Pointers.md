@@ -2,7 +2,7 @@
 layout: post
 title: <<深入理解C指针>>读书笔记
 description: "Understanding and Using C Pointers"
-modified: 2015-6-16
+modified: 2015-6-17
 tags: [Notes]
 image:
   background: photography.png
