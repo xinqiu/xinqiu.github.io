@@ -2,7 +2,7 @@
 layout: post
 title: <<深入理解C指针>>读书笔记
 description: "Understanding and Using C Pointers"
-modified: 2015-6-17
+modified: 2015-6-18
 tags: [Notes]
 image:
   background: photography.png
@@ -237,5 +237,20 @@ int evaluateArray(char opcode, int num1, int num2){
 }
 {% endhighlight %}
 
+##指针安全方面
 
-(To be continued)
+###清除敏感数据
+
+复写敏感数据可以使用`memset`函数。
+
+##其他重要内容
+
+* 指针的类型转换
+* 访问硬件设备
+* 别名和强别名
+* 使用restrict关键字
+* 线程
+* 面向对象技术
+
+书中最后的部分简单的提及了一些高级技巧，这块知识，我觉得还是看其他详细的书比较好。
+
