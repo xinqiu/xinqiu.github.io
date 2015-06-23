@@ -10,6 +10,8 @@ comments: false
 
 # Reading Now
 
+* [浪潮之巅](http://www.amazon.cn/浪潮之巅-吴军/dp/B00D73BJWK/)
+
 * [Code: The Hidden Language of Computer Hardware and Software](http://www.amazon.cn/Code-The-Hidden-Language-of-Computer-Hardware-and-Software-Petzold-Charles/dp/0735611319/)
 
 * [三体](http://www.amazon.cn/三体-刘慈欣/dp/B00OB3SNMY/)
