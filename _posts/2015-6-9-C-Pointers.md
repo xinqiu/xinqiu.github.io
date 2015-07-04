@@ -71,11 +71,15 @@ const int * const * ptr;
 * realloc
 * calloc
 
+---
+
 | Function |  Declaration   |
 | ------------- |:-------------:| 
 |malloc|从堆上分配内存| 
 |realloc|在之前分配的内存块基础上，将内存重新分配为更大或者更小的部分|
 |calloc|从堆上分配内存并清零|  
+
+---
 
 ###变长数组
 
