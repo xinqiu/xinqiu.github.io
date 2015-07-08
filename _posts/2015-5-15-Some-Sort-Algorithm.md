@@ -10,7 +10,13 @@ image:
 
 > 排序算法是面试中常被提及的算法种类之一，以下记录了我学排序的一些想法。
 
-##插入排序
+* [插入排序](#1)
+* [希尔排序](#2)
+* [堆排序](#3)
+* [归并排序](#4)
+* [快速排序](#5)
+
+<h2 id="1">插入排序</h2>
 
 ###介绍
 
@@ -45,7 +51,7 @@ void InsertionSort(ElementType A[],int N)
 
 其实就是从左到右，取每个元素，通过比较让其放在正确的位置。相比同样是![](http://www.forkosh.com/mathtex.cgi?%20O(N^{2}\))的冒泡排序，插入排序减少了交换元素的次数。
 
-##希尔排序
+<h2 id="2">希尔排序</h2>
 
 ###介绍
 
@@ -80,7 +86,7 @@ void ShellSort(ElementType A[], int N)
 
 希尔排序的性能取决于增量的选择。希尔排序说白了就是先使相同间隔的元素有序，然后缩写间隔，从而完成整个排序。
 
-##堆排序
+<h2 id="3">堆排序</h2>
 
 ###介绍
 
@@ -139,7 +145,7 @@ void Heapsort(ElementType A[],int N)
 }
 {% endhighlight %}
 
-##归并排序
+<h2 id="4">归并排序</h2>
 
 ###介绍
 
@@ -214,7 +220,7 @@ void Merge(ElementType A[],ElementType TmpArray[],int Lpos,int Rpos,int RightEnd
 
 虽然归并排序的运行时间是![](http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\))，但它很难用于主存排序，主要问题在于合并两个排序的表需要线性附加内存，在整个算法中还要花费将数据拷贝到临时数组再拷贝回来这样一些附加的工作，其结果严重放慢了排序的速度。这种拷贝可以通过在递归交替层次时审慎地转换A和TmpArray的角色得到避免。
 
-##快速排序
+<h2 id="5">快速排序</h2>
 
 ###介绍
 快速排序(quicksort)是实践中最快的已知排序算法，它的平均运行时间是
