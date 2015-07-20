@@ -11,3 +11,5 @@ comments: true
 ## 翻译
 
 	* [Learn Javascript](https://www.gitbook.com/book/xinqiu/learn-javascript-cn/details)
+
+	* [Pro Git 2](https://github.com/progit/progit2-zh) 参与审校
