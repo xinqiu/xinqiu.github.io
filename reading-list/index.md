@@ -18,6 +18,8 @@ comments: false
 
 # History
 
+* [A Byte of Python](http://book.douban.com/subject/5948760/)
+
 * [深入理解C指针](http://www.amazon.cn/深入理解C指针-里斯/dp/B00INLQY7Q/)
 
 * [自控力](http://www.amazon.cn/自控力-凯利•麦格尼格尔/dp/B008AGHPM2/)
