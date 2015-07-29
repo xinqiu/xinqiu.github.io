@@ -60,6 +60,6 @@ comments: false
 	│	 ├─搭建Hexo
 	│
 	├──VPS
-	│	 ├─部署私有云IDE
+	│   ├─部署私有云IDE
 	│
 ~~~
