@@ -12,6 +12,6 @@ comments: false
 
 * [Jamlee's Blog](http://jamlee.cn/)
 
-* [猪哥好又暖](dj.zhufree.info)
+* [猪哥好又暖](http://dj.zhufree.info)
 
 * [清水寺的猫](http://lc4t.me)
