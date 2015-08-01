@@ -8,6 +8,10 @@ share: false
 comments: true
 ---
 
+## 网站
+
+* [私人云IDE](http://ide.xinqiu.me)
+
 ## 翻译
 
 * [Learn Javascript](https://www.gitbook.com/book/xinqiu/learn-javascript-cn/details)
