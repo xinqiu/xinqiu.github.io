@@ -61,7 +61,7 @@ comments: false
 	│
 	├──VPS
 	│   ├─部署私有云IDE
-	│	│
+	│   │
 	│   ├─折腾Apache
 	│ 
 ~~~
