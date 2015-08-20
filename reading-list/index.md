@@ -14,11 +14,11 @@ comments: false
 
 * [浪潮之巅](http://www.amazon.cn/浪潮之巅-吴军/dp/B00D73BJWK/)
 
-* [Code: The Hidden Language of Computer Hardware and Software](http://www.amazon.cn/Code-The-Hidden-Language-of-Computer-Hardware-and-Software-Petzold-Charles/dp/0735611319/)
-
 * [三体](http://www.amazon.cn/三体-刘慈欣/dp/B00OB3SNMY/)
 
 # History
+
+* [Code: The Hidden Language of Computer Hardware and Software](http://www.amazon.cn/dp/0735611319/)
 
 * [数据结构与算法分析:C语言描述(原书第2版)](http://www.amazon.cn/dp/B002WC7NGS/)
 
