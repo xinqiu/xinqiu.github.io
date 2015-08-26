@@ -10,13 +10,15 @@ comments: false
 
 # Reading Now
 
+* [数学之美](http://www.amazon.cn/dp/B0084ASO7E/)
+
 * [鸟哥的Linux私房菜:基础学习篇](http://www.amazon.cn/dp/B003TJNO98/)
 
-* [浪潮之巅](http://www.amazon.cn/浪潮之巅-吴军/dp/B00D73BJWK/)
-
-* [三体](http://www.amazon.cn/三体-刘慈欣/dp/B00OB3SNMY/)
+* [三体](http://www.amazon.cn/dp/B00OB3SNMY/)
 
 # History
+
+* [浪潮之巅](http://www.amazon.cn/dp/B00D73BJWK/)
 
 * [Code: The Hidden Language of Computer Hardware and Software](http://www.amazon.cn/dp/0735611319/)
 
