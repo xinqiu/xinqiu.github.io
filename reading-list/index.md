@@ -10,13 +10,13 @@ comments: false
 
 # Reading Now
 
-* [数学之美](http://www.amazon.cn/dp/B0084ASO7E/)
-
 * [鸟哥的Linux私房菜:基础学习篇](http://www.amazon.cn/dp/B003TJNO98/)
 
 * [三体](http://www.amazon.cn/dp/B00OB3SNMY/)
 
 # History
+
+* [数学之美](http://www.amazon.cn/dp/B0084ASO7E/)
 
 * [浪潮之巅](http://www.amazon.cn/dp/B00D73BJWK/)
 
