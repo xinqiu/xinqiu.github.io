@@ -10,6 +10,12 @@ comments: false
 
 # Reading Now
 
+* [算法导论(原书第3版)](http://www.amazon.cn/dp/B00AK7BYJY/)
+
+* [深入理解计算机系统（英文版·第2版）](http://www.amazon.cn/dp/B004N85EKG/)
+
+* [如何阅读一本书](http://www.amazon.cn/dp/B0018MVXVE/)
+
 * [鸟哥的Linux私房菜:基础学习篇](http://www.amazon.cn/dp/B003TJNO98/)
 
 * [三体](http://www.amazon.cn/dp/B00OB3SNMY/)
