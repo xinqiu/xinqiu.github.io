@@ -8,7 +8,7 @@ comments: false
 
 ## 简介
 
-我是仇鑫，大一网络工程专业。
+我是仇鑫，大二网络工程专业。
 
 熟悉C, 了解C++, Python, HTML+CSS, Shell, Linux/Unix, Raspberry Pi.
 
@@ -28,7 +28,7 @@ vim初学者/轻度用户,oh-my-zsh初学者。
 
 ## Intro
 
-Hi,I am Xin Qiu,you can call me CoderX.I am a freshman majoring in Network Engineering.
+Hi,I am Xin Qiu,you can call me CoderX.I am a sophomore majoring in Network Engineering.
 
 I know C,C++,Python,HTML+CSS, Shell, Linux/Unix, Raspberry Pi.
 
