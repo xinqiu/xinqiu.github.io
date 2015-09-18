@@ -32,6 +32,8 @@ Hi,I am Xin Qiu,you can call me CoderX.I am a sophomore majoring in Network Engi
 
 I know C,C++,Python,HTML+CSS, Shell, Linux/Unix, Raspberry Pi.
 
+vim user and oh-my-zsh learner.
+
 I want to be a iOS developer.
 
 ## Contact Me
