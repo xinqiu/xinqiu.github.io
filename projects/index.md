@@ -22,3 +22,5 @@ comments: true
 * [Learn Javascript](https://www.gitbook.com/book/xinqiu/learn-javascript-cn/details)
 
 * [Pro Git 2](https://github.com/progit/progit2-zh) 参与审校
+
+* [Linux insides](https://github.com/MintCN/linux-insides-zh)
