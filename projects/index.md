@@ -16,6 +16,8 @@ comments: true
 
 * [Unsplash Wallpaper](https://github.com/xinqiu/unsplash-wallpaper-alfred2-workflow) 换壁纸的小应用，图片来自Unsplash
 
+* [Bull's Eye](https://github.com/xinqiu/BullsEye) 看着书第一次制作一个完成的app
+
 
 ## 翻译 Translation
 
