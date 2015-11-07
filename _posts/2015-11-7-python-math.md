@@ -144,4 +144,9 @@ reduce 方法和Python的reduce函数类似。
 * outer : 只按照一维数组进行计算，如果传入参数是多维数组，则先将此数组展平为一维数组之后再进行运算。outer乘积计算的列向量和行向量的矩阵乘积。
 
 
+##参考资料
+
+[用Python做科学计算](http://old.sebug.net/paper/books/scipydoc/index.html)
+
+[Numpy and Scipy Documentation](http://docs.scipy.org/doc/)
 
