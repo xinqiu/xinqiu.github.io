@@ -206,7 +206,7 @@ optimize库提供了几个求函数最小值的算法：fmin, fmin_powell, fmin_
 
 {% highlight python %}
 from scipy.optimize import fmin
-def myfunc（x）：
+def myfunc(x):
     return x**2-4*x+8
 x0=[2]
 xopt=fmin(myfunc,x0)
