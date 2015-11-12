@@ -143,6 +143,90 @@ reduce 方法和Python的reduce函数类似。
 	
 * outer : 只按照一维数组进行计算，如果传入参数是多维数组，则先将此数组展平为一维数组之后再进行运算。outer乘积计算的列向量和行向量的矩阵乘积。
 
+## SciPy
+
+SciPy函数库在NumPy库的基础上增加了众多的数学、科学以及工程计算中常用的库函数。例如线性代数、常微分方程数值求解、信号处理、图像处理、稀疏矩阵等等。由于其涉及的领域众多、本书没有能力对其一一的进行介绍。作为入门介绍，让我们看看如何用SciPy进行插值处理、信号滤波以及用C语言加速计算。
+
+###最小二乘拟合
+
+今年的数学建模国赛——太阳影子长度中，就有一问需要用到最小二乘法拟合，可惜当初不是很会。最小二乘法就是假设有一组实验数据(x[i], y[i])，我们知道它们之间的函数关系:y = f(x)，通过这些已知信息，需要确定函数中的一些参数项。例如，如果f是一个线型函数f(x) = k*x+b，那么参数k和b就是我们需要确定的值。如果将这些参数用 p 表示的话，那么我们就是要找到一组 p 值使得如下公式中的S函数最小:
+
+![](http://www.zhihu.com/equation?tex=S(p\)=\sum_{i=1}^m[y_{i}-f(x_{i},P\)]^{2})
+这种算法被称之为最小二乘拟合(Least-square fitting)。
+
+scipy中的子函数库optimize已经提供了实现最小二乘拟合算法的函数leastsq。下面是用leastsq进行数据拟合的一个例子：
+
+{% highlight python %}
+# -*- coding: utf-8 -*-
+import numpy as np
+from scipy.optimize import leastsq
+import pylab as pl
+
+def func(x, p):
+    """
+    数据拟合所用的函数: A*sin(2*pi*k*x + theta)
+    """
+    A, k, theta = p
+    return A*np.sin(2*np.pi*k*x+theta)   
+
+def residuals(p, y, x):
+    """
+    实验数据x, y和拟合函数之间的差，p为拟合需要找到的系数
+    """
+    return y - func(x, p)
+
+x = np.linspace(0, -2*np.pi, 100)
+A, k, theta = 10, 0.34, np.pi/6 # 真实数据的函数参数
+y0 = func(x, [A, k, theta]) # 真实数据
+y1 = y0 + 2 * np.random.randn(len(x)) # 加入噪声之后的实验数据    
+
+p0 = [7, 0.2, 0] # 第一次猜测的函数拟合参数
+
+# 调用leastsq进行数据拟合
+# residuals为计算误差的函数
+# p0为拟合参数的初始值
+# args为需要拟合的实验数据
+plsq = leastsq(residuals, p0, args=(y1, x))
+
+print u"真实参数:", [A, k, theta] 
+print u"拟合参数", plsq[0] # 实验数据拟合后的参数
+
+pl.plot(x, y0, label=u"真实数据")
+pl.plot(x, y1, label=u"带噪声的实验数据")
+pl.plot(x, func(x, plsq[0]), label=u"拟合数据")
+pl.legend()
+pl.show()
+{% endhighlight %}
+
+通过leastsq函数对带噪声的实验数据x, y1进行数据拟合，可以找到x和真实数据y0之间的正弦关系的三个参数： A, k, theta。
+
+### 函数最小值
+
+optimize库提供了几个求函数最小值的算法：fmin, fmin_powell, fmin_cg, fmin_bfgs。就只举一个小例子：
+
+{% highlight python %}
+from scipy.optimize import fmin
+def myfunc（x）：
+    return x**2-4*x+8
+x0=[2]
+xopt=fmin(myfunc,x0)
+print xopt
+{% endhighlight %}
+
+返回结果：
+
+{% highlight python %}
+Optimization terminated successfully.
+         Current function value: 4.000000
+         Iterations: 11
+         Function evaluations: 22
+[ 2.]
+{% endhighlight %}
+
+其中 x0 为 初始估计值。
+
+
+
 
 ##参考资料
 
