@@ -4,7 +4,7 @@ title: 云主机下的docker+Nginx搭建
 description: "docker Nginx "
 tags: [Linux]
 image:
-  feature: photography.png
+  background: photography.png
 ---
 
 
