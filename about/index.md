@@ -10,7 +10,7 @@ comments: false
 
 我是仇鑫，大二网络工程专业。
 
-熟悉C, 了解C++, Python, HTML+CSS, Shell, Linux/Unix, Raspberry Pi.
+熟悉C, 了解C++, Python, HTML+CSS, Shell, Linux/Unix, docker, Raspberry Pi.
 
 vim初学者/轻度用户,oh-my-zsh初学者。
 
@@ -30,7 +30,7 @@ vim初学者/轻度用户,oh-my-zsh初学者。
 
 Hi,I am Xin Qiu,you can call me CoderX.I am a sophomore majoring in Network Engineering.
 
-I know C,C++,Python,HTML+CSS, Shell, Linux/Unix, Raspberry Pi.
+I know C,C++,Python,HTML+CSS, Shell, Linux/Unix, docker, Raspberry Pi.
 
 vim user and oh-my-zsh learner.
 
