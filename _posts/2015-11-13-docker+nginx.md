@@ -2,7 +2,7 @@
 layout: post
 title: 云主机下的docker+Nginx搭建
 description: "docker Nginx "
-tags: [Linux]
+tags: [docker,nginx]
 image:
   background: photography.png
 ---
