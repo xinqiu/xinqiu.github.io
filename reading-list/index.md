@@ -10,6 +10,8 @@ comments: false
 
 # Reading Now
 
+* [Docker —— 从入门到实践](http://dockerpool.com/static/books/docker_practice/index.html)
+
 * [算法导论(原书第3版)](http://www.amazon.cn/dp/B00AK7BYJY/)
 
 * [深入理解计算机系统（英文版·第2版）](http://www.amazon.cn/dp/B004N85EKG/)
