@@ -225,7 +225,194 @@ Optimization terminated successfully.
 
 其中 x0 为 初始估计值。
 
+##SymPy
 
+SymPy是Python的数学符号计算库，用它可以进行数学公式的符号推导。常用的导入方法是：
+
+{% highlight python %}
+from sympy import *
+{% endhighlight %}
+
+###符号变量
+
+在SymPy中，数学符号是Symbol类的对象.
+
+{% highlight python %}
+x = Symbol('x')
+{% endhighlight %}
+
+此时， x 是一个数学符号。
+
+`I` 在 Sympy 中表示虚数单位
+
+###有理数
+
+SymPy 中有三种不同的数值类型：`Real`，`Rational`，`Integer`：
+
+{% highlight python %}
+r1 = Rational(4,5)
+{% endhighlight %}
+
+![](http://www.zhihu.com/equation?tex=%5Cfrac%7B4%7D%7B5%7D%20)
+
+r1就是一个分数。
+
+###数值计算
+
+Sumpy 以任意精度的数值库作为后端，预定义了一些数学常量的表达式，如 `pi`, `e`, 以及 `oo`（代表极限）。
+
+为了计算表达式的数值，可以使用 `evalf` 函数 (或者 `N` 函数)。
+
+显示pi的50位。n参数决定有效数位。
+
+{% highlight python %}
+pi.evalf(n=50)
+{% endhighlight %}
+
+subs函数可以将算式中的符号进行替换:
+
+* expression.subs(x, y) : 将算式中的x替换成y
+* expression.subs({x:y,u:v}) : 使用字典进行多次替换
+* expression.subs([(x,y),(u,v)]) : 使用列表进行多次替换
+
+{% highlight python %}
+y = (x + pi)**2
+{% endhighlight %}
+
+![](http://www.zhihu.com/equation?tex=y%3D(x%2B%5Cpi%20\)%5E%7B2%7D%20)
+
+以上式子中的 `x` 若要替换成其他值，可以这么写：
+
+{% highlight python %}
+y.subs(x, 1.5)
+{% endhighlight %}
+
+###代数运算
+
+####展开与分解
+
+`expand` 函数可以将公式展开。
+
+
+{% highlight python %}
+expand((x+1)*(x+2)*(x+3))
+{% endhighlight %}
+
+![](http://www.zhihu.com/equation?tex=x^{3}%2B6%20x^{2}%2B11x%2B6)
+
+`expand` 有一系列参数能够决定式子的展开形式，`trig=True` 能展开三角公式：
+
+{% highlight python %}
+expand(sin(a+b), trig=True)
+{% endhighlight %}
+
+![](http://www.zhihu.com/equation?tex=sin(a%2Bb\)%3Dsin(a\)cos(b\)%2Bcos(a\)sin(b\))
+
+####化简
+
+`simplify` 进行化简操作，特殊的化简还有 `trigsimp`， `powsimp`， `logcombine` 等等。
+
+
+####分式分解与分式展开
+
+{% highlight python %}
+f1 = 1/((a+1)*(a+2))
+{% endhighlight %}
+
+![](http://www.zhihu.com/equation?tex=-%5Cfrac%7B1%7D%7Ba%2B2%7D%20%2B%5Cfrac%7B1%7D%7Ba%2B1%7D%20)
+
+###微积分
+
+####微分
+
+diff 函数用来做微分,![](http://www.zhihu.com/equation?tex=y%3D(x%2B%5Cpi%20\)%5E%7B2%7D%20),对 y 做 x 的微分，
+
+{% highlight python %}
+diff(y, x)
+{% endhighlight %}
+
+{% highlight python %}
+diff(y, x, 2) 
+{% endhighlight %}
+
+这个表示对 y 做 x 的二次微分，第三个参数表示几重微分。
+
+计算多变量式子的多重微分可以这么做：
+![](http://www.zhihu.com/equation?tex=%5Cfrac%7Bd%5E%7B3%7Df%7D%7Bdxdy%5E%7B2%7D%20%7D%20)
+
+{% highlight python %}
+diff(f, x, 1, y, 2)
+{% endhighlight %}
+
+表示先对 f 做 x 的一重微分，再做 y 的二重微分。
+
+###积分
+
+使用 `integrate` 函数求积分。
+
+{% highlight python %}
+integrate(f, x)
+{% endhighlight %}
+
+表示对 `f` 做 `x` 的积分。
+
+{% highlight python %}
+integrate(f, (x, -1, 1))
+{% endhighlight %}
+
+表示对 `f` 做 `x` 的积分，其中 `x` 属于 `-1` 到 `1`。
+
+###总和与连乘积
+求总和：
+
+![](http://www.zhihu.com/equation?tex=%5Csum_%7Bn%3D1%7D%5E%7B10%7D%20%5Cfrac%7B1%7D%7Bn%5E%7B2%7D%7D)
+
+{% highlight python %}
+n = Symbol("n")
+Sum(1/n**2, (n, 1, 10))
+{% endhighlight %}
+
+求连乘积：
+
+![](http://www.zhihu.com/equation?tex=%5Cprod_%7Bn%3D1%7D%5E%7B10%7D%20n)
+
+{% highlight python %}
+Product(n, (n, 1, 10))
+{% endhighlight %}
+
+###极限
+
+计算极限：
+
+![](http://www.zhihu.com/equation?tex=%5Clim_%7Bx%20%5Crightarrow%200%7D%7B%5Cfrac%7Bsin(x\)%7D%7Bx%7D%20%7D%20)
+
+{% highlight python %}
+limit(sin(x)/x, x, 0)
+{% endhighlight %}
+
+###数列
+
+数列展开的用法：(默认从 x=0 展开)
+
+![](http://www.zhihu.com/equation?tex=1%20%2B%20x%20%2B%20%5Cfrac%7Bx%5E%7B2%7D%7D%7B2%7D%20%2B%20%5Cfrac%7Bx%5E%7B3%7D%7D%7B6%7D%20%2B%20%5Cfrac%7Bx%5E%7B4%7D%7D%7B24%7D%20%2B%20%5Cfrac%7Bx%5E%7B5%7D%7D%7B120%7D%20%2B%20%5Cmathcal%7BO%7D%5Cleft(x%5E%7B6%7D%5Cright\))
+
+{% highlight python %}
+series(exp(x), x)
+{% endhighlight %}
+
+###解方程
+
+`solve` 能够解方程与方程组:
+
+{% highlight python %}
+solve(x**2 - 1, x)
+{% endhighlight %}
+
+解方程组：
+
+{% highlight python %}
+solve([x + y - 1, x - y - 1], [x,y])
+{% endhighlight %}
 
 
 ##参考资料
