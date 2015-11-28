@@ -69,6 +69,12 @@ comments: false
        大二 
 	│ 
 	├──深入研究docker
+	│       ├─使用体验DaoCloud,tenxcloud
+	│
+	├──学习尝试制作了第一个iOS app
 	│
 	├──努力学基础ing
+	│       ├─啃英文原版CSAPP
+	│
+	├──深入学习Python
 ~~~
