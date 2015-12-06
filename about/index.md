@@ -10,7 +10,7 @@ comments: false
 
 我是仇鑫，大二网络工程专业。
 
-熟悉C, 了解C++, Python, HTML+CSS, Shell, Linux/Unix, docker, Raspberry Pi.
+熟悉C, Python, 了解C++, HTML+CSS, Shell, Linux/Unix, docker, Raspberry Pi.
 
 vim初学者/轻度用户,oh-my-zsh初学者。
 
