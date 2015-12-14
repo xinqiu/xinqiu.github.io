@@ -22,6 +22,8 @@ comments: false
 
 # History
 
+* [Flask Web Development: Developing Web Applications with Python](http://www.amazon.cn/dp/1449372627/)
+
 * [鸟哥的Linux私房菜:基础学习篇](http://www.amazon.cn/dp/B003TJNO98/)
 
 * [Docker —— 从入门到实践](http://dockerpool.com/static/books/docker_practice/index.html)
