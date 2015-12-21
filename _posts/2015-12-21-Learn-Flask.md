@@ -50,8 +50,9 @@ python manage.py shell
 
 {% highlight text %}
 Additionally if you are in a view function of a blueprint or
- a rendered template and you want to link to another endpoint of the same blueprint, you can use relative redirects by 
- prefixing the endpoint with a dot only
+a rendered template and you want to link to another endpoint of the same blueprint, 
+you can use relative redirects by 
+prefixing the endpoint with a dot only
 {% endhighlight %}
 
 简而言之就是，这里的点其实省略了当前蓝图的名字。
