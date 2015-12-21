@@ -49,7 +49,9 @@ python manage.py shell
 因为Flask使用的是`jinja2`模板, 其中网页跳转使用了url_for函数。当初在学Blueprint的时候并没细细思考蓝图的一些原理，当初用url_for也没怎么注意。在某个瞬间，突然发现url_for有的时候用了`.`，有时却没用。这是为什么呢？
 
 {% highlight text %}
-Additionally if you are in a view function of a blueprint or a rendered template and you want to link to another endpoint of the same blueprint, you can use relative redirects by prefixing the endpoint with a dot only
+Additionally if you are in a view function of a blueprint or
+ a rendered template and you want to link to another endpoint of the same blueprint, you can use relative redirects by 
+ prefixing the endpoint with a dot only
 {% endhighlight %}
 
 简而言之就是，这里的点其实省略了当前蓝图的名字。
