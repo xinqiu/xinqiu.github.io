@@ -10,17 +10,19 @@ comments: false
 
 # Reading Now
 
+* [Matplotlib for Python Developers](http://www.amazon.cn/dp/B00V6FNMKI/)
+
 * [Python documentation](https://docs.python.org/2.7/)
 
 * [算法导论(原书第3版)](http://www.amazon.cn/dp/B00AK7BYJY/)
 
 * [深入理解计算机系统（英文版·第2版）](http://www.amazon.cn/dp/B004N85EKG/)
 
-* [如何阅读一本书](http://www.amazon.cn/dp/B0018MVXVE/)
-
 * [三体](http://www.amazon.cn/dp/B00OB3SNMY/)
 
 # History
+
+* [如何阅读一本书](http://www.amazon.cn/dp/B0018MVXVE/)
 
 * [Flask Web Development: Developing Web Applications with Python](http://www.amazon.cn/dp/1449372627/)
 
