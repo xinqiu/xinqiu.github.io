@@ -77,4 +77,11 @@ comments: false
 	│       ├─啃英文原版CSAPP
 	│
 	├──深入学习Python
+	│       ├─看文档
+	│       ├─学了点python数据分析
+	│       ├─学习了flask
+	│ 
+	├──青软实训
+	│     ├─学了点java Swing
+	│
 ~~~

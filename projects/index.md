@@ -12,6 +12,8 @@ comments: true
 
 * [私人云IDE](http://ide.xinqiu.me)
 
+* [Chatting](http://flask.projectq.cn:5000/)
+
 ## 应用 Application
 
 * [Unsplash Wallpaper](https://github.com/xinqiu/unsplash-wallpaper-alfred2-workflow) 换壁纸的小应用，图片来自Unsplash
