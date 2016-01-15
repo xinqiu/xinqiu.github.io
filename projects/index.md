@@ -14,6 +14,8 @@ comments: true
 
 * [Chatting](http://flask.projectq.cn:5000/)
 
+* [raspberry pi](http://pi.projectq.cn:8888)
+
 ## 应用 Application
 
 * [Unsplash Wallpaper](https://github.com/xinqiu/unsplash-wallpaper-alfred2-workflow) 换壁纸的小应用，图片来自Unsplash
