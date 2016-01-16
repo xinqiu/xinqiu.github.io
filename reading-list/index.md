@@ -16,8 +16,6 @@ comments: false
 
 * [深入理解计算机系统（英文版·第2版）](http://www.amazon.cn/dp/B004N85EKG/)
 
-* [三体](http://www.amazon.cn/dp/B00OB3SNMY/)
-
 # History
 
 * [Matplotlib for Python Developers](http://www.amazon.cn/dp/B00V6FNMKI/)
