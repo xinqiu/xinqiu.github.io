@@ -18,6 +18,8 @@ comments: false
 
 # History
 
+* [Learning Python](http://www.amazon.cn/dp/1449355730/)
+
 * [Matplotlib for Python Developers](http://www.amazon.cn/dp/B00V6FNMKI/)
 
 * [如何阅读一本书](http://www.amazon.cn/dp/B0018MVXVE/)
