@@ -17,7 +17,8 @@
 <meta property="og:url" content="http://xinqiu.me/2016/02/10/csapp-lab2-bomb/index.html">
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description" content="csapp">
-<meta property="og:updated_time" content="2016-02-11T17:56:24.000Z">
+<meta property="og:image" content="http://xinqiu.me/suc.png">
+<meta property="og:updated_time" content="2016-02-11T18:00:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP Lab2 解题分析">
 <meta name="twitter:description" content="csapp">
@@ -347,6 +348,7 @@
 <p>那么，为了让fun7返回得到2，需要执行三次递归。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2 = 2 * 1</span><br><span class="line">1 = 2 * 0 + 1</span><br><span class="line">0 = 0</span><br></pre></td></tr></table></figure>
 <p>所以可以得知%rdi也就是0x6030f0这个地址进行了2次增加。递归最深处得到(%rdi)和%rsi相等。用0x6030f0增加(0x8+0x10),得到<code>0x16</code>,转化为十进制就是答案<code>22</code>.</p>
+<p><img src="suc.png" alt=""></p>
 <h1 id="u6700_u540E"><a href="#u6700_u540E" class="headerlink" title="最后"></a>最后</h1><p>通过不到两天的思考，虽然不是很容易，经过各种查资料和思考，最终完成了这个lab。第三章节的结束，也是第四章的开始，路漫漫其修远兮，吾将上下而求索。</p>
 
             
