@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="一人Code">
+    <title>几种常见排序算法的学习 - 一人Code</title>
+    <meta name="author" content="Xin Qiu">
+    
+    
+    
+    <meta name="description" content="sort algorithm">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="几种常见排序算法的学习">
+<meta property="og:url" content="http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/index.html">
+<meta property="og:site_name" content="一人Code">
+<meta property="og:description" content="sort algorithm">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?%5Csum_%7Bi%3D2%7D%5E%7BN%7Di%3D2+3+4+...+N= \Theta(N^{2}\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O(N^{2}\">
+<meta property="og:image" content="http://www.forkosh.com/mathtex.cgi?%20O(N^{2}\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O(N\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O(\log{N}\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\">
+<meta property="og:image" content="http://images.cnitblog.com/blog/305504/201301/23175544-9a438436abaa4043a5f00191fbc4626b.png">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O({N}\log{N}\">
+<meta property="og:image" content="http://chart.googleapis.com/chart?cht=tx&chl=O(N^{2}\">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cleqslant%20v%5C%7D">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cgeqslant%20v%5C%7D">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D">
+<meta property="og:image" content="http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D">
+<meta property="og:updated_time" content="2016-02-11T04:29:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="几种常见排序算法的学习">
+<meta name="twitter:description" content="sort algorithm">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://xinqiu.me/assets/images/avatar.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-57881840-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">一人Code</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png"/>
+            </a>
+            <span class="sidebar-profile-name">Xin Qiu</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/projects"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                    <span class="sidebar-button-desc">Projects</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/reading-list"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-book"></i>
+                    <span class="sidebar-button-desc">Reading List</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/timeline"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-calendar"></i>
+                    <span class="sidebar-button-desc">Timeline</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/xinqiu" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:xinqiu.94@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            几种常见排序算法的学习
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Fri May 15 2015 00:00:00 GMT+0800">
+	
+		    May 15, 2015
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <blockquote>
+<p>排序算法是面试中常被提及的算法种类之一，以下记录了我学排序的一些想法。</p>
+</blockquote>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1"><span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4ECB_u7ECD"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u63D2_u5165_u6392_u5E8F_u7684_u5206_u6790"><span class="toc-text">插入排序的分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u603B_u7ED3"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2"><span class="toc-text">希尔排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4ECB_u7ECD-1"><span class="toc-text">介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3"><span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B97_u6CD5_u5206_u6790"><span class="toc-text">算法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u5EFA_u5806"><span class="toc-text">建堆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DeleteMax"><span class="toc-text">DeleteMax</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u603B_u7ED3-1"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4"><span class="toc-text">归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4ECB_u7ECD-2"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B97_u6CD5_u5206_u6790-1"><span class="toc-text">算法分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u603B_u7ED3-2"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5"><span class="toc-text">快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u4ECB_u7ECD-3"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7B97_u6CD5_u5206_u6790-2"><span class="toc-text">算法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#u9009_u53D6_u67A2_u7EBD_u5143"><span class="toc-text">选取枢纽元</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5C0F_u6570_u7EC4"><span class="toc-text">小数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u7B97_u6CD5_u6838_u5FC3"><span class="toc-text">算法核心</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u603B_u7ED3-3"><span class="toc-text">总结</span></a></li></ol></li></ol>
+<ul>
+<li><a href="#1">插入排序</a></li>
+<li><a href="#2">希尔排序</a></li>
+<li><a href="#3">堆排序</a></li>
+<li><a href="#4">归并排序</a></li>
+<li><a href="#5">快速排序</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="1">插入排序</h2>
+
+<h3 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h3><p>插入排序(insertion sort)是最简单的排序算法之一。插入排序由 <code>N - 1</code> 趟(pass)排序组成。对于<code>P = 1</code> 趟到 <code>P = N - 1</code> 趟，插入算法保证从位置 0 到位置 P 上的元素为已排序状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertionSort</span><span class="params">(ElementType A[],<span class="keyword">int</span> N)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> j, P;</span><br><span class="line">    </span><br><span class="line">    ElementType Tmp;</span><br><span class="line">    <span class="keyword">for</span>(P = <span class="number">1</span>; P &lt; N; P++)</span><br><span class="line">    &#123;</span><br><span class="line">        Tmp = A[P];</span><br><span class="line">        <span class="keyword">for</span>(j = P; j &gt; <span class="number">0</span> &amp;&amp; A[j-<span class="number">1</span>] &gt; Tmp; j--)</span><br><span class="line">            A[j] = A[j-<span class="number">1</span>];</span><br><span class="line">        A[j] = Tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u63D2_u5165_u6392_u5E8F_u7684_u5206_u6790"><a href="#u63D2_u5165_u6392_u5E8F_u7684_u5206_u6790" class="headerlink" title="插入排序的分析"></a>插入排序的分析</h3><p>嵌套循环的每一个都花费 <code>N</code> 次迭代,<br>对所有的P进行求和，得到总数为<br><img src="http://latex.codecogs.com/gif.latex?%5Csum_%7Bi%3D2%7D%5E%7BN%7Di%3D2&plus;3&plus;4&plus;...&plus;N= \Theta(N^{2}\" alt="">)</p>
+<p>因此插入排序为<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O(N^{2}\" alt="">)。</p>
+<h3 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h3><p>其实就是从左到右，取每个元素，通过比较让其放在正确的位置。相比同样是<img src="http://www.forkosh.com/mathtex.cgi?%20O(N^{2}\" alt="">)的冒泡排序，插入排序减少了交换元素的次数。</p>
+<h2 id="2">希尔排序</h2>
+
+<h3 id="u4ECB_u7ECD-1"><a href="#u4ECB_u7ECD-1" class="headerlink" title="介绍"></a>介绍</h3><p>希尔排序(Shellsort)，有时也叫缩小增量排序(deminishing increment sort)，通过比较相距一定间隔的元素来工作；各趟比较所用的距离随着算法的进行而减小，直到只比较相距相邻元素的最后一趟排序为止。</p>
+<p>增量的选择有多种，不同的增量，性能也不同。较为常见的是使用希尔增量。以下是以增量为<code>N / 2</code>的算法。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShellSort</span><span class="params">(ElementType A[], <span class="keyword">int</span> N)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i,j,Increment;</span><br><span class="line">    ElementType Tmp;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (Increment = N / <span class="number">2</span>; Increment &gt; <span class="number">0</span>; Increment /= <span class="number">2</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (i = Increment; i &lt; N; i++) </span><br><span class="line">        &#123;</span><br><span class="line">            Tmp = A[i];</span><br><span class="line">            <span class="keyword">for</span>(j = i; j &gt;= Increment; j-= Increment)</span><br><span class="line">                <span class="keyword">if</span> (Tmp &lt; A[j - Increment])</span><br><span class="line">                    A[j] = A[j - Increment];</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            A[j] = Tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###总结</p>
+<p>希尔排序的性能取决于增量的选择。希尔排序说白了就是先使相同间隔的元素有序，然后缩写间隔，从而完成整个排序。</p>
+<h2 id="3">堆排序</h2>
+
+<p>###介绍</p>
+<p>堆排序(heapsort)，基于优先队列可以用花费<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O({N}\log{N}\" alt="">)时间的排序的特性。然而实践中它却慢于使用Sedgewick增量序列的希尔排序。</p>
+<p>建立堆花费的时间是<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O(N\" alt="">)，然后执行<code>N</code>次<code>DeleteMin</code>操作。按照顺序，最小的元素先离开该堆。每次<code>DeleteMin</code>花费时间<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O(\log{N}\" alt="">),因此总的运行时间是<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O({N}\log{N}\" alt="">).</p>
+<p>该算法的主要问题在于它使用了一个附加数组。因此，存储需求增加一倍。在每次<code>DeleteMin</code>之后，堆缩小1，将堆中最后一个单元用来存放刚刚删去的元素，即可避免使用第二个数组。</p>
+<h3 id="u7B97_u6CD5_u5206_u6790"><a href="#u7B97_u6CD5_u5206_u6790" class="headerlink" title="算法分析"></a>算法分析</h3><p>堆排序的过程是先建堆，后操作。</p>
+<h4 id="u5EFA_u5806"><a href="#u5EFA_u5806" class="headerlink" title="建堆"></a>建堆</h4><p>将数组视为一颗完全二叉树，从其最后一个非叶子节点<code>n / 2</code>开始调整。将该节点的儿子节点中，较大的节点与该节点互换。<br><img src="http://images.cnitblog.com/blog/305504/201301/23175544-9a438436abaa4043a5f00191fbc4626b.png" alt=""></p>
+<h4 id="DeleteMax"><a href="#DeleteMax" class="headerlink" title="DeleteMax"></a>DeleteMax</h4><p>将堆中最后一个元素与第一个元素交换，缩减堆的大小并进行下滤，来执行<code>N - 1</code>次DeleteMax操作。</p>
+<h3 id="u603B_u7ED3-1"><a href="#u603B_u7ED3-1" class="headerlink" title="总结"></a>总结</h3><p>堆排序的总结起来就两步，建堆的部分比较重要，需要慢慢理解才能弄懂。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PercDown</span><span class="params">(ElementType A[],<span class="keyword">int</span> i,<span class="keyword">int</span> N)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Child;</span><br><span class="line">    ElementType Tmp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(Tmp = A[i];LeftChild(i) &lt; N;i = Child)    </span><br><span class="line">    &#123;</span><br><span class="line">        Child = LeftChild(i);                            <span class="comment">// 以下修改可实现从大到小排序</span></span><br><span class="line">        <span class="keyword">if</span>(Child != N - <span class="number">1</span> &amp;&amp; A[Child + <span class="number">1</span>] &gt; A[Child])    <span class="comment">// A[Child + 1] &lt; A[Child]</span></span><br><span class="line">            Child++;</span><br><span class="line">        <span class="keyword">if</span>(Tmp &lt; A[Child])                               <span class="comment">// Tmp &gt; A[Child]</span></span><br><span class="line">            A[i] = A[Child];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    A[i] = Tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Heapsort</span><span class="params">(ElementType A[],<span class="keyword">int</span> N)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i = N / <span class="number">2</span>;i &gt;= <span class="number">0</span>;i--)   <span class="comment">// BuildHeap</span></span><br><span class="line">        PercDown(A,i,N);</span><br><span class="line">    <span class="keyword">for</span>(i = N - <span class="number">1</span>;i &gt; <span class="number">0</span>;i--)    <span class="comment">// DeletMax</span></span><br><span class="line">    &#123;</span><br><span class="line">        swap(&amp;A[<span class="number">0</span>],&amp;A[i]);</span><br><span class="line">        PercDown(A,<span class="number">0</span>,i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4">归并排序</h2>
+
+<h3 id="u4ECB_u7ECD-2"><a href="#u4ECB_u7ECD-2" class="headerlink" title="介绍"></a>介绍</h3><p>归并排序以<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O({N}\log{N}\" alt="">)最坏情形运行时间运行，而使用的比较次数几乎是最优的。它的基本操作是合并两个已排好序的表。基本的合并算法是取两个输入数组A和B，一个输出数组C，以及三个计数器<em>Aptr</em>,<em>Bptr</em>,<em>Cptr</em>,它们初始置于对应数组的开始端。A[<em>Aptr</em>]和B[<em>Bptr</em>]中的较小者被拷贝到C中的下一个位置，相关的计数器向前推进一步。当两个输入表有一个用完的时候，则将另一个表中的剩余部分拷贝到C中。<br>合并两个已排序的表的时间显然是线性的，因为最多进行了N-1次比较，其中N是元素的总数。</p>
+<p>该算法是递归地将前半部分数据和后半部分数据鸽子归并排序，得到排序后的两个部分数据，然后使用上面描述的合并算法再将这两部分合并到一起。这是经典的分治(divide-and-conquer)策略，它将问题分成一些小的问题然后递归求解，而治的阶段则将分的阶段解得的各个答案修补到一起。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">void MSort(ElementType A[],ElementType TmpArray[],int Left,int Right)</span><br><span class="line">&#123;</span><br><span class="line">    int Center;</span><br><span class="line">    </span><br><span class="line">    if(Left &lt; Right)</span><br><span class="line">    &#123;</span><br><span class="line">        Center = (Left + Right) / 2;</span><br><span class="line">        MSort(A, TmpArray, Left, Center);</span><br><span class="line">        MSort(A, TmpArray, Center + 1, Right);</span><br><span class="line">        Merge(A, TmpArray, Left, Center + 1, Right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void Mergesort(ElementType A[],int N)</span><br><span class="line">&#123;</span><br><span class="line">    ElementType *TmpArray;</span><br><span class="line">    </span><br><span class="line">    TmpArray = malloc(N * sizeof(ElementType));</span><br><span class="line">    if(TmpArray != NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        MSort(A, TmpArray, 0, N - 1);</span><br><span class="line">        free(TmpArray);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">        FatalError("No space for tmp array!!!");</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Merge函数的精妙在于任何时刻只用一个临时数组活动，而且使用该临时数组的任意部分。</p>
+<h3 id="u7B97_u6CD5_u5206_u6790-1"><a href="#u7B97_u6CD5_u5206_u6790-1" class="headerlink" title="算法分析"></a>算法分析</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Lpos = start of left halt,Rpos = start of right half</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Merge</span><span class="params">(ElementType A[],ElementType TmpArray[],<span class="keyword">int</span> Lpos,<span class="keyword">int</span> Rpos,<span class="keyword">int</span> RightEnd)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i,LeftEnd,NumElements,TmpPos;</span><br><span class="line">    </span><br><span class="line">    LeftEnd = Rpos - <span class="number">1</span>;</span><br><span class="line">    TmpPos = Lpos;</span><br><span class="line">    NumElements = RightEnd - Lpos +<span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// main loop</span></span><br><span class="line">    <span class="keyword">while</span> (Lpos &lt;= LeftEnd &amp;&amp; Rpos &lt;= RightEnd)</span><br><span class="line">        <span class="keyword">if</span>(A[Lpos] &lt;= A[Rpos])</span><br><span class="line">            TmpArray[TmpPos++] = A[Lpos++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            TmpArray[TmpPos++] = A[Rpos++];</span><br><span class="line">    <span class="keyword">while</span> (Lpos &lt;= LeftEnd)</span><br><span class="line">        TmpArray[TmpPos++] = A[Lpos++];     <span class="comment">// Copy rest of first half</span></span><br><span class="line">    <span class="keyword">while</span> (Rpos &lt;= RightEnd)</span><br><span class="line">        TmpArray[TmpPos++] = A[Rpos++];     <span class="comment">// Copy rest of second half</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Copy TmpArray back</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; NumElements; i++,RightEnd--)</span><br><span class="line">        A[RightEnd] = TmpArray[RightEnd];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u603B_u7ED3-2"><a href="#u603B_u7ED3-2" class="headerlink" title="总结"></a>总结</h3><p>虽然归并排序的运行时间是<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O({N}\log{N}\" alt="">)，但它很难用于主存排序，主要问题在于合并两个排序的表需要线性附加内存，在整个算法中还要花费将数据拷贝到临时数组再拷贝回来这样一些附加的工作，其结果严重放慢了排序的速度。这种拷贝可以通过在递归交替层次时审慎地转换A和TmpArray的角色得到避免。</p>
+<h2 id="5">快速排序</h2>
+
+<h3 id="u4ECB_u7ECD-3"><a href="#u4ECB_u7ECD-3" class="headerlink" title="介绍"></a>介绍</h3><p>快速排序(quicksort)是实践中最快的已知排序算法，它的平均运行时间是<br><img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O({N}\log{N}\" alt="">)。它的最坏情形的性能为<img src="http://chart.googleapis.com/chart?cht=tx&amp;chl=O(N^{2}\" alt="">)。快速排序也是一种分治的递归算法。讲数组S排序的基本算法由下列简单的四步组成:</p>
+<ul>
+<li>1: 如果S中元素个数是0或1，则返回。</li>
+<li>2: 取S中任一元素v，称之为<code>枢纽元(pivot)</code>。</li>
+<li>3: 将S - {v}(S中其余元素)分成两个不相交的集合:<img src="http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cleqslant%20v%5C%7D" alt="">和<img src="http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D%3D%5C%7Bx%5Cepsilon%20S-%7Bv%7D%7Cx%5Cgeqslant%20v%5C%7D" alt="">。</li>
+<li>4: 返回{quicksort(<img src="http://latex.codecogs.com/gif.latex?S_%7B_%7B1%7D%7D" alt="">)后，继随v,继而quicksort(<img src="http://latex.codecogs.com/gif.latex?S_%7B_%7B2%7D%7D" alt="">)}。</li>
+</ul>
+<h3 id="u7B97_u6CD5_u5206_u6790-2"><a href="#u7B97_u6CD5_u5206_u6790-2" class="headerlink" title="算法分析"></a>算法分析</h3><h4 id="u9009_u53D6_u67A2_u7EBD_u5143"><a href="#u9009_u53D6_u67A2_u7EBD_u5143" class="headerlink" title="选取枢纽元"></a>选取枢纽元</h4><p>枢纽元的选取对算法性能的影响很大，一种错误的方法是选择第一个元素用作枢纽元，另一种想法是选取前两个互异的关键字中较大者作为枢纽元。一种安全的做法是随机选取枢纽元，然而随机数的生成一般是昂贵的，根本减少不了算法其余部分的平均运行时间。比较常用的是三数中值分割法(Median-of-Three Partitioning)。枢纽元的最好的选择是数组的中值。然而这很难算出。一般的做法是使用左端、右端和中心位置的三个元素的中值作为枢纽元。</p>
+<h4 id="u5C0F_u6570_u7EC4"><a href="#u5C0F_u6570_u7EC4" class="headerlink" title="小数组"></a>小数组</h4><p>对于很小的数组(N&lt;=20),快速排序不如插入排序好。通常的解决方法是对于小的数组不递归的使用快速排序，而代之以诸如插入排序这样的对小数组有效的排序算法。一种好的截止范围(cutoff range)是N=10。</p>
+<h4 id="u7B97_u6CD5_u6838_u5FC3"><a href="#u7B97_u6CD5_u6838_u5FC3" class="headerlink" title="算法核心"></a>算法核心</h4><p>快速排序真正的核心包括<strong>分割</strong>和<strong>递归调用</strong>。选取枢纽元最容易的方法是对<code>A[Left]</code>、<code>A[Right]</code>、<code>A[Center]</code>适当地排序。将三元素中的最小者放在<code>A[Left]</code>，这正是分割阶段应该将它放到的位置。三元素中的最大者被分在<code>A[Right]</code>，因为它大于枢纽元。因此，我们可以把枢纽元放到<code>A[Right-1]</code>并在分割阶段将<code>i</code>和<code>j</code>初始化到<code>Left+1</code>和<code>Right-2</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ElementType <span class="title">Median3</span><span class="params">(ElementType A[], <span class="keyword">int</span> Left, <span class="keyword">int</span> Right)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> Center = (Left + Right) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(A[Left] &gt; A[Center])</span><br><span class="line">        Swap(&amp;A[Left],&amp;A[Center]);</span><br><span class="line">    <span class="keyword">if</span>(A[Left] &gt; A[Right])</span><br><span class="line">        Swap(&amp;A[Left],&amp;A[Right]);</span><br><span class="line">    <span class="keyword">if</span>(A[Center] &gt; A[Right])</span><br><span class="line">        Swap(&amp;A[Center],&amp;A[Right]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Invariant:A[Left] &lt;= A[Center] &lt;= A[Right]</span></span><br><span class="line"></span><br><span class="line">    Swap(&amp;A[Center],&amp;A[Right - <span class="number">1</span>]);     <span class="comment">// Hide pivot</span></span><br><span class="line">    <span class="keyword">return</span> A[Right - <span class="number">1</span>];                <span class="comment">// Return pivot</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Qsort</span><span class="params">(ElementType A[], <span class="keyword">int</span> Left, <span class="keyword">int</span> Right)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    ElementType Pivot;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(Left + Cutoff &lt;= Right)</span><br><span class="line">    &#123;</span><br><span class="line">        Pivot = Median3(A, Left, Right);</span><br><span class="line">        i = Left; j = Right - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>( ; ; )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span>(A[++i] &lt; Pivot)&#123;&#125;</span><br><span class="line">            <span class="keyword">while</span>(A[--j] &gt; Pivot)&#123;&#125;</span><br><span class="line">            <span class="keyword">if</span>(i &lt; j)</span><br><span class="line">                Swap(&amp;A[i], &amp;A[j]);</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Swap(&amp;A[i],&amp;A[Right - <span class="number">1</span>]);  <span class="comment">// Restore pivot</span></span><br><span class="line"></span><br><span class="line">        Qsort(A, Left, i - <span class="number">1</span>);</span><br><span class="line">        Qsort(A, i + <span class="number">1</span>, Right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>    <span class="comment">// Do an insertion sort on the subarray</span></span><br><span class="line">        InsertionSort(A + Left, Right - Left + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>for循环里的两个while循环，实现了从左到右和从右到左寻找第一个不满足条件的元素进行交换。</p>
+<h3 id="u603B_u7ED3-3"><a href="#u603B_u7ED3-3" class="headerlink" title="总结"></a>总结</h3><p>在理解堆排序和归并排序后，快速排序的理解就容易对了。和归并排序一样，难点都在于递归的调用。快速排序的细节也需要注意，稍微一个改变都有可能使该算法不能正确运行。</p>
+<p>(To be continued)</p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/algorithm/">algorithm</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/27/Dairy-2/"  data-tooltip="一次尝试">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/09/Diary-1/" data-tooltip="在最好的年华，做自己最想做的事">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Xin Qiu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/27/Dairy-2/"  data-tooltip="一次尝试">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2015/05/09/Diary-1/" data-tooltip="在最好的年华，做自己最想做的事">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png"/>
+        
+            <h4 id="about-card-name">Xin Qiu</h4>
+        
+            <h5 id="about-card-bio"><p>Life is short.</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Student</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China Jiangsu
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://xinqiu.me/2015/05/15/Some-Sort-Algorithm/';
+                 
+                    this.page.identifier = '2015/05/15/Some-Sort-Algorithm/';
+                                  
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'xinqiu';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','M7LKpZqBnbz47Y2Ne3Hh','2.0.0');
+    </script>
+
+
+</html>
