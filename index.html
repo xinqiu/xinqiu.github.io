@@ -538,6 +538,57 @@
     </article>
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2015/09/11/Me/">
+                            Me
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Fri Sep 11 2015 00:00:00 GMT+0800">
+	
+		    Sep 11, 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/AboutMe/">AboutMe</a>
+
+
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p>我是仇鑫，大二网络工程专业。</p>
+<p>熟悉C, Python, 了解C++, Linux/Unix, docker, MySQL, Redis, Raspberry Pi, HTML+CSS, Shell.</p>
+<p>vim初学者/轻度用户,oh-my-zsh初学者。</p>
+<p>想做Python方向开发或者iOS开发。</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2015/09/11/Me/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             <div class="postShorten-header">
@@ -605,52 +656,6 @@
                             Continue reading
                         </a>
                         
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/07/18/LeetCode-108/">
-                            LeetCode - Convert Sorted Array to Binary Search Tree
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Jul 18 2015 00:00:00 GMT+0800">
-	
-		    Jul 18, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <blockquote>
-<p>Given an array where elements are sorted in ascending order, convert it to a height balanced BST.</p>
-</blockquote>
-<p>这道题思路有点像二分查找。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     struct TreeNode *left;</span><br><span class="line"> *     struct TreeNode *right;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">struct</span> TreeNode* <span class="title">sortedArrayToBST</span><span class="params">(<span class="keyword">int</span>* nums, <span class="keyword">int</span> numsSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(numsSize == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">struct</span> TreeNode *Root = (<span class="keyword">struct</span> TreeNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> TreeNode));</span><br><span class="line">    Root-&gt;val = *(nums + numsSize / <span class="number">2</span>);</span><br><span class="line">    Root-&gt;left = sortedArrayToBST(nums, numsSize / <span class="number">2</span>);</span><br><span class="line">    Root-&gt;right = sortedArrayToBST(nums + numsSize / <span class="number">2</span> + <span class="number">1</span>, numsSize-numsSize/<span class="number">2</span>-<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> Root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2015/07/18/LeetCode-108/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
