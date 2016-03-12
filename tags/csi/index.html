@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="一人Code">
-    <title>Archives: 2016 - 一人Code</title>
+    <title>Tag: csi - 一人Code</title>
     <meta name="author" content="Xin Qiu">
     
     
@@ -14,7 +14,7 @@
     <meta name="description">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="一人Code">
-<meta property="og:url" content="http://xinqiu.me/archives/2016/index.html">
+<meta property="og:url" content="http://xinqiu.me/tags/csi/index.html">
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -299,106 +299,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/02/10/csapp-lab2-bomb/">
-                            CSAPP Lab2 解题分析
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Wed Feb 10 2016 00:00:00 GMT+0800">
-	
-		    Feb 10, 2016
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>Lab2 的 Bomb是个非常有意思的实验，比起之前耗脑的Lab1，这个Lab主要是学习反汇编。</p>
-<p>这里我的环境是OS X EI Capitan，Lab2是[Updated 1/12/16].</p>
-<!--toc-->
-<h2 id="Phase1"><a href="#Phase1" class="headerlink" title="Phase1"></a>Phase1</h2><p>在Mac上是默认没有GDB的，可以使用LLDB来代替。</p>
-<p>进入lldb</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lldb bomb</span><br></pre></td></tr></table></figure>
-<p>使用<code>disassemble</code>进行反汇编,参考<code>bomb.c</code>文件，可以知道主要的几个函数名。</p>
-<p>首先是Phase_1</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) disas -n phase_1</span><br></pre></td></tr></table></figure>
-<p>得到以下汇编代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bomb`phase_1:</span><br><span class="line">bomb[0x400ee0] <span class="tag">&lt;<span class="title">+0</span>&gt;</span>:  subq   $0x8, %rsp</span><br><span class="line">bomb[0x400ee4] <span class="tag">&lt;<span class="title">+4</span>&gt;</span>:  movl   $0x402400, %esi</span><br><span class="line">bomb[0x400ee9] <span class="tag">&lt;<span class="title">+9</span>&gt;</span>:  callq  0x401338                  ; strings_not_equal</span><br><span class="line">bomb[0x400eee] <span class="tag">&lt;<span class="title">+14</span>&gt;</span>: testl  %eax, %eax</span><br><span class="line">bomb[0x400ef0] <span class="tag">&lt;<span class="title">+16</span>&gt;</span>: je     0x400ef7                  ; <span class="tag">&lt;<span class="title">+23</span>&gt;</span></span><br><span class="line">bomb[0x400ef2] <span class="tag">&lt;<span class="title">+18</span>&gt;</span>: callq  0x40143a                  ; explode_bomb</span><br><span class="line">bomb[0x400ef7] <span class="tag">&lt;<span class="title">+23</span>&gt;</span>: addq   $0x8, %rsp</span><br><span class="line">bomb[0x400efb] <span class="tag">&lt;<span class="title">+27</span>&gt;</span>: retq</span><br></pre></td></tr></table></figure>
-<p>这段代码还是挺好理解的，保存<code>Stack pointer</code>,将<code>$0x402400</code>传给<code>%esi</code>,调用位于<code>0x401338</code>的<code>strings_not_equal</code>函数，比较<code>%eax</code>是否为0，不为零则调用<code>explode_bomb</code>函数，为零则返回。</p>
-<p>所以关键要找出字符串是什么。根据上述的汇编代码，可以发现字符串被保存在<code>0x402400</code>这个内存里，所以使用<code>x/s</code>来查看。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) x/s 0x402400</span><br></pre></td></tr></table></figure>
-<p>得到</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x00402400: "Border relations with Canada have never been better."</span><br></pre></td></tr></table></figure>
-<p>所以第一关的答案是<code>Strings_Not_Equal</code></p>
-                    
-                        <a href="/2016/02/10/csapp-lab2-bomb/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/01/01/Dairy-5/">
-                            2016的第一篇日记
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Jan 01 2016 00:00:00 GMT+0800">
-	
-		    Jan 01, 2016
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>今天是2016年的第一天，想起来本该在昨天做一个年终总结的，没想到被耽搁了。今天就简单做个总结并记录一些新年的计划吧。</p>
-<p>突然发现自己对2015年的玩乐记忆不是很多，留在心里的就是吃了两次比较好吃的日料(原谅我是个吃货)。</p>
-<p>其实细细想想，这一年已经让我与名校的学生拉开了很大的差距，说实话，我并没做到挑灯夜战到凌晨一两点。我仅仅能做到几乎不晚游戏和坚持除周末外的早起背单词。曾经的热血方刚如今变成靠毅力来坚持走实现理想的路。编程这块真的是有个大牛带才会轻松一点，一个人的路真心不好走。</p>
-<p>随着python的学习越来越深入，说实话我挺喜欢这个语言的。人生苦短，我用python。无奈学校的路线是Java，为了应付学校的课程安排，只得将学python的一部分尽量稍微用在了点Java上。</p>
-<p>过去的一年，收获是有，但总觉得不足。</p>
-<p>只希望新的一年里，能看完CSAPP并刷一遍labs，看点SICP和CLRS，刷一遍Leetcode。C++可以再拿起来看看了。业余小活动，就花在点iOS开发上吧。</p>
-<p>以上。</p>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2016/01/01/Dairy-5/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -408,7 +308,6 @@
 </div>
 
 </section>
-
 
 
                 <footer id="footer" class="main-content-wrap">
