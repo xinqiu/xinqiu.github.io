@@ -239,6 +239,80 @@
 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/03/12/ucore/">
+                            清华操作系统课程学习
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Sat Mar 12 2016 00:00:00 GMT+0800">
+	
+		    Mar 12, 2016
+    	
+    </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <blockquote>
+<p>因为学习操作系统，因为还有一些其他事情要做，所以没有直接上MIT 6.828,选择了清华的操作系统课和配套的ucore。</p>
+</blockquote>
+<h2 id="Lab_1"><a href="#Lab_1" class="headerlink" title="Lab 1"></a>Lab 1</h2><h3 id="u7EC3_u4E601"><a href="#u7EC3_u4E601" class="headerlink" title="练习1"></a>练习1</h3><p>1.操作系统镜像文件ucore.img是如何一步一步生成的？</p>
+<p>在进行 <code>make V=</code>后，通过显示的信息，可以知道先对C文件进行了编译。分别编译了一下文件:</p>
+<ul>
+<li>cc kern/init/init.c 初始化系统</li>
+<li>cc kern/libs/readline.c 从输入中读取一行</li>
+<li>cc kern/libs/stdio.c 标准化IO</li>
+<li>cc kern/debug/kdebug.c debug支撑文件</li>
+<li>cc kern/debug/kmonitor.c 命令行显示器</li>
+<li>cc kern/debug/panic.c 显示错误警告</li>
+<li>cc kern/driver/clock.c 时钟相关</li>
+<li>cc kern/driver/console.c 控制台显示</li>
+<li>cc kern/driver/intr.c 中断请求</li>
+<li>cc kern/driver/picirq.c 中断控制器</li>
+<li>cc kern/trap/trap.c 中断处理</li>
+<li>cc kern/trap/trapentry.S 中断预处理</li>
+<li>cc kern/trap/vectors.S 中断向量表</li>
+<li>cc kern/mm/pmm.c 全局描述符表</li>
+<li>cc libs/printfmt.c 输出格式</li>
+<li>cc libs/string.c 字符串操作</li>
+<li>cc boot/bootasm.S Boot Loader程序</li>
+<li>cc boot/bootmain.c Boot Loader程序</li>
+<li>cc tools/sign.c 硬盘主引导扇区检测</li>
+</ul>
+<p>接着 <code>ld</code> 命令对编译好的 <code>.o</code> 文件进行链接，生成了引导扇区。</p>
+<p>之后用 <code>dd</code> 创建了一块空间，并将 <code>bootblock</code> 放入这块空间做成 <code>img</code> 硬盘。</p>
+<p>2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么？</p>
+<p>从 <code>tools/sign.c</code> 源文件中可以得知， </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">.....</span><br><span class="line"><span class="keyword">if</span> (st.st_size &gt; <span class="number">510</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%lld &gt;&gt; 510!!\n"</span>, (<span class="keyword">long</span> <span class="keyword">long</span>)st.st_size);</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> buf[<span class="number">512</span>];</span><br><span class="line">......</span><br><span class="line">buf[<span class="number">510</span>] = <span class="number">0x55</span>;</span><br><span class="line">buf[<span class="number">511</span>] = <span class="number">0xAA</span>;</span><br><span class="line">......</span><br><span class="line"><span class="keyword">if</span> (size != <span class="number">512</span>) &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"write '%s' error, size is %d.\n"</span>, argv[<span class="number">2</span>], size);</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">fclose(ofp);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"build 512 bytes boot sector: '%s' success!\n"</span>, argv[<span class="number">2</span>]);</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p>规范的硬盘主引导扇区大小为512， 并且最后两位必须是 <code>0x55AA</code>.</p>
+<p>To be continued.</p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2016/03/12/ucore/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             <div class="postShorten-header">
@@ -639,43 +713,6 @@
                                 Comment and share
                             </a>
                         </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/08/31/CLRS-1/">
-                            算法导论第2章算法基础练习
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Mon Aug 31 2015 00:00:00 GMT+0800">
-	
-		    Aug 31, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <!-- toc -->
-<h4 id="2-1-1"><a href="#2-1-1" class="headerlink" title="2.1-1"></a>2.1-1</h4><p>Using Figure 2.2 as a model, illustrate the operation of INSERTION-SORT on the array <code>A = &lt;31, 41, 59, 26, 41, 58&gt;</code>.</p>
-                    
-                        <a href="/2015/08/31/CLRS-1/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
                     
                 </div>
             
