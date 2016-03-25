@@ -302,6 +302,32 @@
 <p>从 <code>tools/sign.c</code> 源文件中可以得知， </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">.....</span><br><span class="line"><span class="keyword">if</span> (st.st_size &gt; <span class="number">510</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%lld &gt;&gt; 510!!\n"</span>, (<span class="keyword">long</span> <span class="keyword">long</span>)st.st_size);</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> buf[<span class="number">512</span>];</span><br><span class="line">......</span><br><span class="line">buf[<span class="number">510</span>] = <span class="number">0x55</span>;</span><br><span class="line">buf[<span class="number">511</span>] = <span class="number">0xAA</span>;</span><br><span class="line">......</span><br><span class="line"><span class="keyword">if</span> (size != <span class="number">512</span>) &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"write '%s' error, size is %d.\n"</span>, argv[<span class="number">2</span>], size);</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">fclose(ofp);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"build 512 bytes boot sector: '%s' success!\n"</span>, argv[<span class="number">2</span>]);</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 <p>规范的硬盘主引导扇区大小为512， 并且最后两位必须是 <code>0x55AA</code>.</p>
+<h3 id="u7EC3_u4E602"><a href="#u7EC3_u4E602" class="headerlink" title="练习2"></a>练习2</h3><p>使用qemu执行并调试lab1中的软件，要做一下几个操作：</p>
+<ol>
+<li><p>从CPU加电后执行的第一条指令开始，单步跟踪BIOS的执行。</p>
+</li>
+<li><p>在初始化位置0x7c00设置实地址断点,测试断点正常。</p>
+</li>
+<li><p>从0x7c00开始跟踪代码运行,将单步跟踪反汇编得到的代码与bootasm.S和 bootblock.asm进行比较。</p>
+</li>
+<li><p>自己找一个bootloader或内核中的代码位置，设置断点并进行测试。</p>
+</li>
+</ol>
+<p>根据参考的提示，在 <code>.PHONY: qemu qemu-nox debug debug-nox</code> 下添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lab1-mon: $(UCOREIMG)&#10;&#9;$(V)$(TERMINAL) -e &#34;$(QEMU) -S -s -d in_asm -D $(BINDIR)/q.log -monitor stdio -hda $&#60; -serial null&#34;&#10;&#9;$(V)sleep 2&#10;&#9;$(V)$(TERMINAL) -e &#34;gdb -q -x tools/lab1init&#34;</span><br></pre></td></tr></table></figure>
+<p>在调用qemu时添加-d in_asm -D q.log参数可以将运行的汇编指令保存在q.log中。</p>
+<p>另外需要先在<code>lab1/tools/</code>文件夹下新建一个<code>lab1init</code>文件。添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file bin/kernel&#10;target remote :1234&#10;set architecture i8086&#10;break *0x7c00&#10;continue&#10;x /2i $pc</span><br></pre></td></tr></table></figure>
+<p>分别代表加载kernel， 与qemu链接， BIOS是i8086 16位实模式， 在0x7c00处设置断点， 继续运行， 显示指令寄存器上的两条指令。</p>
+<p>make lab1-mon 产生的汇编代码还是稍微有点区别，主要在0x7c1e开始有点区别。</p>
+<p>#####gdb的单步命令</p>
+<p>在gdb中，有next, nexti, step, stepi等指令来单步调试程序，他们功能各不相同，区别在于单步的“跨度”上。</p>
+<ul>
+<li>next 单步到程序源代码的下一行，不进入函数。</li>
+<li>nexti 单步一条机器指令，不进入函数。</li>
+<li>step 单步到下一个不同的源代码行（包括进入函数）。</li>
+<li>stepi 单步一条机器指令。</li>
+</ul>
 <p>To be continued.</p>
 
                     
