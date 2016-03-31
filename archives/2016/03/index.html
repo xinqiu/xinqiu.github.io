@@ -240,7 +240,7 @@
 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
@@ -261,8 +261,9 @@
             </div>
             
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考<a href="http://csapp.cs.cmu.edu/3e/buflab32.pdf" target="_blank" rel="external">write-up</a>。</p>
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考<a href="http://csapp.cs.cmu.edu/3e/buflab32.pdf">write-up</a>。</p>
+<!--toc-->
 <h2 id="Level_0"><a href="#Level_0" class="headerlink" title="Level 0"></a>Level 0</h2><p>Bufbomb程序运行会读一个字符串，使用一下函数getbuf:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Buffer size for getbuf */</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NORMAL_BUFFER_SIZE <span class="number">32</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getbuf</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[NORMAL_BUFFER_SIZE];</span><br><span class="line">	Gets(buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.</p>
@@ -272,22 +273,11 @@
 <p>其中，Smoke源码： </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">smoke</span><span class="params">()</span></span>&#123;   </span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Smoke!: You calledsmoke()"</span>);   </span><br><span class="line">  validate(<span class="number">0</span>);   </span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。</p>
-<p>关于堆栈，可以参考书中的这张图 <img src="stack-frame-structure.png" alt=""></p>
-<p>根据上面的汇编代码，可以知道，首先push保存了堆指针(frame pointer)，然后%ebp保存帧指针(stack pointer)，%esp减0x38。lea把buf的指针地址-0x28(%ebp)传给了Gets函数。所以可以画出堆栈图</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+---------------+&#10;|               |&#10;| getbuf&#36820;&#22238;&#22320;&#22336; |&#10;|               |&#10;+---------------+&#10;|               |&#10;|     %ebp      |&#10;|               |&#10;+---------------+&#10;|               |&#10;|               |&#10;|               |&#10;|      buf      |&#10;|               |&#10;|    40 byte    |&#10;|               |&#10;|               |&#10;|               |&#10;+---------------+&#10;|               |&#10;|     %esp      |&#10;|               |&#10;+---------------+</span><br></pre></td></tr></table></figure>
-<p>所以为了修改getbuf返回地址，需要在从buf开始，填充 40 + 4 = 44个字节，并且按照要求，这44个字节要是非0a数。根据汇编得到的smoke地址为08048c18，又因为是电脑小端法，所以构建的文本可以是这样的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 18 8c 04 08</span><br></pre></td></tr></table></figure>
-
                     
+                        <a href="/2016/03/30/csapp-lab2-buflab/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2016/03/30/csapp-lab2-buflab/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
