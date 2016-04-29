@@ -429,6 +429,63 @@
 <p>通过readseg函数将OS读取到ELFHDR所指示的地址（0x10000）。<br>判断头部是否合法，如不合法直接跳出。<br>把kernel的每一个程序段都载入内存。<br>通过程序入口地址加载作为ELF可执行文件的kernel。</p>
 <h3 id="u7EC3_u4E605"><a href="#u7EC3_u4E605" class="headerlink" title="练习5"></a>练习5</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/* *&#10; * print_stackframe - print a list of the saved eip values from the nested &#39;call&#39;&#10; * instructions that led to the current point of execution&#10; *&#10; * The x86 stack pointer, namely esp, points to the lowest location on the stack&#10; * that is currently in use. Everything below that location in stack is free. Pushing&#10; * a value onto the stack will invole decreasing the stack pointer and then writing&#10; * the value to the place that stack pointer pointes to. And popping a value do the&#10; * opposite.&#10; *&#10; * The ebp (base pointer) register, in contrast, is associated with the stack&#10; * primarily by software convention. On entry to a C function, the function&#39;s&#10; * prologue code normally saves the previous function&#39;s base pointer by pushing&#10; * it onto the stack, and then copies the current esp value into ebp for the duration&#10; * of the function. If all the functions in a program obey this convention,&#10; * then at any given point during the program&#39;s execution, it is possible to trace&#10; * back through the stack by following the chain of saved ebp pointers and determining&#10; * exactly what nested sequence of function calls caused this particular point in the&#10; * program to be reached. This capability can be particularly useful, for example,&#10; * when a particular function causes an assert failure or panic because bad arguments&#10; * were passed to it, but you aren&#39;t sure who passed the bad arguments. A stack&#10; * backtrace lets you find the offending function.&#10; *&#10; * The inline function read_ebp() can tell us the value of current ebp. And the&#10; * non-inline function read_eip() is useful, it can read the value of current eip,&#10; * since while calling this function, read_eip() can read the caller&#39;s eip from&#10; * stack easily.&#10; *&#10; * In print_debuginfo(), the function debuginfo_eip() can get enough information about&#10; * calling-chain. Finally print_stackframe() will trace and print them for debugging.&#10; *&#10; * Note that, the length of ebp-chain is limited. In boot/bootasm.S, before jumping&#10; * to the kernel entry, the value of ebp has been set to zero, that&#39;s the boundary.&#10; * */&#10;void&#10;print_stackframe(void) &#123;&#10;     /* LAB1 YOUR CODE : STEP 1 */&#10;     /* (1) call read_ebp() to get the value of ebp. the type is (uint32_t);&#10;      * (2) call read_eip() to get the value of eip. the type is (uint32_t);&#10;      * (3) from 0 .. STACKFRAME_DEPTH&#10;      *    (3.1) printf value of ebp, eip&#10;      *    (3.2) (uint32_t)calling arguments [0..4] = the contents in address (unit32_t)ebp +2 [0..4]&#10;      *    (3.3) cprintf(&#34;\n&#34;);&#10;      *    (3.4) call print_debuginfo(eip-1) to print the C calling function name and line number, etc.&#10;      *    (3.5) popup a calling stackframe&#10;      *           NOTICE: the calling funciton&#39;s return addr eip  = ss:[ebp+4]&#10;      *                   the calling funciton&#39;s ebp = ss:[ebp]&#10;      */&#10;    uint32_t ebp = read_ebp();&#10;    uint32_t eip = read_eip();&#10;&#10;    int i, j;&#10;    for(i = 0; ebp != 0 &#38;&#38; i &#60; STACKFRAME_DEPTH; i++)&#10;    &#123;&#10;        cprintf(&#34;epb:0x%08x eip:0x%08x args:&#34;, ebp, eip);&#10;        uint32_t *args = (uint32_t *)ebp + 2;&#10;        for (j = 0; j &#60; 4; j++)&#10;        &#123;&#10;            cprintf(&#34;0x%08x &#34;, args[j]);&#10;        &#125;&#10;        cprintf(&#34;\n&#34;);&#10;        print_debuginfo(eip - 1);&#10;        eip = ((uint32_t *)ebp)[1];&#10;        ebp = ((uint32_t *)ebp)[0];&#10;    &#125;&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
 <p>提示还是挺详细的，按照提示一步步写就能写出。首先读取ebp和eip的值，然后将堆栈里的信息打印出来，之后移动eip和ebp。</p>
+<h3 id="u7EC3_u4E606"><a href="#u7EC3_u4E606" class="headerlink" title="练习6"></a>练习6</h3><p>1.中断描述符表（也可简称为保护模式下的中断向量表）中一个表项占多少字节？其中哪几位代表中断处理代码的入口？</p>
+<p>通过查看/kern/mm/mmh.h,将struct gatedesc中元素的位相加，共64bit也就是8个字节。另外低16bit和高16bit为段偏移量，查看这个<a href="http://wiki.osdev.org/Interrupt_Descriptor_Table" target="_blank" rel="external">资料</a>,可以知道段选择子是16bit。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th style="text-align:center">Bit</th>
+<th style="text-align:left">Full Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Offset</td>
+<td style="text-align:center">48..63</td>
+<td style="text-align:left">Offset 16..31</td>
+</tr>
+<tr>
+<td>P</td>
+<td style="text-align:center">47</td>
+<td style="text-align:left">Present</td>
+</tr>
+<tr>
+<td>DPL</td>
+<td style="text-align:center">45,46</td>
+<td style="text-align:left">Descriptor Privilege Level</td>
+</tr>
+<tr>
+<td>S</td>
+<td style="text-align:center">44</td>
+<td style="text-align:left">Storage Segment</td>
+</tr>
+<tr>
+<td>Type</td>
+<td style="text-align:center">40..43</td>
+<td style="text-align:left">Gate Type 0..3</td>
+</tr>
+<tr>
+<td>0</td>
+<td style="text-align:center">32..39</td>
+<td style="text-align:left">Unused 0..7</td>
+</tr>
+<tr>
+<td>Selector</td>
+<td style="text-align:center">16..31</td>
+<td style="text-align:left">Selector 0..15</td>
+</tr>
+<tr>
+<td>Offset</td>
+<td style="text-align:center">0..15</td>
+<td style="text-align:left">Offset 0..15</td>
+</tr>
+</tbody>
+</table>
+<p>2.请编程完善kern/trap/trap.c中对中断向量表进行初始化的函数idt_init。在idt_init函数中，依次对所有中断入口进行初始化。使用mmu.h中的SETGATE宏，填充idt数组内容。每个中断的入口由tools/vectors.c生成，使用trap.c中声明的vectors数组即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* idt_init - initialize IDT to each of the entry points in kern/trap/vectors.S */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span></span><br><span class="line"><span class="title">idt_init</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">     <span class="comment">/* LAB1 YOUR CODE : STEP 2 */</span></span><br><span class="line">     <span class="comment">/* (1) Where are the entry addrs of each Interrupt Service Routine (ISR)?</span><br><span class="line">      *     All ISR's entry addrs are stored in __vectors. where is uintptr_t __vectors[] ?</span><br><span class="line">      *     __vectors[] is in kern/trap/vector.S which is produced by tools/vector.c</span><br><span class="line">      *     (try "make" command in lab1, then you will find vector.S in kern/trap DIR)</span><br><span class="line">      *     You can use  "extern uintptr_t __vectors[];" to define this extern variable which will be used later.</span><br><span class="line">      * (2) Now you should setup the entries of ISR in Interrupt Description Table (IDT).</span><br><span class="line">      *     Can you see idt[256] in this file? Yes, it's IDT! you can use SETGATE macro to setup each item of IDT</span><br><span class="line">      * (3) After setup the contents of IDT, you will let CPU know where is the IDT by using 'lidt' instruction.</span><br><span class="line">      *     You don't know the meaning of this instruction? just google it! and check the libs/x86.h to know more.</span><br><span class="line">      *     Notice: the argument of lidt is idt_pd. try to find it!</span><br><span class="line">      */</span></span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">uintptr_t</span> __vectors[];</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(idt) / <span class="keyword">sizeof</span>(<span class="keyword">struct</span> gatedesc); i ++) &#123;</span><br><span class="line">        SETGATE(idt[i], <span class="number">0</span>, GD_KTEXT, __vectors[i], DPL_KERNEL);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">// set for switch from user to kernel</span></span><br><span class="line">    SETGATE(idt[T_SWITCH_TOK], <span class="number">0</span>, GD_KTEXT, __vectors[T_SWITCH_TOK], DPL_USER);</span><br><span class="line">	<span class="comment">// load the IDT</span></span><br><span class="line">    lidt(&amp;idt_pd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.请编程完善trap.c中的中断处理函数trap，在对时钟中断进行处理的部分填写trap函数中处理时钟中断的部分，使操作系统每遇到100次时钟中断后，调用print_ticks子程序，向屏幕上打印一行文字”100 ticks”。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> IRQ_OFFSET + IRQ_TIMER:</span><br><span class="line">        <span class="comment">/* LAB1 YOUR CODE : STEP 3 */</span></span><br><span class="line">        <span class="comment">/* handle the timer interrupt */</span></span><br><span class="line">        <span class="comment">/* (1) After a timer interrupt, you should record this event using a global variable (increase it), such as ticks in kern/driver/clock.c</span><br><span class="line">         * (2) Every TICK_NUM cycle, you can print some info using a funciton, such as print_ticks().</span><br><span class="line">         * (3) Too Simple? Yes, I think so!</span><br><span class="line">         */</span></span><br><span class="line">        ticks ++;</span><br><span class="line">        <span class="keyword">if</span> (ticks % TICK_NUM == <span class="number">0</span>) &#123;</span><br><span class="line">            print_ticks();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
 <p>To be continued.</p>
 
                     
