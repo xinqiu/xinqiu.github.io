@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="一人Code">
+    <title>Python线程学习 - 一人Code</title>
+    <meta name="author" content="Xin Qiu">
+    
+    
+    
+    <meta name="description" content="在无聊的实训期间学点想学的东西，关于线程">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Python线程学习">
+<meta property="og:url" content="http://xinqiu.me/2016/05/10/python-thread/index.html">
+<meta property="og:site_name" content="一人Code">
+<meta property="og:description" content="在无聊的实训期间学点想学的东西，关于线程">
+<meta property="og:image" content="http://www.laurentluce.com/images/blog/threads/condition.png">
+<meta property="og:image" content="http://www.laurentluce.com/images/blog/threads/event.png">
+<meta property="og:updated_time" content="2016-05-10T08:34:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python线程学习">
+<meta name="twitter:description" content="在无聊的实训期间学点想学的东西，关于线程">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://xinqiu.me/assets/images/avatar.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-57881840-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">一人Code</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png"/>
+            </a>
+            <span class="sidebar-profile-name">Xin Qiu</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/projects"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                    <span class="sidebar-button-desc">Projects</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/reading-list"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-book"></i>
+                    <span class="sidebar-button-desc">Reading List</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/timeline"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-calendar"></i>
+                    <span class="sidebar-button-desc">Timeline</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/xinqiu" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:xinqiu.94@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Python线程学习
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue May 10 2016 00:00:00 GMT+0800">
+	
+		    May 10, 2016
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Python2.7中有两个常用的多线程库Multiprocessing，Threading。在Python中，线程和进程的区别在于线程模块使用线程，进程模块使用进程233，不开玩笑，这是StackOverFlow上的解释。说重点，线程使用相同的内存空间，而进程使用不同的。这也就让进程之间传对象稍有点困难。当然，由于线程共享内存空间，那么必须要考虑线程安全。</p>
+<h2 id="thread"><a href="#thread" class="headerlink" title="thread"></a>thread</h2><p>thread算是轻量级的线程模块，它提供较为底层的多线程实现方案。使用start_new_thread(function, args[, kwargs])实现线程。使用allocate_lock()可以得到一个锁对象，用acquire()和release()来加锁和释放锁，用locked()来判断释放有锁。一把锁只能被一个线程得到，所以利用锁可以避免多个线程对同一资源的同时操作。</p>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> thread</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addLock</span><span class="params">(lock)</span>:</span></span><br><span class="line">    lock.acquire() <span class="comment"># 获得锁</span></span><br><span class="line">    <span class="keyword">print</span> lock.locked() <span class="comment"># 判断是否有锁</span></span><br><span class="line">    sleep(<span class="number">1</span>)</span><br><span class="line">    lock.release() <span class="comment"># 释放锁</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    lock = thread.allocate() <span class="comment"># 分配一个锁对象</span></span><br><span class="line">    thread.start_new(addLock,(lock,)) <span class="comment"># 开辟一个线程</span></span><br><span class="line">    thread.start_new(addLock,(lock,))</span><br><span class="line">    sleep(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h2 id="threading"><a href="#threading" class="headerlink" title="threading"></a>threading</h2><p>threading作为一个更高级的模块，提供了一些thread没有的功能。threading中有两种锁，如threading.Lock()， threading.RLock()。</p>
+<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><p>这里lock和thread模块里类似。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addLock</span><span class="params">(lock)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> lock.acquire(<span class="keyword">False</span>)</span><br><span class="line">    <span class="comment"># lock.release()</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    lock = threading.Lock()</span><br><span class="line">    t1 = threading.Thread(target=addLock, args=(lock,))</span><br><span class="line">    t2 = threading.Thread(target=addLock, args=(lock,))</span><br><span class="line">    t1.run()</span><br><span class="line">    t2.run()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>以上代码演示了利用Threading模块来确定一把锁只能被获得一次。</p>
+<h3 id="RLock"><a href="#RLock" class="headerlink" title="RLock"></a>RLock</h3><p>RLock是可重入锁（reentrant lock），acquire()能够不被阻塞的被同一个线程调用多次。要注意的是release()需要调用与acquire()相同的次数才能释放锁。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading,time</span><br><span class="line"></span><br><span class="line">rlock=threading.RLock()</span><br><span class="line">result=[]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">step1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> result</span><br><span class="line">    <span class="keyword">if</span> rlock.acquire():</span><br><span class="line">        result.append(<span class="string">'step1'</span>)</span><br><span class="line">        time.sleep(<span class="number">0</span>)</span><br><span class="line">        rlock.release()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">step2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> result</span><br><span class="line">    <span class="keyword">if</span> rlock.acquire():</span><br><span class="line">        result.append(<span class="string">'step2'</span>)</span><br><span class="line">        time.sleep(<span class="number">0</span>)</span><br><span class="line">        rlock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showresult</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">print</span> threading.current_thread() <span class="comment"># 查看当前线程</span></span><br><span class="line">    <span class="keyword">if</span> rlock.acquire():</span><br><span class="line">        step1()</span><br><span class="line">        step2()</span><br><span class="line">        rlock.release()</span><br><span class="line">    <span class="keyword">print</span> result</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clearresult</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> result</span><br><span class="line">    <span class="keyword">if</span> rlock.acquire():</span><br><span class="line">        result=<span class="keyword">None</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        rlock.release()</span><br><span class="line">    <span class="keyword">print</span> threading.current_thread()</span><br><span class="line">    <span class="keyword">print</span> result</span><br><span class="line"></span><br><span class="line">t1=threading.Thread(target=showresult)</span><br><span class="line">t2=threading.Thread(target=clearresult)</span><br><span class="line"></span><br><span class="line">t1.start()</span><br><span class="line">t2.start()</span><br></pre></td></tr></table></figure>
+<h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><p>条件同步机制是指：一个线程等待特定条件，而另一个线程发出特定条件满足的信号。 解释条件同步机制的一个很好的例子就是生产者/消费者（producer/consumer）模型。</p>
+<p><img src="http://www.laurentluce.com/images/blog/threads/condition.png" alt=""></p>
+<h3 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h3><p>信号量同步基于内部计数器，每调用一次acquire()，计数器减1；每调用一次release()，计数器加1.当计数器为0时，acquire()调用被阻塞。</p>
+<h3 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h3><p>基于事件的同步是指：一个线程发送/传递事件，另外的线程等待事件的触发。在set()时， 其他线程就被唤醒执行。</p>
+<p><img src="http://www.laurentluce.com/images/blog/threads/event.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading, time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  向列表中生产随机整数</span><br><span class="line">  """</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, integers, event)</span>:</span></span><br><span class="line">    <span class="string">"""</span><br><span class="line">    构造器</span><br><span class="line"></span><br><span class="line">    @param integers 整数列表</span><br><span class="line">    @param event 事件同步对象</span><br><span class="line">    """</span></span><br><span class="line">    threading.Thread.__init__(self)</span><br><span class="line">    self.integers = integers</span><br><span class="line">    self.event = event</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">"""</span><br><span class="line">    实现Thread的run方法。在随机时间向列表中添加一个随机整数</span><br><span class="line">    """</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">      integer = random.randint(<span class="number">0</span>, <span class="number">256</span>)</span><br><span class="line">      self.integers.append(integer)</span><br><span class="line">      <span class="keyword">print</span> <span class="string">'%d appended to list by %s'</span> % (integer, self.name)</span><br><span class="line">      <span class="keyword">print</span> <span class="string">'event set by %s'</span> % self.name</span><br><span class="line">      self.event.set()		<span class="comment">#设置事件</span></span><br><span class="line">      self.event.clear()	<span class="comment">#发送事件</span></span><br><span class="line">      <span class="keyword">print</span> <span class="string">'event cleared by %s'</span> % self.name</span><br><span class="line">      time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">   从列表中消费整数</span><br><span class="line">  """</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, integers, event)</span>:</span></span><br><span class="line">    <span class="string">"""</span><br><span class="line">    构造器</span><br><span class="line"></span><br><span class="line">    @param integers 整数列表</span><br><span class="line">    @param event 事件同步对象</span><br><span class="line">    """</span></span><br><span class="line">    threading.Thread.__init__(self)</span><br><span class="line">    self.integers = integers</span><br><span class="line">    self.event = event</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">"""</span><br><span class="line">    实现Thread的run()方法，从列表中消费整数</span><br><span class="line">    """</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">      self.event.wait()	<span class="comment">#等待事件被触发</span></span><br><span class="line">      <span class="keyword">try</span>:</span><br><span class="line">        integer = self.integers.pop()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'%d popped from list by %s'</span> % (integer, self.name)</span><br><span class="line">      <span class="keyword">except</span> IndexError:</span><br><span class="line">        <span class="comment"># catch pop on empty list</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    integers = []</span><br><span class="line">    event = threading.Event()</span><br><span class="line">    t1 = Producer(integers, event)</span><br><span class="line">    t2 = Consumer(integers, event)</span><br><span class="line">    t1.start()</span><br><span class="line">    t2.start()</span><br><span class="line">    t1.join()</span><br><span class="line">    t2.join()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/04/15/WOT2016/" data-tooltip="我与北京与WOT 2016">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Xin Qiu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/04/15/WOT2016/" data-tooltip="我与北京与WOT 2016">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/05/10/python-thread/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png"/>
+        
+            <h4 id="about-card-name">Xin Qiu</h4>
+        
+            <h5 id="about-card-bio"><p>Life is short.<a href="http://xinqiu.me/2015/09/11/Me/">More</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Student</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China Jiangsu
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://xinqiu.me/2016/05/10/python-thread/';
+                 
+                    this.page.identifier = '2016/05/10/python-thread/';
+                                  
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'xinqiu';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','sPbeZKuyhnXGMXxkK36m','2.0.0');
+    </script>
+
+
+</html>

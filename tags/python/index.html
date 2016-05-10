@@ -245,6 +245,43 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2016/05/10/python-thread/">
+                            Python线程学习
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Tue May 10 2016 00:00:00 GMT+0800">
+	
+		    May 10, 2016
+    	
+    </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>Python2.7中有两个常用的多线程库Multiprocessing，Threading。在Python中，线程和进程的区别在于线程模块使用线程，进程模块使用进程233，不开玩笑，这是StackOverFlow上的解释。说重点，线程使用相同的内存空间，而进程使用不同的。这也就让进程之间传对象稍有点困难。当然，由于线程共享内存空间，那么必须要考虑线程安全。</p>
+<h2 id="thread"><a href="#thread" class="headerlink" title="thread"></a>thread</h2><p>thread算是轻量级的线程模块，它提供较为底层的多线程实现方案。使用start_new_thread(function, args[, kwargs])实现线程。使用allocate_lock()可以得到一个锁对象，用acquire()和release()来加锁和释放锁，用locked()来判断释放有锁。一把锁只能被一个线程得到，所以利用锁可以避免多个线程对同一资源的同时操作。</p>
+                    
+                        <a href="/2016/05/10/python-thread/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2015/12/21/Learn-Flask/">
                             Flask补坑记录
                         </a>
