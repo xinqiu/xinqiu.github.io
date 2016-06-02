@@ -240,7 +240,7 @@
 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
@@ -261,27 +261,22 @@
             </div>
             
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 <blockquote>
 <p>Coursera 上的Machine Learning 算得上是经典的机器学习入门课程，是由Andrew Ng大牛上的课。出于对机器学习的好奇，打算用Python来完成这门课的学习。</p>
 </blockquote>
 <h2 id="Supervised_learning__u76D1_u7763_u5B66_u4E60"><a href="#Supervised_learning__u76D1_u7763_u5B66_u4E60" class="headerlink" title="Supervised learning 监督学习"></a>Supervised learning 监督学习</h2><p>首先介绍的是监督学习，notes1中用房屋价格预测来介绍Linear Regression线性回归。这里因为没有数据集，所以我选择用ex<br>1中的<code>ex1data1.txt</code>来做演示。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</span><br><span class="line">m = data.shape[<span class="number">0</span>]</span><br><span class="line">X = np.vstack(zip(np.ones(m),data[:,<span class="number">0</span>]))</span><br><span class="line">y = data[:, <span class="number">1</span>]</span><br><span class="line">plt.scatter(data[:, <span class="number">0</span>], y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</span><br><span class="line">plt.xlim([<span class="number">3</span>, max(X[:, <span class="number">1</span>])+<span class="number">3</span>])</span><br><span class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p>可以画出数据分布散点图。<br><img src="1.png" alt=""></p>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</span><br><span class="line">m = data.shape[<span class="number">0</span>]</span><br><span class="line">X = data[:,<span class="number">0</span>]</span><br><span class="line">y = data[:, <span class="number">1</span>]</span><br><span class="line">plt.scatter(X, y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</span><br><span class="line">plt.xlim([<span class="number">3</span>, max(X)+<span class="number">3</span>])</span><br><span class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>可以画出数据分布散点图。</p>
                     
+                        <a href="/2016/06/02/ml-1/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2016/06/02/ml-1/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
                     
                 </div>
             
