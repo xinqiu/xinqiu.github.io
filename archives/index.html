@@ -240,6 +240,56 @@
 <section class="postShorten-group main-content-wrap">
     
     
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2016/06/02/ml-1/">
+                            Machine Learning Note 1
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Thu Jun 02 2016 00:00:00 GMT+0800">
+	
+		    Jun 02, 2016
+    	
+    </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<blockquote>
+<p>Coursera 上的Machine Learning 算得上是经典的机器学习入门课程，是由Andrew Ng大牛上的课。出于对机器学习的好奇，打算用Python来完成这门课的学习。</p>
+</blockquote>
+<h2 id="Supervised_learning__u76D1_u7763_u5B66_u4E60"><a href="#Supervised_learning__u76D1_u7763_u5B66_u4E60" class="headerlink" title="Supervised learning 监督学习"></a>Supervised learning 监督学习</h2><p>首先介绍的是监督学习，notes1中用房屋价格预测来介绍Linear Regression线性回归。这里因为没有数据集，所以我选择用ex<br>1中的<code>ex1data1.txt</code>来做演示。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</span><br><span class="line">m = data.shape[<span class="number">0</span>]</span><br><span class="line">X = np.vstack(zip(np.ones(m),data[:,<span class="number">0</span>]))</span><br><span class="line">y = data[:, <span class="number">1</span>]</span><br><span class="line">plt.scatter(data[:, <span class="number">0</span>], y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</span><br><span class="line">plt.xlim([<span class="number">3</span>, max(X[:, <span class="number">1</span>])+<span class="number">3</span>])</span><br><span class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>可以画出数据分布散点图。<br><img src="ml-1/1.png" alt=""></p>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2016/06/02/ml-1/#post-footer" class="postShorten-excerpt_link link">
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
     <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             <div class="postShorten-header">
@@ -767,45 +817,6 @@
 <h2 id="u51C6_u5907_u5DE5_u4F5C"><a href="#u51C6_u5907_u5DE5_u4F5C" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="u7CFB_u7EDF_u914D_u7F6E"><a href="#u7CFB_u7EDF_u914D_u7F6E" class="headerlink" title="系统配置"></a>系统配置</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">操作系统	Ubuntu Server 14.04.1 LTS 64位</span><br><span class="line">CPU	1核</span><br><span class="line">内存	1GB</span><br><span class="line">系统盘	8GB(本地盘)</span><br><span class="line">数据盘	0GB</span><br><span class="line">公网带宽	1Mbps</span><br></pre></td></tr></table></figure>
                     
                         <a href="/2015/11/13/docker+nginx/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/11/07/python-math/">
-                            Python科学计算学习
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Nov 07 2015 00:00:00 GMT+0800">
-	
-		    Nov 07, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <blockquote>
-<p>之前参加数学建模比赛都是用的 MatLab，然而电脑每次运行 MatLab 都烫的要命，所以决定用自己比较熟悉的 python 来进行科学计算。</p>
-</blockquote>
-<!--toc-->
-                    
-                        <a href="/2015/11/07/python-math/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         
