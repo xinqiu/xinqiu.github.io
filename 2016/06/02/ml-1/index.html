@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description" content="机器学习笔记">
 <meta property="og:image" content="http://xinqiu.me/1.png">
-<meta property="og:updated_time" content="2016-06-02T02:54:15.000Z">
+<meta property="og:updated_time" content="2016-06-03T05:40:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning Note 1">
 <meta name="twitter:description" content="机器学习笔记">
@@ -258,17 +258,49 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+            <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 <blockquote>
 <p>Coursera 上的Machine Learning 算得上是经典的机器学习入门课程，是由Andrew Ng大牛上的课。出于对机器学习的好奇，打算用Python来完成这门课的学习。</p>
 </blockquote>
-<h2 id="Supervised_learning__u76D1_u7763_u5B66_u4E60"><a href="#Supervised_learning__u76D1_u7763_u5B66_u4E60" class="headerlink" title="Supervised learning 监督学习"></a>Supervised learning 监督学习</h2><p>首先介绍的是监督学习，notes1中用房屋价格预测来介绍Linear Regression线性回归。这里因为没有数据集，所以我选择用ex<br>1中的<code>ex1data1.txt</code>来做演示。</p>
+<h2 id="Supervised_learning__u76D1_u7763_u5B66_u4E60"><a href="#Supervised_learning__u76D1_u7763_u5B66_u4E60" class="headerlink" title="Supervised learning 监督学习"></a>Supervised learning 监督学习</h2><p>这里存在两种问题 <strong>regression</strong> 和 <strong>classification</strong>。前者是预测相关的问题，后者是分类相关的问题。</p>
+<p>首先介绍的是监督学习，notes1中用房屋价格预测来介绍Linear Regression线性回归。这里因为没有数据集，所以我选择用ex<br>1中的<code>ex1data1.txt</code>来做演示。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</span><br><span class="line">m = data.shape[<span class="number">0</span>]</span><br><span class="line">X = data[:,<span class="number">0</span>]</span><br><span class="line">y = data[:, <span class="number">1</span>]</span><br><span class="line">plt.scatter(X, y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</span><br><span class="line">plt.xlim([<span class="number">3</span>, max(X)+<span class="number">3</span>])</span><br><span class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <p>可以画出数据分布散点图。</p>
 <a id="more"></a>
 <p><img src="1.png" alt=""></p>
+<p>机器学习的流程如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">          +------------------+&#10;          |                  |&#10;          |     Training     |&#10;          |       set        |&#10;          |                  |&#10;          +------------------+&#10;                   ||&#10;                   ||&#10;          +--------\/--------+&#10;          |                  |&#10;          |     Learning     |&#10;          |     algorithm    |&#10;          |                  |&#10;          +------------------+&#10;                   ||&#10;                   ||&#10;          +--------\/--------+&#10;          |                  |&#10;          |    hypothesis    |&#10;X +-------&#62;                  +-------&#62;  Y&#10;          |                  |&#10;          +------------------+</span><br></pre></td></tr></table></figure>
+<p>用大量的训练数据带入学习算法中进行学习，学习算法产生假设模型，通过假设模型，可以由未知数据X得出需要的Y。</p>
+<h3 id="Linear_Regression__u7EBF_u6027_u56DE_u5F52"><a href="#Linear_Regression__u7EBF_u6027_u56DE_u5F52" class="headerlink" title="Linear Regression 线性回归"></a>Linear Regression 线性回归</h3><p>根据 <code>ex1data2.txt</code> 里的数据，因为有两个特征，所以可以写出假设模型</p>
+<p>$$ h_{\theta } = \theta_{0}+ \theta_{1}x_{1}+\theta_{2}x_{2}$$</p>
+<p>其中 $\theta_{i}$ 是线性方程的确定性参数(有点类似权重的东西？)。所以，假设 $ x_{0} = 1$, 从广义上可以定义假设方程</p>
+<p>$$h_{\theta } =\sum_{n}^{i=0}\theta_{i}x_{i}=\theta^{T}x$$</p>
+<p>其中 $\theta$ 和 $x$ 都是向量，$n$ 是输入变量的个数。</p>
+<p>确定完假设模型，之后需要做的一件事是挑选学习 $\theta$。一个可靠的方法可以让 $h(x)$ 接近 $y$。为了评估假设模型与数据集的接近程度，定义了一个 <strong>cost function</strong>（代价函数）</p>
+<p>$$ J(\theta )=\frac{1}{2}\sum_{m}^{i=1}(h_{\theta}(x^{(i)})-y^{(i)})^{2} $$</p>
+<p>这是least-squares cost function，是 <strong>ordinary least squares regression model</strong> 的一部分。</p>
+<h4 id="LMS_algorithm"><a href="#LMS_algorithm" class="headerlink" title="LMS algorithm"></a>LMS algorithm</h4><p>为了寻找合适的 $\theta$ 使 $J(\theta )$ 最小，可以使用LMS算法通过不断的改变 $\theta$ 来寻找合适的值。这里使用了 <strong>gradient descent algorithm</strong>(梯度递减算法)，更新 $\theta$ 的方式如下</p>
+<p>$$ \theta_{j} := \theta_{j} -\alpha \frac{\partial }{\partial \theta_{j}}J(\theta) $$</p>
+<p>其中，$\alpha$ 是 <strong>learning rate</strong>（学习率）, $\frac{\partial }{\partial \theta_{j}}J(\theta)$ 可以化简为<br>$$ \frac{\partial }{\partial \theta_{j}}J(\theta) = (h_{\theta}(x)-y)x_{j} $$</p>
+<p>这样的更新规则称为LMS update rule(least mean squares),也称为Widrow-Hoﬀ learning rule.</p>
+<p>$$  \theta_{j} := \theta_{j} + \alpha  (y^{(i)} -h_{\theta}(x^{(i)}))x_{j}^{(i)}$$</p>
+<p>梯度递减这里提到了两种 <strong>batch gradient descent</strong> (批量梯度递减) 和 <strong>stochastic gradient descent</strong> (随机梯度递减)。</p>
+<h4 id="The_normal_equations"><a href="#The_normal_equations" class="headerlink" title="The normal equations"></a>The normal equations</h4><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><p><a href="http://cs229.stanford.edu/notes/cs229-notes1.ps" target="_blank" rel="external">CS229 notes1</a></p>
+</li>
+<li><p><a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="external">Coursera Machine Learning</a></p>
+</li>
+<li><p><a href="http://blog.csdn.net/lilyth_lilyth/article/details/8973972" target="_blank" rel="external">随机梯度下降（Stochastic gradient descent）和 批量梯度下降（Batch gradient descent ）的公式对比、实现对比</a></p>
+</li>
+</ol>
 
             
                 
