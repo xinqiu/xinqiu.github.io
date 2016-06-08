@@ -244,6 +244,59 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2016/06/07/csapp-lab4-cachelab/">
+                            CSAPP Lab4 解题分析
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Tue Jun 07 2016 00:00:00 GMT+0800">
+	
+		    Jun 07, 2016
+    	
+    </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<blockquote>
+<p>Lab4 的Cache Lab 的说明资料太少了，<code>csim.c</code> 里面空空的，惊了。身为弱渣的我只好先拿别人的代码来参考参考。这里选取的代码<a href="https://github.com/zhoudiqiu/Cache-lab/blob/master/lab4/csim.c">csim.c</a>。</p>
+</blockquote>
+<h2 id="Part_A_3A_Writing_a_Cache_Simulator"><a href="#Part_A_3A_Writing_a_Cache_Simulator" class="headerlink" title="Part A: Writing a Cache Simulator"></a>Part A: Writing a Cache Simulator</h2><p>需要些一个Cache模拟器，将 <code>valgrind</code> 内存访问记录作为参数，模拟是否命中缓存。输出命中，不命中，移除。</p>
+<p>lab里提供了一个写好的程序 <code>csim-ref</code> ，使用LRU(least-recently used)替换原则，模拟缓存命中情况。</p>
+<p>实验指导上给出了命令行参数</p>
+<p>```<br>Usage: ./csim-ref [-hv] -s <s> -E <E> -b <b> -t <tracefile><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;* -h: Optional help flag that prints usage info&#13;* -v: Optional verbose flag that displays trace info&#13;* -s \&#60;s&#62;: Number of set index bits ($ S = 2^&#123;s&#125; $ is the number of sets) &#13;* -E \&#60;E&#62;: Associativity (number of lines per set)&#13;* -b \&#60;b&#62;: Number of block bits ($ B = 2^&#123;b&#125; $ is the block size)&#13;* -t \&#60;tracefile&#62;: Name of the valgrind trace to replay&#10;&#10;&#25152;&#20197;&#22312; `csim.c` &#37324;&#20063;&#21487;&#20197;&#20889;&#20010;&#25171;&#21360;&#24110;&#21161;&#30340;&#20989;&#25968;&#10;&#10;```c&#10;void printUsage()&#123;&#10;    printf(&#34;Usage: ./csim [-h] [-v] -s &#60;s&#62; -E &#60;E&#62; -b &#60;b&#62; -t &#60;tracefile&#62;\n&#34;);&#10;    printf(&#34;-s: number of set index(2^s sets)\n&#34;);&#10;    printf(&#34;-E: number of lines per set\n&#34;);&#10;    printf(&#34;-b: number of block offset bits\n&#34;);&#10;    printf(&#34;-t: trace file name\n&#34;);&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+                    
+                        <a href="/2016/06/07/csapp-lab4-cachelab/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2016/06/02/ml-1/">
                             Machine Learning Note 1
                         </a>
@@ -369,7 +422,7 @@ MathJax.Hub.Config({
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2016/03/30/csapp-lab2-buflab/">
+                        <a class="link-unstyled" href="/2016/03/30/csapp-lab3-buflab/">
                             CSAPP Lab3 解题分析
                         </a>
                     
@@ -398,7 +451,7 @@ MathJax.Hub.Config({
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">smoke</span><span class="params">()</span></span>&#123;   </span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Smoke!: You calledsmoke()"</span>);   </span><br><span class="line">  validate(<span class="number">0</span>);   </span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">0</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。</p>
                     
-                        <a href="/2016/03/30/csapp-lab2-buflab/" class="postShorten-excerpt_link link">
+                        <a href="/2016/03/30/csapp-lab3-buflab/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         
@@ -779,45 +832,6 @@ MathJax.Hub.Config({
                     <h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>不得不说，Flask是个不错的框架，它很简洁，然而却不失强大。在我阅读 &lt;&lt; Flask Web Development &gt;&gt; 这本书的过程中，我觉得最好是这本书的配套源码和issues。在这些帮助下，一步步从完全不了解Flask到稍微知道Flask的工作原理。这过程中有好多次因为一些小细节的错误debug个很久。在此，我记录了一些我遇到的问题，方便大家看看。</p>
                     
                         <a href="/2015/12/21/Learn-Flask/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/11/13/docker+nginx/">
-                            云主机下的docker+Nginx搭建
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Nov 13 2015 00:00:00 GMT+0800">
-	
-		    Nov 13, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <blockquote>
-<p>之前申请到了腾讯云服务器，所以在上面折腾了一下 Nginx。</p>
-</blockquote>
-<h2 id="u51C6_u5907_u5DE5_u4F5C"><a href="#u51C6_u5907_u5DE5_u4F5C" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="u7CFB_u7EDF_u914D_u7F6E"><a href="#u7CFB_u7EDF_u914D_u7F6E" class="headerlink" title="系统配置"></a>系统配置</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">操作系统	Ubuntu Server 14.04.1 LTS 64位</span><br><span class="line">CPU	1核</span><br><span class="line">内存	1GB</span><br><span class="line">系统盘	8GB(本地盘)</span><br><span class="line">数据盘	0GB</span><br><span class="line">公网带宽	1Mbps</span><br></pre></td></tr></table></figure>
-                    
-                        <a href="/2015/11/13/docker+nginx/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

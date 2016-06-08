@@ -6,28 +6,21 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="一人Code">
-    <title>我与北京与WOT 2016 - 一人Code</title>
+    <title>CSAPP Lab4 解题分析 - 一人Code</title>
     <meta name="author" content="Xin Qiu">
     
     
     
-    <meta name="description" content="仓促的北京之旅">
+    <meta name="description" content="csapp">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="我与北京与WOT 2016">
-<meta property="og:url" content="http://xinqiu.me/2016/04/15/WOT2016/index.html">
+<meta property="og:title" content="CSAPP Lab4 解题分析">
+<meta property="og:url" content="http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/index.html">
 <meta property="og:site_name" content="一人Code">
-<meta property="og:description" content="仓促的北京之旅">
-<meta property="og:image" content="http://xinqiu.me/JW.jpg">
-<meta property="og:image" content="http://xinqiu.me/1.jpg">
-<meta property="og:image" content="http://xinqiu.me/2.jpg">
-<meta property="og:image" content="http://xinqiu.me/3.jpg">
-<meta property="og:image" content="http://xinqiu.me/4.jpg">
-<meta property="og:image" content="http://xinqiu.me/5.jpg">
-<meta property="og:image" content="http://xinqiu.me/6.jpg">
-<meta property="og:updated_time" content="2016-04-17T03:29:22.000Z">
+<meta property="og:description" content="csapp">
+<meta property="og:updated_time" content="2016-06-07T13:40:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我与北京与WOT 2016">
-<meta name="twitter:description" content="仓促的北京之旅">
+<meta name="twitter:title" content="CSAPP Lab4 解题分析">
+<meta name="twitter:description" content="csapp">
     
     
         
@@ -249,13 +242,13 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            我与北京与WOT 2016
+            CSAPP Lab4 解题分析
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Fri Apr 15 2016 00:00:00 GMT+0800">
+    <time itemprop="datePublished" content="Tue Jun 07 2016 00:00:00 GMT+0800">
 	
-		    Apr 15, 2016
+		    Jun 07, 2016
     	
     </time>
     
@@ -264,26 +257,31 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>从小到大，之前都没去过北京。一是对故宫长城并没有什么兴趣(毕竟只对吃感兴趣括弧笑)，二是总觉得北京那算是大都市，自己还是太Low了。机缘巧合，得到了张WOT 2016的票，再三犹豫之后还是毅然决定踏上旅程。唉，还是准备不重复，当初还以为北京的火车票应该不是那么难买，结果就先买了去的车票，几天以后才买回程的票，结果因为买迟了，足足少在北京玩2个小时。</p>
+            <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<blockquote>
+<p>Lab4 的Cache Lab 的说明资料太少了，<code>csim.c</code> 里面空空的，惊了。身为弱渣的我只好先拿别人的代码来参考参考。这里选取的代码<a href="https://github.com/zhoudiqiu/Cache-lab/blob/master/lab4/csim.c" target="_blank" rel="external">csim.c</a>。</p>
+</blockquote>
+<h2 id="Part_A_3A_Writing_a_Cache_Simulator"><a href="#Part_A_3A_Writing_a_Cache_Simulator" class="headerlink" title="Part A: Writing a Cache Simulator"></a>Part A: Writing a Cache Simulator</h2><p>需要些一个Cache模拟器，将 <code>valgrind</code> 内存访问记录作为参数，模拟是否命中缓存。输出命中，不命中，移除。</p>
+<p>lab里提供了一个写好的程序 <code>csim-ref</code> ，使用LRU(least-recently used)替换原则，模拟缓存命中情况。</p>
+<p>实验指导上给出了命令行参数</p>
+<p>```<br>Usage: ./csim-ref [-hv] -s <s> -E <e> -b <b> -t <tracefile><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;* -h: Optional help flag that prints usage info&#13;* -v: Optional verbose flag that displays trace info&#13;* -s \&#60;s&#62;: Number of set index bits ($ S = 2^&#123;s&#125; $ is the number of sets) &#13;* -E \&#60;E&#62;: Associativity (number of lines per set)&#13;* -b \&#60;b&#62;: Number of block bits ($ B = 2^&#123;b&#125; $ is the block size)&#13;* -t \&#60;tracefile&#62;: Name of the valgrind trace to replay&#10;&#10;&#25152;&#20197;&#22312; `csim.c` &#37324;&#20063;&#21487;&#20197;&#20889;&#20010;&#25171;&#21360;&#24110;&#21161;&#30340;&#20989;&#25968;&#10;&#10;```c&#10;void printUsage()&#123;&#10;    printf(&#34;Usage: ./csim [-h] [-v] -s &#60;s&#62; -E &#60;E&#62; -b &#60;b&#62; -t &#60;tracefile&#62;\n&#34;);&#10;    printf(&#34;-s: number of set index(2^s sets)\n&#34;);&#10;    printf(&#34;-E: number of lines per set\n&#34;);&#10;    printf(&#34;-b: number of block offset bits\n&#34;);&#10;    printf(&#34;-t: trace file name\n&#34;);&#10;&#125;</span><br></pre></td></tr></table></figure></tracefile></b></e></s></p>
 <a id="more"></a>
-<p>关于请假还是有个小插曲，感觉被书记故意刁难了。我先向班主任请假，班主任说要请示书记。书记一开始不同意，我就搞不懂了，大学生不出去走走，怎么才能了解外面的世界？然后又说去问专业老师或院长的意见。我就屁颠屁颠的去问了专业老师，专业老师觉得如果我想去就去玩玩好了，回头和书记说，却被驳回说要向院长申请。我又找专业老师，让他联系一下院长。倒是院长同意了，让我按照请假流程请假。回来请假的时候，书记又说要院长和专业老师的签字。我真的无语了，难怪我们学校信息学院这么烂，大部分老师都是认为学生这么垃圾，还是安心读书到时候大四去参加培训班之后找个外包公司安度晚年异或争取考研考公考事业编什么的。</p>
-<p>第一次一个人出这么远的门，感觉爸妈都有点不是很放心。开始的紧张在脚踏北京的地上时就已经不在紧张了。感觉只要有手机，基本上就什么都不怕了。不管是买早饭还是用地图。</p>
-<p>早早的来到了北京珠三角JW万豪酒店</p>
-<p><img src="JW.jpg" alt=""></p>
-<p>看到了广告牌</p>
-<p><img src="1.jpg" alt=""></p>
-<p>随后签到拿到了嘉宾牌，场外的人还挺多的。</p>
-<p><img src="2.jpg" alt=""></p>
-<p>第一次感受了这种氛围，大部分人都是工作的人，学生还是挺少的。大一曾经憧憬过运维这个职业，现在比较火的是DevOps。在开会之前的一段时间，我就开始闲逛时间，顺便各种关注微信公众号抽奖什么的233。一路的不少公司展区都被我搜刮了小礼品。AWS抽到的笔意外的好写。</p>
-<p><img src="3.jpg" alt=""></p>
-<p>这是主会场开会前每个座位上放的广告大礼包233.之后就是会议开始， 早上的是集中会议，虽然离我很遥远，但一些思想我觉得还是正确的。</p>
-<p><img src="4.jpg" alt=""></p>
-<p>中午在KFC用了次Apple Pay，小额免密，圆了一次绑上银行卡后一直没用的遗憾。</p>
-<p>下午本来想去听C会场，结果一脸懵逼，全是人。只好去了人不是很多的B安全会场。看到了道哥，真的年轻。这些公司的PPT真的不是盖的，演讲的档次真的不一样，想到当年参加锐聘的比赛做的Keynote，简直黑历史。</p>
-<p>之后因为要约一约北京的同学，就提前离开了会场。走前问了主办方才知道，原来我这个票是可以看两天的，被送票方骗了&gt; &lt;,不然就可以在北京多玩一天了。和同学吃了北京的烧烤，还挺有特色，果然每个地方的烧烤口味都是有区别的。</p>
-<p><img src="5.jpg" alt=""></p>
-<p><img src="6.jpg" alt=""></p>
-<p>好想有机会再去北京玩玩，这次还有个遗憾是没吃炸酱面。北京之旅让我深有感触，加深了要更加努力的决心。在最近最不想学习的时候来了次北京打了针鸡血，但愿能维持长一段时间。</p>
+<p>参考书中对cache的描述，需要些用结构体定义出cache的一些属性</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>&#123;</span><br><span class="line">    <span class="keyword">int</span> s;<span class="comment">//2^s sets</span></span><br><span class="line">    <span class="keyword">int</span> S;<span class="comment">//S=2^s</span></span><br><span class="line">    <span class="keyword">int</span> b;<span class="comment">//2^b per block	</span></span><br><span class="line">    <span class="keyword">int</span> B;<span class="comment">//B=2^b</span></span><br><span class="line">    <span class="keyword">int</span> E;<span class="comment">//number of lines per set</span></span><br><span class="line">    <span class="comment">//number to track the solution	</span></span><br><span class="line">    <span class="keyword">int</span> hitNum;</span><br><span class="line">    <span class="keyword">int</span> missNum;</span><br><span class="line">    <span class="keyword">int</span> evictionNum;</span><br><span class="line">    <span class="keyword">int</span> verbosity;</span><br><span class="line">&#125; cacheProperty;</span><br></pre></td></tr></table></figure>
+<p>对应的说明可以看书中 Figure 6.28.</p>
+<p>根据Figure 6.27，cache是一个set的数组，每个set包含一个或者多个行，每个行又包括一个有效位，tag标识位， 数据块。所以可以定义出cache的组成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="keyword">int</span> valid;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> tag;</span><br><span class="line">    <span class="keyword">char</span> *block;</span><br><span class="line">    <span class="keyword">int</span> usedCounter;</span><br><span class="line">&#125; setLine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    setLine *lines;</span><br><span class="line">&#125; cacheSet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    cacheSet *sets;</span><br><span class="line">&#125; cache;</span><br></pre></td></tr></table></figure>
+<p>接着就需要考虑cache的初始化。其实就是使用malloc分配内存给定义的cache。一开始所有的有效位和tag标识位都为0。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">cache <span class="title">initiate</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> S, <span class="keyword">int</span> E)</span> </span><br><span class="line"></span>&#123;</span><br><span class="line">    cache currentCache;	</span><br><span class="line">    cacheSet <span class="built_in">set</span>;</span><br><span class="line">    setLine line;</span><br><span class="line">    currentCache.sets = (cacheSet *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(cacheSet) * S);</span><br><span class="line">    <span class="comment">//loop to construct the set of the cache</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; S; i++) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">set</span>.lines =  (setLine *) <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(setLine) * E);</span><br><span class="line">        currentCache.sets[i] = <span class="built_in">set</span>;</span><br><span class="line">        <span class="comment">//loop to construct the lines</span></span><br><span class="line">        <span class="keyword">int</span> j;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; E; j++) </span><br><span class="line">        &#123;</span><br><span class="line">            line.valid = <span class="number">0</span>; </span><br><span class="line">            line.tag = <span class="number">0</span>; </span><br><span class="line">            <span class="built_in">set</span>.lines[j] = line;</span><br><span class="line">            line.usedCounter = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> currentCache;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
             
                 
@@ -296,7 +294,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Life/">Life</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/csapp/">csapp</a>
 
             </div>
         
@@ -305,7 +303,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/05/10/python-thread/"  data-tooltip="Python线程学习">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -313,7 +311,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/30/csapp-lab3-buflab/" data-tooltip="CSAPP Lab3 解题分析">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/06/02/ml-1/" data-tooltip="Machine Learning Note 1">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -328,17 +326,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -386,7 +384,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/05/10/python-thread/"  data-tooltip="Python线程学习">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -394,7 +392,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/03/30/csapp-lab3-buflab/" data-tooltip="CSAPP Lab3 解题分析">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/06/02/ml-1/" data-tooltip="Machine Learning Note 1">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -409,17 +407,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -445,17 +443,17 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/04/15/WOT2016/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
@@ -512,9 +510,9 @@
     
         <script>
              var disqus_config = function () {
-                 this.page.url = 'http://xinqiu.me/2016/04/15/WOT2016/';
+                 this.page.url = 'http://xinqiu.me/2016/06/07/csapp-lab4-cachelab/';
                  
-                    this.page.identifier = '2016/04/15/WOT2016/';
+                    this.page.identifier = '2016/06/07/csapp-lab4-cachelab/';
                                   
              };
             (function() {
