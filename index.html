@@ -278,7 +278,23 @@ MathJax.Hub.Config({
 <h2 id="Part_A_3A_Writing_a_Cache_Simulator"><a href="#Part_A_3A_Writing_a_Cache_Simulator" class="headerlink" title="Part A: Writing a Cache Simulator"></a>Part A: Writing a Cache Simulator</h2><p>需要些一个Cache模拟器，将 <code>valgrind</code> 内存访问记录作为参数，模拟是否命中缓存。输出命中，不命中，移除。</p>
 <p>lab里提供了一个写好的程序 <code>csim-ref</code> ，使用LRU(least-recently used)替换原则，模拟缓存命中情况。</p>
 <p>实验指导上给出了命令行参数</p>
-<p>```<br>Usage: ./csim-ref [-hv] -s <s> -E <E> -b <b> -t <tracefile><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;* -h: Optional help flag that prints usage info&#13;* -v: Optional verbose flag that displays trace info&#13;* -s \&#60;s&#62;: Number of set index bits ($ S = 2^&#123;s&#125; $ is the number of sets) &#13;* -E \&#60;E&#62;: Associativity (number of lines per set)&#13;* -b \&#60;b&#62;: Number of block bits ($ B = 2^&#123;b&#125; $ is the block size)&#13;* -t \&#60;tracefile&#62;: Name of the valgrind trace to replay&#10;&#10;&#25152;&#20197;&#22312; `csim.c` &#37324;&#20063;&#21487;&#20197;&#20889;&#20010;&#25171;&#21360;&#24110;&#21161;&#30340;&#20989;&#25968;&#10;&#10;```c&#10;void printUsage()&#123;&#10;    printf(&#34;Usage: ./csim [-h] [-v] -s &#60;s&#62; -E &#60;E&#62; -b &#60;b&#62; -t &#60;tracefile&#62;\n&#34;);&#10;    printf(&#34;-s: number of set index(2^s sets)\n&#34;);&#10;    printf(&#34;-E: number of lines per set\n&#34;);&#10;    printf(&#34;-b: number of block offset bits\n&#34;);&#10;    printf(&#34;-t: trace file name\n&#34;);&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Usage: ./csim-ref [-hv] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;</code></p>
+<ul>
+<li><p><code>-h</code>: Optional help flag that prints usage info</p>
+</li>
+<li><p><code>-v</code>: Optional verbose flag that displays trace info</p>
+</li>
+<li><p><code>-s &lt;s&gt;</code>: Number of set index bits ($ S = 2^{s} $ is the number of sets) </p>
+</li>
+<li><p><code>-E &lt;E&gt;</code>: Associativity (number of lines per set)</p>
+</li>
+<li><p><code>-b &lt;b&gt;</code>: Number of block bits ($ B = 2^{b} $ is the block size)</p>
+</li>
+<li><p><code>-t &lt;tracefile&gt;</code>: Name of the valgrind trace to replay</p>
+</li>
+</ul>
+<p>所以在 <code>csim.c</code> 里也可以写个打印帮助的函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printUsage</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Usage: ./csim [-h] [-v] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-s: number of set index(2^s sets)\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-E: number of lines per set\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-b: number of block offset bits\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-t: trace file name\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                     
                         <a href="/2016/06/07/csapp-lab4-cachelab/" class="postShorten-excerpt_link link">
                             Continue reading
