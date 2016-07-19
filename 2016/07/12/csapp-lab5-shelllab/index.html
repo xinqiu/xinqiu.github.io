@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://xinqiu.me/2016/07/12/csapp-lab5-shelllab/index.html">
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description" content="csapp">
-<meta property="og:updated_time" content="2016-07-13T07:40:43.000Z">
+<meta property="og:updated_time" content="2016-07-19T12:16:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP Lab5 解题分析">
 <meta name="twitter:description" content="csapp">
@@ -259,7 +259,7 @@
         <div class="main-content-wrap">
             <p>这个实验是要实现一个简易的shell程序，主要考虑的是异常和信号的处理。</p>
 <h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u524D_u671F_u5DE5_u4F5C"><span class="toc-text">前期工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u9700_u8981_u5B9E_u73B0_u7684_u51FD_u6570"><span class="toc-text">需要实现的函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#builtin_cmd"><span class="toc-text">builtin_cmd</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#eval"><span class="toc-text">eval</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#waitfg"><span class="toc-text">waitfg</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#do_bgfg"><span class="toc-text">do_bgfg</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sigint_handler"><span class="toc-text">sigint_handler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sigtstp_handler"><span class="toc-text">sigtstp_handler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sigchld_handler"><span class="toc-text">sigchld_handler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u5176_u4ED6"><span class="toc-text">其他</span></a></li></ol>
-<h4 id="u524D_u671F_u5DE5_u4F5C"><a href="#u524D_u671F_u5DE5_u4F5C" class="headerlink" title="前期工作"></a>前期工作</h4><p>加压缩<code>shlab-handout.tar</code>，执行<code>make clean | make</code>,就可以得到编译好的文件。</p>
+<h4 id="u524D_u671F_u5DE5_u4F5C"><a href="#u524D_u671F_u5DE5_u4F5C" class="headerlink" title="前期工作"></a>前期工作</h4><p>解压缩<code>shlab-handout.tar</code>，执行<code>make clean | make</code>,就可以得到编译好的文件。</p>
 <p>文件夹中的<code>tshref</code>是正确的结果，可以用来验证。与其用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sdriver.pl -t trace01.txt -s ./tsh -a &#34;-p&#34;</span><br></pre></td></tr></table></figure>
 <p>来测试，我觉得实验手册里提到的另一种方法更好用，</p>
