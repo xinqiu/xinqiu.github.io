@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="一人Code">
+    <title>CSAPP Lab6 解题分析 - 一人Code</title>
+    <meta name="author" content="Xin Qiu">
+    
+    
+    
+    <meta name="description" content="csapp">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="CSAPP Lab6 解题分析">
+<meta property="og:url" content="http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/index.html">
+<meta property="og:site_name" content="一人Code">
+<meta property="og:description" content="csapp">
+<meta property="og:image" content="http://xinqiu.me/2.png">
+<meta property="og:image" content="http://xinqiu.me/1.png">
+<meta property="og:image" content="http://xinqiu.me/3.png">
+<meta property="og:updated_time" content="2016-08-11T06:27:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSAPP Lab6 解题分析">
+<meta name="twitter:description" content="csapp">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://xinqiu.me/assets/images/avatar.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-57881840-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">一人Code</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png"/>
+            </a>
+            <span class="sidebar-profile-name">Xin Qiu</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/projects"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                    <span class="sidebar-button-desc">Projects</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/reading-list"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-book"></i>
+                    <span class="sidebar-button-desc">Reading List</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/timeline"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-calendar"></i>
+                    <span class="sidebar-button-desc">Timeline</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/xinqiu" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:xinqiu.94@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            CSAPP Lab6 解题分析
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Aug 11 2016 00:00:00 GMT+0800">
+	
+		    Aug 11, 2016
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Malloc Lab，据说是最难的一个lab。在看完第九章之后，因为要旅游，没有直接做lab，而是继续看书，结果回来了，书还剩1章，又顺势看完了剩余的部分。在整本书都读完了以后，才回过头来做Malloc Lab。</p>
+<h3 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h3><p>需要完成<code>mm.c</code>里的内容，材料中需要完成的是</p>
+<ul>
+<li>int mm_init(void)</li>
+<li>void *mm_malloc(size_t size)</li>
+<li>void mm_free(void *ptr)</li>
+</ul>
+<p>其他的mm_realloc源码中已经填写好了。</p>
+<p>这里，我是用书中的隐式空闲链表方法，先完成实验。</p>
+<a id="more"></a>
+<h4 id="mm_init"><a href="#mm_init" class="headerlink" title="mm_init"></a>mm_init</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span><br><span class="line"> * mm_init - initialize the malloc package.</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">mm_init</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((head_listp = mem_sbrk(<span class="number">4</span>*WSIZE)) == (<span class="keyword">void</span> *)-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    PUT(head_listp, <span class="number">0</span>);</span><br><span class="line">    PUT(head_listp + (<span class="number">1</span>*WSIZE), PACK(DSIZE, <span class="number">1</span>));</span><br><span class="line">    PUT(head_listp + (<span class="number">2</span>*WSIZE), PACK(DSIZE, <span class="number">1</span>));</span><br><span class="line">    PUT(head_listp + (<span class="number">3</span>*WSIZE), PACK(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line">    head_listp += (<span class="number">2</span>*WSIZE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (extend_heap(CHUNKSIZE/WSIZE) == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个初始化堆的函数。mm_init从内存中获取4个字的空间，并初始化城空闲链表。</p>
+<p>其中堆块的形式是这样的</p>
+<p><img src="2.png" alt=""></p>
+<p>隐式空闲链表第一个字并没有用，这作为双字边界对齐的填充字。接着是prologue block，这和正常块的区别在于它没有payload，所以算是作为堆开始的标志，同样，epilogue block放在堆的结尾处。</p>
+<p><img src="1.png" alt=""></p>
+<p>上图为隐式空闲链表，每个regular block其实就上之前堆块图的结构。注意到蓝色的块是在初始化时产生的。mm_init就是做了以上的操作，首先调用mem_sbrk申请4个字的空间，首先第一个字填充为0。接着创建prologue block，因为prologue block是双字，也就是8-byte。接着创建epilogue block。接着将head_listp指针指向prologue block的结尾。虽然隐式空闲链表的头和尾都构建好了，但是没有分配空间给它，它限制并不能存任何东西。所以我们要对刚才的空闲链表进行扩展堆。默认扩展一个空堆CHUNKSIZE，这里定义的是1&lt;&lt;12也就是4K，4K也就是1000个字。</p>
+<p>所以接着设计一个extend_heap函数。</p>
+<h4 id="extend_heap"><a href="#extend_heap" class="headerlink" title="extend_heap"></a>extend_heap</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">extend_heap</span><span class="params">(size_t words)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *bp;</span><br><span class="line">    <span class="keyword">size_t</span> size;</span><br><span class="line"></span><br><span class="line">    size = (words % <span class="number">2</span>) ? (words+<span class="number">1</span>) * WSIZE : words * WSIZE;</span><br><span class="line">    <span class="keyword">if</span> ((<span class="keyword">long</span>)(bp = mem_sbrk(size)) == -<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    PUT(HDRP(bp), PACK(size, <span class="number">0</span>));</span><br><span class="line">    PUT(FTRP(bp), PACK(size, <span class="number">0</span>));</span><br><span class="line">    PUT(HDRP(NEXT_BLKP(bp)), PACK(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> coalesce(bp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要知道内存块都是存在一种对齐机制，所以当分配奇数字时，要进行双字对齐。接着和初始化一样，调用mem_sbrk来获取空间。之后的内容和之前的mm_init类似，将bp所指的块的header和footer赋值为0，表示这个块是空闲块。将下一个块的header构造成epilogue block。</p>
+<p>这里说个小插曲，为什么要双字对齐。我觉得是因为将最后一位留出来标记这个块是否被分配。只要是双字对齐后，那么这个数的二进制数最后一位肯定为0， 所以置为1代表已分配，置0代表未分配。如果不对齐，那么如果分配的是奇数，最后一位本来就为1，但若这个块并未分配，所以会影响判断。</p>
+<p>在扩展完这个块以后，需要将这个块和之前的块进行合并。如果之前的块为空闲，则合并成更大的块来满足空间申请的请求。</p>
+<h4 id="coalesce"><a href="#coalesce" class="headerlink" title="coalesce"></a>coalesce</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">coalesce</span><span class="params">(<span class="keyword">void</span> * bp)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">size_t</span> prev_alloc = GET_ALLOC(FTRP(PREV_BLKP(bp)));</span><br><span class="line">    <span class="keyword">size_t</span> next_alloc = GET_ALLOC(HDRP(NEXT_BLKP(bp)));</span><br><span class="line">    <span class="keyword">size_t</span> size = GET_SIZE(HDRP(bp));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (prev_alloc &amp;&amp; next_alloc)</span><br><span class="line">        <span class="keyword">return</span> bp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (prev_alloc &amp;&amp; !next_alloc)</span><br><span class="line">    &#123;</span><br><span class="line">        size += GET_SIZE(HDRP(NEXT_BLKP(bp)));</span><br><span class="line">        PUT(HDRP(bp), PACK(size, <span class="number">0</span>));</span><br><span class="line">        PUT(FTRP(bp), PACK(size, <span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (!prev_alloc &amp;&amp; next_alloc)</span><br><span class="line">    &#123;</span><br><span class="line">        size += GET_SIZE(HDRP(PREV_BLKP(bp)));</span><br><span class="line">        PUT(FTRP(bp), PACK(size, <span class="number">0</span>));</span><br><span class="line">        PUT(HDRP(PREV_BLKP(bp)), PACK(size, <span class="number">0</span>));</span><br><span class="line">        bp = PREV_BLKP(bp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">    &#123;</span><br><span class="line">        size += GET_SIZE(HDRP(PREV_BLKP(bp))) + GET_SIZE(FTRP(NEXT_BLKP(bp)));</span><br><span class="line">        PUT(HDRP(PREV_BLKP(bp)), PACK(size, <span class="number">0</span>));</span><br><span class="line">        PUT(FTRP(NEXT_BLKP(bp)), PACK(size, <span class="number">0</span>));</span><br><span class="line">        bp = PREV_BLKP(bp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> bp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>合并块有4种可能的情况。</p>
+<p><img src="3.png" alt=""></p>
+<p>上面代码的顺序和上图的顺序是一致的。所谓合并，就是修改上一个或者下一个块的头和尾中的size。使之变成合并后的size。</p>
+<h4 id="mm_free"><a href="#mm_free" class="headerlink" title="mm_free"></a>mm_free</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mm_free</span><span class="params">(<span class="keyword">void</span> *ptr)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">size_t</span> size = GET_SIZE(HDRP(ptr));</span><br><span class="line"></span><br><span class="line">    PUT(HDRP(ptr), PACK(size, <span class="number">0</span>));</span><br><span class="line">    PUT(FTRP(ptr), PACK(size, <span class="number">0</span>));</span><br><span class="line">    coalesce(ptr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>释放块，其实就是将头和尾的标志位修改为0，然后将这个块与前一个块或者后一个块合并。</p>
+<h4 id="mm_malloc"><a href="#mm_malloc" class="headerlink" title="mm_malloc"></a>mm_malloc</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">mm_malloc</span><span class="params">(size_t size)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">/*</span><br><span class="line">    int newsize = ALIGN(size + SIZE_T_SIZE);</span><br><span class="line">    void *p = mem_sbrk(newsize);</span><br><span class="line">    if (p == (void *)-1)</span><br><span class="line">	return NULL;</span><br><span class="line">    else &#123;</span><br><span class="line">        *(size_t *)p = size;</span><br><span class="line">        return (void *)((char *)p + SIZE_T_SIZE);</span><br><span class="line">    &#125;</span><br><span class="line">    */</span></span><br><span class="line">    <span class="keyword">size_t</span> asize;</span><br><span class="line">    <span class="keyword">size_t</span> extendsize;</span><br><span class="line">    <span class="keyword">char</span> *bp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (size &lt;= DSIZE)</span><br><span class="line">        asize = <span class="number">2</span> * DSIZE;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        asize = DSIZE * ((size + (DSIZE) + (DSIZE-<span class="number">1</span>)) / DSIZE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((bp = find_fit(asize)) != <span class="literal">NULL</span>)&#123;</span><br><span class="line">        place(bp, asize);</span><br><span class="line">        <span class="keyword">return</span> bp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    extendsize = MAX(asize, CHUNKSIZE);</span><br><span class="line">    <span class="keyword">if</span> ((bp = extend_heap(extendsize/WSIZE)) == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    place(bp, asize);</span><br><span class="line">    <span class="keyword">return</span> bp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这算是最主要的部分了。分配内存主要分为对齐，最适搜索， 扩展堆。</p>
+<p>对齐这个不难明白，就是如果申请的大小不是双字对齐，需要将其对齐，虽然这样会产生碎片。另外，参考之前的空堆结构可知，申请的空间最小要是16字节。其中8个字节存放头和尾，8个字节满足对齐要求。在调整了请求大小后，开始搜索空闲链表，寻找合适的空闲块。如果有，就放这个请求块，没有就需要申请新的空闲块来扩展堆,然后再放这个块。</p>
+<p>这里用到了两个函数，find_fit和place，接着就要来完善这两个函数。</p>
+<h4 id="find_fit"><a href="#find_fit" class="headerlink" title="find_fit"></a>find_fit</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">find_fit</span><span class="params">(size_t asize)</span></span><br><span class="line"></span>&#123;   </span><br><span class="line">    <span class="keyword">void</span> *bp;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (bp = head_listp; GET_SIZE(HDRP(bp)) &gt; <span class="number">0</span>; bp = NEXT_BLKP(bp))&#123;</span><br><span class="line">        <span class="keyword">if</span>(!GET_ALLOC(HDRP(bp)) &amp;&amp; (asize &lt;= GET_SIZE(HDRP(bp)))) &#123;</span><br><span class="line">            <span class="keyword">return</span> bp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里是用首次适配搜索。从隐式空闲链表的开头开始，寻找首个合适的未分配的块。</p>
+<h4 id="place"><a href="#place" class="headerlink" title="place"></a>place</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">place</span><span class="params">(<span class="keyword">void</span> *bp, size_t asize)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">size_t</span> csize = GET_SIZE(HDRP(bp));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((csize - asize) &gt;= (<span class="number">2</span>*DSIZE))&#123;</span><br><span class="line">        PUT(HDRP(bp), PACK(asize, <span class="number">1</span>));</span><br><span class="line">        PUT(FTRP(bp), PACK(asize, <span class="number">1</span>));</span><br><span class="line">        bp = NEXT_BLKP(bp);</span><br><span class="line">        PUT(HDRP(bp), PACK(csize-asize, <span class="number">0</span>));</span><br><span class="line">        PUT(FTRP(bp), PACK(csize-asize, <span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        PUT(HDRP(bp), PACK(csize, <span class="number">1</span>));</span><br><span class="line">        PUT(FTRP(bp), PACK(csize, <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>若是寻找到了合适的块，这时就要将这个块放进去。这里有两种情况，如果当前找到的块比需要填入的块大于或等于16字节，证明这个块还能够分裂成两个块，所以需要做分裂操作。不然就直接将这个整个块标记为已分配，也就是说这里存在小于16字节的碎片。</p>
+<h4 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h4><p>隐式空闲链表可能说稍微容易点，得分87/100，这就证明其中有能够优化的地方，比如书中提到的显示空闲链表和分离链表，有机会我会再试试其他的方法，更巧妙的比如BST或者splay伸展树等等。</p>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/csapp/">csapp</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/12/csapp-lab5-shelllab/" data-tooltip="CSAPP Lab5 解题分析">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Xin Qiu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/12/csapp-lab5-shelllab/" data-tooltip="CSAPP Lab5 解题分析">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png"/>
+        
+            <h4 id="about-card-name">Xin Qiu</h4>
+        
+            <h5 id="about-card-bio"><p>Life is short.<a href="http://xinqiu.me/2015/09/11/Me/">More</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Student</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China Jiangsu
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://xinqiu.me/2016/08/11/csapp-lab6-malloclab/';
+                 
+                    this.page.identifier = '2016/08/11/csapp-lab6-malloclab/';
+                                  
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'xinqiu';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+</html>
