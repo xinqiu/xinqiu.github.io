@@ -233,6 +233,59 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2016/10/04/CLRS-2/">
+                            算法导论动态规划之
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Tue Oct 04 2016 00:00:00 GMT+0800">
+	
+		    Oct 04, 2016
+    	
+    </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<p>动态规划方法通常是用来求解<strong>最优化问题</strong>(optimization problem)。比起分治方法，动态规划对于子问题只求解一次，算是用空间换时间。</p>
+<p>书中提到了设计动态规划算法的4个步骤：</p>
+<ol>
+<li>刻画一个最优解的结构特此</li>
+<li>递归地定义最优解的值</li>
+<li>计算最优解的值，通常采用自底向上的方法</li>
+<li>利用计算出的信息构造一个最优解</li>
+</ol>
+                    
+                        <a href="/2016/10/04/CLRS-2/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2016/08/11/csapp-lab6-malloclab/">
                             CSAPP Lab6 解题分析
                         </a>
@@ -788,58 +841,6 @@ MathJax.Hub.Config({
 <p>主要提取出CSI数据和timestamp_low。</p>
                     
                         <a href="/2016/03/12/csi-start/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2016/02/10/csapp-lab2-bomb/">
-                            CSAPP Lab2 解题分析
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Wed Feb 10 2016 00:00:00 GMT+0800">
-	
-		    Feb 10, 2016
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>Lab2 的 Bomb是个非常有意思的实验，比起之前耗脑的Lab1，这个Lab主要是学习反汇编。</p>
-<p>这里我的环境是OS X EI Capitan，Lab2是[Updated 1/12/16].</p>
-<!--toc-->
-<h2 id="Phase1"><a href="#Phase1" class="headerlink" title="Phase1"></a>Phase1</h2><p>在Mac上是默认没有GDB的，可以使用LLDB来代替。</p>
-<p>进入lldb</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lldb bomb</span><br></pre></td></tr></table></figure>
-<p>使用<code>disassemble</code>进行反汇编,参考<code>bomb.c</code>文件，可以知道主要的几个函数名。</p>
-<p>首先是Phase_1</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) disas -n phase_1</span><br></pre></td></tr></table></figure>
-<p>得到以下汇编代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bomb`phase_1:</span><br><span class="line">bomb[0x400ee0] <span class="tag">&lt;<span class="title">+0</span>&gt;</span>:  subq   $0x8, %rsp</span><br><span class="line">bomb[0x400ee4] <span class="tag">&lt;<span class="title">+4</span>&gt;</span>:  movl   $0x402400, %esi</span><br><span class="line">bomb[0x400ee9] <span class="tag">&lt;<span class="title">+9</span>&gt;</span>:  callq  0x401338                  ; strings_not_equal</span><br><span class="line">bomb[0x400eee] <span class="tag">&lt;<span class="title">+14</span>&gt;</span>: testl  %eax, %eax</span><br><span class="line">bomb[0x400ef0] <span class="tag">&lt;<span class="title">+16</span>&gt;</span>: je     0x400ef7                  ; <span class="tag">&lt;<span class="title">+23</span>&gt;</span></span><br><span class="line">bomb[0x400ef2] <span class="tag">&lt;<span class="title">+18</span>&gt;</span>: callq  0x40143a                  ; explode_bomb</span><br><span class="line">bomb[0x400ef7] <span class="tag">&lt;<span class="title">+23</span>&gt;</span>: addq   $0x8, %rsp</span><br><span class="line">bomb[0x400efb] <span class="tag">&lt;<span class="title">+27</span>&gt;</span>: retq</span><br></pre></td></tr></table></figure>
-<p>这段代码还是挺好理解的，保存<code>Stack pointer</code>,将<code>$0x402400</code>传给<code>%esi</code>,调用位于<code>0x401338</code>的<code>strings_not_equal</code>函数，比较<code>%eax</code>是否为0，不为零则调用<code>explode_bomb</code>函数，为零则返回。</p>
-<p>所以关键要找出字符串是什么。根据上述的汇编代码，可以发现字符串被保存在<code>0x402400</code>这个内存里，所以使用<code>x/s</code>来查看。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) x/s 0x402400</span><br></pre></td></tr></table></figure>
-<p>得到</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x00402400: "Border relations with Canada have never been better."</span><br></pre></td></tr></table></figure>
-<p>所以第一关的答案是<code>Strings_Not_Equal</code></p>
-                    
-                        <a href="/2016/02/10/csapp-lab2-bomb/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         

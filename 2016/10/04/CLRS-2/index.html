@@ -1,0 +1,519 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="一人Code">
+    <title>算法导论动态规划之 - 一人Code</title>
+    <meta name="author" content="Xin Qiu">
+    
+    
+    
+    <meta name="description" content="CLRS">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="算法导论动态规划之">
+<meta property="og:url" content="http://xinqiu.me/2016/10/04/CLRS-2/index.html">
+<meta property="og:site_name" content="一人Code">
+<meta property="og:description" content="CLRS">
+<meta property="og:image" content="http://xinqiu.me/1.gif">
+<meta property="og:image" content="http://xinqiu.me/2.gif">
+<meta property="og:updated_time" content="2016-10-04T07:12:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法导论动态规划之">
+<meta name="twitter:description" content="CLRS">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://xinqiu.me/assets/images/avatar.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <!--STYLES END-->
+    
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-57881840-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">一人Code</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/#about">
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png"/>
+            </a>
+            <span class="sidebar-profile-name">Xin Qiu</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/projects"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-code"></i>
+                    <span class="sidebar-button-desc">Projects</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/reading-list"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-book"></i>
+                    <span class="sidebar-button-desc">Reading List</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/timeline"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-calendar"></i>
+                    <span class="sidebar-button-desc">Timeline</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/xinqiu" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:xinqiu.94@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            算法导论动态规划之
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Oct 04 2016 00:00:00 GMT+0800">
+	
+		    Oct 04, 2016
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<p>动态规划方法通常是用来求解<strong>最优化问题</strong>(optimization problem)。比起分治方法，动态规划对于子问题只求解一次，算是用空间换时间。</p>
+<p>书中提到了设计动态规划算法的4个步骤：</p>
+<ol>
+<li>刻画一个最优解的结构特此</li>
+<li>递归地定义最优解的值</li>
+<li>计算最优解的值，通常采用自底向上的方法</li>
+<li>利用计算出的信息构造一个最优解</li>
+</ol>
+<a id="more"></a>
+<h2 id="u94A2_u6761_u5207_u5272"><a href="#u94A2_u6761_u5207_u5272" class="headerlink" title="钢条切割"></a>钢条切割</h2><p>这个算是比较简单的应用动态规划的例子。只需要用一个一维数组保存最有解就可以了。书中提到一个子问题图，很形象的能表达出各个子问题之间的关系。这里钢条切割使用才思想是分两块，左边一部分完全不切割，右边随便切割，然后比较产生的利润最大的组合，所以右边就变成了子问题。</p>
+<h2 id="u77E9_u9635_u94FE_u4E58_u6CD5"><a href="#u77E9_u9635_u94FE_u4E58_u6CD5" class="headerlink" title="矩阵链乘法"></a>矩阵链乘法</h2><p>首先需要知道一个概念是只有两个矩阵A和B相容，即A的列数等于B的行数时，才能相乘。矩阵链乘法问题就是求完全括号化的方案，不同的括号方法产生不同次数的标量乘法。首先可以得到一个穷举的算法思路，令$P(n)$表示可供选择的括号化方案的数量，当$n=1$时，显然只有一种完全括号化方案，当$n \geqslant 2$时，完全括号化的矩阵乘积可描述为两个完全括号化的部分积相乘的形式，而两个部分积的划分点在第$k$个矩阵和第$k+1$个矩阵之间。所以可以得到如下递归公式：<br><img src="1.gif" alt=""><br>当然这个需要优化。所以引入储存子问题解的变量m，m[i,j]表示计算矩阵$A_{i,j}$所需标量乘法次数的最小值。假设 $A_{i}A_{i+1}\cdots A_{j}$ 的最优括号化方案的分割点在矩阵$A_{k}$和$A_{k+1}$之间，其中$i\leqslant k &lt;j$。那么，m[i,j]等于计算 $A_{i..k}$和 $A_{k+1..j}$的代价加上两者相乘的代价的最小值。因此得到<br>$$ m[i,j]=m[i,k]+m[k+1,j]+p_{i-1}p_{k}p_{j}$$<br>因为不知道$k$的具体值，所以$k$有$ j-i $种可能，所以<br><img src="2.gif" alt=""><br>采用自底向上表格法代替上面公式的递归算法来计算最优代价。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MaxtrixChainOrder</span><span class="params">(p)</span>:</span></span><br><span class="line">    n = len(p)-<span class="number">1</span></span><br><span class="line">    m = [[<span class="number">0</span>]*(n) <span class="keyword">for</span> _ <span class="keyword">in</span> xrange(n)]</span><br><span class="line">    s = [[<span class="number">0</span>]*(n) <span class="keyword">for</span> _ <span class="keyword">in</span> xrange(n)]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, n):</span><br><span class="line">        m[i][i] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> xrange(<span class="number">2</span>, n+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>, n - l + <span class="number">1</span>):</span><br><span class="line">            j = i + l -<span class="number">1</span></span><br><span class="line">            m[i][j] = sys.maxint</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> xrange(i, j):</span><br><span class="line">                q = m[i][k]+m[k+<span class="number">1</span>][j]+p[i]*p[k+<span class="number">1</span>]*p[j+<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">if</span> q &lt; m[i][j]:</span><br><span class="line">                    m[i][j] = q</span><br><span class="line">                    s[i][j] = k</span><br><span class="line">    <span class="keyword">return</span> m, s</span><br><span class="line"></span><br><span class="line">m, s = MaxtrixChainOrder([<span class="number">30</span>,<span class="number">35</span>,<span class="number">15</span>,<span class="number">5</span>,<span class="number">10</span>,<span class="number">20</span>,<span class="number">25</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'m:'</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'\n'</span>.join(map(str, m))</span><br><span class="line"><span class="keyword">print</span> <span class="string">'s:'</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'\n'</span>.join(map(str, s))</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">'矩阵链乘法的方案是:'</span>,</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">PrintOptimalParens</span><span class="params">(s, i, j)</span>:</span></span><br><span class="line">    ret = <span class="string">''</span></span><br><span class="line">    <span class="keyword">if</span> i == j:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'A'</span>+str(j)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ret += <span class="string">'('</span></span><br><span class="line">        ret += PrintOptimalParens(s, i, s[i][j])</span><br><span class="line">        ret += PrintOptimalParens(s, s[i][j]+<span class="number">1</span>, j)</span><br><span class="line">        ret +=  <span class="string">')'</span></span><br><span class="line">        <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> PrintOptimalParens(s, <span class="number">0</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<p>得到以下输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m:&#10;[0, 15750, 7875, 9375, 11875, 15125]&#10;[0, 0, 2625, 4375, 7125, 10500]&#10;[0, 0, 0, 750, 2500, 5375]&#10;[0, 0, 0, 0, 1000, 3500]&#10;[0, 0, 0, 0, 0, 5000]&#10;[0, 0, 0, 0, 0, 0]&#10;s:&#10;[0, 0, 0, 2, 2, 2]&#10;[0, 0, 1, 2, 2, 2]&#10;[0, 0, 0, 2, 2, 2]&#10;[0, 0, 0, 0, 3, 4]&#10;[0, 0, 0, 0, 0, 4]&#10;[0, 0, 0, 0, 0, 0]&#10;&#30697;&#38453;&#38142;&#20056;&#27861;&#30340;&#26041;&#26696;&#26159;: ((A0(A1A2))((A3A4)A5))</span><br></pre></td></tr></table></figure>
+
+            
+                
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/algorithm/">algorithm</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/08/11/csapp-lab6-malloclab/" data-tooltip="CSAPP Lab6 解题分析">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Xin Qiu. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/08/11/csapp-lab6-malloclab/" data-tooltip="CSAPP Lab6 解题分析">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#disqus_thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://xinqiu.me/2016/10/04/CLRS-2/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png"/>
+        
+            <h4 id="about-card-name">Xin Qiu</h4>
+        
+            <h5 id="about-card-bio"><p>Life is short.<a href="http://xinqiu.me/2015/09/11/Me/">More</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Student</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China Jiangsu
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+        <script>
+             var disqus_config = function () {
+                 this.page.url = 'http://xinqiu.me/2016/10/04/CLRS-2/';
+                 
+                    this.page.identifier = '2016/10/04/CLRS-2/';
+                                  
+             };
+            (function() {
+                var d = document, s = d.createElement('script');
+                var disqus_shortname = 'xinqiu';
+                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+    
+
+
+
+</html>
