@@ -19,7 +19,7 @@
 <meta property="og:description" content="CLRS">
 <meta property="og:image" content="http://xinqiu.me/1.gif">
 <meta property="og:image" content="http://xinqiu.me/2.gif">
-<meta property="og:updated_time" content="2016-10-05T01:27:48.000Z">
+<meta property="og:updated_time" content="2016-10-05T02:08:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法导论动态规划学习">
 <meta name="twitter:description" content="CLRS">
@@ -276,6 +276,8 @@ MathJax.Hub.Config({
 <li>确定最优解使用哪些子问题时，要考察多少种选择</li>
 </ol>
 <p>和递归不同，因为递归太深会出现异常。动态规划确实反过来，自底向上的使用最优子结构。也就是说，首先求得子问题的最优解，然后求原问题的最优解。</p>
+<h3 id="u91CD_u53E0_u5B50_u95EE_u9898"><a href="#u91CD_u53E0_u5B50_u95EE_u9898" class="headerlink" title="重叠子问题"></a>重叠子问题</h3><p>如果递归算法反复求解相同的子问题，这就是最优化问题具有重叠子问题性质。动态规划对每个子问题求解一次，将解存入一个表中，这样当再次需要这个子问题时直接查表。</p>
+<p>这里也提到了一种带备忘的自顶到下动态规划算法，时间复杂度和自底向上的动态规划算法一样。</p>
 
             
                 
