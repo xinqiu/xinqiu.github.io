@@ -233,6 +233,66 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2016/03/12/csi-start/">
+                            基于CSI的移动目标侦测研究学习
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Sat Mar 12 2016 00:00:00 GMT+0800">
+	
+		    Mar 12, 2016
+    	
+    </time>
+    
+</div>
+            </div>
+            
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <blockquote>
+<p>最近被老师带着搞科研，研究CSI(channel state information)。</p>
+</blockquote>
+<h2 id="u73AF_u5883_u5B89_u88C5"><a href="#u73AF_u5883_u5B89_u88C5" class="headerlink" title="环境安装"></a>环境安装</h2><p>需要用到<a href="http://dhalperi.github.io/linux-80211n-csitool/">CSI tool</a>，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载<a href="http://pan.baidu.com/s/1dDhFuNJ">清华的版本</a>。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。</p>
+<p>需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。</p>
+<h2 id="u83B7_u53D6_u6570_u636E"><a href="#u83B7_u53D6_u6570_u636E" class="headerlink" title="获取数据"></a>获取数据</h2><p>cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./<span class="built_in">log</span>_to_file tmp.dat</span><br></pre></td></tr></table></figure>
+<p>打开另一个终端，运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping <span class="number">192.168</span>.<span class="number">1.1</span> -i <span class="number">0.2</span></span><br></pre></td></tr></table></figure>
+<p>netlink文件夹中的tmp.dat就是采集的原始数据。</p>
+<h2 id="u8BFB_u53D6_u6570_u636E"><a href="#u8BFB_u53D6_u6570_u636E" class="headerlink" title="读取数据"></a>读取数据</h2><p>使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。</p>
+<p>一个例子数据包里包含</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timestamp_low: 4            (In the sample trace, timestamp_low is invalid and always 4.)&#10;       bfee_count: 72&#10;              Nrx: 3&#10;              Ntx: 1&#10;           rssi_a: 33&#10;           rssi_b: 37&#10;           rssi_c: 41&#10;            noise: -127&#10;              agc: 38&#10;             perm: [3 2 1]&#10;             rate: 256&#10;              csi: [1x3x30 double]</span><br></pre></td></tr></table></figure>
+<p>其中:</p>
+<ul>
+<li><strong><strong>timestamp_low</strong></strong> 是时间戳</li>
+<li><strong><strong>bfee_count</strong></strong> 数据包数量</li>
+<li><strong><strong>Nrx,Ntx</strong></strong> 分别表示接收端和发送端的天线数量</li>
+<li><strong><strong>rssi_a, rssi_b, rssi_c</strong></strong> 每个天线的RSSI数据，单位dB，</li>
+<li><strong><strong>agc</strong></strong> Automatic Gain Control</li>
+<li><strong><strong>perm</strong></strong> NIC重排列后的顺序结果，代表RF链路的顺序</li>
+<li><strong><strong>rate</strong></strong> 发送包的rate</li>
+<li><strong><strong>csi</strong></strong> CSI原始数据，是个Ntx×Nrx×30复数矩阵</li>
+</ul>
+<p>主要提取出CSI数据和timestamp_low。</p>
+                    
+                        <a href="/2016/03/12/csi-start/" class="postShorten-excerpt_link link">
+                            Continue reading
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2016/02/10/csapp-lab2-bomb/">
                             CSAPP Lab2 解题分析
                         </a>
@@ -602,44 +662,6 @@
 <h4 id="2-1-1"><a href="#2-1-1" class="headerlink" title="2.1-1"></a>2.1-1</h4><p>Using Figure 2.2 as a model, illustrate the operation of INSERTION-SORT on the array <code>A = &lt;31, 41, 59, 26, 41, 58&gt;</code>.</p>
                     
                         <a href="/2015/08/31/CLRS-1/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/07/26/Raspberry-Pi-2/">
-                            Raspberry Pi 2 上手
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sun Jul 26 2015 00:00:00 GMT+0800">
-	
-		    Jul 26, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <blockquote>
-<p>家里的1代内存小，性能渣，所以入了新的2代。</p>
-</blockquote>
-                    
-                        <a href="/2015/07/26/Raspberry-Pi-2/" class="postShorten-excerpt_link link">
                             Continue reading
                         </a>
                         
