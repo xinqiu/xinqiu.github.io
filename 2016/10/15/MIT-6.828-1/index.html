@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://xinqiu.me/2016/10/15/MIT-6.828-1/index.html">
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description" content="MIT6.828">
-<meta property="og:updated_time" content="2016-10-15T02:37:36.000Z">
+<meta property="og:updated_time" content="2016-10-15T02:39:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT 6.828 Lab 1">
 <meta name="twitter:description" content="MIT6.828">
@@ -254,9 +254,14 @@
 <p>如果没装qemu，这里需要安装qemu，在课程的Tools页面中，提到了QEMU最好安装修改版，考虑到<code>git clone http://web.mit.edu/ccutler/www/qemu.git -b 6.828-2.3.0</code>这个不好clone，建议使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/geofft/qemu.git -b 6.828-2.3.0</span><br></pre></td></tr></table></figure>
 <p>在执行 <code>./configure --disable-kvm [--prefix=PFX] [--target-list=&quot;i386-softmmu x86_64-softmmu&quot;]</code> （PFX为安装路径，可以省略）<br>时，可能会出现几种情况：</p>
-<p>1.ERROR: zlib check failed<br>       Make sure to have the zlib libs and headers installed.</p>
+<ol>
+<li>ERROR: zlib check failed<pre><code>Make sure to have the zlib libs and headers installed.
+</code></pre></li>
+</ol>
 <p>解决: <code>sudo apt-get install zlib1g-dev</code></p>
-<p>2.ERROR: glib-2.12 gthread-2.0 is required to compile QEMU</p>
+<ol>
+<li>ERROR: glib-2.12 gthread-2.0 is required to compile QEMU</li>
+</ol>
 <p>解决: <code>sudo apt-get install libglib2.0-dev</code></p>
 <ol>
 <li>ERROR: pixman &gt;= 0.21.8 not present. Your options:<pre><code>(1) Preferred: Install the pixman devel package (any recent
