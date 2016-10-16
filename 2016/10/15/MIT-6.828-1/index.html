@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://xinqiu.me/2016/10/15/MIT-6.828-1/index.html">
 <meta property="og:site_name" content="一人Code">
 <meta property="og:description" content="MIT6.828">
-<meta property="og:updated_time" content="2016-10-15T02:39:49.000Z">
+<meta property="og:updated_time" content="2016-10-16T01:53:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT 6.828 Lab 1">
 <meta name="twitter:description" content="MIT6.828">
@@ -277,6 +277,9 @@
 <p>生成了一个 <code>kernel.img</code> 的镜像，执行 <code>make qemu</code> 就会用 qemu 去运行这个镜像</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#13;6828 decimal is XXX octal!&#13;entering test_backtrace 5&#13;entering test_backtrace 4&#13;entering test_backtrace 3&#13;entering test_backtrace 2&#13;entering test_backtrace 1&#13;entering test_backtrace 0&#13;leaving test_backtrace 0&#13;leaving test_backtrace 1&#13;leaving test_backtrace 2&#13;leaving test_backtrace 3&#13;leaving test_backtrace 4&#13;leaving test_backtrace 5&#13;Welcome to the JOS kernel monitor!&#13;Type &#39;help&#39; for a list of commands.&#13;K&#62;</span><br></pre></td></tr></table></figure>
 <p>倒是我这里没看到’Booting from Hard Disk…’，另外前面还有一堆信息。输入<code>help</code>和<code>kerninfo</code>都有正常信息出现，所以应该环境什么应该算是搭建好了。</p>
+<h2 id="u57FA_u7840_u4ECB_u7ECD"><a href="#u57FA_u7840_u4ECB_u7ECD" class="headerlink" title="基础介绍"></a>基础介绍</h2><p>####PC物理地址空间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;+------------------+  &#60;- 0xFFFFFFFF (4GB)&#10;|      32-bit      |&#10;|  memory mapped   |&#10;|     devices      |&#10;|                  |&#10;/\/\/\/\/\/\/\/\/\/\&#10;&#10;/\/\/\/\/\/\/\/\/\/\&#10;|                  |&#10;|      Unused      |&#10;|                  |&#10;+------------------+  &#60;- depends on amount of RAM&#10;|                  |&#10;|                  |&#10;| Extended Memory  |&#10;|                  |&#10;|                  |&#10;+------------------+  &#60;- 0x00100000 (1MB)&#10;|     BIOS ROM     |&#10;+------------------+  &#60;- 0x000F0000 (960KB)&#10;|  16-bit devices, |&#10;|  expansion ROMs  |&#10;+------------------+  &#60;- 0x000C0000 (768KB)&#10;|   VGA Display    |&#10;+------------------+  &#60;- 0x000A0000 (640KB)&#10;|                  |&#10;|    Low Memory    |&#10;|                  |&#10;+------------------+  &#60;- 0x00000000</span><br></pre></td></tr></table></figure>
+<p>早期基于16位Intel 8088处理器只能操作1MB物理内存，因此物理地址空间起始于0x00000000到0x000FFFFF，其中640KB为 Low memory，这只能被随机存储器(RAM)使用。</p>
 
             
                 
