@@ -32,7 +32,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -68,7 +68,7 @@
     
         
             <a  class="header-right-picture "
-                href="/#about">
+                href="#about">
         
         
             <img class="header-picture" src="/assets/images/avatar.png"/>
@@ -183,7 +183,7 @@
             <li class="sidebar-button">
                 
                     <a  class="sidebar-button-link "
-                         href="/#about"
+                         href="#about"
                         
                     >
                 
@@ -248,55 +248,55 @@
             <blockquote>
 <p>之前申请到了腾讯云服务器，所以在上面折腾了一下 Nginx。</p>
 </blockquote>
-<h2 id="u51C6_u5907_u5DE5_u4F5C"><a href="#u51C6_u5907_u5DE5_u4F5C" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="u7CFB_u7EDF_u914D_u7F6E"><a href="#u7CFB_u7EDF_u914D_u7F6E" class="headerlink" title="系统配置"></a>系统配置</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">操作系统	Ubuntu Server 14.04.1 LTS 64位</span><br><span class="line">CPU	1核</span><br><span class="line">内存	1GB</span><br><span class="line">系统盘	8GB(本地盘)</span><br><span class="line">数据盘	0GB</span><br><span class="line">公网带宽	1Mbps</span><br></pre></td></tr></table></figure>
+<h2 id="u51C6_u5907_u5DE5_u4F5C"><a href="#u51C6_u5907_u5DE5_u4F5C" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="u7CFB_u7EDF_u914D_u7F6E"><a href="#u7CFB_u7EDF_u914D_u7F6E" class="headerlink" title="系统配置"></a>系统配置</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">操作系统	Ubuntu Server 14.04.1 LTS 64位</div><div class="line">CPU	1核</div><div class="line">内存	1GB</div><div class="line">系统盘	8GB(本地盘)</div><div class="line">数据盘	0GB</div><div class="line">公网带宽	1Mbps</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <h3 id="u7CFB_u7EDF_u955C_u50CF"><a href="#u7CFB_u7EDF_u955C_u50CF" class="headerlink" title="系统镜像"></a>系统镜像</h3><p>一开始拿 Ubuntu 装 docker，结果启动后会出点小问题，所以就决定用腾讯云提供的系统镜像了。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">镜像名称	Docker运行环境（Ubuntu 14.04 64位）</span><br><span class="line">类型	镜像市场镜像</span><br><span class="line">镜像ID	img-3lj3495x</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">镜像名称	Docker运行环境（Ubuntu 14.04 64位）</div><div class="line">类型	镜像市场镜像</div><div class="line">镜像ID	img-3lj3495x</div></pre></td></tr></table></figure>
 <h2 id="docker__u4F7F_u7528"><a href="#docker__u4F7F_u7528" class="headerlink" title="docker 使用"></a>docker 使用</h2><p>用 ssh 连接主机，在终端里输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker -v</div></pre></td></tr></table></figure>
 <p>可以查看 docker 的版本，我这里的版本是<code>Docker version 1.8.2 build 0a8c2e3</code></p>
 <p>使用命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docekr search nginx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docekr search nginx</div></pre></td></tr></table></figure>
 <p>可以搜索 nginx 仓库。</p>
 <p><strong>注：如果发现 docker 使用会存在问题，可以使用 sudo -s 提权为 root</strong></p>
 <p>使用官方的 nginx 仓库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull nginx</div></pre></td></tr></table></figure>
 <p>pull 好以后，就可以正式启动 nginx 容器了。</p>
 <p>官方的 nginx 容器里，连 vim 都没有，这是个比较苦恼的事情，所以可以先启动容器进入交互界面安装 vim。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i -p <span class="number">80</span>:<span class="number">80</span> nginx /bin/bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -t -i -p 80:80 nginx /bin/bash</div></pre></td></tr></table></figure>
 <p>这里进入的是 bash，<code>-p 80:80</code> 是将容器里的80端口与主机的80端口进行绑定。</p>
 <p>进入容器后，会发现并不能访问容器里的 nginx 欢迎界面，这是因为 nginx 服务并没有启动。</p>
 <p>使用命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx start</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service nginx start</div></pre></td></tr></table></figure>
 <p>就可以启动 nginx 服务了。</p>
 <p>为了安装 vim，首先需要使用命令更新源。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get update</div></pre></td></tr></table></figure>
 <p>接着使用命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install vim</div></pre></td></tr></table></figure>
 <p>中途敲 <code>y</code> 确定安装。</p>
 <p>安装完以后就可以使用了。</p>
 <h2 id="docker__u5E38_u7528_u547D_u4EE4"><a href="#docker__u5E38_u7528_u547D_u4EE4" class="headerlink" title="docker 常用命令"></a>docker 常用命令</h2><p>附加到一个已运行的容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker attach ID</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker attach ID</div></pre></td></tr></table></figure>
 <p>停止一个容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop Name/ID</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker stop Name/ID</div></pre></td></tr></table></figure>
 <p>杀死一个容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">kill</span> Name/ID</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="built_in">kill</span> Name/ID</div></pre></td></tr></table></figure>
 <p>保存对容器的修改</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit ID new_image_name</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker commit ID new_image_name</div></pre></td></tr></table></figure>
 <p>列出当前所有正在运行的container</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps</div></pre></td></tr></table></figure>
 <p>列出所有container</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps <span class="operator">-a</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps <span class="_">-a</span></div></pre></td></tr></table></figure>
 <p>删除镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi image_name</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi image_name</div></pre></td></tr></table></figure>
 <h2 id="Nginx__u5BB9_u5668_u591A_u57DF_u540D_u7ED1_u5B9A"><a href="#Nginx__u5BB9_u5668_u591A_u57DF_u540D_u7ED1_u5B9A" class="headerlink" title="Nginx 容器多域名绑定"></a>Nginx 容器多域名绑定</h2><p>在 docker Nginx 容器中，网站文件夹位于 <code>/usr/share/nginx</code>, 默认的欢迎页面在 <code>/usr/share/nginx/html</code> 中。</p>
 <p>一般，如果域名绑定云服务器，那么访问域名访问的是 Nginx container 默认网站。如果先添加二级域名，访问同一个容器中的另一个网站，可以进行一下操作。</p>
 <p>Nginx 的配置文件在 <code>/etc/nginx</code> 文件夹里。配置文件在 <code>conf.d</code> 文件夹里。<code>default.conf</code> 为默认网站的配置。添加站点在 <code>conf.d</code> 文件夹中，可以新建一个 <code>.conf</code> 文件，例如site1.conf：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  此处填写你的二级域名;</span><br><span class="line"></span><br><span class="line">    #charset koi8-r;</span><br><span class="line">    #access_log  /var/log/nginx/log/host.access.log  main;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        root   /usr/share/nginx/about;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen       80;</div><div class="line">    server_name  此处填写你的二级域名;</div><div class="line"></div><div class="line">    #charset koi8-r;</div><div class="line">    #access_log  /var/log/nginx/log/host.access.log  main;</div><div class="line"></div><div class="line">    location / &#123;</div><div class="line">        root   /usr/share/nginx/about;</div><div class="line">        index  index.html index.htm;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>如果这时候你就重启 nginx 服务，可能会启动失败，出现一下问题</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">could not build the server_names_<span class="built_in">hash</span>, you should increase</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">could not build the server_names_hash, you should increase</div></pre></td></tr></table></figure>
 <p>这是因为 <code>/etc/nginx/nginx.conf</code> 文件没有修改好。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/nginx/nginx.conf</div></pre></td></tr></table></figure>
 <p>找到 <code>server_names_hash_max_size</code> 这行，将后面的数字改为 <code>512</code> ，将下一行的 <code>server_names_hash_bucket_size</code> 后面的数字改为 <code>128</code> 。</p>
 <p>这时重启 Nginx 服务，就可以正常运行了。</p>
 
@@ -521,7 +521,7 @@
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
     </body>
     <!--SCRIPTS-->
-<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js"></script>
 <!--SCRIPTS END-->
 
     

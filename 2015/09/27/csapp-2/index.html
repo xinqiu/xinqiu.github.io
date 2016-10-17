@@ -31,6 +31,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="读书笔记——CSAPP第二章">
 <meta name="twitter:description" content="csapp">
+<meta name="twitter:image" content="http://www.zhihu.com/equation?tex=2^{w-1}">
     
     
         
@@ -42,7 +43,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -78,7 +79,7 @@
     
         
             <a  class="header-right-picture "
-                href="/#about">
+                href="#about">
         
         
             <img class="header-picture" src="/assets/images/avatar.png"/>
@@ -193,7 +194,7 @@
             <li class="sidebar-button">
                 
                     <a  class="sidebar-button-link "
-                         href="/#about"
+                         href="#about"
                         
                     >
                 
@@ -266,9 +267,9 @@
 <p>在寻址和字节顺序这一块，有一些需要注意的地方。首先是位表示一个数。存在两种表示方法。<code>小端法</code>(little endian)，最低有效字节在最前面的方式。相反，大端法(big endian)，最高有效字节在最前面的方式。</p>
 <p>举个例子，12 34 56 78</p>
 <p>小端法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----+----+----+----+</span><br><span class="line"></span><br><span class="line">|0x78|0x56|0x34|0x12|</span><br><span class="line"></span><br><span class="line">+----+----+----+----+</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+----+----+----+</div><div class="line"></div><div class="line">|0x78|0x56|0x34|0x12|</div><div class="line"></div><div class="line">+----+----+----+----+</div></pre></td></tr></table></figure>
 <p>大端法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----+----+----+----+</span><br><span class="line"></span><br><span class="line">|0x12|0x34|0x56|0x78|</span><br><span class="line"></span><br><span class="line">+----+----+----+----+</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+----+----+----+</div><div class="line"></div><div class="line">|0x12|0x34|0x56|0x78|</div><div class="line"></div><div class="line">+----+----+----+----+</div></pre></td></tr></table></figure>
 <h4 id="u79FB_u4F4D_u8FD0_u7B97"><a href="#u79FB_u4F4D_u8FD0_u7B97" class="headerlink" title="移位运算"></a>移位运算</h4><p><code>移位</code>运算就是向左移、向右移。向左移(&lt;&lt;)都是舍弃最高位，右端用0来补。而右移就出现了两种形式：<code>逻辑</code>右移（logical）和<code>算术</code>右移（arithmetic）。<code>逻辑右移</code>是在左端用0来补位。<code>算术右移</code>是在左端用1来补位。其中，算术右移对有有符号整数数据的运算非常有用。对于无符号数据，右移必须是逻辑的。</p>
 <h4 id="u8865_u7801_u7F16_u7801"><a href="#u8865_u7801_u7F16_u7801" class="headerlink" title="补码编码"></a>补码编码</h4><p>有符号数的表示方法比较常见的是<code>补码</code>(two’s-complement)形式。最高有效位是符号为。如果是0就是正数，1是负数。这个最高有效位算是负权(negative weight)，权重为<img src="http://www.zhihu.com/equation?tex=-2^{w-1}" alt="">，其中w为位数。书中<code>Figure 2.12</code>直白的展示了正负数的表示。</p>
 <p>还有其他的表示方法，比如反码(Ones’Complement)、原码(Sign-Magnitude)。</p>
@@ -517,7 +518,7 @@
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
     </body>
     <!--SCRIPTS-->
-<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js"></script>
 <!--SCRIPTS END-->
 
     

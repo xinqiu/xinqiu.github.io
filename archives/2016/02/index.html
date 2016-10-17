@@ -11,15 +11,12 @@
     
     
     
-    <meta name="description">
-<meta property="og:type" content="blog">
+    <meta property="og:type" content="blog">
 <meta property="og:title" content="一人Code">
 <meta property="og:url" content="http://xinqiu.me/archives/2016/02/index.html">
 <meta property="og:site_name" content="一人Code">
-<meta property="og:description">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一人Code">
-<meta name="twitter:description">
     
     
         
@@ -31,7 +28,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -67,7 +64,7 @@
     
         
             <a  class="header-right-picture "
-                href="/#about">
+                href="#about">
         
         
             <img class="header-picture" src="/assets/images/avatar.png"/>
@@ -182,7 +179,7 @@
             <li class="sidebar-button">
                 
                     <a  class="sidebar-button-link "
-                         href="/#about"
+                         href="#about"
                         
                     >
                 
@@ -255,17 +252,17 @@
 <!--toc-->
 <h2 id="Phase1"><a href="#Phase1" class="headerlink" title="Phase1"></a>Phase1</h2><p>在Mac上是默认没有GDB的，可以使用LLDB来代替。</p>
 <p>进入lldb</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lldb bomb</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lldb bomb</div></pre></td></tr></table></figure>
 <p>使用<code>disassemble</code>进行反汇编,参考<code>bomb.c</code>文件，可以知道主要的几个函数名。</p>
 <p>首先是Phase_1</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) disas -n phase_1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(lldb) disas -n phase_1</div></pre></td></tr></table></figure>
 <p>得到以下汇编代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">bomb`phase_1:</span><br><span class="line">bomb[0x400ee0] <span class="tag">&lt;<span class="title">+0</span>&gt;</span>:  subq   $0x8, %rsp</span><br><span class="line">bomb[0x400ee4] <span class="tag">&lt;<span class="title">+4</span>&gt;</span>:  movl   $0x402400, %esi</span><br><span class="line">bomb[0x400ee9] <span class="tag">&lt;<span class="title">+9</span>&gt;</span>:  callq  0x401338                  ; strings_not_equal</span><br><span class="line">bomb[0x400eee] <span class="tag">&lt;<span class="title">+14</span>&gt;</span>: testl  %eax, %eax</span><br><span class="line">bomb[0x400ef0] <span class="tag">&lt;<span class="title">+16</span>&gt;</span>: je     0x400ef7                  ; <span class="tag">&lt;<span class="title">+23</span>&gt;</span></span><br><span class="line">bomb[0x400ef2] <span class="tag">&lt;<span class="title">+18</span>&gt;</span>: callq  0x40143a                  ; explode_bomb</span><br><span class="line">bomb[0x400ef7] <span class="tag">&lt;<span class="title">+23</span>&gt;</span>: addq   $0x8, %rsp</span><br><span class="line">bomb[0x400efb] <span class="tag">&lt;<span class="title">+27</span>&gt;</span>: retq</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">bomb`phase_1:</div><div class="line">bomb[0x400ee0] <span class="tag">&lt;<span class="name">+0</span>&gt;</span>:  subq   $0x8, %rsp</div><div class="line">bomb[0x400ee4] <span class="tag">&lt;<span class="name">+4</span>&gt;</span>:  movl   $0x402400, %esi</div><div class="line">bomb[0x400ee9] <span class="tag">&lt;<span class="name">+9</span>&gt;</span>:  callq  0x401338                  ; strings_not_equal</div><div class="line">bomb[0x400eee] <span class="tag">&lt;<span class="name">+14</span>&gt;</span>: testl  %eax, %eax</div><div class="line">bomb[0x400ef0] <span class="tag">&lt;<span class="name">+16</span>&gt;</span>: je     0x400ef7                  ; <span class="tag">&lt;<span class="name">+23</span>&gt;</span></div><div class="line">bomb[0x400ef2] <span class="tag">&lt;<span class="name">+18</span>&gt;</span>: callq  0x40143a                  ; explode_bomb</div><div class="line">bomb[0x400ef7] <span class="tag">&lt;<span class="name">+23</span>&gt;</span>: addq   $0x8, %rsp</div><div class="line">bomb[0x400efb] <span class="tag">&lt;<span class="name">+27</span>&gt;</span>: retq</div></pre></td></tr></table></figure>
 <p>这段代码还是挺好理解的，保存<code>Stack pointer</code>,将<code>$0x402400</code>传给<code>%esi</code>,调用位于<code>0x401338</code>的<code>strings_not_equal</code>函数，比较<code>%eax</code>是否为0，不为零则调用<code>explode_bomb</code>函数，为零则返回。</p>
 <p>所以关键要找出字符串是什么。根据上述的汇编代码，可以发现字符串被保存在<code>0x402400</code>这个内存里，所以使用<code>x/s</code>来查看。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) x/s 0x402400</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(lldb) x/s 0x402400</div></pre></td></tr></table></figure>
 <p>得到</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x00402400: "Border relations with Canada have never been better."</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0x00402400: "Border relations with Canada have never been better."</div></pre></td></tr></table></figure>
 <p>所以第一关的答案是<code>Strings_Not_Equal</code></p>
                     
                         <a href="/2016/02/10/csapp-lab2-bomb/" class="postShorten-excerpt_link link">
@@ -342,7 +339,7 @@
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
     </body>
     <!--SCRIPTS-->
-<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js"></script>
 <!--SCRIPTS END-->
 
 

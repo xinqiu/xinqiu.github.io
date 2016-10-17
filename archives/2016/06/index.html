@@ -11,15 +11,12 @@
     
     
     
-    <meta name="description">
-<meta property="og:type" content="blog">
+    <meta property="og:type" content="blog">
 <meta property="og:title" content="一人Code">
 <meta property="og:url" content="http://xinqiu.me/archives/2016/06/index.html">
 <meta property="og:site_name" content="一人Code">
-<meta property="og:description">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一人Code">
-<meta name="twitter:description">
     
     
         
@@ -31,7 +28,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -67,7 +64,7 @@
     
         
             <a  class="header-right-picture "
-                href="/#about">
+                href="#about">
         
         
             <img class="header-picture" src="/assets/images/avatar.png"/>
@@ -182,7 +179,7 @@
             <li class="sidebar-button">
                 
                     <a  class="sidebar-button-link "
-                         href="/#about"
+                         href="#about"
                         
                     >
                 
@@ -283,7 +280,7 @@ MathJax.Hub.Config({
 </li>
 </ul>
 <p>所以在 <code>csim.c</code> 里也可以写个打印帮助的函数</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printUsage</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Usage: ./csim [-h] [-v] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-s: number of set index(2^s sets)\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-E: number of lines per set\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-b: number of block offset bits\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"-t: trace file name\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printUsage</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Usage: ./csim [-h] [-v] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"-s: number of set index(2^s sets)\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"-E: number of lines per set\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"-b: number of block offset bits\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"-t: trace file name\n"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
                     
                         <a href="/2016/06/07/csapp-lab4-cachelab/" class="postShorten-excerpt_link link">
                             Continue reading
@@ -334,7 +331,7 @@ MathJax.Hub.Config({
 </blockquote>
 <h2 id="Supervised_learning__u76D1_u7763_u5B66_u4E60"><a href="#Supervised_learning__u76D1_u7763_u5B66_u4E60" class="headerlink" title="Supervised learning 监督学习"></a>Supervised learning 监督学习</h2><p>这里存在两种问题 <strong>regression</strong> 和 <strong>classification</strong>。前者是预测相关的问题，后者是分类相关的问题。</p>
 <p>首先介绍的是监督学习，notes1中用房屋价格预测来介绍Linear Regression线性回归。这里因为没有数据集，所以我选择用ex<br>1中的<code>ex1data1.txt</code>来做演示。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</span><br><span class="line">m = data.shape[<span class="number">0</span>]</span><br><span class="line">X = data[:,<span class="number">0</span>]</span><br><span class="line">y = data[:, <span class="number">1</span>]</span><br><span class="line">plt.scatter(X, y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</span><br><span class="line">plt.xlim([<span class="number">3</span>, max(X)+<span class="number">3</span>])</span><br><span class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</div><div class="line">m = data.shape[<span class="number">0</span>]</div><div class="line">X = data[:,<span class="number">0</span>]</div><div class="line">y = data[:, <span class="number">1</span>]</div><div class="line">plt.scatter(X, y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</div><div class="line">plt.xlim([<span class="number">3</span>, max(X)+<span class="number">3</span>])</div><div class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</div><div class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</div><div class="line">plt.show()</div></pre></td></tr></table></figure>
 <p>可以画出数据分布散点图。</p>
                     
                         <a href="/2016/06/02/ml-1/" class="postShorten-excerpt_link link">
@@ -411,7 +408,7 @@ MathJax.Hub.Config({
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
     </body>
     <!--SCRIPTS-->
-<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js"></script>
 <!--SCRIPTS END-->
 
 

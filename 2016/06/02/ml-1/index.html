@@ -22,6 +22,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning Note 1">
 <meta name="twitter:description" content="机器学习笔记">
+<meta name="twitter:image" content="http://xinqiu.me/1.png">
     
     
         
@@ -33,7 +34,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css">
     <!--STYLES END-->
     
     <script type="text/javascript">
@@ -69,7 +70,7 @@
     
         
             <a  class="header-right-picture "
-                href="/#about">
+                href="#about">
         
         
             <img class="header-picture" src="/assets/images/avatar.png"/>
@@ -184,7 +185,7 @@
             <li class="sidebar-button">
                 
                     <a  class="sidebar-button-link "
-                         href="/#about"
+                         href="#about"
                         
                     >
                 
@@ -260,12 +261,12 @@ MathJax.Hub.Config({
 </blockquote>
 <h2 id="Supervised_learning__u76D1_u7763_u5B66_u4E60"><a href="#Supervised_learning__u76D1_u7763_u5B66_u4E60" class="headerlink" title="Supervised learning 监督学习"></a>Supervised learning 监督学习</h2><p>这里存在两种问题 <strong>regression</strong> 和 <strong>classification</strong>。前者是预测相关的问题，后者是分类相关的问题。</p>
 <p>首先介绍的是监督学习，notes1中用房屋价格预测来介绍Linear Regression线性回归。这里因为没有数据集，所以我选择用ex<br>1中的<code>ex1data1.txt</code>来做演示。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</span><br><span class="line">m = data.shape[<span class="number">0</span>]</span><br><span class="line">X = data[:,<span class="number">0</span>]</span><br><span class="line">y = data[:, <span class="number">1</span>]</span><br><span class="line">plt.scatter(X, y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</span><br><span class="line">plt.xlim([<span class="number">3</span>, max(X)+<span class="number">3</span>])</span><br><span class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">data = np.loadtxt(<span class="string">'ex1data1.txt'</span>, delimiter=<span class="string">','</span>)</div><div class="line">m = data.shape[<span class="number">0</span>]</div><div class="line">X = data[:,<span class="number">0</span>]</div><div class="line">y = data[:, <span class="number">1</span>]</div><div class="line">plt.scatter(X, y, c=<span class="string">'r'</span>, marker=<span class="string">'x'</span>, linewidths=<span class="number">1</span>)</div><div class="line">plt.xlim([<span class="number">3</span>, max(X)+<span class="number">3</span>])</div><div class="line">plt.ylabel(<span class="string">'Profit in $10,000s'</span>)</div><div class="line">plt.xlabel(<span class="string">'Population of City in 10,000s'</span>)</div><div class="line">plt.show()</div></pre></td></tr></table></figure>
 <p>可以画出数据分布散点图。</p>
 <a id="more"></a>
 <p><img src="1.png" alt=""></p>
 <p>机器学习的流程如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">          +------------------+&#10;          |                  |&#10;          |     Training     |&#10;          |       set        |&#10;          |                  |&#10;          +------------------+&#10;                   ||&#10;                   ||&#10;          +--------\/--------+&#10;          |                  |&#10;          |     Learning     |&#10;          |     algorithm    |&#10;          |                  |&#10;          +------------------+&#10;                   ||&#10;                   ||&#10;          +--------\/--------+&#10;          |                  |&#10;          |    hypothesis    |&#10;X +-------&#62;                  +-------&#62;  Y&#10;          |                  |&#10;          +------------------+</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">          +------------------+</div><div class="line">          |                  |</div><div class="line">          |     Training     |</div><div class="line">          |       set        |</div><div class="line">          |                  |</div><div class="line">          +------------------+</div><div class="line">                   ||</div><div class="line">                   ||</div><div class="line">          +--------\/--------+</div><div class="line">          |                  |</div><div class="line">          |     Learning     |</div><div class="line">          |     algorithm    |</div><div class="line">          |                  |</div><div class="line">          +------------------+</div><div class="line">                   ||</div><div class="line">                   ||</div><div class="line">          +--------\/--------+</div><div class="line">          |                  |</div><div class="line">          |    hypothesis    |</div><div class="line">X +-------&gt;                  +-------&gt;  Y</div><div class="line">          |                  |</div><div class="line">          +------------------+</div></pre></td></tr></table></figure>
 <p>用大量的训练数据带入学习算法中进行学习，学习算法产生假设模型，通过假设模型，可以由未知数据X得出需要的Y。</p>
 <h3 id="Linear_Regression__u7EBF_u6027_u56DE_u5F52"><a href="#Linear_Regression__u7EBF_u6027_u56DE_u5F52" class="headerlink" title="Linear Regression 线性回归"></a>Linear Regression 线性回归</h3><p>根据 <code>ex1data2.txt</code> 里的数据，因为有两个特征，所以可以写出假设模型</p>
 <p>$$ h_{\theta } = \theta_{0}+ \theta_{1}x_{1}+\theta_{2}x_{2}$$</p>
@@ -511,7 +512,7 @@ MathJax.Hub.Config({
 <div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
     </body>
     <!--SCRIPTS-->
-<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js" type="text/javascript"></script>
+<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js"></script>
 <!--SCRIPTS END-->
 
     
