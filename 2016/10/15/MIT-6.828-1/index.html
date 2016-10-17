@@ -19,7 +19,7 @@
 <meta property="og:description" content="MIT6.828">
 <meta property="og:image" content="http://xinqiu.me/1.png">
 <meta property="og:image" content="http://xinqiu.me/2.png">
-<meta property="og:updated_time" content="2016-10-17T12:30:10.000Z">
+<meta property="og:updated_time" content="2016-10-17T15:50:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT 6.828 Lab 1">
 <meta name="twitter:description" content="MIT6.828">
@@ -287,7 +287,7 @@
 <p><code>[f000:fff0] 0xffff0:    ljmp   $0xf000,$0xe05b</code></p>
 <p>是GDB反汇编出的第一条执行指令，这条指令表面了：</p>
 <ul>
-<li>IBM PC(程序计数器) 执行的起始物理地址为 0x000ffff0</li>
+<li>IBM PC 执行的起始物理地址为 0x000ffff0</li>
 <li>PC 的偏移方式为 CS = 0xf000，IP = 0xfff0</li>
 <li>第一条指令执行的是 jmp指令，跳转到段地址  CS = 0xf000，IP = 0xe05b</li>
 </ul>
@@ -295,7 +295,31 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">16 * 0xf000 + 0xfff0   # 十六进制中乘16很容易</div><div class="line">= 0xf0000 + 0xfff0     # 仅仅添加一个0.</div><div class="line">= 0xffff0</div></pre></td></tr></table></figure>
 <p>0xffff0 在 BIOS (0x100000) 的结束地址之前。</p>
 <p>当BIOS启动，它设置了一个中断描述符表并初始化多个设备比如VGA显示器。在初始化PCI总线和所有重要的设备之后，它寻找可引导的设备，之后读取 <em>boot loader</em> 并转移控制。</p>
-<h2 id="Part_2_3A_The_Boot_Loader"><a href="#Part_2_3A_The_Boot_Loader" class="headerlink" title="Part 2: The Boot Loader"></a>Part 2: The Boot Loader</h2>
+<h2 id="Part_2_3A_The_Boot_Loader"><a href="#Part_2_3A_The_Boot_Loader" class="headerlink" title="Part 2: The Boot Loader"></a>Part 2: The Boot Loader</h2><p>接下来是512 byte区域的扇区，它是硬盘最小调度单位，每次读或写操作都至少是一个扇区，并且还会进行对齐。BIOS加载引导扇区到内存中是从物理地址0x7c00到0x7dff，然后使用jmp指令设置 CS:IP 为 0000:7c00。因此 boot loader 不能超过512字节，它执行两个功能：</p>
+<ol>
+<li><p>boot loader 切换处理器从实模式到保护模式，只有这样才能访问大于1MB的物理地址空间。</p>
+</li>
+<li><p>boot loader 从硬盘中读取内核。</p>
+</li>
+</ol>
+<h5 id="Exercise_3"><a href="#Exercise_3" class="headerlink" title="Exercise 3"></a>Exercise 3</h5><p>通过 <code>b *0x7c00</code> 设置断点，接着 <code>c</code> 运行到断点处，使用 <code>x/i</code> 来查看当前的指令。</p>
+<ul>
+<li><p>At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode? 在哪执行了32位代码？</p>
+<p>  <code>[   0:7c2d] =&gt; 0x7c2d:    ljmp   $0x8,$0x7c32</code> 这条指令之后，也就是 <code>boot.S</code> 中的 <code>ljmp $PROT_MODE_CSEG, $protcseg</code> ，地址符号就变成 0x7c32 了。</p>
+</li>
+<li><p>What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?最后一条 boot loader 指令，第一条内核指令？</p>
+<p>  boot loader 最后一步是加载kernel，所以在boot/main.c中可以找到 <code>((void (*)(void)) (ELFHDR-&gt;e_entry))();</code> 这行代码，上面的注释 <code>call the entry point from the ELF header</code> 表明这是准备读取ELF头。<br>  通过 <code>objdump -x obj/kern/kernel</code> 可以查看kernel的信息，其中开头就有 <code>start address 0x0010000c</code>，通过 <code>b *0x10000c</code>然后在 <code>c</code> 能得到执行的指令是 <code>movw   $0x1234,0x472</code>，当然在kern/entry.S中也能找到这个指令。</p>
+</li>
+<li><p>Where is the first instruction of the kernel?</p>
+<p>  同上一条的问题，存在kern/entry.S中。</p>
+</li>
+</ul>
+<ul>
+<li><p>How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information? </p>
+<p>  关于查看kernel信息的，通过 <code>objdump -h obj/kern/kernel</code> 可以得出相关信息。</p>
+</li>
+</ul>
+
             
                 
 
