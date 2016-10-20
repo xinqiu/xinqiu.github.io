@@ -19,7 +19,7 @@
 <meta property="og:description" content="MIT6.828">
 <meta property="og:image" content="http://xinqiu.me/1.png">
 <meta property="og:image" content="http://xinqiu.me/2.png">
-<meta property="og:updated_time" content="2016-10-19T10:55:25.000Z">
+<meta property="og:updated_time" content="2016-10-19T15:48:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT 6.828 Lab 1">
 <meta name="twitter:description" content="MIT6.828">
@@ -302,7 +302,7 @@
 <li><p>boot loader 从硬盘中读取内核。</p>
 </li>
 </ol>
-<h5 id="Exercise_3"><a href="#Exercise_3" class="headerlink" title="Exercise 3"></a>Exercise 3</h5><p>通过 <code>b *0x7c00</code> 设置断点，接着 <code>c</code> 运行到断点处，使用 <code>x/i</code> 来查看当前的指令。</p>
+<h4 id="Exercise_3"><a href="#Exercise_3" class="headerlink" title="Exercise 3"></a>Exercise 3</h4><p>通过 <code>b *0x7c00</code> 设置断点，接着 <code>c</code> 运行到断点处，使用 <code>x/i</code> 来查看当前的指令。</p>
 <ul>
 <li><p>At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode? 在哪执行了32位代码？</p>
 <p>  <code>[   0:7c2d] =&gt; 0x7c2d:    ljmp   $0x8,$0x7c32</code> 这条指令之后，也就是 <code>boot.S</code> 中的 <code>ljmp $PROT_MODE_CSEG, $protcseg</code> ，地址符号就变成 0x7c32 了。</p>
@@ -341,8 +341,23 @@
 <p>首先做进入函数的准备工作</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// read 1st page off disk</div><div class="line">readseg((uint32_t) ELFHDR, SECTSIZE*8, 0);</div><div class="line">   7d1a:	6a 00                	push   $0x0</div><div class="line">   7d1c:	68 00 10 00 00       	push   $0x1000</div><div class="line">   7d21:	68 00 00 01 00       	push   $0x10000</div><div class="line">   7d26:	e8 b1 ff ff ff       	call   7cdc &lt;readseg&gt;</div></pre></td></tr></table></figure>
 <p>接着调用readseg函数，这个函数有3个参数，第一个是物理地址，第二个是页的大小，第三个是偏移量。</p>
-<p><code>0x7ceb:    shr    $0x9,%edi</code> 执行了 <code>offset = (offset / SECTSIZE) + 1;</code> 这条代码，得出扇区号。</p>
+<p><code>0x7ceb:    shr    $0x9,%edi</code> 执行了 <code>offset = (offset / SECTSIZE) + 1;</code> 这条代码前面的除法部分，得出扇区号。</p>
 <p><code>0x7cee:    add    %ebx,%esi</code> 执行了 <code>end_pa = pa + count;</code> 计算出这个扇区结束的物理地址。</p>
+<p><code>0x7cf0:    inc    %edi</code> 执行了 <code>offset = (offset / SECTSIZE) + 1;</code> 中的加1。</p>
+<p><code>0x7cf1:    and    $0xfffffe00,%ebx</code> 执行了 <code>pa &amp;= ~(SECTSIZE - 1);</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0x7cf7:	cmp    %esi,%ebx0x7cf9:	jae    0x7d0d</div></pre></td></tr></table></figure>
+<p>执行 <code>while (pa &lt; end_pa)</code> 这个循环判断语句。</p>
+<p>之后几条汇编是为readsect函数做准备，这个函数是读取扇区内容的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">	7d2b:	83 c4 0c             	add    $0xc,%esp</div><div class="line">    7d2e:	81 3d 00 00 01 00 7f 	cmpl   $0x464c457f,0x10000</div><div class="line">    7d35:	45 4c 46 </div><div class="line">    7d38:	75 37                	jne    7d71 &lt;bootmain+0x5c&gt;</div><div class="line">		goto bad;</div><div class="line">```判断 `ELFHDR-&gt;e_magic != ELF_MAGIC` 这个条件。</div><div class="line">```	// load each program segment (ignores ph flags)</div><div class="line">	ph = (struct Proghdr *) ((uint8_t *) ELFHDR + ELFHDR-&gt;e_phoff);</div><div class="line">	eph = ph + ELFHDR-&gt;e_phnum;</div></pre></td></tr></table></figure>
+<p>加载程序段由这几个部分汇编构成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">7d3a:	a1 1c 00 01 00       	mov    0x1001c,%eax</div><div class="line">7d3f:	0f b7 35 2c 00 01 00 	movzwl 0x1002c,%esi</div><div class="line">7d46:	8d 98 00 00 01 00    	lea    0x10000(%eax),%ebx</div><div class="line">7d4c:	c1 e6 05             	shl    $0x5,%esi</div><div class="line">7d4f:	01 de                	add    %ebx,%esi</div></pre></td></tr></table></figure>
+<p>之后循环调用readseg函数，将Program Header Table中表项读入内存。</p>
+<p>最后一步就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">((void (*)(void)) (ELFHDR-&gt;e_entry))();</div></pre></td></tr></table></figure>
+<p>至此，Exercise 3算是走了一遍过程。</p>
+<p>参考了以下的博客</p>
+<p><a href="http://www.cnblogs.com/fatsheep9146/p/5087540.html" target="_blank" rel="external">MIT 6.828 JOS学习笔记4. Lab 1 Part 2.1: The Boot Loader</a></p>
+<p><a href="http://www.cnblogs.com/fatsheep9146/p/5115086.html" target="_blank" rel="external">MIT 6.828 JOS学习笔记5. Exercise 1.3</a></p>
 
             
                 
