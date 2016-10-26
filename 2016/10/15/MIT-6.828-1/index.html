@@ -19,7 +19,7 @@
 <meta property="og:description" content="MIT6.828">
 <meta property="og:image" content="http://xinqiu.me/1.png">
 <meta property="og:image" content="http://xinqiu.me/2.png">
-<meta property="og:updated_time" content="2016-10-19T15:48:49.000Z">
+<meta property="og:updated_time" content="2016-10-26T14:10:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT 6.828 Lab 1">
 <meta name="twitter:description" content="MIT6.828">
@@ -274,6 +274,9 @@
 </code></pre></li>
 </ol>
 <p>解决: <code>sudo apt-get install libpixman-1-dev</code></p>
+<p>还有一个找了很久解决方案的错误:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vl.c: In function ‘main’:vl.c:2778:5: error: ‘g_mem_set_vtable’ is deprecated [-Werror=deprecated-declarations]     g_mem_set_vtable(&amp;mem_trace);     ^In file included from /usr/include/glib-2.0/glib/glist.h:32:0,                 from /usr/include/glib-2.0/glib/ghash.h:33,                 from /usr/include/glib-2.0/glib.h:50,                 from vl.c:59:/usr/include/glib-2.0/glib/gmem.h:357:7: note: declared here void  g_mem_set_vtable (GMemVTable *vtable);       ^cc1: all warnings being treated as errors/home/qigang/qemu/rules.mak:57: recipe for target &apos;vl.o&apos; failedmake: *** [vl.o] Error 1</div></pre></td></tr></table></figure>
+<p>其实解决起来很简单，在Makefile文件最后加上一行 <code>QEMU_CFLAGS+=-w</code> 就可以了。 </p>
 <p>之后运行 <code>make &amp;&amp; make install</code> ,这里可能会出现一个权限不够的坑，建议先提权 <code>sudo -s</code>。<br>至此，<code>make</code>会出现：</p>
 <p><img src="1.png" alt=""></p>
 <p>生成了一个 <code>kernel.img</code> 的镜像，执行 <code>make qemu</code> 就会用 qemu 去运行这个镜像</p>
