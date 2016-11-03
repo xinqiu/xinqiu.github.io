@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://xinqiu.me/5.png">
 <meta property="og:image" content="http://xinqiu.me/6.png">
 <meta property="og:image" content="http://xinqiu.me/7.png">
-<meta property="og:updated_time" content="2016-11-03T13:03:23.000Z">
+<meta property="og:updated_time" content="2016-11-03T13:34:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MIT 6.828 Lab 1">
 <meta name="twitter:description" content="MIT6.828">
@@ -410,6 +410,14 @@
 <p>可以发现起始地址从原来的 00007c00 变为 00008c00。虽然此时在0x7c00处打断点然后运行时正常的，但是继续si以后会在 <code>[   0:7c2d] =&gt; 0x7c2d:    ljmp   $0x8,$0x8c32</code> 出循环，同时qemu端口出现了错误。因为不能ljmp到$0x7c32而是调到了$0x8c32，所以无法执行正确的指令。查看 <code>boot.asm</code> 可以知道上面这个指令是 <code>ljmp    $PROT_MODE_CSEG, $protcseg</code>，是为了进入32位模式的。</p>
 <p>除了段信息，ELF头中的e_entry字段也很重要。这个字段保存了程序入口点(entry point)的链接地址，也就是程序执行的text字段中的内存地址。使用一下命令查看</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ objdump -f obj/kern/kernel</div><div class="line">obj/kern/kernel:     file format elf32-i386architecture: i386, flags 0x00000112:EXEC_P, HAS_SYMS, D_PAGEDstart address 0x0010000c</div></pre></td></tr></table></figure>
+<h4 id="Exercise_6"><a href="#Exercise_6" class="headerlink" title="Exercise 6"></a>Exercise 6</h4><p>使用GDB的 <code>x/Nx ADDR</code> 可以打印内存地址ADDR的 <em>N</em> 个字。字的大小分情况的，GDB中一个字是两个字节。</p>
+<p>查看BIOS启动时0x00100000处的8歌字，然后继续到boot loader进入内核的位置，再查看，发现8个字的内容不同。</p>
+<p>现在0x7c00处打断点，然后运行到断点处，使用 <code>x/8x 0x100000</code> 可以看到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(gdb) x/8x 0x1000000x100000:	0x00000000	0x00000000	0x00000000	0x000000000x100010:	0x00000000	0x00000000	0x00000000	0x00000000</div></pre></td></tr></table></figure></p>
+<p>根据之前的看到程序入口点是 0x10000c ，所以在 0x10000c 处打断点运行，同样可以看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(gdb) x/8x 0x1000000x100000:	0x1badb002	0x00000000	0xe4524ffe	0x7205c7660x100010:	0x34000004	0x0000b812	0x220f0011	0xc0200fd8</div></pre></td></tr></table></figure>
+<p>使用 <code>x/10i 0x100000</code> 会看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0x100000:	add    0x1bad(%eax),%dh0x100006:	add    %al,(%eax)0x100008:	decb   0x52(%edi)0x10000b:	in     $0x66,%al0x10000d:	movl   $0xb81234,0x4720x100017:	add    %dl,(%ecx)0x100019:	add    %cl,(%edi)0x10001b:	and    %al,%bl0x10001d:	mov    %cr0,%eax0x100020:	or     $0x80010001,%eax</div></pre></td></tr></table></figure>
+<p>应该能感觉到 0x100000 处存放的其实就是程序指令段，也就是说 bootmain 函数会把内核的程序段送到内存 0x100000 处。</p>
 <h2 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/fatsheep9146/p/5087540.html" target="_blank" rel="external">MIT 6.828 JOS学习笔记4. Lab 1 Part 2.1: The Boot Loader</a></p>
 <p><a href="http://www.cnblogs.com/fatsheep9146/p/5115086.html" target="_blank" rel="external">MIT 6.828 JOS学习笔记5. Exercise 1.3</a></p>
 
