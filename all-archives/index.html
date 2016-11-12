@@ -1,861 +1,723 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
+    <head>
+    <!-- Title -->
     
-<head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <title>
+        all-archives | 一人Code
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="一人Code">
-    <title>all-archives - 一人Code</title>
+    <meta name="theme-color" content="#039BE5">
     <meta name="author" content="Xin Qiu">
+    <meta name="description" content="写给自己的Blog">
+    <meta name="keywords" content="null">
     
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
     
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
     
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="一人Code">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://xinqiu.me">
     <meta property="og:type" content="blog">
-<meta property="og:title" content="all-archives">
-<meta property="og:url" content="http://xinqiu.me/all-archives/index.html">
-<meta property="og:site_name" content="一人Code">
-<meta property="og:updated_time" content="2016-02-11T03:19:45.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="all-archives">
+    <meta property="og:title" content="all-archives | 一人Code">
+    <meta property="og:description" content="写给自己的Blog">
     
-    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
         
+        
+            <script src="/js/ie-blocker.en.js"></script>
+        
+    <![endif]-->
     
-    
-        <meta property="og:image" content="http://xinqiu.me/assets/images/avatar.png"/>
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css">
-    <!--STYLES END-->
-    
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-57881840-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
 
+<!-- Theme Background -->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+		
+        #scheme-Paradox .MD-burger-layer {
+            background-color: #666;
+        }
+		
+        #scheme-Paradox .material-back{
+            color: #666;
+        }
+		
+        .material-layout .material-post>.material-nav,
+		.material-layout .material-index>.material-nav,
+        .material-nav a,
+        #scheme-Paradox .material-post_container .material-back{
+            color: #666;
+        }
+    </style>
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #039BE5
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #039BE5 !important
+    }
+    
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #00BCD4 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #039BE5 !important
+    }
+    
+    .fab{
+        background: #00BCD4 !important
+    }
+</style>
+	<script src="/js/jquery.min.js"></script>
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
     
 </head>
+	
+	
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
 
 
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
     
-        
-            
-        
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 5 + 1);
     
+    $(".post_thumbnail-random").css('background-image', 'url(' + '/img/random/' + randomNum + '.png' + ')');
+    
+</script>
 
-<header id="header" data-behavior="1">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <h1 class="header-title">
-        <a class="header-title-link" href="/ ">一人Code</a>
-    </h1>
-    
-        
-            <a  class="header-right-picture "
-                href="#about">
-        
-        
-            <img class="header-picture" src="/assets/images/avatar.png"/>
-        
-        </a>
-    
-</header>
+		
+	
+        <p class="article-headline-p">
+            all-archives
+        </p>
+    </div>
 
-            <!-- Define author's picture -->
+	
 
-
-
-        
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
     
-
-<nav id="sidebar" data-behavior="1">
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Xin Qiu</strong>
+        <span>Sep 11, 2015</span>
+    </div>
     
-        <div class="sidebar-profile">
-            <a href="/#about">
-                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png"/>
-            </a>
-            <span class="sidebar-profile-name">Xin Qiu</span>
-        </div>
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
     
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/ "
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-archives"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-categories"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-tags"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/projects"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-code"></i>
-                    <span class="sidebar-button-desc">Projects</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/reading-list"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-book"></i>
-                    <span class="sidebar-button-desc">Reading List</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/timeline"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-calendar"></i>
-                    <span class="sidebar-button-desc">Timeline</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="#about"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-        </li>
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
         
     </ul>
     
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link " href="https://github.com/xinqiu" target="_blank">
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-                    <span class="sidebar-button-desc">GitHub</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link " href="mailto:xinqiu.94@gmail.com" target="_blank">
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
-                    <span class="sidebar-button-desc">Mail</span>
-                </a>
-        </li>
-        
-    </ul>
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
     
-</nav>
-
-            
-            <div id="main" data-behavior="1"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-<div id="archives" class="main-content-wrap">
-    <form id="filter-form" action="#">
-        <input name="date" type="text" class="form-control input--xlarge" placeholder="Search date (YYYY/MM/DD)" autofocus="autofocus">
-    </form>
-    <h5 class="archive-result text-color-base text-xlarge"></h5>
-    <section class="boxes">
-        
-            
-            
-            
-                
-                
-                <div class="archive archive-year box" data-date="2016">
-                    <h4 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016">2016</a>
-                    </h4>
-            
-            
-                
-                <ul class="archive-posts archive-month" data-date="201610">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/10">October</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20161015">
-                <a class="archive-post-title" href="/2016/10/15/MIT-6.828-1/">MIT 6.828 Lab 1</a>
-                <span class="archive-post-date"> - oct 15, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20161004">
-                <a class="archive-post-title" href="/2016/10/04/CLRS-2/">算法导论动态规划学习</a>
-                <span class="archive-post-date"> - oct 04, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201608">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/08">August</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160811">
-                <a class="archive-post-title" href="/2016/08/11/csapp-lab6-malloclab/">CSAPP Lab6 解题分析</a>
-                <span class="archive-post-date"> - aug 11, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201607">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/07">July</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160712">
-                <a class="archive-post-title" href="/2016/07/12/csapp-lab5-shelllab/">CSAPP Lab5 解题分析</a>
-                <span class="archive-post-date"> - jul 12, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201606">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/06">June</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160607">
-                <a class="archive-post-title" href="/2016/06/07/csapp-lab4-cachelab/">CSAPP Lab4 解题分析</a>
-                <span class="archive-post-date"> - jun 07, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20160602">
-                <a class="archive-post-title" href="/2016/06/02/ml-1/">Machine Learning Note 1</a>
-                <span class="archive-post-date"> - jun 02, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201605">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/05">May</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160510">
-                <a class="archive-post-title" href="/2016/05/10/python-thread/">Python线程学习</a>
-                <span class="archive-post-date"> - may 10, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201604">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/04">April</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160415">
-                <a class="archive-post-title" href="/2016/04/15/WOT2016/">我与北京与WOT 2016</a>
-                <span class="archive-post-date"> - apr 15, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201603">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/03">March</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160330">
-                <a class="archive-post-title" href="/2016/03/30/csapp-lab3-buflab/">CSAPP Lab3 解题分析</a>
-                <span class="archive-post-date"> - mar 30, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20160317">
-                <a class="archive-post-title" href="/2016/03/17/ucore/">清华操作系统课程学习</a>
-                <span class="archive-post-date"> - mar 17, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20160312">
-                <a class="archive-post-title" href="/2016/03/12/csi-start/">基于CSI的移动目标侦测研究学习</a>
-                <span class="archive-post-date"> - mar 12, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201602">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/02">February</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160210">
-                <a class="archive-post-title" href="/2016/02/10/csapp-lab2-bomb/">CSAPP Lab2 解题分析</a>
-                <span class="archive-post-date"> - feb 10, 2016</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201601">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2016/01">January</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20160101">
-                <a class="archive-post-title" href="/2016/01/01/Dairy-5/">2016的第一篇日记</a>
-                <span class="archive-post-date"> - jan 01, 2016</span>
-            </li>
-        
-            
-            
-            
-                
-                    </div>
-                    
-                
-                
-                <div class="archive archive-year box" data-date="2015">
-                    <h4 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015">2015</a>
-                    </h4>
-            
-            
-                
-                <ul class="archive-posts archive-month" data-date="201512">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/12">December</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20151221">
-                <a class="archive-post-title" href="/2015/12/21/Learn-Flask/">Flask补坑记录</a>
-                <span class="archive-post-date"> - dec 21, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201511">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/11">November</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20151113">
-                <a class="archive-post-title" href="/2015/11/13/docker+nginx/">云主机下的docker+Nginx搭建</a>
-                <span class="archive-post-date"> - nov 13, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20151107">
-                <a class="archive-post-title" href="/2015/11/07/python-math/">Python科学计算学习</a>
-                <span class="archive-post-date"> - nov 07, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201510">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/10">October</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20151021">
-                <a class="archive-post-title" href="/2015/10/21/Dairy-4/">感觉挺伤的</a>
-                <span class="archive-post-date"> - oct 21, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201509">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/09">September</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150927">
-                <a class="archive-post-title" href="/2015/09/27/csapp-2/">读书笔记——CSAPP第二章</a>
-                <span class="archive-post-date"> - sep 27, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150911">
-                <a class="archive-post-title" href="/2015/09/11/Me/">Me</a>
-                <span class="archive-post-date"> - sep 11, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201508">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/08">August</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150831">
-                <a class="archive-post-title" href="/2015/08/31/CLRS-1/">算法导论第2章算法基础练习</a>
-                <span class="archive-post-date"> - aug 31, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201507">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/07">July</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150726">
-                <a class="archive-post-title" href="/2015/07/26/Raspberry-Pi-2/">Raspberry Pi 2 上手</a>
-                <span class="archive-post-date"> - jul 26, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150718">
-                <a class="archive-post-title" href="/2015/07/18/LeetCode-108/">LeetCode - Convert Sorted Array to Binary Search Tree</a>
-                <span class="archive-post-date"> - jul 18, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150709">
-                <a class="archive-post-title" href="/2015/07/09/Dairy-3/">想有一个不一样的暑假</a>
-                <span class="archive-post-date"> - jul 09, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150707">
-                <a class="archive-post-title" href="/2015/07/07/LeetCode-100/">LeetCode - Same Tree</a>
-                <span class="archive-post-date"> - jul 07, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201506">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/06">June</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150609">
-                <a class="archive-post-title" href="/2015/06/09/C-Pointers/">&lt;&lt;深入理解C指针&gt;&gt;读书笔记</a>
-                <span class="archive-post-date"> - jun 09, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201505">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/05">May</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150530">
-                <a class="archive-post-title" href="/2015/05/30/Dijkstra's-Algorithom/">Dijkstra算法</a>
-                <span class="archive-post-date"> - may 30, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150527">
-                <a class="archive-post-title" href="/2015/05/27/Dairy-2/">一次尝试</a>
-                <span class="archive-post-date"> - may 27, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150515">
-                <a class="archive-post-title" href="/2015/05/15/Some-Sort-Algorithm/">几种常见排序算法的学习</a>
-                <span class="archive-post-date"> - may 15, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150509">
-                <a class="archive-post-title" href="/2015/05/09/Diary-1/">在最好的年华，做自己最想做的事</a>
-                <span class="archive-post-date"> - may 09, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201503">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/03">March</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150327">
-                <a class="archive-post-title" href="/2015/03/27/Linux-C-Coding-Study/">Linux C 程序设计基础学习</a>
-                <span class="archive-post-date"> - mar 27, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201502">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/02">February</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150228">
-                <a class="archive-post-title" href="/2015/02/28/LeetCode-104/">LeetCode - Maximum Depth of Binary Tree</a>
-                <span class="archive-post-date"> - feb 28, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150211">
-                <a class="archive-post-title" href="/2015/02/11/Linux+MC/">Play Minecraft on Ubuntu</a>
-                <span class="archive-post-date"> - feb 11, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150203">
-                <a class="archive-post-title" href="/2015/02/03/A+B-Problem-II/">HDOJ - 1002  A + B Problem II</a>
-                <span class="archive-post-date"> - feb 03, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-                
-                    </ul>
-                
-                <ul class="archive-posts archive-month" data-date="201501">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2015/01">January</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20150131">
-                <a class="archive-post-title" href="/2015/01/31/RPi-GPIO-Test/">Raspberry Pi GPIO Test</a>
-                <span class="archive-post-date"> - jan 31, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150122">
-                <a class="archive-post-title" href="/2015/01/22/A+B+for+Input-Output+Practice(I)/">HDOJ - 1089  A+B for Input-Output Practice (I)</a>
-                <span class="archive-post-date"> - jan 22, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150105">
-                <a class="archive-post-title" href="/2015/01/05/Sum-Problem/">HDOJ - 1001  Sum Problem</a>
-                <span class="archive-post-date"> - jan 05, 2015</span>
-            </li>
-        
-            
-            
-            
-            
-            <li class="archive-post archive-day" data-date="20150104">
-                <a class="archive-post-title" href="/2015/01/04/A+B-Problem/">HDOJ - 1000  A + B Problem</a>
-                <span class="archive-post-date"> - jan 04, 2015</span>
-            </li>
-        
-            
-            
-            
-                
-                    </div>
-                    
-                
-                
-                <div class="archive archive-year box" data-date="2014">
-                    <h4 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2014">2014</a>
-                    </h4>
-            
-            
-                
-                <ul class="archive-posts archive-month" data-date="201412">
-                    <h5 class="archive-title">
-                        <a class="link-unstyled" href="/archives/2014/12">December</a>
-                    </h5>
-                
-            
-            <li class="archive-post archive-day" data-date="20141220">
-                <a class="archive-post-title" href="/2014/12/20/hello-world/">Hello World</a>
-                <span class="archive-post-date"> - dec 20, 2014</span>
-            </li>
-        
-    </section>
+    
+    <!-- Leancloud Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="/all-archives/index.html" class="leancloud-views_num" data-flag-title="all-archives">
+     &nbsp;Views
+</span>
+        </li>
+    </a>
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=all-archives&url=http://xinqiu.me//all-archives/index.html&via=Xin Qiu" target="_blank">
+        <li class="mdl-menu__item">
+            Share to Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://xinqiu.me//all-archives/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            Share to Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=all-archives&url=http://xinqiu.me//all-archives/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            Share to Weibo
+        </li>
+    </a>
+</ul>
 </div>
+				
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2016 Xin Qiu. All Rights Reserved.
-    </span>
-</footer>
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//xinqiu.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
 
             </div>
-            
-        </div>
-        
 
-
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     
-        
+    <!-- Prev Nav -->
     
 
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-        
-            <img id="about-card-picture" src="/assets/images/avatar.png"/>
-        
-            <h4 id="about-card-name">Xin Qiu</h4>
-        
-            <h5 id="about-card-bio"><p>Life is short.<a href="http://xinqiu.me/2015/09/11/Me/">More</a></p>
-</h5>
-        
-        
-            <h5 id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>Student</p>
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
 
-            </h5>
-        
-        
-            <h5 id="about-card-location">
-                <i class="fa fa-map-marker"></i>
-                <br/>
-                China Jiangsu
-            </h5>
-        
+    <!-- Next Nav -->
+    
+</nav>
+        </div>
     </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="Xin Qiu's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        xinqiu.94@gmial.com
+        <b class="caret"></b>
+    </a>
 </div>
 
-        
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="mailto:xinqiu.94@mail.com" target="_blank" title="Email Me">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             Home
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             Archives
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/about" title="About">
+				About
+			</a>
+		</li>
+	
+	
+		<li>
+			<a href="/projects" title="Projects">
+				Projects
+			</a>
+		</li>
+	
+		<li>
+			<a href="/reading-list" title="Reading">
+				Reading
+			</a>
+		</li>
+	
+		<li>
+			<a href="/timeline" title="Timeline">
+				Timeline
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="#">
+             Article Number
+             <span class="sidebar-badge">38</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		
+	</div>
+    
+
+</aside>
+
+				
+				
+				<!-- Floating Action Button -->
+<div class="fabs">
+    <a href="#top" class="fab toTop">
+        <i class="material-icons">expand_less</i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="#bottom" class="fab toBottom">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </a>
+    
+    <a id="prime" class="fab">
+        <i class="material-icons prime-i-add">add</i>
+    </a>
+</div>
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    
+    
+    <!-- Instagram -->
+    
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/xinqiu" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;一人Code</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+	<script src="/js/smoothscroll.js"></script>
+
+
+
+    <!-- Leancloud -->
+	<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+	<script>
+		AV.initialize("wNFmCWTd6GAdUBwK4C35gD2G-gzGzoHsz", "fkjBgbCuEaEEKpksFNIkGYsk");
+	</script>
+    <script>
+	function showTime(Counter) {
+		var query = new AV.Query(Counter);
+		$(".leancloud-views_num").each(function() {
+			var url = $(this).attr("id").trim();
+			query.equalTo("url", url);
+			query.find({
+				success: function(results) {
+					if (results.length == 0) {
+						var content = '0 ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+						return;
+					}
+					for (var i = 0; i < results.length; i++) {
+						var object = results[i];
+						var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					}
+				},
+				error: function(object, error) {
+					console.log("Error: " + error.code + " " + error.message);
+				}
+			});
+
+		});
+	}
+
+	function addCount(Counter) {
+		var Counter = AV.Object.extend("Counter");
+		url = $(".leancloud-views_num").attr('id').trim();
+		title = $(".leancloud-views_num").attr('data-flag-title').trim();
+		var query = new AV.Query(Counter);
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length > 0) {
+					var counter = results[0];
+					counter.fetchWhenSave(true);
+					counter.increment("time");
+					counter.save(null, {
+						success: function(counter) {
+							var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+							$(document.getElementById(url)).text(content);
+						},
+						error: function(counter, error) {
+							console.log('Failed to save Visitor num, with error message: ' + error.message);
+						}
+					});
+				} else {
+					var newcounter = new Counter();
+					newcounter.set("title", title);
+					newcounter.set("url", url);
+					newcounter.set("time", 1);
+					newcounter.save(null, {
+						success: function(newcounter) {
+							console.log("newcounter.get('time')="+newcounter.get('time'));
+							var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+							$(document.getElementById(url)).text(content);
+						},
+						error: function(newcounter, error) {
+							console.log('Failed to create');
+						}
+					});
+				}
+			},
+			error: function(error) {
+				console.log('Error:' + error.code + " " + error.message);
+			}
+		});
+	}
+	$(function() {
+		var Counter = AV.Object.extend("Counter");
+		if ($('.leancloud-views_num').length == 1) {
+			addCount(Counter);
+		} else if ($('.post-title-link').length > 1) {
+			showTime(Counter);
+		}
+	}); 
+</script>
+
+
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//xinqiu.disqus.com/count.js" async></script>
+
+
+
+
+
+
+
+
+
+
+	<script>
+		$(".fabs").mouseleave(function(){
+			if( $("#prime").hasClass("is-visible") )
+				$("#prime").click();
+		});
+	</script>
+
+            </main>
+        </div>
+		
     </body>
-    <!--SCRIPTS-->
-<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js"></script>
-<!--SCRIPTS END-->
-
-    
-        <script>
-             var disqus_config = function () {
-                 this.page.url = 'http://xinqiu.me/all-archives/index.html';
-                 
-                    this.page.identifier = 'all-archives/index.html';
-                                  
-             };
-            (function() {
-                var d = document, s = d.createElement('script');
-                var disqus_shortname = 'xinqiu';
-                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-    
-
-
-
+		
+	
 </html>

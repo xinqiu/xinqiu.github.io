@@ -1,703 +1,1173 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
+    <head>
+    <!-- Title -->
     
-<head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <title>
+        Tag: code | 一人Code
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="一人Code">
-    <title>Tag: code - 一人Code</title>
+    <meta name="theme-color" content="#039BE5">
     <meta name="author" content="Xin Qiu">
+    <meta name="description" content="写给自己的Blog">
+    <meta name="keywords" content="null">
     
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
     
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
     
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="一人Code">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://xinqiu.me">
     <meta property="og:type" content="blog">
-<meta property="og:title" content="一人Code">
-<meta property="og:url" content="http://xinqiu.me/tags/code/index.html">
-<meta property="og:site_name" content="一人Code">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一人Code">
+    <meta property="og:title" content="Tag: code | 一人Code">
+    <meta property="og:description" content="写给自己的Blog">
     
-    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
         
+        
+            <script src="/js/ie-blocker.en.js"></script>
+        
+    <![endif]-->
     
-    
-        <meta property="og:image" content="http://xinqiu.me/assets/images/avatar.png"/>
-    
-    
-    
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-ejlztp1tasruqfvoz6xmgqng0anzae8ox7cqjj5yibieqgcmhe9fwxfae6zj.min.css">
-    <!--STYLES END-->
-    
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-57881840-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
 
+<!-- Theme Background -->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+		
+        #scheme-Paradox .MD-burger-layer {
+            background-color: #666;
+        }
+		
+        #scheme-Paradox .material-back{
+            color: #666;
+        }
+		
+        .material-layout .material-post>.material-nav,
+		.material-layout .material-index>.material-nav,
+        .material-nav a,
+        #scheme-Paradox .material-post_container .material-back{
+            color: #666;
+        }
+    </style>
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #039BE5
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #039BE5 !important
+    }
+    
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #00BCD4 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #039BE5 !important
+    }
+    
+    .fab{
+        background: #00BCD4 !important
+    }
+</style>
+	<script src="/js/jquery.min.js"></script>
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
     
 </head>
-
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
-
-
-    
-        
-            
-        
-    
-
-<header id="header" data-behavior="1">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <h1 class="header-title">
-        <a class="header-title-link" href="/ ">一人Code</a>
-    </h1>
-    
-        
-            <a  class="header-right-picture "
-                href="#about">
-        
-        
-            <img class="header-picture" src="/assets/images/avatar.png"/>
-        
-        </a>
-    
-</header>
-
-            <!-- Define author's picture -->
-
-
-
-        
-    
-
-<nav id="sidebar" data-behavior="1">
-    
-        <div class="sidebar-profile">
-            <a href="/#about">
-                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png"/>
-            </a>
-            <span class="sidebar-profile-name">Xin Qiu</span>
-        </div>
-    
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/ "
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-archives"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-categories"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-tags"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/projects"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-code"></i>
-                    <span class="sidebar-button-desc">Projects</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/reading-list"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-book"></i>
-                    <span class="sidebar-button-desc">Reading List</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/timeline"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-calendar"></i>
-                    <span class="sidebar-button-desc">Timeline</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="#about"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-user"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link " href="https://github.com/xinqiu" target="_blank">
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-                    <span class="sidebar-button-desc">GitHub</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link " href="mailto:xinqiu.94@gmail.com" target="_blank">
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
-                    <span class="sidebar-button-desc">Mail</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-</nav>
-
-            
-            <div id="main" data-behavior="1"
-                 class="
-                        hasCoverMetaIn
-                        ">
-                
-    
-
-<section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/07/18/LeetCode-108/">
-                            LeetCode - Convert Sorted Array to Binary Search Tree
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Jul 18 2015 00:00:00 GMT+0800">
 	
-		    Jul 18, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <blockquote>
-<p>Given an array where elements are sorted in ascending order, convert it to a height balanced BST.</p>
-</blockquote>
-<p>这道题思路有点像二分查找。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     struct TreeNode *left;</div><div class="line"> *     struct TreeNode *right;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">struct</span> TreeNode* <span class="title">sortedArrayToBST</span><span class="params">(<span class="keyword">int</span>* nums, <span class="keyword">int</span> numsSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span>(numsSize == <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">struct</span> TreeNode *Root = (<span class="keyword">struct</span> TreeNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> TreeNode));</div><div class="line">    Root-&gt;val = *(nums + numsSize / <span class="number">2</span>);</div><div class="line">    Root-&gt;left = sortedArrayToBST(nums, numsSize / <span class="number">2</span>);</div><div class="line">    Root-&gt;right = sortedArrayToBST(nums + numsSize / <span class="number">2</span> + <span class="number">1</span>, numsSize-numsSize/<span class="number">2</span><span class="number">-1</span>);</div><div class="line">    <span class="keyword">return</span> Root;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2015/07/18/LeetCode-108/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/07/07/LeetCode-100/">
-                            LeetCode - Same Tree
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Jul 07 2015 00:00:00 GMT+0800">
 	
-		    Jul 07, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <blockquote>
-<p>Given two binary trees, write a function to check if they are equal or not.</p>
-<p>Two binary trees are considered equal if they are structurally identical and the nodes have the same value.</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     struct TreeNode *left;</div><div class="line"> *     struct TreeNode *right;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isSameTree</span><span class="params">(<span class="keyword">struct</span> TreeNode* p, <span class="keyword">struct</span> TreeNode* q)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span>(p == <span class="literal">NULL</span> &amp;&amp; q == <span class="literal">NULL</span>) </div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    <span class="keyword">if</span>((p != <span class="literal">NULL</span> &amp;&amp; q == <span class="literal">NULL</span>)||(p == <span class="literal">NULL</span> &amp;&amp; q != <span class="literal">NULL</span>))</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    <span class="keyword">if</span>(p-&gt;val != q-&gt;val)</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    <span class="keyword">return</span> isSameTree(p-&gt;left,q-&gt;left) &amp;&amp; isSameTree(p-&gt;right,q-&gt;right);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-                    
-                        
+    <body id="scheme-Paradox">
 
-                    
-                    
-                        <p>
-                            <a href="/2015/07/07/LeetCode-100/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/03/27/Linux-C-Coding-Study/">
-                            Linux C 程序设计基础学习
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Mar 27 2015 00:00:00 GMT+0800">
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                <!-- Index Module -->
+<div class="material-index mdl-grid">
 	
-		    Mar 27, 2015
-    	
-    </time>
+		<!-- Paradox Header -->
+		<!-- Daily pic -->
+<div class="mdl-card daily-pic mdl-cell mdl-cell--8-col index-top-block">
     
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="Linux_C__u7F16_u7A0B_u5B66_u4E60"><a href="#Linux_C__u7F16_u7A0B_u5B66_u4E60" class="headerlink" title="Linux C 编程学习"></a>Linux C 编程学习</h1><blockquote>
-<p>这是我学习Linux C编程的笔记</p>
-</blockquote>
-<h1 id="u524D_u671F_u51C6_u5907"><a href="#u524D_u671F_u51C6_u5907" class="headerlink" title="前期准备"></a>前期准备</h1><hr>
-<h2 id="GCC_u76F8_u5173"><a href="#GCC_u76F8_u5173" class="headerlink" title="GCC相关"></a>GCC相关</h2><h3 id="gcc_u57FA_u672C_u7528_u6CD5"><a href="#gcc_u57FA_u672C_u7528_u6CD5" class="headerlink" title="gcc基本用法"></a>gcc基本用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~$ gcc [options][filenames]</div></pre></td></tr></table></figure>
-<h5 id="u5E38_u7528_u7F16_u8BD1_u9009_u9879"><a href="#u5E38_u7528_u7F16_u8BD1_u9009_u9879" class="headerlink" title="常用编译选项"></a>常用编译选项</h5><ul>
-<li><p>-o : out_putfilename: 确定可执行文件的名称为output_filename，缺省则位a.out</p>
-</li>
-<li><p>-c : 只编译，不连接成为可执行文件，生成.o的文件</p>
-</li>
-<li><p>-g : 产生调试工具(GNU下是gdb)所必要的符号信息，想进行调试，必须加此选项</p>
-</li>
-<li><p>-O : 对程序进行优化编译、连接</p>
-</li>
-<li><p>-O2 : 比-O更好的优化编译，连接，编译、连接过程更慢</p>
-</li>
-<li><p>-Idirname : 将dirname所之处的目录添加到文件头文件目录列表中</p>
-</li>
-<li><p>-Ldirname : 讲dirname所指出的目录加入到库文件的目录列表中</p>
-</li>
-<li><p>-lname : 在连接是，装载名为<code>libname.a</code>的函数库</p>
-</li>
-<li><p>-statoc : 使用静态链接库文件,linux下连接的缺省操作是首先连接动态库</p>
-</li>
-<li><p>-Wall : 生成所有警告信息</p>
-</li>
-<li><p>-w : 不生成任何警告信息</p>
-</li>
-<li><p>-DMACRO : 定义MACRO宏，等效于在程序中使用#define MACRO</p>
-</li>
-</ul>
-<blockquote>
-<p>运行是在终端里执行程序前加time可得到运行程序的时间情况</p>
-</blockquote>
-<h4 id="GDB_u7A0B_u5E8F_u8C03_u8BD5"><a href="#GDB_u7A0B_u5E8F_u8C03_u8BD5" class="headerlink" title="GDB程序调试"></a>GDB程序调试</h4><h5 id="1-_u542F_u52A8GDB"><a href="#1-_u542F_u52A8GDB" class="headerlink" title="1.启动GDB"></a>1.启动GDB</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~$ gdb filename</div></pre></td></tr></table></figure>
-<h5 id="2-_u5728main_u51FD_u6570_u5904_u8BBE_u7F6E_u65AD_u70B9"><a href="#2-_u5728main_u51FD_u6570_u5904_u8BBE_u7F6E_u65AD_u70B9" class="headerlink" title="2.在main函数处设置断点"></a>2.在main函数处设置断点</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(gdb) <span class="built_in">break</span> main</div></pre></td></tr></table></figure>
-<h5 id="3-_u8FD0_u884C_u7A0B_u5E8F13"><a href="#3-_u8FD0_u884C_u7A0B_u5E8F13" class="headerlink" title="3.运行程序13"></a>3.运行程序13</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(gdb) run</div></pre></td></tr></table></figure>
-<h5 id="4-_u5355_u6B65_u8C03_u8BD5"><a href="#4-_u5355_u6B65_u8C03_u8BD5" class="headerlink" title="4.单步调试"></a>4.单步调试</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(gdb) next</div></pre></td></tr></table></figure>
-<h5 id="5-_u7EE7_u7EED_u8FD0_u884C"><a href="#5-_u7EE7_u7EED_u8FD0_u884C" class="headerlink" title="5.继续运行"></a>5.继续运行</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(gdb) <span class="built_in">continue</span></div></pre></td></tr></table></figure>
-<h4 id="GDB_u547D_u4EE4"><a href="#GDB_u547D_u4EE4" class="headerlink" title="GDB命令"></a>GDB命令</h4><ul>
-<li>list(l) 查看程序</li>
-<li>break(b) 函数名 在函数入口添加断点</li>
-<li>break(b) 行号 在指定行添加断点</li>
-<li>break(b) 文件名:行号 指定文件指定行添加断点</li>
-<li>break(b) 行号if条件 当条件为真，指定行号处断点生效</li>
-<li>info break 查看所以设置的断点</li>
-<li>delete 断点编号 删除断点</li>
-<li>run(r) 开始运行程序</li>
-<li>next(n) 单步运行程序(不进入子函数)</li>
-<li>step(s) 单步运行程序(进入子函数)</li>
-<li>continue(c) 继续运行程序</li>
-<li>print(p) 变量名 查看变量的值</li>
-<li>finish 运行程序，知道当前函数结束</li>
-<li>watch 变量名 对指定变量进行监控</li>
-<li>quit(q) 退出gdb</li>
-</ul>
-<h3 id="Makefile__u5DE5_u7A0B_u7BA1_u7406"><a href="#Makefile__u5DE5_u7A0B_u7BA1_u7406" class="headerlink" title="Makefile 工程管理"></a>Makefile 工程管理</h3><p>规则:</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">target:prerequisites</div><div class="line">	command</div></pre></td></tr></table></figure>
-<p>注:命令需要以TAB键开始，第一条一般为最终目标</p>
-<p>make命令默认在当前目录下寻找名字为makefile或者Makefile的工程文件，当名字不为这两者之一时，可以使用如下方法指定:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~$ make <span class="_">-f</span> 文件名</div></pre></td></tr></table></figure>
-<p>Makefile中把那些没有任何依赖只有执行东子的目标称为”伪目标”(phony targets)</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[例1]</div><div class="line">.PHONY : clean</div><div class="line">clean :</div><div class="line">	rm -f hello main.o func1.o func2.o</div><div class="line">注:.PHONY 将 clean 目标声明为伪目标 </div><div class="line">[例2]</div><div class="line">obj=main.o func1.o func2.o func3.o</div><div class="line">hello:$(obj)</div><div class="line">	gcc <span class="variable">$(obj)</span> -o hello</div></pre></td></tr></table></figure>
-<p>默认变量</p>
-<ul>
-<li>$^: 代表所有的依赖文件</li>
-<li>$@: 代表目标</li>
-<li>$&lt;: 代表第一个依赖文件</li>
-</ul>
-<p>其他Tips:</p>
-<ul>
-<li><p><code>#</code> 后面的内容被视为注释</p>
-</li>
-<li><p>@: 取消回显</p>
-</li>
-</ul>
-<hr>
+    <!-- Pic & Slogan -->
+    <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
+        <p class="index-top-block-slogan"><a href="#">Hi, nice to meet you</a></p>
+    </div>
 
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2015/03/27/Linux-C-Coding-Study/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+    <!-- Avatar & Name -->
+    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
+        <!-- Author Avatar -->
+        <div id="author-avatar">
+            <img src="/img/avatar.png" width="32px" height="32px" alt="avatar">
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/02/28/LeetCode-104/">
-                            LeetCode - Maximum Depth of Binary Tree
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Feb 28 2015 00:00:00 GMT+0800">
-	
-		    Feb 28, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="Maximum_Depth_of_Binary_Tree"><a href="#Maximum_Depth_of_Binary_Tree" class="headerlink" title="Maximum Depth of Binary Tree"></a>Maximum Depth of Binary Tree</h1><blockquote>
-<p>Given a binary tree, find its maximum depth.</p>
-<p>The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for binary tree</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     TreeNode *left;</div><div class="line"> *     TreeNode *right;</div><div class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode *root)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(root == <span class="literal">NULL</span>)</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        <span class="keyword">return</span> max(maxDepth(root-&gt;left),maxDepth(root-&gt;right))+<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-                    
-                        
-
-                    
-                    
-                        <p>
-                            <a href="/2015/02/28/LeetCode-104/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        <div>
+            <strong>Xin Qiu</strong>
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/02/03/A+B-Problem-II/">
-                            HDOJ - 1002  A + B Problem II
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Feb 03 2015 00:00:00 GMT+0800">
-	
-		    Feb 03, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h1 id="A_+_B_Problem_II"><a href="#A_+_B_Problem_II" class="headerlink" title="A + B Problem II"></a>A + B Problem II</h1><p>AC了半天，老是一些细节没注意。</p>
-<h2 id="Problem_Description"><a href="#Problem_Description" class="headerlink" title="Problem Description"></a>Problem Description</h2><p>I have a very simple problem for you. Given two integers A and B, your job is to calculate the Sum of A + B.</p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The first line of the input contains an integer T(1&lt;=T&lt;=20) which means the number of test cases. Then T lines follow, each line consists of two positive integers, A and B. Notice that the integers are very large, that means you should not process them by using 32-bit integer. You may assume the length of each integer will not exceed 1000.</p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each test case, you should output two lines. The first line is “Case #:”, # means the number of the test case. The second line is the an equation “A + B = Sum”, Sum means the result of A + B. Note there are some spaces int the equation. Output a blank line between two test cases.</p>
-                    
-                        <a href="/2015/02/03/A+B-Problem-II/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/01/22/A+B+for+Input-Output+Practice(I)/">
-                            HDOJ - 1089  A+B for Input-Output Practice (I)
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Jan 22 2015 00:00:00 GMT+0800">
-	
-		    Jan 22, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h1 id="A+B_for_Input-Output_Practice__28I_29"><a href="#A+B_for_Input-Output_Practice__28I_29" class="headerlink" title="A+B for Input-Output Practice (I)"></a>A+B for Input-Output Practice (I)</h1><h2 id="Problem_Description"><a href="#Problem_Description" class="headerlink" title="Problem Description"></a>Problem Description</h2><p>Your task is to Calculate a + b.<br>Too easy?! Of course! I specially designed the problem for acm beginners.<br>You must have found that some problems have the same titles with this one, yes, all these problems were designed for the same aim. </p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input will consist of a series of pairs of integers a and b, separated by a space, one pair of integers per line. </p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each pair of input integers a and b you should output the sum of a and b in one line, and with one line of output for each line in input. </p>
-                    
-                        <a href="/2015/01/22/A+B+for+Input-Output+Practice(I)/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/01/05/Sum-Problem/">
-                            HDOJ - 1001  Sum Problem
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Mon Jan 05 2015 00:00:00 GMT+0800">
-	
-		    Jan 05, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h1 id="Sum_Problem"><a href="#Sum_Problem" class="headerlink" title="Sum Problem"></a>Sum Problem</h1><h2 id="Problem_Description"><a href="#Problem_Description" class="headerlink" title="Problem Description"></a>Problem Description</h2><p>Hey, welcome to HDOJ(Hangzhou Dianzi University Online Judge).</p>
-<p>In this problem, your task is to calculate SUM(n) = 1 + 2 + 3 + … + n.</p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input will consist of a series of integers n, one integer per line.</p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each case, output SUM(n) in one line, followed by a blank line. You may assume the result will be in the range of 32-bit signed integer.</p>
-                    
-                        <a href="/2015/01/05/Sum-Problem/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2015/01/04/A+B-Problem/">
-                            HDOJ - 1000  A + B Problem
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sun Jan 04 2015 00:00:00 GMT+0800">
-	
-		    Jan 04, 2015
-    	
-    </time>
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h1 id="A_+_B_Problem"><a href="#A_+_B_Problem" class="headerlink" title="A + B Problem"></a>A + B Problem</h1><p>Calculate a + b</p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input will consist of a series of pairs of integers a and b,separated by a space, one pair of integers per line.</p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each pair of input integers a and b you should output the sum of a and b in one line,and with one line of output for each line in input.</p>
-                    
-                        <a href="/2015/01/04/A+B-Problem/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">page 1 of 1</li>
-    </ul>
-</div>
-
-</section>
-
-
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2016 Xin Qiu. All Rights Reserved.
-    </span>
-</footer>
-
-            </div>
-            
-        </div>
-        
-
-
-    
-        
-    
-
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-        
-            <img id="about-card-picture" src="/assets/images/avatar.png"/>
-        
-            <h4 id="about-card-name">Xin Qiu</h4>
-        
-            <h5 id="about-card-bio"><p>Life is short.<a href="http://xinqiu.me/2015/09/11/Me/">More</a></p>
-</h5>
-        
-        
-            <h5 id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>Student</p>
-
-            </h5>
-        
-        
-            <h5 id="about-card-location">
-                <i class="fa fa-map-marker"></i>
-                <br/>
-                China Jiangsu
-            </h5>
-        
     </div>
 </div>
 
+		<!-- Blog info -->
+<div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
+	
+    <!-- Search -->
+	
+	<!-- Google -->
+	<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
+		<label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
+			<i class="material-icons mdl-color-text--white" role="presentation">search</i>
+		</label>
+
+		<form id="search-form" method="get" action="//google.com/search" accept-charset="UTF-8" class="mdl-textfield__expandable-holder" target="_blank">
+			<input class="mdl-textfield__input search-input" type="search" name="q" id="search" placeholder="">
+			<label id="search-form-label" class="mdl-textfield__label" for="search"></label>
+			
+			<input type="hidden" name="sitesearch" value="http://xinqiu.me">
+		</form>
+	</div>
+
+
+
+
+
+
+    <!-- LOGO -->
+    <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
+        <a href="/about">
+            <img src="/img/logo.png" alt="logo" />
+        </a>
+    </div>
+
+    <!-- Infomation -->
+    <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
+        <!-- Blog Title -->
+        <div>
+            <strong>一人Code</strong>
+        </div>
+        <div class="section-spacer"></div>
         
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!-- Pages -->
+        <button id="show-pages-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+            <i class="material-icons" role="presentation">view_carousel</i>
+            <span class="visuallyhidden">Pages</span>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
+            
+                <a class="index_share-link" href="/about" title="About">
+                    <li class="mdl-menu__item mdl-js-ripple-effect">
+                        About
+                    </li>
+                </a>
+            
+            
+                <a class="index_share-link" href="/projects" title="Projects">
+                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
+                        Projects
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/reading-list" title="Reading">
+                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
+                        Reading
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/timeline" title="Timeline">
+                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
+                        Timeline
+                    </li>
+                </a>
+            
+        </ul>
+        
+        <!-- Menu -->
+        <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+            <i class="material-icons" role="presentation">more_vert</i>
+            <span class="visuallyhidden">show menu</span>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
+            
+            <a class="index_share-link" href="#">
+                <li class="mdl-menu__item mdl-js-ripple-effect">
+                    Article RSS
+                </li>
+            </a>
+            <a class="index_share-link" href="https://twitter.com/intent/tweet?text=一人Code&url=http://xinqiu.me/&via=Xin Qiu" target="_blank">
+                <li class="mdl-menu__item mdl-js-ripple-effect">
+                    Share to Twitter
+                </li>
+            </a>
+            <a class="index_share-link" href="https://plus.google.com/share?url=http://xinqiu.me/" target="_blank">
+                <li class="mdl-menu__item mdl-js-ripple-effect">
+                    Share to Google+
+                </li>
+            </a>
+            <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=一人Code&url=http://xinqiu.me/&pic=&searchPic=false&style=simple" target="_blank">
+                <li class="mdl-menu__item mdl-js-ripple-effect">
+                    Share to Weibo
+                </li>
+            </a>
+        </ul>
+    </div>
+</div>
+
+	
+    
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/07/18/LeetCode-108/">LeetCode - Convert Sorted Array to Binary Search Tree</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          
+Given an array where elements are sorted in ascending order, ...
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/07/18/LeetCode-108/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Jul 18, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/07/07/LeetCode-100/">LeetCode - Same Tree</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          
+Given two binary trees, write a function to check if they are...
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/07/07/LeetCode-100/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Jul 07, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/03/27/Linux-C-Coding-Study/">Linux C 程序设计基础学习</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/03/27/Linux-C-Coding-Study/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Mar 27, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/02/28/LeetCode-104/">LeetCode - Maximum Depth of Binary Tree</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/02/28/LeetCode-104/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Feb 28, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/02/03/A+B-Problem-II/">HDOJ - 1002  A + B Problem II</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          A + B Problem IIAC了半天，老是一些细节没注意。
+Problem DescriptionI have a very simple problem for you. Given two integers A and B, your job is to calculate the Sum of A + B.
+InputThe first line of the input contains an integer T(1&lt;=T&lt;=20) which means the number of test cases. Then T lines follow, each line consists of two positive integers, A and B. Notice that the integers are very large, that means you should not process them by using 32-bit integer. You may assume the length of each integer will not exceed 1000.
+OutputFor each test case, you should output two lines. The first line is “Case #:”, # means the number of the test case. The second line is the an equation “A + B = Sum”, Sum means the result of A + B. Note there are some spaces int the equation. Output a blank line between two test cases.
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/02/03/A+B-Problem-II/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Feb 03, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/01/22/A+B+for+Input-Output+Practice(I)/">HDOJ - 1089  A+B for Input-Output Practice (I)</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          A+B for Input-Output Practice (I)Problem DescriptionYour task is to Calculate a + b.Too easy?! Of course! I specially designed the problem for acm beginners.You must have found that some problems have the same titles with this one, yes, all these problems were designed for the same aim. 
+InputThe input will consist of a series of pairs of integers a and b, separated by a space, one pair of integers per line. 
+OutputFor each pair of input integers a and b you should output the sum of a and b in one line, and with one line of output for each line in input. 
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/01/22/A+B+for+Input-Output+Practice(I)/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Jan 22, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/01/05/Sum-Problem/">HDOJ - 1001  Sum Problem</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          Sum ProblemProblem DescriptionHey, welcome to HDOJ(Hangzhou Dianzi University Online Judge).
+In this problem, your task is to calculate SUM(n) = 1 + 2 + 3 + … + n.
+InputThe input will consist of a series of integers n, one integer per line.
+OutputFor each case, output SUM(n) in one line, followed by a blank line. You may assume the result will be in the range of 32-bit signed integer.
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/01/05/Sum-Problem/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Jan 05, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+		
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2015/01/04/A+B-Problem/">HDOJ - 1000  A + B Problem</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          A + B ProblemCalculate a + b
+InputThe input will consist of a series of pairs of integers a and b,separated by a space, one pair of integers per line.
+OutputFor each pair of input integers a and b you should output the sum of a and b in one line,and with one line of output for each line in input.
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2015/01/04/A+B-Problem/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Jan 04, 2015</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+            
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+    
+	
+		<script>
+    
+    var randomNum;
+    
+    var locatePost = $(".something-else").next();
+    for(var i=0; i < 10; i++){
+        
+        randomNum = Math.floor(Math.random() * 5 + 1);
+        
+        locatePost.children(".post_thumbnail-random").attr('id', 'random_thumbnail-'+randomNum);
+        locatePost.children(".post_thumbnail-random").css('background-image', 'url(' + '/img/random/' + randomNum + '.png' + ')')
+        
+        locatePost = locatePost.next();
+    }
+    
+</script>
+
+	
+
+</div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="Xin Qiu's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        xinqiu.94@gmial.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="mailto:xinqiu.94@mail.com" target="_blank" title="Email Me">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             Home
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             Archives
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/about" title="About">
+				About
+			</a>
+		</li>
+	
+	
+		<li>
+			<a href="/projects" title="Projects">
+				Projects
+			</a>
+		</li>
+	
+		<li>
+			<a href="/reading-list" title="Reading">
+				Reading
+			</a>
+		</li>
+	
+		<li>
+			<a href="/timeline" title="Timeline">
+				Timeline
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="#">
+             Article Number
+             <span class="sidebar-badge">38</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		
+	</div>
+    
+
+</aside>
+
+				
+				
+				<!-- Floating Action Button -->
+<div class="fabs">
+    <a href="#top" class="fab toTop">
+        <i class="material-icons">expand_less</i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="#bottom" class="fab toBottom">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </a>
+    
+    <a id="prime" class="fab">
+        <i class="material-icons prime-i-add">add</i>
+    </a>
+</div>
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    
+    
+    <!-- Instagram -->
+    
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/xinqiu" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;一人Code</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+	<script src="/js/smoothscroll.js"></script>
+
+
+
+    <!-- Leancloud -->
+	<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+	<script>
+		AV.initialize("wNFmCWTd6GAdUBwK4C35gD2G-gzGzoHsz", "fkjBgbCuEaEEKpksFNIkGYsk");
+	</script>
+    <script>
+	function showTime(Counter) {
+		var query = new AV.Query(Counter);
+		$(".leancloud-views_num").each(function() {
+			var url = $(this).attr("id").trim();
+			query.equalTo("url", url);
+			query.find({
+				success: function(results) {
+					if (results.length == 0) {
+						var content = '0 ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+						return;
+					}
+					for (var i = 0; i < results.length; i++) {
+						var object = results[i];
+						var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					}
+				},
+				error: function(object, error) {
+					console.log("Error: " + error.code + " " + error.message);
+				}
+			});
+
+		});
+	}
+
+	function addCount(Counter) {
+		var Counter = AV.Object.extend("Counter");
+		url = $(".leancloud-views_num").attr('id').trim();
+		title = $(".leancloud-views_num").attr('data-flag-title').trim();
+		var query = new AV.Query(Counter);
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length > 0) {
+					var counter = results[0];
+					counter.fetchWhenSave(true);
+					counter.increment("time");
+					counter.save(null, {
+						success: function(counter) {
+							var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+							$(document.getElementById(url)).text(content);
+						},
+						error: function(counter, error) {
+							console.log('Failed to save Visitor num, with error message: ' + error.message);
+						}
+					});
+				} else {
+					var newcounter = new Counter();
+					newcounter.set("title", title);
+					newcounter.set("url", url);
+					newcounter.set("time", 1);
+					newcounter.save(null, {
+						success: function(newcounter) {
+							console.log("newcounter.get('time')="+newcounter.get('time'));
+							var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+							$(document.getElementById(url)).text(content);
+						},
+						error: function(newcounter, error) {
+							console.log('Failed to create');
+						}
+					});
+				}
+			},
+			error: function(error) {
+				console.log('Error:' + error.code + " " + error.message);
+			}
+		});
+	}
+	$(function() {
+		var Counter = AV.Object.extend("Counter");
+		if ($('.leancloud-views_num').length == 1) {
+			addCount(Counter);
+		} else if ($('.post-title-link').length > 1) {
+			showTime(Counter);
+		}
+	}); 
+</script>
+
+
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//xinqiu.disqus.com/count.js" async></script>
+
+
+
+
+
+
+
+
+
+
+	<script>
+		$(".fabs").mouseleave(function(){
+			if( $("#prime").hasClass("is-visible") )
+				$("#prime").click();
+		});
+	</script>
+
+            </main>
+        </div>
+		
     </body>
-    <!--SCRIPTS-->
-<script src="/assets/js/scrip-gfmrkxcl0qohe3cfdgxhzvc0yrceqta8i4iix0txvn8q4o2adlqd5n0jmkvt.min.js"></script>
-<!--SCRIPTS END-->
-
-
-
+		
+	
 </html>
