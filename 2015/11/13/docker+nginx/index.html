@@ -16,7 +16,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#039BE5">
+    <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Xin Qiu">
     <meta name="description" content="写给自己的Blog">
     <meta name="keywords" content="null">
@@ -56,32 +56,85 @@
     <link rel="stylesheet" href="/css/style.min.css">
     <!-- Config CSS -->
 
-<!-- Theme Background -->
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #00838F
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #0097A7 !important
+    }
+    
+	/* Sidebar User Drop Down Menu Text Color */
+	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #0097A7 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #0097A7 !important
+    }
+    
+    .toTop{
+        background: #757575 !important
+    }
+		
+	.material-layout .material-post>.material-nav,
+	.material-layout .material-index>.material-nav,
+	.material-nav a{
+		color: #757575;
+	}
+		
+	#scheme-Paradox .MD-burger-layer {
+		background-color: #757575;
+	}
+
+	#scheme-Paradox #post-toc-trigger-btn{
+		color: #757575;
+	}
+	
+	.post-toc a:hover{
+		color: #00838F;
+		text-decoration: underline;
+	}
+</style>
+
+
+<!-- Theme Background Related-->
 
     <style>
         body{
             background-color: #F5F5F5
         }
 		
+		/* blog_info bottom background */
         #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
             background-color: #fff;
         }
-		
-        #scheme-Paradox .MD-burger-layer {
-            background-color: #666;
-        }
-		
-        #scheme-Paradox .material-back{
-            color: #666;
-        }
-		
-        .material-layout .material-post>.material-nav,
-		.material-layout .material-index>.material-nav,
-        .material-nav a,
-        #scheme-Paradox .material-post_container .material-back{
-            color: #666;
-        }
     </style>
+
+
 
 
 <!-- Fade Effect -->
@@ -102,48 +155,6 @@
         }
     </style>
 
-
-<!-- Other Styles -->
-<style>
-	body, html{
-		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-	}
-	
-    a{
-        color: #039BE5
-    }
-    
-    .mdl-card__media,
-    #search-label,
-    #search-form-label:after,
-    #scheme-Paradox .hot_tags-count,
-    #scheme-Paradox .sidebar_archives-count,
-    #scheme-Paradox .sidebar-colored .sidebar-header,
-    #scheme-Paradox .sidebar-colored .sidebar-badge{
-        background-color: #039BE5 !important
-    }
-    
-    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
-        color: #00BCD4 !important
-    }
-    
-    #post_entry-right-info,
-    .sidebar-colored .sidebar-nav li:hover > a,
-    .sidebar-colored .sidebar-nav li:hover > a i,
-    .sidebar-colored .sidebar-nav li > a:hover,
-    .sidebar-colored .sidebar-nav li > a:hover i,
-    .sidebar-colored .sidebar-nav li > a:focus i,
-    .sidebar-colored .sidebar-nav > .open > a,
-    .sidebar-colored .sidebar-nav > .open > a:hover,
-    .sidebar-colored .sidebar-nav > .open > a:focus,
-    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
-        color: #039BE5 !important
-    }
-    
-    .fab{
-        background: #00BCD4 !important
-    }
-</style>
 	<script src="/js/jquery.min.js"></script>
 	
 	<!-- UC Browser Compatible-->
@@ -183,6 +194,7 @@
 				
                 
 	<!-- Back Button -->
+<!--
 	<div class="material-back" id="backhome-div" tabindex="0">
 		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
 			<i class="material-icons" role="presentation">arrow_back</i>
@@ -191,12 +203,27 @@
 			</span>
 		</a>
 	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u51C6_u5907_u5DE5_u4F5C"><span class="post-toc-number">1.</span> <span class="post-toc-text">准备工作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u7CFB_u7EDF_u914D_u7F6E"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">系统配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u7CFB_u7EDF_u955C_u50CF"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">系统镜像</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#docker__u4F7F_u7528"><span class="post-toc-number">2.</span> <span class="post-toc-text">docker 使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#docker__u5E38_u7528_u547D_u4EE4"><span class="post-toc-number">3.</span> <span class="post-toc-text">docker 常用命令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Nginx__u5BB9_u5668_u591A_u57DF_u540D_u7ED1_u5B9A"><span class="post-toc-number">4.</span> <span class="post-toc-text">Nginx 容器多域名绑定</span></a></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
 
 
 <!-- Layouts -->
 
     <!-- Post Module -->
     <div class="material-post_container">
+		
         <div class="material-post mdl-grid">
             <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
@@ -516,13 +543,6 @@
     <!-- Pages  -->
 	
 		<li>
-			<a href="/about" title="About">
-				About
-			</a>
-		</li>
-	
-	
-		<li>
 			<a href="/projects" title="Projects">
 				Projects
 			</a>
@@ -553,41 +573,72 @@
 		<!-- Sidebar Divider -->
 		<div class="sidebar-divider"></div>
 
-		
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		Theme - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
 	</div>
     
+    <!-- Sidebar Sponsor -->
+    
+
 
 </aside>
 
 				
 				
-				<!-- Floating Action Button -->
-<div class="fabs">
-    <a href="#top" class="fab toTop">
-        <i class="material-icons">expand_less</i>
-    </a>
-    
-    
-        <!-- Post Nav -->
-        
-            <a class="prev-content fab" href="/2015/12/21/Learn-Flask/" title="Flask补坑记录"><i class="material-icons">keyboard_arrow_left</i></a>
-        
-
-        
-            <a class="prev-content fab" href="/2015/11/07/python-math/" title="Python科学计算学习"><i class="material-icons">keyboard_arrow_right</i></a>
-        
-    
-    
-    
-    
-    <a href="#bottom" class="fab toBottom">
-        <i class="material-icons">keyboard_arrow_down</i>
-    </a>
-    
-    <a id="prime" class="fab">
-        <i class="material-icons prime-i-add">add</i>
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
     </a>
 </div>
+				
 				
 				<!--Footer-->
 <footer class="mdl-mini-footer" id="bottom">
@@ -597,14 +648,23 @@
 		<div class="mdl-mini-footer--left-section sns-list">
     <!-- Twitter -->
     
+    <a href="https://twitter.com/twitter" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.png);">
+        <span class="visuallyhidden">Twitter</span>
+    </button></a>
     
     
     <!-- Facebook -->
     
+    <a href="https://www.facebook.com/facebook" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.png);">
+        <span class="visuallyhidden">Facebook</span>
+    </button></a>
     
     
     <!-- Google + -->
     
+    <a href="https://www.google.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.png);">
+        <span class="visuallyhidden">Google Plus</span>
+    </button></a>
     
     
     <!-- Weibo -->
@@ -678,8 +738,6 @@
     }, 800);
 </script>
 
-
-	<script src="/js/smoothscroll.js"></script>
 
 
 
@@ -778,21 +836,19 @@
 	<script id="dsq-count-scr" src="//xinqiu.disqus.com/count.js" async></script>
 
 
+<!-- Swiftye -->
 
 
+<!-- Local Search-->
 
 
-
-
-
-
-	<script>
-		$(".fabs").mouseleave(function(){
-			if( $("#prime").hasClass("is-visible") )
-				$("#prime").click();
-		});
-	</script>
-
+<!-- Window Load-->
+<script>
+    // Post_Toc parent position fixed
+    $(window).load(function() {
+        $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
+    });
+</script>
             </main>
         </div>
 		
