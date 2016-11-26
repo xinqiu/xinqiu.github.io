@@ -157,6 +157,8 @@
 
 	<script src="/js/jquery.min.js"></script>
 	
+	<link rel="stylesheet" href="/css/highlight/undefined.css">
+	
 	<!-- UC Browser Compatible-->
 	<script>
 		var agent = navigator.userAgent.toLowerCase();
@@ -213,7 +215,7 @@
 	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
 		for="post-toc-trigger-btn">
 			
-			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u524D_u671F_u51C6_u5907"><span class="post-toc-number">1.</span> <span class="post-toc-text">前期准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Part_1_3A_PC_Bootstrap"><span class="post-toc-number">2.</span> <span class="post-toc-text">Part 1: PC Bootstrap</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PC_u7269_u7406_u5730_u5740_u7A7A_u95F4"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">PC物理地址空间</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BIOS"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">BIOS</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Part_2_3A_The_Boot_Loader"><span class="post-toc-number">3.</span> <span class="post-toc-text">Part 2: The Boot Loader</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_3"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">Exercise 3</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u52A0_u8F7D_u5185_u6838"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">加载内核</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_4"><span class="post-toc-number">3.1.1.</span> <span class="post-toc-text">Exercise 4</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_5"><span class="post-toc-number">3.1.2.</span> <span class="post-toc-text">Exercise 5</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_6"><span class="post-toc-number">3.1.3.</span> <span class="post-toc-text">Exercise 6</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u53C2_u8003_u8D44_u6599"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u524D_u671F_u51C6_u5907"><span class="post-toc-number">1.</span> <span class="post-toc-text">前期准备</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Part_1_3A_PC_Bootstrap"><span class="post-toc-number">2.</span> <span class="post-toc-text">Part 1: PC Bootstrap</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PC_u7269_u7406_u5730_u5740_u7A7A_u95F4"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">PC物理地址空间</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BIOS"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">BIOS</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Part_2_3A_The_Boot_Loader"><span class="post-toc-number">3.</span> <span class="post-toc-text">Part 2: The Boot Loader</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_3"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">Exercise 3</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u52A0_u8F7D_u5185_u6838"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">加载内核</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_4"><span class="post-toc-number">3.1.1.</span> <span class="post-toc-text">Exercise 4</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_5"><span class="post-toc-number">3.1.2.</span> <span class="post-toc-text">Exercise 5</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Exercise_6"><span class="post-toc-number">3.1.3.</span> <span class="post-toc-text">Exercise 6</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Part_3_3A_The_Kernel"><span class="post-toc-number">4.</span> <span class="post-toc-text">Part 3: The Kernel</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u4F7F_u7528_u865A_u62DF_u5185_u5B58"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">使用虚拟内存</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u53C2_u8003_u8D44_u6599"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
 		
 <!--			<li class="mdl-menu__item">Some Action</li>-->
 	</ul>
@@ -499,8 +501,11 @@
 <p>使用 <code>x/10i 0x100000</code> 会看到</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0x100000:	add    0x1bad(%eax),%dh0x100006:	add    %al,(%eax)0x100008:	decb   0x52(%edi)0x10000b:	in     $0x66,%al0x10000d:	movl   $0xb81234,0x4720x100017:	add    %dl,(%ecx)0x100019:	add    %cl,(%edi)0x10001b:	and    %al,%bl0x10001d:	mov    %cr0,%eax0x100020:	or     $0x80010001,%eax</div></pre></td></tr></table></figure>
 <p>应该能感觉到 0x100000 处存放的其实就是程序指令段，也就是说 bootmain 函数会把内核的程序段送到内存 0x100000 处。</p>
-<h2 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/fatsheep9146/p/5087540.html" target="_blank" rel="external">MIT 6.828 JOS学习笔记4. Lab 1 Part 2.1: The Boot Loader</a></p>
-<p><a href="http://www.cnblogs.com/fatsheep9146/p/5115086.html" target="_blank" rel="external">MIT 6.828 JOS学习笔记5. Exercise 1.3</a></p>
+<h2 id="Part_3_3A_The_Kernel"><a href="#Part_3_3A_The_Kernel" class="headerlink" title="Part 3: The Kernel"></a>Part 3: The Kernel</h2><h3 id="u4F7F_u7528_u865A_u62DF_u5185_u5B58"><a href="#u4F7F_u7528_u865A_u62DF_u5185_u5B58" class="headerlink" title="使用虚拟内存"></a>使用虚拟内存</h3><p>boot loader 的链接地址和加载地址是一样的，然而 kernel 的链接地址和加载地址有些差异。查看 <em>kern/kernel.ld</em> 可以发现内核地址在 0xF0100000。</p>
+<p>操作系统内核通常被链接并且运行在非常高的虚拟地址，比如文件里看到的 0xf0100000，为了让处理器虚拟地址空间的低地址部分给用户程序使用。</p>
+<p>许多机器没有地址为 0xf0100000 的物理内存，所以内核不能放在那儿。因此使用处理器内存管理硬件将虚拟地址 0xf0100000 (内核希望运行的链接地址)映射到物理地址 0x00100000 (boot loader加载内核后所放的物理地址)。尽管内核虚拟地址很高，但加载进物理地址位于1MB的地方仅仅高于BIOS的ROM。这需要PC至少有1MB的物理内存。</p>
+<p>在下一个lab，会映射物理地址空间底部256MB，也就是 0x00000000 到 0x0fffffff，到虚拟地址 0xf0000000 ~ 0xffffffff。所以JOS只使用物理内存开始的256MB。</p>
+<h2 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="external">MIT 6.828 JOS 操作系统学习笔记</a></p>
 
 	
 	
@@ -680,7 +685,7 @@
 
     <!-- Article Numebr  -->
     <li>
-        <a href="#">
+        <a href="/archives">
              Article Number
              <span class="sidebar-badge">38</span>
         </a>
@@ -689,9 +694,7 @@
 
 		<!-- Sidebar Divider -->
 		<div class="sidebar-divider"></div>
-
 	</div>
-   
 
 </aside>
 
@@ -778,6 +781,7 @@
 </footer>
                 
 				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
 <script src="/js/js.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
@@ -993,21 +997,20 @@
 </script>
 
 	<script>
-		var search_path = "search.xml";
-		if (search_path.length == 0) {
-		search_path = "search.xml";
-		}
-		var path = "/" + search_path;
-		searchFunc(path, 'search', 'local-search-result');
-        
-        
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
 	</script>
 
 
 <!-- Window Load-->
 <script>
-    // Post_Toc parent position fixed
     $(window).load(function() {
+        // Post_Toc parent position fixed
         $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
     });
 </script>

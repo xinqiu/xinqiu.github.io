@@ -157,6 +157,8 @@
 
 	<script src="/js/jquery.min.js"></script>
 	
+	<link rel="stylesheet" href="/css/highlight/undefined.css">
+	
 	<!-- UC Browser Compatible-->
 	<script>
 		var agent = navigator.userAgent.toLowerCase();
@@ -1077,7 +1079,7 @@ OutputFor each test case, you should output two lines. The first line is “Case
 
     <!-- Article Numebr  -->
     <li>
-        <a href="#">
+        <a href="/archives">
              Article Number
              <span class="sidebar-badge">38</span>
         </a>
@@ -1086,9 +1088,7 @@ OutputFor each test case, you should output two lines. The first line is “Case
 
 		<!-- Sidebar Divider -->
 		<div class="sidebar-divider"></div>
-
 	</div>
-   
 
 </aside>
 
@@ -1175,6 +1175,7 @@ OutputFor each test case, you should output two lines. The first line is “Case
 </footer>
                 
 				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
 <script src="/js/js.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
@@ -1390,21 +1391,20 @@ OutputFor each test case, you should output two lines. The first line is “Case
 </script>
 
 	<script>
-		var search_path = "search.xml";
-		if (search_path.length == 0) {
-		search_path = "search.xml";
-		}
-		var path = "/" + search_path;
-		searchFunc(path, 'search', 'local-search-result');
-        
-        
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
 	</script>
 
 
 <!-- Window Load-->
 <script>
-    // Post_Toc parent position fixed
     $(window).load(function() {
+        // Post_Toc parent position fixed
         $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
     });
 </script>

@@ -157,6 +157,8 @@
 
 	<script src="/js/jquery.min.js"></script>
 	
+	<link rel="stylesheet" href="/css/highlight/undefined.css">
+	
 	<!-- UC Browser Compatible-->
 	<script>
 		var agent = navigator.userAgent.toLowerCase();
@@ -647,7 +649,7 @@ threadthread算是轻量级的线程模块，它提供较为底层的多线程�
 
     <!-- Article Numebr  -->
     <li>
-        <a href="#">
+        <a href="/archives">
              Article Number
              <span class="sidebar-badge">38</span>
         </a>
@@ -656,9 +658,7 @@ threadthread算是轻量级的线程模块，它提供较为底层的多线程�
 
 		<!-- Sidebar Divider -->
 		<div class="sidebar-divider"></div>
-
 	</div>
-   
 
 </aside>
 
@@ -745,6 +745,7 @@ threadthread算是轻量级的线程模块，它提供较为底层的多线程�
 </footer>
                 
 				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
 <script src="/js/js.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
@@ -960,21 +961,20 @@ threadthread算是轻量级的线程模块，它提供较为底层的多线程�
 </script>
 
 	<script>
-		var search_path = "search.xml";
-		if (search_path.length == 0) {
-		search_path = "search.xml";
-		}
-		var path = "/" + search_path;
-		searchFunc(path, 'search', 'local-search-result');
-        
-        
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
 	</script>
 
 
 <!-- Window Load-->
 <script>
-    // Post_Toc parent position fixed
     $(window).load(function() {
+        // Post_Toc parent position fixed
         $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
     });
 </script>
