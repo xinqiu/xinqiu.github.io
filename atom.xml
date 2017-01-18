@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2017-01-15T03:51:05.000Z</updated>
+  <updated>2017-01-18T03:51:15.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -14,6 +14,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MIT 6.828 Lab 3</title>
+    <link href="http://xinqiu.me/2017/01/17/MIT-6.828-3/"/>
+    <id>http://xinqiu.me/2017/01/17/MIT-6.828-3/</id>
+    <published>2017-01-16T16:00:00.000Z</published>
+    <updated>2017-01-18T03:51:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>继续开始Lab3，用户环境。</p>
+<a id="more"></a>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>这个lab要实现基础内核功能来保证被保护的用户模式环境正常运行。要为JOS内核添加数据结构，记录用户环境，创建单用户环境，加载程序镜像并运行。要让JOS内核能够处理系统调用和各种异常。</p>
+<p><strong>注意</strong>：这里环境类似进程，用环境是为了与操作系统的进程做点区分，强调这是JOS的环境下。</p>
+<h2 id="Part_A_3A_User_Environments_and_Exception_Handling"><a href="#Part_A_3A_User_Environments_and_Exception_Handling" class="headerlink" title="Part A: User Environments and Exception Handling"></a>Part A: User Environments and Exception Handling</h2><p><code>inc/env.h</code>包含了用户环境的定义，内核使用 <code>ENV</code> 数据结构记录每个用户环境，这里用户环境有点像上下文，这个lab只要创建一个环境，但要设计JOS内核让其支持多环境。</p>
+<p>在<code>kern/env.c</code>中定义了三个全局变量:</p>
+<ul>
+<li>struct Env *envs = NULL;        // All environments</li>
+<li>struct Env *curenv = NULL;        // The current env</li>
+<li>static struct Env *env_free_list;    // Free environment list</li>
+</ul>
+<p>JOS运行以后，envs指针指向一个存放系统中各种环境的<code>Env</code>结构体数组。JOS内核支持最大<code>NENV</code>(2^10,宏定义在<code>inc/env.h</code>中)个同时活动的环境。</p>
+<p>JOS内核用<code>env_free_list</code>维护所有不活动的<code>Env</code>结构体，类似空闲链表。内核使用<code>curenv</code>来表示当前运行的环境，内核启动之前这个变量是NULL。</p>
+<h3 id="u73AF_u5883_u72B6_u6001"><a href="#u73AF_u5883_u72B6_u6001" class="headerlink" title="环境状态"></a>环境状态</h3><p><code>Env</code>结构体在<code>inc/env.h</code>中定义了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">struct Env &#123;</div><div class="line">	struct Trapframe env_tf;	// Saved registers</div><div class="line">	struct Env *env_link;		// Next free Env</div><div class="line">	envid_t env_id;			// Unique environment identifier</div><div class="line">	envid_t env_parent_id;		// env_id of this env&apos;s parent</div><div class="line">	enum EnvType env_type;		// Indicates special system environments</div><div class="line">	unsigned env_status;		// Status of the environment</div><div class="line">	uint32_t env_runs;		// Number of times environment has run</div><div class="line"></div><div class="line">	// Address space</div><div class="line">	pde_t *env_pgdir;		// Kernel virtual address of page dir</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong>env_tf</strong>: 定义在<code>inc/trap.h</code>中，用来存放环境停止运行时寄存器的值。内核从用户模式切换为内核模式时也会保存寄存器的值，这样之后环境恢复的时候可以读取出来。</p>
+<p><strong>env_link</strong>：指向<code>env_free_list</code>中的下一个<code>Env</code>, <code>env_free_list</code>指向空闲env链表的第一个env环境。</p>
+<p><strong>env_id</strong>：当前Env环境的唯一id。即使用户环境终止，这个结构体被重新分配在同一块空间，这个id值还是不同的。</p>
+<p><strong>env_parent_id</strong>：内核储存env_id环境的父用户环境id。</p>
+<p><strong>env_type</strong>：用来区别特定环境。大部分情况是<code>ENV_TYPE_USER</code>。</p>
+<p><strong>env_status</strong>：这个变量保存了以下几种值</p>
+<ul>
+<li>ENV_FREE： 这个Env结构体不活跃，因此在<code>env_free_list</code>中。</li>
+<li>ENV_RUNNABLE：这个结构体对应的环境等待被运行。</li>
+<li>ENV_RUNNING：这个结构体对应的环境正在运行。</li>
+<li>ENV_NOT_RUNNABLE：当前环境是活跃的但没准备运行。比如等待其他环境进行IPC(进程通信)。</li>
+<li>ENV_DYING：这是个僵尸环境，下一次陷入内核会被释放。</li>
+</ul>
+<p>如同Unix进程，JOS环境结合了线程和地址空间。线程通常由被保存的寄存器定义，地址空间由env_pgdir指向的页目录和页表定义。想要运行环境必须给CPU设置合适的寄存器和地址空间。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      MIT6.828
+    
+    </summary>
+    
+    
+      <category term="MIT6.828" scheme="http://xinqiu.me/tags/MIT6-828/"/>
+    
+  </entry>
   
   <entry>
     <title>MIT 6.828 Lab 2</title>
@@ -1608,28 +1657,6 @@ MathJax.Hub.Config({
     
     
       <category term="csapp" scheme="http://xinqiu.me/tags/csapp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Me</title>
-    <link href="http://xinqiu.me/2015/09/11/Me/"/>
-    <id>http://xinqiu.me/2015/09/11/Me/</id>
-    <published>2015-09-10T16:00:00.000Z</published>
-    <updated>2016-02-28T06:43:06.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="u5173_u4E8E_u4E00_u4EBACode"><a href="#u5173_u4E8E_u4E00_u4EBACode" class="headerlink" title="关于一人Code"></a>关于一人Code</h2><p>这是从我开始上大学开始记录的Blog。关于一人Code，算是我自己的写照，多少次夹在两个打LOL的同学之间，敲着厚厚的编程书中源码亦或做做OJ。虽然不是在重点学校，我努力按照国内外重点大学来要求自己。不管是看英文原著或者夯实基础，这期间，应该算是都是自己一个人在做。一人Code，或许只有耐得住寂寞的Coding，才能将来成为一个合格的Coder。</p>
-<h2 id="u5173_u4E8E_u6211"><a href="#u5173_u4E8E_u6211" class="headerlink" title="关于我"></a>关于我</h2><p>我是仇鑫，大二网络工程专业。热爱开源和折腾各种技术。平时做做开源翻译和个人小项目，大部分时间还在看基础的知识。关于项目可以在项目页面查看。主要擅长Python，C，docker。从开学开始就一直 Unix/Linux 环境操作，Mysql/Redis这些算是了解熟悉。Raspberry Pi自己入手了2个，也算是小有研究。最近在深入研究Python，顺便和老师在做关于WiFi信号侦测人体运动相关的实验。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      AboutMe
-    
-    </summary>
-    
-      <category term="AboutMe" scheme="http://xinqiu.me/categories/AboutMe/"/>
-    
     
   </entry>
   
