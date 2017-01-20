@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title><![CDATA[Machine Learning Note 1]]></title>
+      <url>http://xinqiu.me/2017/01/20/cs20si-1/</url>
+      <content type="html"><![CDATA[<h2 id="u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow"><a href="#u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow" class="headerlink" title="笔记1: 介绍TensorFlow"></a>笔记1: 介绍TensorFlow</h2><p>“CS 20SI: TensorFlow for Deep Learning Research” (<a href="http://cs20si.stanford.edu" target="_blank" rel="external">http://cs20si.stanford.edu</a>) 这门课是由Chip Huyen(huyenn@stanford.edu)老师上的，我就简单的做做笔记整理&gt; &lt;.</p>
+<p>Tensorflow是什么，它很火，哪些公司在用它，它是如何安装的，我这里就不啰嗦了，这些内容网上一大把。</p>
+<h3 id="u4E00-_u5F00_u59CB_u5199Tensorflow_u4EE3_u7801"><a href="#u4E00-_u5F00_u59CB_u5199Tensorflow_u4EE3_u7801" class="headerlink" title="一.开始写Tensorflow代码"></a>一.开始写Tensorflow代码</h3><p>这部分内容是可以跳过的，讲的是简单的一个tf程序。(我添加了导入一些包，不然运行不了)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># iris.py</span></div><div class="line"><span class="comment"># </span></div><div class="line"><span class="comment"># Load dataset.</span></div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> cross_validation</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</div><div class="line"></div><div class="line">iris = tf.contrib.learn.datasets.load_dataset(<span class="string">'iris'</span>)</div><div class="line"></div><div class="line">x_train, x_test, y_train, y_test = cross_validation.train_test_split(iris.data, iris.target, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</div><div class="line">						</div><div class="line"><span class="comment"># Build 3 layer DNN with 10, 20, 10 units respectively.</span></div><div class="line">feature_columns = tf.contrib.learn.infer_real_valued_columns_from_input(x_train)</div><div class="line"></div><div class="line">classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns, hidden_units=[<span class="number">10</span>, <span class="number">20</span>, <span class="number">10</span>], n_classes=<span class="number">3</span>)</div><div class="line">					</div><div class="line"><span class="comment"># Fit and predict.</span></div><div class="line">classifier.fit(x_train, y_train, steps=<span class="number">200</span>)</div><div class="line"></div><div class="line">predictions = list(classifier.predict(x_test, as_iterable=<span class="keyword">True</span>))</div><div class="line">score = metrics.accuracy_score(y_test, predictions)</div><div class="line">print(<span class="string">'Accuracy: &#123;0:f&#125;'</span>.format(score))</div></pre></td></tr></table></figure>
+<p>运行结果 Accuracy: 0.933333</p>
+<h4 id="1-_TF_Learn__28tf-contrib-learn_29"><a href="#1-_TF_Learn__28tf-contrib-learn_29" class="headerlink" title="1. TF Learn (tf.contrib.learn)"></a>1. TF Learn (tf.contrib.learn)</h4><p>TensorFlow的简单接口，TF Learn (tensorflow.contrib.learn)，提供已经实现的模型可供使用者简单的调用。类似scikit learn，通过简单的几行代码就可以开始深度学习。事实上TF Learn期初是Scikit Flow (SKFlow)这个独立的项目。</p>
+<p>TF Learn可以导入数据，构造模型，模型拟合，评估准确性。很多模型可以调用，比如线性分类，线性回归，DNN分类器。</p>
+<h4 id="2-_TF-Slim__28tf-contrib-slim_29"><a href="#2-_TF-Slim__28tf-contrib-slim_29" class="headerlink" title="2. TF-Slim (tf.contrib.slim)"></a>2. TF-Slim (tf.contrib.slim)</h4><p>TF-Slim可以用来简单构建、训练、评估神经网络。</p>
+<h4 id="3-_TensorFlow_u4E4B_u4E0A_u7684_u9AD8_u7EA7APIs"><a href="#3-_TensorFlow_u4E4B_u4E0A_u7684_u9AD8_u7EA7APIs" class="headerlink" title="3. TensorFlow之上的高级APIs"></a>3. TensorFlow之上的高级APIs</h4><p>有很多基于TensorFlow的APIs， 比如Keras (keras@GitHub), TFLearn (tflearn@GitHub), 和 Pretty Tensor (prettytensor@GitHub)。现在据说Keras准备作为官方默认API了，Keras真的超级好用&gt; &lt;.</p>
+<p>TFLearn支持ConvNets, LSTM, BiRNN, ResNets, Generative networks以及一些特征BatchNorm, PReLU.</p>
+<p>当然啦，TensorFlow的目的不是提供开箱即用的机器学习工具箱，而是希望能够针对不同场景不同需求，更灵活的搭建合适的架构来自己使用。</p>
+<h3 id="Data_Flow_Graph__28_u6570_u636E_u6D41_u56FE_29"><a href="#Data_Flow_Graph__28_u6570_u636E_u6D41_u56FE_29" class="headerlink" title="Data Flow Graph (数据流图)"></a>Data Flow Graph (数据流图)</h3><p>TF使用数据流图，所有的计算都在图(graphs)中。session(这个我也不知道中文该怎么称呼，感觉英文就挺好的)用来分配给变量内存。参考这篇文章什么是tensorflow session。总之就是图是用来定义计算的，session是执行图里的计算的。</p>
+<p>note 1 结束了，感觉有点少，算是入坑的开头吧&gt; &lt;</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[MIT 6.828 Lab 3]]></title>
       <url>http://xinqiu.me/2017/01/17/MIT-6.828-3/</url>
       <content type="html"><![CDATA[<p>继续开始Lab3，用户环境。</p>
@@ -35,6 +54,22 @@
 <li>ENV_DYING：这是个僵尸环境，下一次陷入内核会被释放。</li>
 </ul>
 <p>如同Unix进程，JOS环境结合了线程和地址空间。线程通常由被保存的寄存器定义，地址空间由env_pgdir指向的页目录和页表定义。想要运行环境必须给CPU设置合适的寄存器和地址空间。</p>
+<h3 id="u5206_u914D_u73AF_u5883_u6570_u7EC4"><a href="#u5206_u914D_u73AF_u5883_u6570_u7EC4" class="headerlink" title="分配环境数组"></a>分配环境数组</h3><p>修改mem_init()去分配一个Env数组envs。</p>
+<h4 id="Exercise_1"><a href="#Exercise_1" class="headerlink" title="Exercise 1"></a>Exercise 1</h4><p>分配一个envs数组，这个数组包含Env结构体的实例NENV。和pages数组一样，这个envs应该映射到用户只读的UENVS(定义在<code>inc/memlayout.h</code>)，这样用户进程可以读取。通过修改mem_init()，首先是初始化envs指针，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// Make &apos;envs&apos; point to an array of size &apos;NENV&apos; of &apos;struct Env&apos;.</div><div class="line">// LAB 3: Your code here.</div><div class="line">envs = (struct Env*)boot_alloc(NENV*sizeof(struct Env));</div><div class="line">memset(envs, 0, NENV*sizeof(struct Env));</div></pre></td></tr></table></figure>
+<p>接着是准备映射，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// Map the &apos;envs&apos; array read-only by the user at linear address UENVS</div><div class="line">// (ie. perm = PTE_U | PTE_P).</div><div class="line">// Permissions:</div><div class="line">//    - the new image at UENVS  -- kernel R, user R</div><div class="line">//    - envs itself -- kernel RW, user NONE</div><div class="line">// LAB 3: Your code here.</div><div class="line">boot_map_region(kern_pgdir, UENVS, PTSIZE, PADDR(envs), PTE_U);</div></pre></td></tr></table></figure>
+<p>通过<code>make qemu-nox</code>可看到<code>check_kern_pgdir() succeeded!</code>证明有用。</p>
+<h3 id="u521B_u5EFA_u548C_u8FD0_u884C_u73AF_u5883"><a href="#u521B_u5EFA_u548C_u8FD0_u884C_u73AF_u5883" class="headerlink" title="创建和运行环境"></a>创建和运行环境</h3><p>完善<code>kern/env.c</code>使之能够运行一个用户环境。因为还没做文件系统，所以设置内核去加载一个静态二进制镜像，JOS将这个作为ELF可执行镜像嵌入内核。</p>
+<p>Lab3的GNUmakefile生成若干二进制镜像在<code>obj/user/</code>目录。</p>
+<p>在<code>kern/init.c</code>中的i386_init()中，运行这些二进制镜像的代码都在一个环境中。</p>
+<h4 id="Exercise_2"><a href="#Exercise_2" class="headerlink" title="Exercise 2"></a>Exercise 2</h4><p> 完成 <code>env.c</code>的以下几个函数。</p>
+<ul>
+<li><p>env_init()：初始化envs数组中的所有Env结构体并添加到env_free_list中，同时调用env_init_percpu，用来配置硬件不同段，特权级0是内核段，特权级3是用户段。</p>
+</li>
+<li><p>env_setup_vm()：分配一个页目录给新的环境并初始化</p>
+</li>
+</ul>
 ]]></content>
     </entry>
     

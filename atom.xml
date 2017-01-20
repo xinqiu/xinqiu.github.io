@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2017-01-18T03:51:15.000Z</updated>
+  <updated>2017-01-20T14:46:13.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -16,11 +16,44 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Machine Learning Note 1</title>
+    <link href="http://xinqiu.me/2017/01/20/cs20si-1/"/>
+    <id>http://xinqiu.me/2017/01/20/cs20si-1/</id>
+    <published>2017-01-19T16:00:00.000Z</published>
+    <updated>2017-01-20T14:46:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow"><a href="#u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow" class="headerlink" title="笔记1: 介绍TensorFlow"></a>笔记1: 介绍TensorFlow</h2><p>“CS 20SI: TensorFlow for Deep Learning Research” (<a href="http://cs20si.stanford.edu" target="_blank" rel="external">http://cs20si.stanford.edu</a>) 这门课是由Chip Huyen(huyenn@stanford.edu)老师上的，我就简单的做做笔记整理&gt; &lt;.</p>
+<p>Tensorflow是什么，它很火，哪些公司在用它，它是如何安装的，我这里就不啰嗦了，这些内容网上一大把。</p>
+<h3 id="u4E00-_u5F00_u59CB_u5199Tensorflow_u4EE3_u7801"><a href="#u4E00-_u5F00_u59CB_u5199Tensorflow_u4EE3_u7801" class="headerlink" title="一.开始写Tensorflow代码"></a>一.开始写Tensorflow代码</h3><p>这部分内容是可以跳过的，讲的是简单的一个tf程序。(我添加了导入一些包，不然运行不了)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># iris.py</span></div><div class="line"><span class="comment"># </span></div><div class="line"><span class="comment"># Load dataset.</span></div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> cross_validation</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</div><div class="line"></div><div class="line">iris = tf.contrib.learn.datasets.load_dataset(<span class="string">'iris'</span>)</div><div class="line"></div><div class="line">x_train, x_test, y_train, y_test = cross_validation.train_test_split(iris.data, iris.target, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</div><div class="line">						</div><div class="line"><span class="comment"># Build 3 layer DNN with 10, 20, 10 units respectively.</span></div><div class="line">feature_columns = tf.contrib.learn.infer_real_valued_columns_from_input(x_train)</div><div class="line"></div><div class="line">classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns, hidden_units=[<span class="number">10</span>, <span class="number">20</span>, <span class="number">10</span>], n_classes=<span class="number">3</span>)</div><div class="line">					</div><div class="line"><span class="comment"># Fit and predict.</span></div><div class="line">classifier.fit(x_train, y_train, steps=<span class="number">200</span>)</div><div class="line"></div><div class="line">predictions = list(classifier.predict(x_test, as_iterable=<span class="keyword">True</span>))</div><div class="line">score = metrics.accuracy_score(y_test, predictions)</div><div class="line">print(<span class="string">'Accuracy: &#123;0:f&#125;'</span>.format(score))</div></pre></td></tr></table></figure>
+<p>运行结果 Accuracy: 0.933333</p>
+<h4 id="1-_TF_Learn__28tf-contrib-learn_29"><a href="#1-_TF_Learn__28tf-contrib-learn_29" class="headerlink" title="1. TF Learn (tf.contrib.learn)"></a>1. TF Learn (tf.contrib.learn)</h4><p>TensorFlow的简单接口，TF Learn (tensorflow.contrib.learn)，提供已经实现的模型可供使用者简单的调用。类似scikit learn，通过简单的几行代码就可以开始深度学习。事实上TF Learn期初是Scikit Flow (SKFlow)这个独立的项目。</p>
+<p>TF Learn可以导入数据，构造模型，模型拟合，评估准确性。很多模型可以调用，比如线性分类，线性回归，DNN分类器。</p>
+<h4 id="2-_TF-Slim__28tf-contrib-slim_29"><a href="#2-_TF-Slim__28tf-contrib-slim_29" class="headerlink" title="2. TF-Slim (tf.contrib.slim)"></a>2. TF-Slim (tf.contrib.slim)</h4><p>TF-Slim可以用来简单构建、训练、评估神经网络。</p>
+<h4 id="3-_TensorFlow_u4E4B_u4E0A_u7684_u9AD8_u7EA7APIs"><a href="#3-_TensorFlow_u4E4B_u4E0A_u7684_u9AD8_u7EA7APIs" class="headerlink" title="3. TensorFlow之上的高级APIs"></a>3. TensorFlow之上的高级APIs</h4><p>有很多基于TensorFlow的APIs， 比如Keras (keras@GitHub), TFLearn (tflearn@GitHub), 和 Pretty Tensor (prettytensor@GitHub)。现在据说Keras准备作为官方默认API了，Keras真的超级好用&gt; &lt;.</p>
+<p>TFLearn支持ConvNets, LSTM, BiRNN, ResNets, Generative networks以及一些特征BatchNorm, PReLU.</p>
+<p>当然啦，TensorFlow的目的不是提供开箱即用的机器学习工具箱，而是希望能够针对不同场景不同需求，更灵活的搭建合适的架构来自己使用。</p>
+<h3 id="Data_Flow_Graph__28_u6570_u636E_u6D41_u56FE_29"><a href="#Data_Flow_Graph__28_u6570_u636E_u6D41_u56FE_29" class="headerlink" title="Data Flow Graph (数据流图)"></a>Data Flow Graph (数据流图)</h3><p>TF使用数据流图，所有的计算都在图(graphs)中。session(这个我也不知道中文该怎么称呼，感觉英文就挺好的)用来分配给变量内存。参考这篇文章什么是tensorflow session。总之就是图是用来定义计算的，session是执行图里的计算的。</p>
+<p>note 1 结束了，感觉有点少，算是入坑的开头吧&gt; &lt;</p>
+]]></content>
+    
+    <summary type="html">
+    
+      CS 20SI: Tensorflow的Deep Learning研究笔记(一)
+    
+    </summary>
+    
+    
+      <category term="deep-learning" scheme="http://xinqiu.me/tags/deep-learning/"/>
+    
+  </entry>
+  
+  <entry>
     <title>MIT 6.828 Lab 3</title>
     <link href="http://xinqiu.me/2017/01/17/MIT-6.828-3/"/>
     <id>http://xinqiu.me/2017/01/17/MIT-6.828-3/</id>
     <published>2017-01-16T16:00:00.000Z</published>
-    <updated>2017-01-18T03:51:15.000Z</updated>
+    <updated>2017-01-20T09:20:09.000Z</updated>
     
     <content type="html"><![CDATA[<p>继续开始Lab3，用户环境。</p>
 <a id="more"></a>
@@ -51,6 +84,22 @@
 <li>ENV_DYING：这是个僵尸环境，下一次陷入内核会被释放。</li>
 </ul>
 <p>如同Unix进程，JOS环境结合了线程和地址空间。线程通常由被保存的寄存器定义，地址空间由env_pgdir指向的页目录和页表定义。想要运行环境必须给CPU设置合适的寄存器和地址空间。</p>
+<h3 id="u5206_u914D_u73AF_u5883_u6570_u7EC4"><a href="#u5206_u914D_u73AF_u5883_u6570_u7EC4" class="headerlink" title="分配环境数组"></a>分配环境数组</h3><p>修改mem_init()去分配一个Env数组envs。</p>
+<h4 id="Exercise_1"><a href="#Exercise_1" class="headerlink" title="Exercise 1"></a>Exercise 1</h4><p>分配一个envs数组，这个数组包含Env结构体的实例NENV。和pages数组一样，这个envs应该映射到用户只读的UENVS(定义在<code>inc/memlayout.h</code>)，这样用户进程可以读取。通过修改mem_init()，首先是初始化envs指针，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// Make &apos;envs&apos; point to an array of size &apos;NENV&apos; of &apos;struct Env&apos;.</div><div class="line">// LAB 3: Your code here.</div><div class="line">envs = (struct Env*)boot_alloc(NENV*sizeof(struct Env));</div><div class="line">memset(envs, 0, NENV*sizeof(struct Env));</div></pre></td></tr></table></figure>
+<p>接着是准备映射，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// Map the &apos;envs&apos; array read-only by the user at linear address UENVS</div><div class="line">// (ie. perm = PTE_U | PTE_P).</div><div class="line">// Permissions:</div><div class="line">//    - the new image at UENVS  -- kernel R, user R</div><div class="line">//    - envs itself -- kernel RW, user NONE</div><div class="line">// LAB 3: Your code here.</div><div class="line">boot_map_region(kern_pgdir, UENVS, PTSIZE, PADDR(envs), PTE_U);</div></pre></td></tr></table></figure>
+<p>通过<code>make qemu-nox</code>可看到<code>check_kern_pgdir() succeeded!</code>证明有用。</p>
+<h3 id="u521B_u5EFA_u548C_u8FD0_u884C_u73AF_u5883"><a href="#u521B_u5EFA_u548C_u8FD0_u884C_u73AF_u5883" class="headerlink" title="创建和运行环境"></a>创建和运行环境</h3><p>完善<code>kern/env.c</code>使之能够运行一个用户环境。因为还没做文件系统，所以设置内核去加载一个静态二进制镜像，JOS将这个作为ELF可执行镜像嵌入内核。</p>
+<p>Lab3的GNUmakefile生成若干二进制镜像在<code>obj/user/</code>目录。</p>
+<p>在<code>kern/init.c</code>中的i386_init()中，运行这些二进制镜像的代码都在一个环境中。</p>
+<h4 id="Exercise_2"><a href="#Exercise_2" class="headerlink" title="Exercise 2"></a>Exercise 2</h4><p> 完成 <code>env.c</code>的以下几个函数。</p>
+<ul>
+<li><p>env_init()：初始化envs数组中的所有Env结构体并添加到env_free_list中，同时调用env_init_percpu，用来配置硬件不同段，特权级0是内核段，特权级3是用户段。</p>
+</li>
+<li><p>env_setup_vm()：分配一个页目录给新的环境并初始化</p>
+</li>
+</ul>
 ]]></content>
     
     <summary type="html">
@@ -1597,66 +1646,6 @@ MathJax.Hub.Config({
     
     
       <category term="MyLife" scheme="http://xinqiu.me/tags/MyLife/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读书笔记——CSAPP第二章</title>
-    <link href="http://xinqiu.me/2015/09/27/csapp-2/"/>
-    <id>http://xinqiu.me/2015/09/27/csapp-2/</id>
-    <published>2015-09-26T16:00:00.000Z</published>
-    <updated>2016-02-11T05:00:23.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>CSAPP(Computer Systems: A Programmer’s Perspective )，中文书名为深入理解计算机系统。这本书的好不需多言。为了锻炼英文阅读能力，我特地买的是英文原版。第一章比较简短，简单的从一段Hello World C程序，慢慢深入计算机底层的运行机制。可以说这一章就是本书的框架。以下是从第二章开始，记录了我遇到的困惑，一些简单的就不再介绍，书上已经写的很详细。</p>
-</blockquote>
-<!--toc-->
-<a id="more"></a>
-<h2 id="u7B2C_u4E00_u90E8_u5206__u7A0B_u5E8F_u7ED3_u6784_u548C_u6267_u884C"><a href="#u7B2C_u4E00_u90E8_u5206__u7A0B_u5E8F_u7ED3_u6784_u548C_u6267_u884C" class="headerlink" title="第一部分 程序结构和执行"></a>第一部分 程序结构和执行</h2><h3 id="u4FE1_u606F_u7684_u8868_u793A_u548C_u5904_u7406"><a href="#u4FE1_u606F_u7684_u8868_u793A_u548C_u5904_u7406" class="headerlink" title="信息的表示和处理"></a>信息的表示和处理</h3><h4 id="u4FE1_u606F_u50A8_u5B58"><a href="#u4FE1_u606F_u50A8_u5B58" class="headerlink" title="信息储存"></a>信息储存</h4><p>现代计算机存储和处理的信息以二值信号表示。其中，有三种重要的数字表示。<code>无符号</code>(unsigned)编码基于传统的二进制表示法,表示 大于或者等于零的数字。<code>补码</code>(two’s-complement)编码是表示有符号整数的最常见的方式,有 符号整数就是可以为正或者为负的数字。<code>浮点数</code>(floating-point)编码是表示实数的科学记数法的以二为基数的版本。</p>
-<p>大多数计算机使用 8 位的块,或者<code>字节</code>(byte),作为最小的可寻址的存储器单位。机器级程序将存储器视为一个非常大的字节数组,<br>称为<code>虚拟存储器</code>(virtual memory)。存储器的每个字节都由 一个唯一的数字来标识,称为它的<code>地址</code>(address),所有可<br>能地址的集合称为<code>虚拟地址空间</code>(virtual address space)。</p>
-<p>每台计算机都有一个<code>字长</code>(word size),指明整数和指针数据的<code>标称大小</code>(nominal size)。字长决定的最重要的系统参数就是虚拟地址空间的最大大小。对于一个字长为 w 位的机器而言,虚拟地址的范围为 0 ~ <img src="http://www.zhihu.com/equation?tex=2^{w-1}" alt="">,程序最多 访问 <img src="http://www.zhihu.com/equation?tex=2^{w}" alt=""> 个字节。</p>
-<p>在寻址和字节顺序这一块，有一些需要注意的地方。首先是位表示一个数。存在两种表示方法。<code>小端法</code>(little endian)，最低有效字节在最前面的方式。相反，大端法(big endian)，最高有效字节在最前面的方式。</p>
-<p>举个例子，12 34 56 78</p>
-<p>小端法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+----+----+----+</div><div class="line"></div><div class="line">|0x78|0x56|0x34|0x12|</div><div class="line"></div><div class="line">+----+----+----+----+</div></pre></td></tr></table></figure>
-<p>大端法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+----+----+----+</div><div class="line"></div><div class="line">|0x12|0x34|0x56|0x78|</div><div class="line"></div><div class="line">+----+----+----+----+</div></pre></td></tr></table></figure>
-<h4 id="u79FB_u4F4D_u8FD0_u7B97"><a href="#u79FB_u4F4D_u8FD0_u7B97" class="headerlink" title="移位运算"></a>移位运算</h4><p><code>移位</code>运算就是向左移、向右移。向左移(&lt;&lt;)都是舍弃最高位，右端用0来补。而右移就出现了两种形式：<code>逻辑</code>右移（logical）和<code>算术</code>右移（arithmetic）。<code>逻辑右移</code>是在左端用0来补位。<code>算术右移</code>是在左端用1来补位。其中，算术右移对有有符号整数数据的运算非常有用。对于无符号数据，右移必须是逻辑的。</p>
-<h4 id="u8865_u7801_u7F16_u7801"><a href="#u8865_u7801_u7F16_u7801" class="headerlink" title="补码编码"></a>补码编码</h4><p>有符号数的表示方法比较常见的是<code>补码</code>(two’s-complement)形式。最高有效位是符号为。如果是0就是正数，1是负数。这个最高有效位算是负权(negative weight)，权重为<img src="http://www.zhihu.com/equation?tex=-2^{w-1}" alt="">，其中w为位数。书中<code>Figure 2.12</code>直白的展示了正负数的表示。</p>
-<p>还有其他的表示方法，比如反码(Ones’Complement)、原码(Sign-Magnitude)。</p>
-<h4 id="u6709_u7B26_u53F7_u6570_u548C_u65E0_u7B26_u53F7_u6570_u4E4B_u95F4_u7684_u8F6C_u6362"><a href="#u6709_u7B26_u53F7_u6570_u548C_u65E0_u7B26_u53F7_u6570_u4E4B_u95F4_u7684_u8F6C_u6362" class="headerlink" title="有符号数和无符号数之间的转换"></a>有符号数和无符号数之间的转换</h4><p>书中写的比较详细，可以参考<code>Figure 2.15</code>，<code>Figure 2.16</code>，<code>Figure 2.17</code>辅助理解。</p>
-<h4 id="u6269_u5C55_u4E00_u4E2A_u6570_u5B57_u7684_u4F4D_u8868_u793A"><a href="#u6269_u5C55_u4E00_u4E2A_u6570_u5B57_u7684_u4F4D_u8868_u793A" class="headerlink" title="扩展一个数字的位表示"></a>扩展一个数字的位表示</h4><p>将一个无符号数转为一个更大的数据类型，只需简单的在表示的开头添加0，这种运算称为<code>零扩展</code>(zero extension)。将一个补码数字转换为一个更大的数据类型可以执行<code>符号扩展</code>(sign extension)，规则是在表示中添加最高有效位的值的副本。</p>
-<h4 id="u6D6E_u70B9_u6570"><a href="#u6D6E_u70B9_u6570" class="headerlink" title="浮点数"></a>浮点数</h4><p>本书提到了IEEE浮点表示。IEEE浮点标准<img src="http://www.zhihu.com/equation?tex=V=(-1" alt="">^s<em>M</em>2^E)的形式来表示一个数：</p>
-<ul>
-<li><p>符号(sign) s 决定这个数是负数(s=1)还是正数(s=0),而对于数值 0 的符号位解释作为特殊情况处理。</p>
-</li>
-<li><p>尾数(significand) M 是一个二进制小数,它的范围是 1 ~ 2 - ε,或者是 0 ~ 1 - ε。</p>
-</li>
-<li><p>阶码(exponent) E 的作用是对浮点数加权,这个权重是 2 的 E 次幂(可能是负数)。 将浮点数的位表示划分为三个字段,分别对这些值进行编码:</p>
-<ul>
-<li><p>一个单独的符号位 s 直接编码符号 s。</p>
-</li>
-<li><p>k位的阶码字段exp=<img src="http://www.zhihu.com/equation?tex=e_{k-1}" alt="">…<img src="http://www.zhihu.com/equation?tex=e_{1}" alt=""><img src="http://www.zhihu.com/equation?tex=e_{0}" alt="">编码阶码E。</p>
-</li>
-<li><p>n 位小数字段 frac = <img src="http://www.zhihu.com/equation?tex=f_{n-1}" alt="">…<img src="http://www.zhihu.com/equation?tex=f_{1}" alt=""> <img src="http://www.zhihu.com/equation?tex=f_{0}" alt=""> 编码尾数 M,但是编码出来的值也依赖于阶码字段的值是否等于 0。</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>其中，浮点数32位的阶码有8位，64位的阶码有23位。</p>
-<p>对于规格化的值，非规格化的值，特殊值的计算，还需多看书中的知识点。IEEE 754表示法，CSAPP对阶码E的求解和学校教材的不同，这里我有点疑惑，最后还是决定相信CSAPP。</p>
-<h4 id="u820D_u5165"><a href="#u820D_u5165" class="headerlink" title="舍入"></a>舍入</h4><p><code>figure 2.36</code> 展示了4中舍入方法，可以简单看看作为了解。</p>
-<h3 id="u5C0F_u7ED3"><a href="#u5C0F_u7ED3" class="headerlink" title="小结"></a>小结</h3><p>这一章节学习了数的表示。很多人会感觉这块知识感觉没什么用，写个程序用不到这个呀。其实错了，这恰恰是编程中基础的基础。理解计算机是如何工作的，如何处理数的，才能优化程序，减少程序中可以出现的因为对数的操作不当引起的bug。后面的作业和配套的lab正在做。Github上有我的一些解答。希望大家能提出宝贵的建议。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      csapp
-    
-    </summary>
-    
-    
-      <category term="csapp" scheme="http://xinqiu.me/tags/csapp/"/>
     
   </entry>
   
