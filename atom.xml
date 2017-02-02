@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2017-01-20T14:46:13.000Z</updated>
+  <updated>2017-02-02T10:50:48.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -16,11 +16,52 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Machine Learning Note 1</title>
+    <title>Tensorflow for Deep Learning 2</title>
+    <link href="http://xinqiu.me/2017/01/20/cs20si-2/"/>
+    <id>http://xinqiu.me/2017/01/20/cs20si-2/</id>
+    <published>2017-01-19T16:00:00.000Z</published>
+    <updated>2017-02-02T10:50:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="u7B14_u8BB02_3A_TensorFlow_Ops"><a href="#u7B14_u8BB02_3A_TensorFlow_Ops" class="headerlink" title="笔记2: TensorFlow Ops"></a>笔记2: TensorFlow Ops</h2><h3 id="1-_u4F7F_u7528_TensorBoard"><a href="#1-_u4F7F_u7528_TensorBoard" class="headerlink" title="1.使用 TensorBoard"></a>1.使用 TensorBoard</h3><p>TensorFlow 中将常量(constants),变量(variables),运算符(operators)合称为操作(ops)。TensorFlow 是由TensorFlow, TensorBoard, TensorServing 构成。首先介绍 TensorBoard。</p>
+<p>TensorBoard 是图可视化软件。</p>
+<p><img src="https://www.tensorflow.org/versions/master/images/mnist_tensorboard.png" alt=""></p>
+<p>当用户运行开启 TensorBoard 的 TensorFlow 程序，所有操作会输出到一个事件文件。TensorBoard 能将这些文件转为图，使模型更直观。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">import tensorflow as tf</div><div class="line">a = tf.constant(2)</div><div class="line">b = tf.constant(3)</div><div class="line">x = tf.add(a, b)</div><div class="line">with tf.Session() as sess:</div><div class="line">    print sess.run(x)</div></pre></td></tr></table></figure>
+<p>开启 TensorBoard 只需要在运行程序的代码前添加 </p>
+<p><code>writer = tf.summary.FileWriter(logs_dir,sess.graph)</code></p>
+<p>其中 logs_dir 是事件文件的存放位置，比如’./graphs’。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import tensorflow as tf</div><div class="line">a = tf.constant(2)</div><div class="line">b = tf.constant(3)</div><div class="line">x = tf.add(a, b)</div><div class="line">with tf.Session() as sess:</div><div class="line">	writer = tf.summary.FileWriter(&apos;./graphs&apos;, sess.graph)</div><div class="line">	print sess.run(x)</div><div class="line"></div><div class="line"># close the writer when you’re done using it</div><div class="line">writer.close()</div></pre></td></tr></table></figure>
+<p>在执行完上述代码以后，使用 <code>tensorboard --logdir=&quot;./graphs&quot;</code>，之后打开浏览器访问 h  ttp://localhost:6006/ 就能看到以下页面。 建议使用 Chrome 访问。</p>
+<p><img src="1.png" alt=""></p>
+<p>点击导航上的 Graphs 可以看到</p>
+<center><img src="2.png" alt=""></center>
+
+<p>“Const” 和 “Const_1” 对应代码中的 a 和 b， “Add” 对应 x。这样很不直观，所以为了让 TensorBoard 显示 操作(ops) 的名字，可以准确定义每个变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">a = tf.constant([2, 2], name=&quot;a&quot;)</div><div class="line">b = tf.constant([3, 6], name=&quot;b&quot;)</div><div class="line">x = tf.add(a, b, name=&quot;add&quot;)</div></pre></td></tr></table></figure>
+<p>这时候 TensorBoard 中的图就是这样：</p>
+<center><img src="3.png" alt=""></center>
+
+<p>图本身只定义了操作和操作来源，但不显示值。只有在运行session时才会去获取值。</p>
+<p><code>tf.Session.run(fetches, feed_dict=None, options=None, run_metadata=None)</code></p>
+]]></content>
+    
+    <summary type="html">
+    
+      CS 20SI: Tensorflow的Deep Learning研究笔记(二)
+    
+    </summary>
+    
+    
+      <category term="deep-learning" scheme="http://xinqiu.me/tags/deep-learning/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tensorflow for Deep Learning 1</title>
     <link href="http://xinqiu.me/2017/01/20/cs20si-1/"/>
     <id>http://xinqiu.me/2017/01/20/cs20si-1/</id>
     <published>2017-01-19T16:00:00.000Z</published>
-    <updated>2017-01-20T14:46:13.000Z</updated>
+    <updated>2017-02-02T09:37:19.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow"><a href="#u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow" class="headerlink" title="笔记1: 介绍TensorFlow"></a>笔记1: 介绍TensorFlow</h2><p>“CS 20SI: TensorFlow for Deep Learning Research” (<a href="http://cs20si.stanford.edu" target="_blank" rel="external">http://cs20si.stanford.edu</a>) 这门课是由Chip Huyen(huyenn@stanford.edu)老师上的，我就简单的做做笔记整理&gt; &lt;.</p>
 <p>Tensorflow是什么，它很火，哪些公司在用它，它是如何安装的，我这里就不啰嗦了，这些内容网上一大把。</p>
@@ -53,13 +94,13 @@
     <link href="http://xinqiu.me/2017/01/17/MIT-6.828-3/"/>
     <id>http://xinqiu.me/2017/01/17/MIT-6.828-3/</id>
     <published>2017-01-16T16:00:00.000Z</published>
-    <updated>2017-01-24T03:27:12.000Z</updated>
+    <updated>2017-02-02T09:16:21.000Z</updated>
     
     <content type="html"><![CDATA[<p>继续开始Lab3，用户环境。</p>
 <a id="more"></a>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>这个lab要实现基础内核功能来保证被保护的用户模式环境正常运行。要为JOS内核添加数据结构，记录用户环境，创建单用户环境，加载程序镜像并运行。要让JOS内核能够处理系统调用和各种异常。</p>
+<h2 id="u5E8F_u8A00"><a href="#u5E8F_u8A00" class="headerlink" title="序言"></a>序言</h2><p>这个lab要实现基础内核功能来保证被保护的用户模式环境正常运行。要为JOS内核添加数据结构，记录用户环境，创建单用户环境，加载程序镜像并运行。要让JOS内核能够处理系统调用和各种异常。</p>
 <p><strong>注意</strong>：这里环境类似进程，用环境是为了与操作系统的进程做点区分，强调这是JOS的环境下。</p>
-<h2 id="Part_A_3A_User_Environments_and_Exception_Handling"><a href="#Part_A_3A_User_Environments_and_Exception_Handling" class="headerlink" title="Part A: User Environments and Exception Handling"></a>Part A: User Environments and Exception Handling</h2><p><code>inc/env.h</code>包含了用户环境的定义，内核使用 <code>ENV</code> 数据结构记录每个用户环境，这里用户环境有点像上下文，这个lab只要创建一个环境，但要设计JOS内核让其支持多环境。</p>
+<h2 id="Part_A_3A__u7528_u6237_u73AF_u5883_u548C_u5F02_u5E38_u5904_u7406"><a href="#Part_A_3A__u7528_u6237_u73AF_u5883_u548C_u5F02_u5E38_u5904_u7406" class="headerlink" title="Part A: 用户环境和异常处理"></a>Part A: 用户环境和异常处理</h2><p><code>inc/env.h</code>包含了用户环境的定义，内核使用 <code>ENV</code> 数据结构记录每个用户环境，这里用户环境有点像上下文，这个lab只要创建一个环境，但要设计JOS内核让其支持多环境。</p>
 <p>在<code>kern/env.c</code>中定义了三个全局变量:</p>
 <ul>
 <li>struct Env *envs = NULL;        // All environments</li>
@@ -113,15 +154,84 @@
 <h5 id="env_setup_vm"><a href="#env_setup_vm" class="headerlink" title="env_setup_vm"></a>env_setup_vm</h5><p>设置e-&gt;env_pgdir并初始化页目录，可以使用kern_pgdir作为模板。填上这个，计数器加一，将p转化为内核虚拟地址，然后以kern_pgdir为模板复制。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">p-&gt;pp_ref++;</div><div class="line">e-&gt;env_pgdir = page2kva(p);</div><div class="line"><span class="built_in">memcpy</span>(e-&gt;env_pgdir, kern_pgdir, PGSIZE);</div></pre></td></tr></table></figure>
 <h5 id="region_alloc"><a href="#region_alloc" class="headerlink" title="region_alloc"></a>region_alloc</h5><p>分配len字节的物理内存给env环境，之后映射到环境中的虚拟地址va。要注意的是，va和len都要进行对齐。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span></span></div><div class="line"><span class="title">region_alloc</span><span class="params">(<span class="keyword">struct</span> Env *e, <span class="keyword">void</span> *va, <span class="keyword">size_t</span> len)</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// LAB 3: Your code here.</span></div><div class="line">	<span class="comment">// (But only if you need it for load_icode.)</span></div><div class="line">	<span class="comment">//</span></div><div class="line">	<span class="comment">// Hint: It is easier to use region_alloc if the caller can pass</span></div><div class="line">	<span class="comment">//   'va' and 'len' values that are not page-aligned.</span></div><div class="line">	<span class="comment">//   You should round va down, and round (va + len) up.</span></div><div class="line">	<span class="comment">//   (Watch out for corner-cases!)</span></div><div class="line">	<span class="keyword">struct</span> PageInfo *p = <span class="literal">NULL</span>;</div><div class="line">	va = ROUNDDOWN(va, PGSIZE);</div><div class="line">	len = ROUNDUP(len, PGSIZE);</div><div class="line">	<span class="keyword">for</span> (; len; len-=PGSIZE, va+=PGSIZE); &#123;</div><div class="line">		<span class="keyword">if</span> (!(p = page_alloc(ALLOC_ZERO)))</div><div class="line">			<span class="keyword">return</span> -E_NO_MEM;</div><div class="line"></div><div class="line">		<span class="keyword">pte_t</span> *pte = pgdir_walk(e-&gt;env_pgdir, va, <span class="literal">true</span>);</div><div class="line">		<span class="keyword">if</span> (!pte)</div><div class="line">			panic(<span class="string">"Unable to alloc page."</span>);</div><div class="line"></div><div class="line">		<span class="keyword">int</span> r = page_insert(e-&gt;env_pgdir, p, va, PTE_U | PTE_W);</div><div class="line">		<span class="keyword">if</span> (r != <span class="number">0</span>)</div><div class="line">			panic(<span class="string">"Page mapping failed."</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="load_icode"><a href="#load_icode" class="headerlink" title="load_icode"></a>load_icode</h5><p>加载可读的ELF二进制镜像到用户环境内存，起始虚拟地址在ELF程序头部应该有，同时将这些段清零，和boot loader类似，之后映射给程序初始栈的一个页。只加载ph-&gt;p_type == ELF_PROG_LOAD的段，每个段的虚拟地址应该在ph-&gt;p_va，它的大小应该是ph-&gt;p_memsz。<code>binary + ph-&gt;p_offset</code>之后的ph-&gt;p_filesz字节要拷贝到虚拟地址ph-&gt;p_va，其他剩余内存应该清零。这个挺难的，我参考了这个<a href="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/Chapter5.pdf" target="_blank" rel="external">抢占式调度(lab3) 5.3.2.2</a>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">static void</div><div class="line">load_icode(struct Env *e, uint8_t *binary)</div><div class="line">&#123;</div><div class="line">	// LAB 3: Your code here.</div><div class="line">	struct Proghdr *ph, *eph;</div><div class="line">	struct Elf *elf_head = (struct Elf *)binary;</div><div class="line">	if (elf_head-&gt;e_magic != ELF_MAGIC) </div><div class="line">		panic(&quot;ELF binary image error.&quot;);</div><div class="line">	ph = (struct Proghdr*)((uint8_t*)(elf_head) + elf_head-&gt;e_phoff);</div><div class="line">	eph = ph + elf_head-&gt;e_phnum;</div><div class="line">	for(; ph &lt; eph; ph++)</div><div class="line">	&#123;</div><div class="line">		if (ph-&gt;p_type == ELF_PROG_LOAD) &#123;</div><div class="line">			region_alloc(e, (void *)ph-&gt;p_va, ph-&gt;p_memsz);</div><div class="line">			memmove((void*)ph-&gt;p_va,binary+ph-&gt;p_offset,ph-&gt;p_filesz);</div><div class="line">			memset((void*)(ph-&gt;p_va + ph-&gt;p_filesz),0,ph-&gt;p_memsz-ph-&gt;p_filesz);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	e-&gt;env_tf.tf_eip = elf_head-&gt;e_entry;</div><div class="line">	lcr3(PADDR(e-&gt;env_pgdir));</div><div class="line"></div><div class="line">	// Now map one page for the program&apos;s initial stack</div><div class="line">	// at virtual address USTACKTOP - PGSIZE.</div><div class="line"></div><div class="line">	// LAB 3: Your code here.</div><div class="line">	region_alloc(e, (void *)(USTACKTOP - PGSIZE), PGSIZE);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span></span></div><div class="line"><span class="title">region_alloc</span><span class="params">(<span class="keyword">struct</span> Env *e, <span class="keyword">void</span> *va, <span class="keyword">size_t</span> len)</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// LAB 3: Your code here.</span></div><div class="line">	<span class="comment">// (But only if you need it for load_icode.)</span></div><div class="line">	<span class="comment">//</span></div><div class="line">	<span class="comment">// Hint: It is easier to use region_alloc if the caller can pass</span></div><div class="line">	<span class="comment">//   'va' and 'len' values that are not page-aligned.</span></div><div class="line">	<span class="comment">//   You should round va down, and round (va + len) up.</span></div><div class="line">	<span class="comment">//   (Watch out for corner-cases!)</span></div><div class="line">	<span class="keyword">struct</span> PageInfo *p = <span class="literal">NULL</span>;</div><div class="line">	va = ROUNDDOWN(va, PGSIZE);</div><div class="line">	len = ROUNDUP(len, PGSIZE);</div><div class="line">	<span class="keyword">for</span> (; len; len-=PGSIZE, va+=PGSIZE) &#123;</div><div class="line">		<span class="keyword">if</span> (!(p = page_alloc(ALLOC_ZERO)))</div><div class="line">			panic(<span class="string">"allocation failed."</span>);</div><div class="line"></div><div class="line">		<span class="keyword">pte_t</span> *pte = pgdir_walk(e-&gt;env_pgdir, va, <span class="literal">true</span>);</div><div class="line">		<span class="keyword">if</span> (!pte)</div><div class="line">			panic(<span class="string">"Unable to alloc page."</span>);</div><div class="line"></div><div class="line">		<span class="keyword">int</span> r = page_insert(e-&gt;env_pgdir, p, va, PTE_U | PTE_W);</div><div class="line">		<span class="keyword">if</span> (r != <span class="number">0</span>)</div><div class="line">			panic(<span class="string">"Page mapping failed."</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="load_icode"><a href="#load_icode" class="headerlink" title="load_icode"></a>load_icode</h5><p>加载可读的ELF二进制镜像到用户环境内存，起始虚拟地址在ELF程序头部应该有，同时将这些段清零，和boot loader类似，之后映射给程序初始栈的一个页。只加载ph-&gt;p_type == ELF_PROG_LOAD的段，每个段的虚拟地址应该在ph-&gt;p_va，它的大小应该是ph-&gt;p_memsz。<code>binary + ph-&gt;p_offset</code>之后的ph-&gt;p_filesz字节要拷贝到虚拟地址ph-&gt;p_va，其他剩余内存应该清零。这个挺难的，我参考了这个<a href="http://grid.hust.edu.cn/zyshao/Teaching_Material/OSEngineering/Chapter5.pdf" target="_blank" rel="external">抢占式调度(lab3) 5.3.2.2</a>。这里一定要注意lcr3()这个函数，通过lcr3指令把页目录表的起始地址存入CR3寄存器，这里的拷贝到指定的虚地址处，是指用户空间的虚地址，而不是内核空间的虚地址，所以还需要用lcr3函数加载用户空间的页表目录才能将地址转换为用户空间地址。参考<a href="http://www.cnblogs.com/bdhmwz/p/5071081.html" target="_blank" rel="external">bdhmwz的MIT 6.828 JOS/XV6 lab3–PARTA</a>。因为这个问题折腾了半天括弧哭。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">static void</div><div class="line">load_icode(struct Env *e, uint8_t *binary)</div><div class="line">&#123;</div><div class="line">	// LAB 3: Your code here.</div><div class="line">	struct Proghdr *ph, *eph;</div><div class="line">	struct Elf *elf_head = (struct Elf *)binary;</div><div class="line">	if (elf_head-&gt;e_magic != ELF_MAGIC) </div><div class="line">		panic(&quot;ELF binary image error.&quot;);</div><div class="line"></div><div class="line">	lcr3(PADDR(e-&gt;env_pgdir));</div><div class="line">	ph = (struct Proghdr*)((uint8_t*)(elf_head) + elf_head-&gt;e_phoff);</div><div class="line">	eph = ph + elf_head-&gt;e_phnum;</div><div class="line">	for(; ph &lt; eph; ph++)</div><div class="line">	&#123;</div><div class="line">		if (ph-&gt;p_type == ELF_PROG_LOAD) &#123;</div><div class="line">			region_alloc(e, (void *)ph-&gt;p_va, ph-&gt;p_memsz);</div><div class="line">			memmove((void*)ph-&gt;p_va,binary+ph-&gt;p_offset,ph-&gt;p_filesz);</div><div class="line">			memset((void*)(ph-&gt;p_va + ph-&gt;p_filesz),0,ph-&gt;p_memsz-ph-&gt;p_filesz);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	e-&gt;env_tf.tf_eip = elf_head-&gt;e_entry;</div><div class="line">	lcr3(PADDR(kern_pgdir));</div><div class="line">	// Now map one page for the program&apos;s initial stack</div><div class="line">	// at virtual address USTACKTOP - PGSIZE.</div><div class="line"></div><div class="line">	// LAB 3: Your code here.</div><div class="line">	region_alloc(e, (void *)(USTACKTOP - PGSIZE), PGSIZE);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h5 id="env_create"><a href="#env_create" class="headerlink" title="env_create"></a>env_create</h5><p>使用env_alloc创建一个env，调用load_icode来加载elf二进制镜像，设置env_type。这个env的父id应该设为0</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">void</div><div class="line">env_create(uint8_t *binary, enum EnvType type)</div><div class="line">&#123;</div><div class="line">	// LAB 3: Your code here.</div><div class="line">	struct Env *e;</div><div class="line">	int r = env_alloc(&amp;e, 0);</div><div class="line">	if (r)</div><div class="line">		panic(&quot;env_alloc failed&quot;);</div><div class="line">	load_icode(e, binary);</div><div class="line">	e-&gt;env_type = type;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h5 id="env_run"><a href="#env_run" class="headerlink" title="env_run"></a>env_run</h5><p>切换上下文，首先判断当前环境是否为空，环境状态是不是ENV_RUNNING，之后将curenv指向新的环境，状态设为ENV_RUNNING，更新env_runs计数器，用lcr3切换到它的地址空间，使用env_pop_tf()储存环境计算器。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">void</div><div class="line">env_run(struct Env *e)</div><div class="line">&#123;</div><div class="line">	// LAB 3: Your code here.</div><div class="line">	if (curenv != NULL &amp;&amp; curenv-&gt;env_status == ENV_RUNNING)</div><div class="line">		curenv-&gt;env_status = ENV_RUNNABLE;</div><div class="line">	curenv = e;</div><div class="line">	curenv-&gt;env_status = ENV_RUNNING;</div><div class="line">	curenv-&gt;env_runs++;</div><div class="line">	lcr3(PADDR(curenv-&gt;env_pgdir));</div><div class="line">	env_pop_tf(&amp;(curenv-&gt;env_tf));</div><div class="line"></div><div class="line">	panic(&quot;env_run not yet implemented&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这时候<code>make qemu-nox</code>运行时会出现内存相关错误，暂时不需要担心。</p>
-]]></content>
+<p>来看一下程序启动的调用顺序图</p>
+<ul>
+<li>start (kern/entry.S)</li>
+<li>i386_init (kern/init.c)<ul>
+<li>cons_init</li>
+<li>mem_init</li>
+<li>env_init</li>
+<li>trap_init (still incomplete at this point)</li>
+<li>env_create</li>
+<li>env_run<ul>
+<li>env_pop_tf</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>编译完内核并且运行在QEMU中，正常情况应该是系统进入用户空间，执行hello二进制程序直到系统int指令。然而因为JOS还没有设置硬件使用户过渡到内核，所以会出现问题。当CPU发现系统不能处理系统调用中断，会生成一个通用保护异常，进而又产生一个双重错误异常，同样因为解决不了，最终会导致三重错误(triple fault)。通常需要重启使CPU复位，这很麻烦，还好是在QEMU中，就会出现寄存器dump。</p>
+<p>使用debugger去检查是否进入用户模式。使用<code>make qemu-gdb</code>然后在env_pop_tf处打断点。使用si单步调试，处理器执行iret指令之后的命令。</p>
+<h3 id="u5904_u7406_u4E2D_u65AD_u548C_u5F02_u5E38"><a href="#u5904_u7406_u4E2D_u65AD_u548C_u5F02_u5E38" class="headerlink" title="处理中断和异常"></a>处理中断和异常</h3><p>用户空间的系统调用指令 int $0x30 是终止：处理器进入用户模式但不能返回。所以要实现基础的异常和系统调用处理，这样内核就能从用户模式恢复控制权。</p>
+<h4 id="Exercise_3"><a href="#Exercise_3" class="headerlink" title="Exercise 3"></a>Exercise 3</h4><p>看<a href="https://pdos.csail.mit.edu/6.828/2016/readings/i386/c09.htm" target="_blank" rel="external">Chapter 9, Exceptions and Interrupts</a></p>
+<h4 id="u4FDD_u62A4_u6027_u63A7_u5236_u8F6C_u79FB"><a href="#u4FDD_u62A4_u6027_u63A7_u5236_u8F6C_u79FB" class="headerlink" title="保护性控制转移"></a>保护性控制转移</h4><p>异常和中断都是保护性控制转移，让处理器从用户模式切换到内核模式(CPL=0)，这样用户代码不会对内核或者其他环境造成影响。中断是由外部异步事件导致的处理器保护性控制转移，比如外设I/O的通知信号。异常是正在运行的代码同步事件导致的控制转移，比如除零或者访问无效内存。</p>
+<p>为了确保控制转移真的被保护，x86平台上有两种机制：</p>
+<ol>
+<li><p>中断描述符表。处理器确保中断和异常引起内核进入特定的入口点。</p>
+<p> x86允许最多256个不同的中断和异常入口点，每个都有一个独特的中断向量。向量是0到255的数字，中断向量由中断源决定:不同设备，错误条件以及请求内核产生中断的不同向量。CPU使用向量作为索引访问处理器中断描述符表(IDT)，这个是内核在内核私有内存设置的。处理器从合适的入口处加载：</p>
+<ul>
+<li>加载到EIP寄存器的值，这是个指向处理这种类型异常的内核代码的指针</li>
+<li>加载到CS寄存器的值，包含特权级0-1</li>
+</ul>
+</li>
+<li><p>任务状态段。处理器需要存放中断异常发生之前的旧的处理器状态，比如原始EIP值和CS值，这样可以之后还原到之前的状态。保存这个的位置必须要受保护不能随意修改。 </p>
+<p> 因此，x86处理器处理中断时会导致特权级由用户转为内核，也会将堆切换到内核内存中。任务状态段具体指明段选择子和堆栈的地址。处理器将SS, ESP, EFLAGS, CS, EIP和可选错误码压入堆栈中，之后从中断描述符中加载CS和EIP，设置ESP和SS指向新的堆栈。</p>
+</li>
+</ol>
+<h4 id="u5F02_u5E38_u548C_u4E2D_u65AD_u7684_u7C7B_u578B"><a href="#u5F02_u5E38_u548C_u4E2D_u65AD_u7684_u7C7B_u578B" class="headerlink" title="异常和中断的类型"></a>异常和中断的类型</h4><p>所用同步异常使用的中断向量在0到31，因此映射到IDT入口0-31。比如页错误导致的异常是向量14。大于31的中断向量通常是软件中断，是由int指令产生，或者外设产生硬件中断。</p>
+<h5 id="u4F8B_u5B50"><a href="#u4F8B_u5B50" class="headerlink" title="例子"></a>例子</h5><p>举个例子，处理器执行代码遇到了除零问题。</p>
+<ol>
+<li>处理器切换到TSS的SS0和ESP0字段定义的堆栈，JOS中这两个字段是 GD_KD 和 KSTACKTOP。</li>
+<li><p>处理器将异常参数压入内核堆栈，放在KSTACKTOP：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">+--------------------+ KSTACKTOP             </div><div class="line">| 0x00000 | old SS   |     &quot; - 4</div><div class="line">|      old ESP       |     &quot; - 8</div><div class="line">|     old EFLAGS     |     &quot; - 12</div><div class="line">| 0x00000 | old CS   |     &quot; - 16</div><div class="line">|      old EIP       |     &quot; - 20 &lt;---- ESP </div><div class="line">+--------------------+</div></pre></td></tr></table></figure>
+</li>
+<li><p>处理除法问题，其中断向量在x86上是0，处理器读取IDT的第0项，设置CS:EIP指向中断处理函数的地址。</p>
+</li>
+<li>处理函数负责处理异常，比如终止用户环境。</li>
+</ol>
+<p>对于确定类型的x86异常，除了上面五个还有一个错误码。比如常见的页错误异常是数字14。80386手册上有详细定义的错误码。当处理器压入错误码，堆栈的样子是这样的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">+--------------------+ KSTACKTOP             </div><div class="line">| 0x00000 | old SS   |     &quot; - 4</div><div class="line">|      old ESP       |     &quot; - 8</div><div class="line">|     old EFLAGS     |     &quot; - 12</div><div class="line">| 0x00000 | old CS   |     &quot; - 16</div><div class="line">|      old EIP       |     &quot; - 20</div><div class="line">|     error code     |     &quot; - 24 &lt;---- ESP</div><div class="line">+--------------------+</div></pre></td></tr></table></figure></p>
+<h5 id="u5F02_u5E38_u4E2D_u65AD_u5D4C_u5957"><a href="#u5F02_u5E38_u4E2D_u65AD_u5D4C_u5957" class="headerlink" title="异常中断嵌套"></a>异常中断嵌套</h5><p>处理器在内核模式和用户模式都可以处理异常和中断。仅当从内核切换到用户时，x86处理器自动切换堆栈，将寄存器之前的值保存到堆栈上，然后触发异常处理。如果处理器已处于内核模式就触发了中断或异常(也就是CS寄存器低两位为0)，然后CPU压入内核堆栈更多值。这样就可以处理嵌套中断。如果处理器已经在内核模式且正在处理嵌套异常，就不会保存SS和ESP寄存器，所以内核堆栈就像这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+--------------------+ &lt;---- old ESP</div><div class="line">|     old EFLAGS     |     &quot; - 4</div><div class="line">| 0x00000 | old CS   |     &quot; - 8</div><div class="line">|      old EIP       |     &quot; - 12</div><div class="line">+--------------------+</div></pre></td></tr></table></figure></p>
+<p>如果处理器在内核模式处理异常，因为一些原因比如堆栈空间不足，不能将旧的状态信息压入堆栈，那么处理器之后就不能恢复，只能重启。当然，内核肯定被要设计成不能发生这种事情。</p>
+<h5 id="u8BBE_u7F6EIDT"><a href="#u8BBE_u7F6EIDT" class="headerlink" title="设置IDT"></a>设置IDT</h5><p>所以现在需要去设置IDT，这样JOS才能处理异常。现在只需要设置处理中断向量0-31(处理器异常)。</p>
+<p>头文件 <code>inc/trap.h</code>和 <code>kern/trap.h</code> 包含了中断和异常的相关定义。后者包含了仅内核可访问的定义，前者是用户模式也能访问。</p>
+<p>最终要实现这个样子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">      IDT                   trapentry.S         trap.c</div><div class="line">   </div><div class="line">+----------------+                        </div><div class="line">|   &amp;handler1    |---------&gt; handler1:          trap (struct Trapframe *tf)</div><div class="line">|                |             // do stuff      &#123;</div><div class="line">|                |             call trap          // handle the exception/interrupt</div><div class="line">|                |             // ...           &#125;</div><div class="line">+----------------+</div><div class="line">|   &amp;handler2    |--------&gt; handler2:</div><div class="line">|                |            // do stuff</div><div class="line">|                |            call trap</div><div class="line">|                |            // ...</div><div class="line">+----------------+</div><div class="line">       .</div><div class="line">       .</div><div class="line">       .</div><div class="line">+----------------+</div><div class="line">|   &amp;handlerX    |--------&gt; handlerX:</div><div class="line">|                |             // do stuff</div><div class="line">|                |             call trap</div><div class="line">|                |             // ...</div><div class="line">+----------------+</div></pre></td></tr></table></figure>
+<p>每个异常或中断都应该在 <code>trapentry.S</code> 有自己的处理函数，trap_init() 用来初始化IDT。每个异常处理是一个保存在堆栈上的 struct Trapframe ，调用 trap() 指向这个 Trapframe。trap() 之后处理异常中断。</p>
+<h4 id="Exercise_4"><a href="#Exercise_4" class="headerlink" title="Exercise 4"></a>Exercise 4</h4><p>实现上面说的异常处理，需要在 trapentry.S 给每个 trap 添加入口点。</p>
+<p>_alltraps 应该是这个样子的：</p>
+<ol>
+<li>值压入堆栈使其像一个 Trapframe 结构体</li>
+<li>加载 GD_KD 到 %ds 和 %es</li>
+<li>pushl %esp 将指向 Trapframe 的指针作为 trap() 的参数</li>
+<li>调用 trap</li>
+</ol>
+<p>考虑使用 pushal 指令。最后使用 <code>make grade</code> 应该对于 divzero, softint, badsegment 这几个测试点正常通过。</p>
+<p>参考<a href="https://pdos.csail.mit.edu/6.828/2016/readings/i386/s09_10.htm" target="_blank" rel="external">80386 Programmer’s Manual 9.10 Error Code Summary</a></p>
+<p><img src="1.png" alt=""></p>
+<p>由上面的中断类型，确定哪些是不需要压入错误码</p>
+<p>其中， <code>trapentry.S</code> 修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Lab 3: Your code here for generating entry points for the different traps.</div><div class="line"> */</div><div class="line">TRAPHANDLER_NOEC(t_divide, T_DIVIDE)	// 0</div><div class="line">TRAPHANDLER_NOEC(t_debug, T_DEBUG)		// 1</div><div class="line">TRAPHANDLER_NOEC(t_nmi, T_NMI)			// 2</div><div class="line">TRAPHANDLER_NOEC(t_brkpt, T_BRKPT)		// 3</div><div class="line">TRAPHANDLER_NOEC(t_oflow, T_OFLOW)		// 4</div><div class="line">TRAPHANDLER_NOEC(t_bound, T_BOUND)		// 5</div><div class="line">TRAPHANDLER_NOEC(t_illop, T_ILLOP)		// 6</div><div class="line">TRAPHANDLER_NOEC(t_device, T_DEVICE)	// 7</div><div class="line">TRAPHANDLER(t_dblflt, T_DBLFLT)			// 8</div><div class="line">										// 9</div><div class="line">TRAPHANDLER(t_tss, T_TSS)				// 10</div><div class="line">TRAPHANDLER(t_segnp, T_SEGNP)			// 11</div><div class="line">TRAPHANDLER(t_stack, T_STACK)			// 12</div><div class="line">TRAPHANDLER(t_gpflt, T_GPFLT)			// 13</div><div class="line">TRAPHANDLER(t_pgflt, T_PGFLT)			// 14</div><div class="line">										// 15</div><div class="line">TRAPHANDLER_NOEC(t_fperr, T_FPERR)		// 16</div><div class="line">TRAPHANDLER(t_align, T_ALIGN)			// 17</div><div class="line">TRAPHANDLER_NOEC(t_mchk, T_MCHK)		// 18</div><div class="line">TRAPHANDLER_NOEC(t_simderr, T_SIMDERR)	// 19</div><div class="line"></div><div class="line">TRAPHANDLER_NOEC(t_syscall, T_SYSCALL)</div><div class="line"></div><div class="line">/*</div><div class="line"> * Lab 3: Your code here for _alltraps</div><div class="line"> */</div><div class="line">_alltraps:</div><div class="line">	pushl %ds</div><div class="line">	pushl %es</div><div class="line">	pushal</div><div class="line"></div><div class="line">	movw $GD_KD, %eax</div><div class="line">	movw %ax, %ds</div><div class="line">	movw %ax, %es</div><div class="line"></div><div class="line">	pushl %esp</div><div class="line">	call trap</div></pre></td></tr></table></figure>
+<p><code>trap.c</code> 中首先完成 trap_init()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">void</div><div class="line">trap_init(void)</div><div class="line">&#123;</div><div class="line">	extern struct Segdesc gdt[];</div><div class="line"></div><div class="line">	// LAB 3: Your code here.</div><div class="line">	void t_divide();</div><div class="line">	void t_debug();</div><div class="line">	void t_nmi();</div><div class="line">	void t_brkpt();</div><div class="line">	void t_oflow();</div><div class="line">	void t_bound();</div><div class="line">	void t_illop();</div><div class="line">	void t_device();</div><div class="line">	void t_dblflt();</div><div class="line">	void t_tss();</div><div class="line">	void t_segnp();</div><div class="line">	void t_stack();</div><div class="line">	void t_gpflt();</div><div class="line">	void t_pgflt();</div><div class="line">	void t_fperr();</div><div class="line">	void t_align();</div><div class="line">	void t_mchk();</div><div class="line">	void t_simderr();</div><div class="line">	void t_syscall();</div><div class="line">	SETGATE(idt[T_DIVIDE], 0, GD_KT, t_divide, 0);</div><div class="line">	SETGATE(idt[T_DEBUG], 0, GD_KT, t_debug, 0);</div><div class="line">	SETGATE(idt[T_NMI], 0, GD_KT, t_nmi, 0);</div><div class="line">	SETGATE(idt[T_BRKPT], 0, GD_KT, t_brkpt, 3);</div><div class="line">	SETGATE(idt[T_OFLOW], 0, GD_KT, t_oflow, 0);</div><div class="line">	SETGATE(idt[T_BOUND], 0, GD_KT, t_bound, 0);</div><div class="line">	SETGATE(idt[T_ILLOP], 0, GD_KT, t_illop, 0);</div><div class="line">	SETGATE(idt[T_DEVICE], 0, GD_KT, t_device, 0);</div><div class="line">	SETGATE(idt[T_DBLFLT], 0, GD_KT, t_dblflt, 0);</div><div class="line">	SETGATE(idt[T_TSS], 0, GD_KT, t_tss, 0);</div><div class="line">	SETGATE(idt[T_SEGNP], 0, GD_KT, t_segnp, 0);</div><div class="line">	SETGATE(idt[T_STACK], 0, GD_KT, t_stack, 0);</div><div class="line">	SETGATE(idt[T_GPFLT], 0, GD_KT, t_gpflt, 0);</div><div class="line">	SETGATE(idt[T_PGFLT], 0, GD_KT, t_pgflt, 0);</div><div class="line">	SETGATE(idt[T_FPERR], 0, GD_KT, t_fperr, 0);</div><div class="line">	SETGATE(idt[T_ALIGN], 0, GD_KT, t_align, 0);</div><div class="line">	SETGATE(idt[T_MCHK], 0, GD_KT, t_mchk, 0);</div><div class="line">	SETGATE(idt[T_SIMDERR], 0, GD_KT, t_simderr, 0);</div><div class="line">	SETGATE(idt[T_SYSCALL], 0, GD_KT, t_syscall, 3);</div><div class="line">	// Per-CPU setup </div><div class="line">	trap_init_percpu();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Part_B_3A__u9875_u9519_u8BEF_uFF0C_u65AD_u70B9_u5F02_u5E38_u548C_u7CFB_u7EDF_u8C03_u7528"><a href="#Part_B_3A__u9875_u9519_u8BEF_uFF0C_u65AD_u70B9_u5F02_u5E38_u548C_u7CFB_u7EDF_u8C03_u7528" class="headerlink" title="Part B: 页错误，断点异常和系统调用"></a>Part B: 页错误，断点异常和系统调用</h3><h4 id="u5904_u7406_u9875_u9519_u8BEF"><a href="#u5904_u7406_u9875_u9519_u8BEF" class="headerlink" title="处理页错误"></a>处理页错误</h4>]]></content>
     
     <summary type="html">
     
@@ -139,11 +249,11 @@
     <link href="http://xinqiu.me/2016/12/09/MIT-6.828-2/"/>
     <id>http://xinqiu.me/2016/12/09/MIT-6.828-2/</id>
     <published>2016-12-08T16:00:00.000Z</published>
-    <updated>2017-01-15T03:51:05.000Z</updated>
+    <updated>2017-02-02T09:15:05.000Z</updated>
     
     <content type="html"><![CDATA[<p>继续开始Lab2，这部分内容可以回忆以前的CSAPP的malloc lab.</p>
 <a id="more"></a>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>这个实验要实现内存管理。内存管理有两个部分，第一部分是给内核分配物理内存，内存分配是以4096 bytes为一个单位，也就是页。第二部分是虚拟内存的管理，关于物理内存和虚拟内存的映射。</p>
+<h2 id="u5E8F_u8A00"><a href="#u5E8F_u8A00" class="headerlink" title="序言"></a>序言</h2><p>这个实验要实现内存管理。内存管理有两个部分，第一部分是给内核分配物理内存，内存分配是以4096 bytes为一个单位，也就是页。第二部分是虚拟内存的管理，关于物理内存和虚拟内存的映射。</p>
 <p>Lab 2 添加了以下文件:</p>
 <ul>
 <li>inc/memlayout.h</li>
@@ -153,7 +263,7 @@
 <li>kern/kclock.c</li>
 </ul>
 <p>memlayout.h 描述了虚拟地址空间的结构，通过修改pmap.c. memlayout.h 和 pmap.h<br>来实现PageInfo结构，这个是为了记录哪些物理内存的page是空闲的。kclock.c 和 kclock.h 管理PC的时钟和CMOS RAM硬件，这个设备记录了物理内存的数量。pmap.c需要读这个设备来确定内存大小。</p>
-<h2 id="Part_1_3A_Physical_Page_Management"><a href="#Part_1_3A_Physical_Page_Management" class="headerlink" title="Part 1: Physical Page Management"></a>Part 1: Physical Page Management</h2><h3 id="u7269_u7406_u9875_u7BA1_u7406"><a href="#u7269_u7406_u9875_u7BA1_u7406" class="headerlink" title="物理页管理"></a>物理页管理</h3><p>操作系统需要记录物理RAM哪部分是空闲的哪部分在用。JOS使用page granularity来管理物理内存，因此可是用MMU来映射和保护每一块分配的内存。</p>
+<h2 id="Part_1_3A__u7269_u7406_u9875_u7BA1_u7406"><a href="#Part_1_3A__u7269_u7406_u9875_u7BA1_u7406" class="headerlink" title="Part 1: 物理页管理"></a>Part 1: 物理页管理</h2><h3 id="u7269_u7406_u9875"><a href="#u7269_u7406_u9875" class="headerlink" title="物理页"></a>物理页</h3><p>操作系统需要记录物理RAM哪部分是空闲的哪部分在用。JOS使用page granularity来管理物理内存，因此可是用MMU来映射和保护每一块分配的内存。</p>
 <p>以下内容要配上 <code>inc/memlayout.h</code> 的图。</p>
 <p><img src="1.png" alt=""></p>
 <h4 id="Exercise_1"><a href="#Exercise_1" class="headerlink" title="Exercise 1"></a>Exercise 1</h4><p>实现kern/pmap.c中的函数.</p>
@@ -177,7 +287,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">struct</span> PageInfo *</span></div><div class="line"><span class="title">page_alloc</span><span class="params">(<span class="keyword">int</span> alloc_flags)</span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">struct</span> PageInfo result;</div><div class="line">    <span class="keyword">if</span> (!page_free_list)</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">    result = page_free_list;</div><div class="line">    page_free_list = page_free_list-&gt;pp_link;</div><div class="line"></div><div class="line">    result-&gt;pp_link = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (alloc_flags &amp; ALLOC_ZERO) &#123;</div><div class="line">        <span class="built_in">memset</span>(page2kva(result), <span class="number">0</span>, PGSIZE);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>最后是实现page_free。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span></span></div><div class="line"><span class="title">page_free</span><span class="params">(<span class="keyword">struct</span> PageInfo *pp)</span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// Fill this function in</span></div><div class="line">	<span class="comment">// Hint: You may want to panic if pp-&gt;pp_ref is nonzero or</span></div><div class="line">	<span class="comment">// pp-&gt;pp_link is not NULL.</span></div><div class="line">    assert(pp-&gt;pp_ref == <span class="number">0</span>);</div><div class="line">    assert(pp-&gt;pp_link == <span class="literal">NULL</span>);</div><div class="line"></div><div class="line">    pp-&gt;pp_link = page_free_list;</div><div class="line">    page_free_list = pp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Part_2_3A_Virtual_Memory"><a href="#Part_2_3A_Virtual_Memory" class="headerlink" title="Part 2: Virtual Memory"></a>Part 2: Virtual Memory</h2><h3 id="u865A_u62DF_u5185_u5B58"><a href="#u865A_u62DF_u5185_u5B58" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><h4 id="Exercise_2"><a href="#Exercise_2" class="headerlink" title="Exercise 2"></a>Exercise 2</h4><p>熟悉关于分页地址转换(page translation)和基于页的保护(page-based protection)。</p>
+<h2 id="Part_2_3A__u865A_u62DF_u5185_u5B58"><a href="#Part_2_3A__u865A_u62DF_u5185_u5B58" class="headerlink" title="Part 2: 虚拟内存"></a>Part 2: 虚拟内存</h2><h3 id="u865A_u62DF_u5185_u5B58"><a href="#u865A_u62DF_u5185_u5B58" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><h4 id="Exercise_2"><a href="#Exercise_2" class="headerlink" title="Exercise 2"></a>Exercise 2</h4><p>熟悉关于分页地址转换(page translation)和基于页的保护(page-based protection)。</p>
 <p>首先介绍一下80386将逻辑地址转为物理地址的方法。</p>
 <ul>
 <li>分段地址转换，由段选择子和段偏移量构成的逻辑地址转为线性地址。</li>
@@ -211,7 +321,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">void</div><div class="line">page_remove(pde_t *pgdir, void *va)</div><div class="line">&#123;</div><div class="line">	// Fill this function in</div><div class="line">	pte_t *pte;</div><div class="line">	struct PageInfo *page = page_lookup(pgdir, va, &amp;pte);</div><div class="line">	if (page) &#123;</div><div class="line">		page_decref(page);</div><div class="line">		*pte = 0;</div><div class="line">		tlb_invalidate(pgdir, va);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>最后一步就是page_insert函数，将页面管理结构 pp 所对应的物理页面分配给线性地址 va。同时,将对应的页表项的 permission 设置成 PTE_P&amp;perm。 注意:一定要考虑到线性地址 va 已经指向了另外一个物理页面或者干脆就是这个函数要指向的物理页面的情况。如果线性地址 va 已经指向了另外一个物理页面,则先要调用 page_remove 将该物理页从线性地址 va 处删除,再将 va 对应的页表项的地址赋值为 pp 对应 的物理页面。如果 va 指向的本来就是参数 pp 所对应的物理页面,则将 va 对应的页表项中 的物理地址赋值重新赋值为 pp 所对应的物理页面的首地址即可。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">int</div><div class="line">page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)</div><div class="line">&#123;</div><div class="line">	// Fill this function in</div><div class="line">	pte_t *pte = pgdir_walk(pgdir, va, 1);</div><div class="line">	if (!pte) &#123;</div><div class="line">		return -E_NO_MEM;</div><div class="line">	&#125;  </div><div class="line">	if (*pte &amp; PTE_P) &#123;</div><div class="line">		if (PTE_ADDR(*pte) == page2pa(pp)) &#123;</div><div class="line">			tlb_invalidate(pgdir, va);</div><div class="line">			pp-&gt;pp_ref--;</div><div class="line">		&#125;</div><div class="line">		else &#123;</div><div class="line">			page_remove(pgdir, va);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	*pte = page2pa(pp) | perm | PTE_P;</div><div class="line">	pp-&gt;pp_ref++;</div><div class="line">	pgdir[PDX(va)] |= perm;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Part_3_3A_Kernel_Address_Space"><a href="#Part_3_3A_Kernel_Address_Space" class="headerlink" title="Part 3: Kernel Address Space"></a>Part 3: Kernel Address Space</h2><h3 id="u7EBF_u6027_u5730_u5740_u7684_u4E24_u90E8_u5206"><a href="#u7EBF_u6027_u5730_u5740_u7684_u4E24_u90E8_u5206" class="headerlink" title="线性地址的两部分"></a>线性地址的两部分</h3><p>JOS将处理器32位线性地址划分为占低地址的用户环境(进程)和占高地址的内核。 分界线是<code>inc/memlayout.h</code>中的变量 ULIM。内核保留了大约256MB的虚拟地址空间，lab1中内核设在那么高的地址就是因为要留一部分空间给用户环境。</p>
+<h2 id="Part_3_3A__u5185_u6838_u5730_u5740_u7A7A_u95F4"><a href="#Part_3_3A__u5185_u6838_u5730_u5740_u7A7A_u95F4" class="headerlink" title="Part 3: 内核地址空间"></a>Part 3: 内核地址空间</h2><h3 id="u7EBF_u6027_u5730_u5740_u7684_u4E24_u90E8_u5206"><a href="#u7EBF_u6027_u5730_u5740_u7684_u4E24_u90E8_u5206" class="headerlink" title="线性地址的两部分"></a>线性地址的两部分</h3><p>JOS将处理器32位线性地址划分为占低地址的用户环境(进程)和占高地址的内核。 分界线是<code>inc/memlayout.h</code>中的变量 ULIM。内核保留了大约256MB的虚拟地址空间，lab1中内核设在那么高的地址就是因为要留一部分空间给用户环境。</p>
 <h3 id="u8BBF_u95EE_u6743_u9650_u548C_u6545_u969C_u9694_u79BB"><a href="#u8BBF_u95EE_u6743_u9650_u548C_u6545_u969C_u9694_u79BB" class="headerlink" title="访问权限和故障隔离"></a>访问权限和故障隔离</h3><p>内核和用户内存都在各自的环境地址空间中，必须在x86页表中使用访问权限位(Permissions bits)来使用户代码只访问用户的地址空间，否则用户的代码bug会覆盖内核数据，造成系统崩溃。值得注意的是可写权限位(PTE_W)可以同时影响用户和内核代码。 </p>
 <p>高于ULIM的内存内核可以读写，而用户环境没有权限。内核和用户在地址[UTOP,ULIM)有同样的权限：可读但不可写，这部分地址空间通常是一些特定的内核数据，让用户环境可以读取。最后，地址UTOP之下的是用户环境。</p>
 <h3 id="u521D_u59CB_u5316_u5185_u6838_u5730_u5740_u7A7A_u95F4"><a href="#u521D_u59CB_u5316_u5185_u6838_u5730_u5740_u7A7A_u95F4" class="headerlink" title="初始化内核地址空间"></a>初始化内核地址空间</h3><p>设置UTOP之上的地址空间。在<code>inc/memlayout.h</code>中显示了布局。</p>
@@ -262,7 +372,7 @@
     <link href="http://xinqiu.me/2016/10/15/MIT-6.828-1/"/>
     <id>http://xinqiu.me/2016/10/15/MIT-6.828-1/</id>
     <published>2016-10-14T16:00:00.000Z</published>
-    <updated>2016-12-02T14:15:15.000Z</updated>
+    <updated>2017-02-02T09:15:51.000Z</updated>
     
     <content type="html"><![CDATA[<p>MIT 6.828 算是操作系统的经典课程，其中要求完成一个JOS的操作系统。在这之前，需要完成一些环境的安装。</p>
 <a id="more"></a>
@@ -528,7 +638,7 @@
 <p>关于 stab 相关内容，查看第三个参考资料，实话说，我对于stab理解的比较模糊。</p>
 <h4 id="Exercise_12"><a href="#Exercise_12" class="headerlink" title="Exercise 12"></a>Exercise 12</h4><p>将backtrace嵌入终端中，使其可以被调用。只需要修改 <code>kern/monitor.c</code> 的</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> Command commands[] = &#123;</div><div class="line">	&#123; <span class="string">"help"</span>, <span class="string">"Display this list of commands"</span>, mon_help &#125;,</div><div class="line">	&#123; <span class="string">"kerninfo"</span>, <span class="string">"Display information about the kernel"</span>, mon_kerninfo &#125;,</div><div class="line">	&#123; <span class="string">"backtrace"</span>, <span class="string">"Display a listing of function call frames"</span>, mon_backtrace&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>至此,lab1已经算是完成了，简单了解了操作系统的启动过程，很充实很值得思考。</p>
+<h2 id="u6700_u540E_u7684_u6700_u540E"><a href="#u6700_u540E_u7684_u6700_u540E" class="headerlink" title="最后的最后"></a>最后的最后</h2><p>至此,lab1已经算是完成了，简单了解了操作系统的启动过程，很充实很值得思考。</p>
 <p><img src="18.png" alt=""></p>
 <h2 id="u53C2_u8003_u8D44_u6599"><a href="#u53C2_u8003_u8D44_u6599" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/fatsheep9146/category/769143.html" target="_blank" rel="external">MIT 6.828 JOS 操作系统学习笔记</a></p>
 <p><a href="http://blog.chinaunix.net/uid-24585655-id-2125525.html" target="_blank" rel="external">AT&amp;T_GCC_ASM简单介绍</a></p>
@@ -1642,31 +1752,6 @@ MathJax.Hub.Config({
     
     
       <category term="python" scheme="http://xinqiu.me/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>感觉挺伤的</title>
-    <link href="http://xinqiu.me/2015/10/21/Dairy-4/"/>
-    <id>http://xinqiu.me/2015/10/21/Dairy-4/</id>
-    <published>2015-10-20T16:00:00.000Z</published>
-    <updated>2016-02-11T05:00:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前在edx上学习MIT6.001x,辛辛苦苦一大半，已经是拿到B了，就差最后的quiz就能拿A，结果现在连课程记录都没了。没想到毁在照片当初拍的不清晰，没能过认证。因为申请退回了之前付的50$，所以清除了课程记录。真的好伤啊，亏我还花那么多时间。唉，只能这样了。当初还学拿一次证书，只能等到下次了。</p>
-<p>最近学校在开展什么学风竞赛月。我觉得这就是浪费时间和经历。不抓抓学习，都在为了这些表明上的形式工作。在我们这种学校，如果不拼着学点实际的东西，真的完全找不到工作。对我来说，拼不了爹，比不过脸，秀不了智商。只能忍受忍受些不解，安心的学点东西。</p>
-<p>想起来国庆的时候和嘘嘘兄面基，真的，他给我的变化太大了。当初他可是高中逃晚自习出去打游戏，大学天天窝宿舍打游戏看动漫的人，到大三了，因为经历了一些事情，顿悟了，开始拼命学习。和那些每天在校园里背书，在自习教室学习的人一样，为了心里的一点微光在奋斗。他到大三才知道自己荒废了大一大二。可能失去了才能想起曾经拥有的好。</p>
-<p>大二了，感觉少做了些白日梦，变得现实了一点。</p>
-<p>愿我在孤独学习的路上，少点坎坷。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      I am upset
-    
-    </summary>
-    
-    
-      <category term="MyLife" scheme="http://xinqiu.me/tags/MyLife/"/>
     
   </entry>
   
