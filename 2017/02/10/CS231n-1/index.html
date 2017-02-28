@@ -231,7 +231,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u56FE_u50CF_u5206_u7C7B"><span class="post-toc-number">1.</span> <span class="post-toc-text">图像分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u6700_u8FD1_u90BB_u5206_u7C7B_u5668"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">最近邻分类器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#KNN"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">KNN</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u9A8C_u8BC1_u96C6"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">验证集</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u7EBF_u6027_u5206_u7C7B_u5668"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">线性分类器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u635F_u5931_u51FD_u6570"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">损失函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u591A_u7C7B_u652F_u6301_u5411_u91CF_u673A_u635F_u5931"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">多类支持向量机损失</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u56FE_u50CF_u5206_u7C7B"><span class="post-toc-number">1.</span> <span class="post-toc-text">图像分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u6700_u8FD1_u90BB_u5206_u7C7B_u5668"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">最近邻分类器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#KNN"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">KNN</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u9A8C_u8BC1_u96C6"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">验证集</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u7EBF_u6027_u5206_u7C7B_u5668"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">线性分类器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u635F_u5931_u51FD_u6570"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">损失函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u591A_u7C7B_u652F_u6301_u5411_u91CF_u673A_u635F_u5931"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">多类支持向量机损失</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u6B63_u5219_u5316"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">正则化</span></a></li></ol></li></ol>
 
         <!--
         <li class="mdl-menu__item">
@@ -412,6 +412,8 @@ MathJax.Hub.Config({
 <p>对于距离的选择，还有一个公式—— <strong>L2 distance</strong>:</p>
 <p>$$ d_{1} (I_{1}, I_{2})= \sqrt{\sum_{p} \left( I^p_1 - I^p_2 \right)^2} $$</p>
 <h3 id="KNN"><a href="#KNN" class="headerlink" title="KNN"></a>KNN</h3><p>KNN 思路是找出最相似的 k 个图片的标签，然后取这 k 个中相同标签最多的那个标签。上面的 NN 其实就是 k = 1 的情况。</p>
+<iframe src="http://nbviewer.jupyter.org/github/xinqiu/learn-cs231n/blob/master/assignment1/knn.ipynb" width="100%" height="800" scrolling="yes"></iframe>
+
 <h3 id="u9A8C_u8BC1_u96C6"><a href="#u9A8C_u8BC1_u96C6" class="headerlink" title="验证集"></a>验证集</h3><p>对于如何确定超参数，只能通过不停的调试。为了先确定超参数以便预测测试集，可以使用验证集的思路。在训练的时候，不能用测试集来训练模型参数，那样会过拟合。使用验证集的思路是:从训练集中选取一部分当做假的测试集，通过剩余的训练集来训练模型，与假的测试集进行计算准确度，准确度最高的那个超参数可以算是较为合适的超参数。</p>
 <p>之后就有一种方法，交叉验证。这是将训练集均分为几份，其中一份为测试集，剩余的作为训练集进行训练，得出准确率。将这些准确率取平均值代表平均准确率。</p>
 <h3 id="u7EBF_u6027_u5206_u7C7B_u5668"><a href="#u7EBF_u6027_u5206_u7C7B_u5668" class="headerlink" title="线性分类器"></a>线性分类器</h3><p>然而用 NN 来做图片分类还是太麻烦了，所以为了简化计算量，引入了评分函数和损失函数，用来量化图片分类与真实标签的相似程度。</p>
@@ -432,6 +434,14 @@ MathJax.Hub.Config({
 <p>这里 $w_j$ 是 $W$ 的 第 $j$ 行变形得到的列向量。</p>
 <p>所以 SVM 就是为了先计算出合适的 $\Delta$，之后就能用来分类了。下图描述了正确类与错误类之间的差距关系。</p>
 <p><img src="http://cs231n.github.io/assets/margin.jpg" alt=""></p>
+<h3 id="u6B63_u5219_u5316"><a href="#u6B63_u5219_u5316" class="headerlink" title="正则化"></a>正则化</h3><p>正则化，也就是regularization，是为了避免在训练权重的时候过拟合，这里算是历史原因导致的约定俗成。最常见的是 L2 范式。这是在原本的 Loss 函数后加上正则化惩罚函数，这个惩罚函数是</p>
+<p>$$ R(W) = \sum_{k}\sum_{l} W_{k,l}^2 $$</p>
+<p>所以完整的 SVM 函数就是</p>
+<p>$$ L =  \underbrace{ \frac{1}{N} \sum_{i} L_{i} }_\text{data loss} + \underbrace{ \lambda R(W) }_\text{regularization loss} \\ $$</p>
+<p>详细点就是</p>
+<p>$$ L = \frac{1}{N} \sum_{i} \sum_{j\neq y_{i}} \left[ \max(0, f(x_{i}; W)_{j} - f(x_{i}; W)_{y_{i}} + \Delta) \right] + \lambda \sum_{k}\sum_{l} W_{k,l}^2 $$</p>
+<p>这个 $ N $ 就是训练样本的数量。这里也有个超参数 $ \lambda $，当然可以和上面类似，用交叉验证来得到合适的值。</p>
+<iframe src="http://nbviewer.jupyter.org/github/xinqiu/learn-cs231n/blob/master/assignment1/svm.ipynb" width="100%" height="800" scrolling="yes"></iframe>
 
     
 
