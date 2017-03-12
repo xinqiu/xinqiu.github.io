@@ -58,6 +58,8 @@ MathJax.Hub.Config({
 <p>$$ L = \frac{1}{N} \sum_{i} \sum_{j\neq y_{i}} \left[ \max(0, f(x_{i}; W)_{j} - f(x_{i}; W)_{y_{i}} + \Delta) \right] + \lambda \sum_{k}\sum_{l} W_{k,l}^2 $$</p>
 <p>这个 $ N $ 就是训练样本的数量。这里也有个超参数 $ \lambda $，当然可以和上面类似，用交叉验证来得到合适的值。</p>
 <iframe src="http://nbviewer.jupyter.org/github/xinqiu/learn-cs231n/blob/master/assignment1/svm.ipynb" width="100%" height="800" scrolling="yes"></iframe>
+
+
 ]]></content>
     </entry>
     
