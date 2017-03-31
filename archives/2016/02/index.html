@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -256,17 +256,30 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 
 Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
 进入lldb
-1lldb bomb
+lldb bomb
+
 使用disassemble进行反汇编,参考bomb.c文件，可以知道主要的几个函数名。
 首先是Phase_1
-1(lldb) disas -n phase_1
+(lldb) disas -n phase_1
+
 得到以下汇编代码
-123456789bomb`phase_1:bomb[0x400ee0] &lt;+0&gt;:  subq   $0x8, %rspbomb[0x400ee4] &lt;+4&gt;:  movl   $0x402400, %esibomb[0x400ee9] &lt;+9&gt;:  callq  0x401338                  ; strings_not_equalbomb[0x400eee] &lt;+14&gt;: testl  %eax, %eaxbomb[0x400ef0] &lt;+16&gt;: je     0x400ef7                  ; &lt;+23&gt;bomb[0x400ef2] &lt;+18&gt;: callq  0x40143a                  ; explode_bombbomb[0x400ef7] &lt;+23&gt;: addq   $0x8, %rspbomb[0x400efb] &lt;+27&gt;: retq
+bomb`phase_1:
+bomb[0x400ee0] &lt;+0&gt;:  subq   $0x8, %rsp
+bomb[0x400ee4] &lt;+4&gt;:  movl   $0x402400, %esi
+bomb[0x400ee9] &lt;+9&gt;:  callq  0x401338                  ; strings_not_equal
+bomb[0x400eee] &lt;+14&gt;: testl  %eax, %eax
+bomb[0x400ef0] &lt;+16&gt;: je     0x400ef7                  ; &lt;+23&gt;
+bomb[0x400ef2] &lt;+18&gt;: callq  0x40143a                  ; explode_bomb
+bomb[0x400ef7] &lt;+23&gt;: addq   $0x8, %rsp
+bomb[0x400efb] &lt;+27&gt;: retq
+
 这段代码还是挺好理解的，保存Stack pointer,将$0x402400传给%esi,调用位于0x401338的strings_not_equal函数，比较%eax是否为0，不为零则调用explode_bomb函数，为零则返回。
 所以关键要找出字符串是什么。根据上述的汇编代码，可以发现字符串被保存在0x402400这个内存里，所以使用x/s来查看。
-1(lldb) x/s 0x402400
+(lldb) x/s 0x402400
+
 得到
-10x00402400: "Border relations with Canada have never been better."
+0x00402400: &quot;Border relations with Canada have never been better.&quot;
+
 所以第一关的答案是Strings_Not_Equal
         
         &nbsp;&nbsp;&nbsp;
@@ -404,7 +417,7 @@ Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -473,7 +486,7 @@ Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         

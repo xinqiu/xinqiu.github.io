@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -418,12 +418,32 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 </blockquote>
 <h2 id="u4ECE_u673A_u5668_u542F_u52A8_u5230_u64CD_u4F5C_u7CFB_u7EDF_u8FD0_u884C_u7684_u8FC7_u7A0B"><a href="#u4ECE_u673A_u5668_u542F_u52A8_u5230_u64CD_u4F5C_u7CFB_u7EDF_u8FD0_u884C_u7684_u8FC7_u7A0B" class="headerlink" title="从机器启动到操作系统运行的过程"></a>从机器启动到操作系统运行的过程</h2><p>在机器接通电源后， 会向主板发送一个信号。一旦主板收到电源妥协信号后，主板会尝试启动CPU，CPU复位寄存器里的所有数据， 设置预定值给每个寄存器。同时执行系统初始化软件完成基本IO初始化和引导加载功能。为最终调用操作系统内核准备好正确的环境。最终引导加载程序把操作系统内核映像加载到RAM中，并将系统控制权传递给它。</p>
 <p>以Intel 80386为例，计算机加电后，CPU从物理地址0xFFFFFFF0(由初始化的CS：EIP确定，此时CS和IP的值分别是0xF000和0xFFF0)开始执行。8086 处理器有一个20位寻址总线，这意味着它可以对0到 2^20 位地址空间进行操作（ 1Mb ）。不过它只有16位的寄存器，通过这个16位寄存器最大寻址是 2^16 即 0xffff （64 Kb）。实模式使用分段机制来管理整个内存空间。所有内存被分成固定的 64KB 大小的小块。由于我们不能用16位寄存器寻址大于 64KB 的内存，一种替代的方法被设计出来了。一个地址包括两个部分：数据段起始地址和从该数据段起的偏移量。为了得到内存中的物理地址，我们要让数据段乘16并加上偏移量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PhysicalAddress = Segment * 16 + Offset</div></pre></td></tr></table></figure>
-<p>通过阅读 kernel boot protocol，在内核被引导如内存后，内存使用情况将入下表所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">         | Protected-mode kernel  |</div><div class="line">100000   +------------------------+</div><div class="line">         | I/O memory hole        |</div><div class="line">0A0000   +------------------------+</div><div class="line">         | Reserved for BIOS      | Leave as much as possible unused</div><div class="line">         ~                        ~</div><div class="line">         | Command line           | (Can also be below the X+10000 mark)</div><div class="line">X+10000  +------------------------+</div><div class="line">         | Stack/heap             | For use by the kernel real-mode code.</div><div class="line">X+08000  +------------------------+</div><div class="line">         | Kernel setup           | The kernel real-mode code.</div><div class="line">         | Kernel boot sector     | The kernel legacy boot sector.</div><div class="line">       X +------------------------+</div><div class="line">         | Boot loader            | &lt;- Boot sector entry point 0x7C00</div><div class="line">001000   +------------------------+</div><div class="line">         | Reserved for MBR/BIOS  |</div><div class="line">000800   +------------------------+</div><div class="line">         | Typically used by MBR  |</div><div class="line">000600   +------------------------+</div><div class="line">         | BIOS use only          |</div><div class="line">000000   +------------------------+</div></pre></td></tr></table></figure>
-<p>所以当 bootloader 完成任务，将执行权移交给 kernel，kernel 的代码从以下地址开始执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0x1000 + X + sizeof(KernelBootSector) + 1</div></pre></td></tr></table></figure>
-<p>上面的公式中， X 是 kernel bootsector 被引导如内存的位置。</p>
+<pre><code>PhysicalAddress = Segment * 16 + Offset
+</code></pre><p>通过阅读 kernel boot protocol，在内核被引导如内存后，内存使用情况将入下表所示：</p>
+<pre><code>         | Protected-mode kernel  |
+100000   +------------------------+
+         | I/O memory hole        |
+0A0000   +------------------------+
+         | Reserved for BIOS      | Leave as much as possible unused
+         ~                        ~
+         | Command line           | (Can also be below the X+10000 mark)
+X+10000  +------------------------+
+         | Stack/heap             | For use by the kernel real-mode code.
+X+08000  +------------------------+
+         | Kernel setup           | The kernel real-mode code.
+         | Kernel boot sector     | The kernel legacy boot sector.
+       X +------------------------+
+         | Boot loader            | &lt;- Boot sector entry point 0x7C00
+001000   +------------------------+
+         | Reserved for MBR/BIOS  |
+000800   +------------------------+
+         | Typically used by MBR  |
+000600   +------------------------+
+         | BIOS use only          |
+000000   +------------------------+
+</code></pre><p>所以当 bootloader 完成任务，将执行权移交给 kernel，kernel 的代码从以下地址开始执行：</p>
+<pre><code>0x1000 + X + sizeof(KernelBootSector) + 1
+</code></pre><p>上面的公式中， X 是 kernel bootsector 被引导如内存的位置。</p>
 <h2 id="Lab_1"><a href="#Lab_1" class="headerlink" title="Lab 1"></a>Lab 1</h2><h3 id="u7EC3_u4E601"><a href="#u7EC3_u4E601" class="headerlink" title="练习1"></a>练习1</h3><p>1.操作系统镜像文件ucore.img是如何一步一步生成的？</p>
 <p>在进行 <code>make V=</code>后，通过显示的信息，可以知道先对C文件进行了编译。分别编译了一下文件:</p>
 <ul>
@@ -451,7 +471,25 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <p>之后用 <code>dd</code> 创建了一块空间，并将 <code>bootblock</code> 放入这块空间做成 <code>img</code> 硬盘。</p>
 <p>2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么？</p>
 <p>从 <code>tools/sign.c</code> 源文件中可以得知， </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">.....</div><div class="line"><span class="keyword">if</span> (st.st_size &gt; <span class="number">510</span>) &#123;</div><div class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%lld &gt;&gt; 510!!\n"</span>, (<span class="keyword">long</span> <span class="keyword">long</span>)st.st_size);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">char</span> buf[<span class="number">512</span>];</div><div class="line">......</div><div class="line">buf[<span class="number">510</span>] = <span class="number">0x55</span>;</div><div class="line">buf[<span class="number">511</span>] = <span class="number">0xAA</span>;</div><div class="line">......</div><div class="line"><span class="keyword">if</span> (size != <span class="number">512</span>) &#123;</div><div class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"write '%s' error, size is %d.\n"</span>, argv[<span class="number">2</span>], size);</div><div class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">&#125;</div><div class="line">fclose(ofp);</div><div class="line"><span class="built_in">printf</span>(<span class="string">"build 512 bytes boot sector: '%s' success!\n"</span>, argv[<span class="number">2</span>]);</div><div class="line">......</div></pre></td></tr></table></figure>
+<pre class=" language-C"><code class="language-C">
+.....
+if (st.st_size > 510) {
+        fprintf(stderr, "%lld >> 510!!\n", (long long)st.st_size);
+        return -1;
+}
+char buf[512];
+......
+buf[510] = 0x55;
+buf[511] = 0xAA;
+......
+if (size != 512) {
+    fprintf(stderr, "write '%s' error, size is %d.\n", argv[2], size);
+    return -1;
+}
+fclose(ofp);
+printf("build 512 bytes boot sector: '%s' success!\n", argv[2]);
+......
+</code></pre>
 <p>规范的硬盘主引导扇区大小为512， 并且最后两位必须是 <code>0x55AA</code>.</p>
 <h3 id="u7EC3_u4E602"><a href="#u7EC3_u4E602" class="headerlink" title="练习2"></a>练习2</h3><p>使用qemu执行并调试lab1中的软件，要做一下几个操作：</p>
 <ol>
@@ -465,11 +503,19 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 </li>
 </ol>
 <p>根据参考的提示，在 <code>.PHONY: qemu qemu-nox debug debug-nox</code> 下添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">lab1-mon: $(UCOREIMG)</div><div class="line">	$(V)$(TERMINAL) -e &quot;$(QEMU) -S -s -d in_asm -D $(BINDIR)/q.log -monitor stdio -hda $&lt; -serial null&quot;</div><div class="line">	$(V)sleep 2</div><div class="line">	$(V)$(TERMINAL) -e &quot;gdb -q -x tools/lab1init&quot;</div></pre></td></tr></table></figure>
-<p>在调用qemu时添加-d in_asm -D q.log参数可以将运行的汇编指令保存在q.log中。</p>
+<pre><code>lab1-mon: $(UCOREIMG)
+    $(V)$(TERMINAL) -e &quot;$(QEMU) -S -s -d in_asm -D $(BINDIR)/q.log -monitor stdio -hda $&lt; -serial null&quot;
+    $(V)sleep 2
+    $(V)$(TERMINAL) -e &quot;gdb -q -x tools/lab1init&quot;
+</code></pre><p>在调用qemu时添加-d in_asm -D q.log参数可以将运行的汇编指令保存在q.log中。</p>
 <p>另外需要先在<code>lab1/tools/</code>文件夹下新建一个<code>lab1init</code>文件。添加以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">file bin/kernel</div><div class="line">target remote :1234</div><div class="line">set architecture i8086</div><div class="line">break *0x7c00</div><div class="line">continue</div><div class="line">x /2i $pc</div></pre></td></tr></table></figure>
-<p>分别代表加载kernel， 与qemu链接， BIOS是i8086 16位实模式， 在0x7c00处设置断点， 继续运行， 显示指令寄存器上的两条指令。</p>
+<pre><code>file bin/kernel
+target remote :1234
+set architecture i8086
+break *0x7c00
+continue
+x /2i $pc
+</code></pre><p>分别代表加载kernel， 与qemu链接， BIOS是i8086 16位实模式， 在0x7c00处设置断点， 继续运行， 显示指令寄存器上的两条指令。</p>
 <p>make lab1-mon 产生的汇编代码还是稍微有点区别，主要在0x7c1e开始有点区别。</p>
 <p>#####gdb的单步命令</p>
 <p>在gdb中，有next, nexti, step, stepi等指令来单步调试程序，他们功能各不相同，区别在于单步的“跨度”上。</p>
@@ -480,14 +526,168 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <li>stepi 单步一条机器指令。</li>
 </ul>
 <h3 id="u7EC3_u4E603"><a href="#u7EC3_u4E603" class="headerlink" title="练习3"></a>练习3</h3><p>参考<a href="http://blog.csdn.net/xiaocainiaoshangxiao/article/details/22417237" target="_blank" rel="external">MIT6.828 boot.S文件分析</a>这篇文章。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div></pre></td><td class="code"><pre><div class="line">#include &lt;asm.h&gt;</div><div class="line"></div><div class="line"># Start the CPU: switch to 32-bit protected mode, jump into C.</div><div class="line"># The BIOS loads this code from the first sector of the hard disk into</div><div class="line"># memory at physical address 0x7c00 and starts executing in real mode</div><div class="line"># with %cs=0 %ip=7c00.</div><div class="line"></div><div class="line">#启动CPU，切换到32位保护模式，跳转到C代码  </div><div class="line">#BIOS从硬盘的第一个扇区加载这个代码到  </div><div class="line">#物理内存地址为0x7c00的地方，cs=0,ip=7c00  </div><div class="line">  </div><div class="line">#下面的3条.set指令类似于宏定义  </div><div class="line">#内核代码段选择子</div><div class="line">.set PROT_MODE_CSEG,        0x8                     # kernel code segment selector</div><div class="line">#内核数据段选择子 </div><div class="line">.set PROT_MODE_DSEG,        0x10                    # kernel data segment selector</div><div class="line">#保护模式使能标志</div><div class="line">.set CR0_PE_ON,             0x1                     # protected mode enable flag</div><div class="line"></div><div class="line"># start address should be 0:7c00, in real mode, the beginning address of the running bootloader</div><div class="line">#开始地址在实模式下是0:7c00，这个开始地址就是运行bootloader的地址</div><div class="line"></div><div class="line">#定义一个全局名字start </div><div class="line">.globl start</div><div class="line">start:</div><div class="line">#CPU启动为16位模式 </div><div class="line">.code16                                             # Assemble for 16-bit mode</div><div class="line">    #关中断</div><div class="line">    cli                                             # Disable interrupts</div><div class="line">    #清除方向标志 </div><div class="line">    cld                                             # String operations increment</div><div class="line"></div><div class="line">    # Set up the important data segment registers (DS, ES, SS).</div><div class="line">    #设置重要的数据段寄存器  </div><div class="line">    #ax,ds, es, ss清零</div><div class="line">    xorw %ax, %ax                                   # Segment number zero</div><div class="line">    movw %ax, %ds                                   # -&gt; Data Segment</div><div class="line">    movw %ax, %es                                   # -&gt; Extra Segment</div><div class="line">    movw %ax, %ss                                   # -&gt; Stack Segment</div><div class="line"></div><div class="line">    # Enable A20:</div><div class="line">    #  For backwards compatibility with the earliest PCs, physical</div><div class="line">    #  address line 20 is tied low, so that addresses higher than</div><div class="line">    #  1MB wrap around to zero by default. This code undoes this.</div><div class="line">    #打开A20地址线  </div><div class="line">    #为了兼容早期的PC机，第20根地址线在实模式下不能使用  </div><div class="line">    #所以超过1MB的地址，默认就会返回到地址0，重新从0循环计数，  </div><div class="line">    #下面的代码打开A20地址线 </div><div class="line">seta20.1:</div><div class="line">    #从0x64端口读入一个字节的数据到al中 </div><div class="line">    inb $0x64, %al                                  # Wait for not busy(8042 input buffer empty).</div><div class="line">    testb $0x2, %al</div><div class="line">    #如果上面的测试中发现al的第2位为0，就不执行该指令  </div><div class="line">    #否则就循环检查</div><div class="line">    jnz seta20.1</div><div class="line"></div><div class="line">    #将0xd1写入到al中</div><div class="line">    movb $0xd1, %al                                 # 0xd1 -&gt; port 0x64</div><div class="line">    #将al中的数据写入到端口0x64中,也就是8042的P2端口</div><div class="line">    outb %al, $0x64                                 # 0xd1 means: write data to 8042&apos;s P2 port</div><div class="line"></div><div class="line">seta20.2:</div><div class="line">    inb $0x64, %al                                  # Wait for not busy(8042 input buffer empty).</div><div class="line">    #测试al的第2位是否为0</div><div class="line">    testb $0x2, %al</div><div class="line">    jnz seta20.2</div><div class="line"></div><div class="line">    #将0xdf写入到al中 </div><div class="line">    movb $0xdf, %al                                 # 0xdf -&gt; port 0x60</div><div class="line">    #将al中的数据写入到0x60端口中，也就是让P2端口的A20位设置为1</div><div class="line">    outb %al, $0x60                                 # 0xdf = 11011111, means set P2&apos;s A20 bit(the 1 bit) to 1</div><div class="line"></div><div class="line">    # Switch from real to protected mode, using a bootstrap GDT</div><div class="line">    # and segment translation that makes virtual addresses</div><div class="line">    # identical to physical addresses, so that the</div><div class="line">    # effective memory map does not change during the switch.</div><div class="line">    #将全局描述符表描述符加载到全局描述符表寄存器</div><div class="line">    lgdt gdtdesc</div><div class="line">    #cr0中的第0位为1表示处于保护模式  </div><div class="line">    #cr0中的第0位为0，表示处于实模式  </div><div class="line">    #把控制寄存器cr0加载到eax中 </div><div class="line">    movl %cr0, %eax</div><div class="line">    #将eax中的第0位设置为1</div><div class="line">    orl $CR0_PE_ON, %eax</div><div class="line">    #将eax中的值装入cr0中 </div><div class="line">    movl %eax, %cr0</div><div class="line"></div><div class="line">    # Jump to next instruction, but in 32-bit code segment.</div><div class="line">    # Switches processor into 32-bit mode.</div><div class="line">    ljmp $PROT_MODE_CSEG, $protcseg</div><div class="line">    #跳转到32位模式中的下一条指令  </div><div class="line">    #将处理器切换为32位工作模式  </div><div class="line">    #下面这条指令执行的结果会将$PROT_MODE_CSEG加载到cs中，cs对应的高速缓冲存储器会加载代码段描述符  </div><div class="line">    #同样将$protcseg加载到ip中</div><div class="line"></div><div class="line">.code32                                             # Assemble for 32-bit mode</div><div class="line">protcseg:</div><div class="line">    # Set up the protected-mode data segment registers</div><div class="line">    #设置保护模式下的数据寄存器  </div><div class="line">    #将数据段选择子装入到ax中</div><div class="line">    movw $PROT_MODE_DSEG, %ax                       # Our data segment selector</div><div class="line">    #将ax装入到其他数据段寄存器中，在装入的同时，  </div><div class="line">    #数据段描述符会自动的加入到这些段寄存器对应的高速缓冲寄存器中 </div><div class="line">    movw %ax, %ds                                   # -&gt; DS: Data Segment</div><div class="line">    movw %ax, %es                                   # -&gt; ES: Extra Segment</div><div class="line">    movw %ax, %fs                                   # -&gt; FS</div><div class="line">    movw %ax, %gs                                   # -&gt; GS</div><div class="line">    movw %ax, %ss                                   # -&gt; SS: Stack Segment</div><div class="line"></div><div class="line">    # Set up the stack pointer and call into C. The stack region is from 0--start(0x7c00)</div><div class="line">    #设置栈指针，并且调用c函数 </div><div class="line">    movl $0x0, %ebp</div><div class="line">    #调用main.c中的bootmain函数 </div><div class="line">    movl $start, %esp</div><div class="line">    call bootmain</div><div class="line"></div><div class="line">    # If bootmain returns (it shouldn&apos;t), loop.</div><div class="line">    #如果bootmain返回的话，就一直循环</div><div class="line">spin:</div><div class="line">    jmp spin</div><div class="line"></div><div class="line"># Bootstrap GDT</div><div class="line">#强制4字节对齐</div><div class="line">.p2align 2                                          # force 4 byte alignment</div><div class="line">#全局描述符表</div><div class="line">gdt:</div><div class="line">    SEG_NULLASM                                     # null seg</div><div class="line">    #代码段描述符</div><div class="line">    SEG_ASM(STA_X|STA_R, 0x0, 0xffffffff)           # code seg for bootloader and kernel</div><div class="line">    #数据段描述符</div><div class="line">    SEG_ASM(STA_W, 0x0, 0xffffffff)                 # data seg for bootloader and kernel</div><div class="line"></div><div class="line">#全局描述符表对应的描述符 </div><div class="line">gdtdesc:</div><div class="line">    .word 0x17                                      # sizeof(gdt) - 1</div><div class="line">    .long gdt                                       # address gdt</div></pre></td></tr></table></figure>
-<h3 id="u7EC3_u4E604"><a href="#u7EC3_u4E604" class="headerlink" title="练习4"></a>练习4</h3><p>通过分析源代码和通过qemu来运行并调试bootloader&amp;OS，</p>
+<pre><code>#include &lt;asm.h&gt;
+
+# Start the CPU: switch to 32-bit protected mode, jump into C.
+# The BIOS loads this code from the first sector of the hard disk into
+# memory at physical address 0x7c00 and starts executing in real mode
+# with %cs=0 %ip=7c00.
+
+#启动CPU，切换到32位保护模式，跳转到C代码  
+#BIOS从硬盘的第一个扇区加载这个代码到  
+#物理内存地址为0x7c00的地方，cs=0,ip=7c00  
+
+#下面的3条.set指令类似于宏定义  
+#内核代码段选择子
+.set PROT_MODE_CSEG,        0x8                     # kernel code segment selector
+#内核数据段选择子 
+.set PROT_MODE_DSEG,        0x10                    # kernel data segment selector
+#保护模式使能标志
+.set CR0_PE_ON,             0x1                     # protected mode enable flag
+
+# start address should be 0:7c00, in real mode, the beginning address of the running bootloader
+#开始地址在实模式下是0:7c00，这个开始地址就是运行bootloader的地址
+
+#定义一个全局名字start 
+.globl start
+start:
+#CPU启动为16位模式 
+.code16                                             # Assemble for 16-bit mode
+    #关中断
+    cli                                             # Disable interrupts
+    #清除方向标志 
+    cld                                             # String operations increment
+
+    # Set up the important data segment registers (DS, ES, SS).
+    #设置重要的数据段寄存器  
+    #ax,ds, es, ss清零
+    xorw %ax, %ax                                   # Segment number zero
+    movw %ax, %ds                                   # -&gt; Data Segment
+    movw %ax, %es                                   # -&gt; Extra Segment
+    movw %ax, %ss                                   # -&gt; Stack Segment
+
+    # Enable A20:
+    #  For backwards compatibility with the earliest PCs, physical
+    #  address line 20 is tied low, so that addresses higher than
+    #  1MB wrap around to zero by default. This code undoes this.
+    #打开A20地址线  
+    #为了兼容早期的PC机，第20根地址线在实模式下不能使用  
+    #所以超过1MB的地址，默认就会返回到地址0，重新从0循环计数，  
+    #下面的代码打开A20地址线 
+seta20.1:
+    #从0x64端口读入一个字节的数据到al中 
+    inb $0x64, %al                                  # Wait for not busy(8042 input buffer empty).
+    testb $0x2, %al
+    #如果上面的测试中发现al的第2位为0，就不执行该指令  
+    #否则就循环检查
+    jnz seta20.1
+
+    #将0xd1写入到al中
+    movb $0xd1, %al                                 # 0xd1 -&gt; port 0x64
+    #将al中的数据写入到端口0x64中,也就是8042的P2端口
+    outb %al, $0x64                                 # 0xd1 means: write data to 8042&#39;s P2 port
+
+seta20.2:
+    inb $0x64, %al                                  # Wait for not busy(8042 input buffer empty).
+    #测试al的第2位是否为0
+    testb $0x2, %al
+    jnz seta20.2
+
+    #将0xdf写入到al中 
+    movb $0xdf, %al                                 # 0xdf -&gt; port 0x60
+    #将al中的数据写入到0x60端口中，也就是让P2端口的A20位设置为1
+    outb %al, $0x60                                 # 0xdf = 11011111, means set P2&#39;s A20 bit(the 1 bit) to 1
+
+    # Switch from real to protected mode, using a bootstrap GDT
+    # and segment translation that makes virtual addresses
+    # identical to physical addresses, so that the
+    # effective memory map does not change during the switch.
+    #将全局描述符表描述符加载到全局描述符表寄存器
+    lgdt gdtdesc
+    #cr0中的第0位为1表示处于保护模式  
+    #cr0中的第0位为0，表示处于实模式  
+    #把控制寄存器cr0加载到eax中 
+    movl %cr0, %eax
+    #将eax中的第0位设置为1
+    orl $CR0_PE_ON, %eax
+    #将eax中的值装入cr0中 
+    movl %eax, %cr0
+
+    # Jump to next instruction, but in 32-bit code segment.
+    # Switches processor into 32-bit mode.
+    ljmp $PROT_MODE_CSEG, $protcseg
+    #跳转到32位模式中的下一条指令  
+    #将处理器切换为32位工作模式  
+    #下面这条指令执行的结果会将$PROT_MODE_CSEG加载到cs中，cs对应的高速缓冲存储器会加载代码段描述符  
+    #同样将$protcseg加载到ip中
+
+.code32                                             # Assemble for 32-bit mode
+protcseg:
+    # Set up the protected-mode data segment registers
+    #设置保护模式下的数据寄存器  
+    #将数据段选择子装入到ax中
+    movw $PROT_MODE_DSEG, %ax                       # Our data segment selector
+    #将ax装入到其他数据段寄存器中，在装入的同时，  
+    #数据段描述符会自动的加入到这些段寄存器对应的高速缓冲寄存器中 
+    movw %ax, %ds                                   # -&gt; DS: Data Segment
+    movw %ax, %es                                   # -&gt; ES: Extra Segment
+    movw %ax, %fs                                   # -&gt; FS
+    movw %ax, %gs                                   # -&gt; GS
+    movw %ax, %ss                                   # -&gt; SS: Stack Segment
+
+    # Set up the stack pointer and call into C. The stack region is from 0--start(0x7c00)
+    #设置栈指针，并且调用c函数 
+    movl $0x0, %ebp
+    #调用main.c中的bootmain函数 
+    movl $start, %esp
+    call bootmain
+
+    # If bootmain returns (it shouldn&#39;t), loop.
+    #如果bootmain返回的话，就一直循环
+spin:
+    jmp spin
+
+# Bootstrap GDT
+#强制4字节对齐
+.p2align 2                                          # force 4 byte alignment
+#全局描述符表
+gdt:
+    SEG_NULLASM                                     # null seg
+    #代码段描述符
+    SEG_ASM(STA_X|STA_R, 0x0, 0xffffffff)           # code seg for bootloader and kernel
+    #数据段描述符
+    SEG_ASM(STA_W, 0x0, 0xffffffff)                 # data seg for bootloader and kernel
+
+#全局描述符表对应的描述符 
+gdtdesc:
+    .word 0x17                                      # sizeof(gdt) - 1
+    .long gdt                                       # address gdt
+</code></pre><h3 id="u7EC3_u4E604"><a href="#u7EC3_u4E604" class="headerlink" title="练习4"></a>练习4</h3><p>通过分析源代码和通过qemu来运行并调试bootloader&amp;OS，</p>
 <ul>
 <li>bootloader如何读取硬盘扇区的？</li>
 <li>bootloader是如何加载ELF格式的OS？</li>
 </ul>
 <p>在bootmain.c中有介绍。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* readsect - read a single sector at @secno into @dst */</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span></span></div><div class="line"><span class="title">readsect</span><span class="params">(<span class="keyword">void</span> *dst, <span class="keyword">uint32_t</span> secno)</span> &#123;</div><div class="line">    <span class="comment">// wait for disk to be ready</span></div><div class="line">    waitdisk();</div><div class="line"></div><div class="line">    outb(<span class="number">0x1F2</span>, <span class="number">1</span>);                         <span class="comment">// count = 1</span></div><div class="line">    outb(<span class="number">0x1F3</span>, secno &amp; <span class="number">0xFF</span>);</div><div class="line">    outb(<span class="number">0x1F4</span>, (secno &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>);</div><div class="line">    outb(<span class="number">0x1F5</span>, (secno &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>);</div><div class="line">    outb(<span class="number">0x1F6</span>, ((secno &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xF</span>) | <span class="number">0xE0</span>);</div><div class="line">    outb(<span class="number">0x1F7</span>, <span class="number">0x20</span>);                      <span class="comment">// cmd 0x20 - read sectors</span></div><div class="line"></div><div class="line">    <span class="comment">// wait for disk to be ready</span></div><div class="line">    waitdisk();</div><div class="line"></div><div class="line">    <span class="comment">// read a sector</span></div><div class="line">    insl(<span class="number">0x1F0</span>, dst, SECTSIZE / <span class="number">4</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/* readsect - read a single sector at @secno into @dst */</span>
+<span class="token keyword">static</span> <span class="token keyword">void</span>
+<span class="token function">readsect</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>dst<span class="token punctuation">,</span> uint32_t secno<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// wait for disk to be ready</span>
+    <span class="token function">waitdisk</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                         <span class="token comment" spellcheck="true">// count = 1</span>
+    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F3</span><span class="token punctuation">,</span> secno <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F4</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>secno <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F5</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>secno <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F6</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>secno <span class="token operator">>></span> <span class="token number">24</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xF</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token number">0xE0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F7</span><span class="token punctuation">,</span> <span class="token number">0x20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                      <span class="token comment" spellcheck="true">// cmd 0x20 - read sectors</span>
+
+    <span class="token comment" spellcheck="true">// wait for disk to be ready</span>
+    <span class="token function">waitdisk</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// read a sector</span>
+    <span class="token function">insl</span><span class="token punctuation">(</span><span class="token number">0x1F0</span><span class="token punctuation">,</span> dst<span class="token punctuation">,</span> SECTSIZE <span class="token operator">/</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p>读一个扇区的流程大致如下：</p>
 <ol>
 <li>等待磁盘准备好</li>
@@ -496,8 +696,74 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <li>把磁盘扇区数据读到指定内存</li>
 </ol>
 <p>通过readseg函数将OS读取到ELFHDR所指示的地址（0x10000）。<br>判断头部是否合法，如不合法直接跳出。<br>把kernel的每一个程序段都载入内存。<br>通过程序入口地址加载作为ELF可执行文件的kernel。</p>
-<h3 id="u7EC3_u4E605"><a href="#u7EC3_u4E605" class="headerlink" title="练习5"></a>练习5</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line">/* *</div><div class="line"> * print_stackframe - print a list of the saved eip values from the nested &apos;call&apos;</div><div class="line"> * instructions that led to the current point of execution</div><div class="line"> *</div><div class="line"> * The x86 stack pointer, namely esp, points to the lowest location on the stack</div><div class="line"> * that is currently in use. Everything below that location in stack is free. Pushing</div><div class="line"> * a value onto the stack will invole decreasing the stack pointer and then writing</div><div class="line"> * the value to the place that stack pointer pointes to. And popping a value do the</div><div class="line"> * opposite.</div><div class="line"> *</div><div class="line"> * The ebp (base pointer) register, in contrast, is associated with the stack</div><div class="line"> * primarily by software convention. On entry to a C function, the function&apos;s</div><div class="line"> * prologue code normally saves the previous function&apos;s base pointer by pushing</div><div class="line"> * it onto the stack, and then copies the current esp value into ebp for the duration</div><div class="line"> * of the function. If all the functions in a program obey this convention,</div><div class="line"> * then at any given point during the program&apos;s execution, it is possible to trace</div><div class="line"> * back through the stack by following the chain of saved ebp pointers and determining</div><div class="line"> * exactly what nested sequence of function calls caused this particular point in the</div><div class="line"> * program to be reached. This capability can be particularly useful, for example,</div><div class="line"> * when a particular function causes an assert failure or panic because bad arguments</div><div class="line"> * were passed to it, but you aren&apos;t sure who passed the bad arguments. A stack</div><div class="line"> * backtrace lets you find the offending function.</div><div class="line"> *</div><div class="line"> * The inline function read_ebp() can tell us the value of current ebp. And the</div><div class="line"> * non-inline function read_eip() is useful, it can read the value of current eip,</div><div class="line"> * since while calling this function, read_eip() can read the caller&apos;s eip from</div><div class="line"> * stack easily.</div><div class="line"> *</div><div class="line"> * In print_debuginfo(), the function debuginfo_eip() can get enough information about</div><div class="line"> * calling-chain. Finally print_stackframe() will trace and print them for debugging.</div><div class="line"> *</div><div class="line"> * Note that, the length of ebp-chain is limited. In boot/bootasm.S, before jumping</div><div class="line"> * to the kernel entry, the value of ebp has been set to zero, that&apos;s the boundary.</div><div class="line"> * */</div><div class="line">void</div><div class="line">print_stackframe(void) &#123;</div><div class="line">     /* LAB1 YOUR CODE : STEP 1 */</div><div class="line">     /* (1) call read_ebp() to get the value of ebp. the type is (uint32_t);</div><div class="line">      * (2) call read_eip() to get the value of eip. the type is (uint32_t);</div><div class="line">      * (3) from 0 .. STACKFRAME_DEPTH</div><div class="line">      *    (3.1) printf value of ebp, eip</div><div class="line">      *    (3.2) (uint32_t)calling arguments [0..4] = the contents in address (unit32_t)ebp +2 [0..4]</div><div class="line">      *    (3.3) cprintf(&quot;\n&quot;);</div><div class="line">      *    (3.4) call print_debuginfo(eip-1) to print the C calling function name and line number, etc.</div><div class="line">      *    (3.5) popup a calling stackframe</div><div class="line">      *           NOTICE: the calling funciton&apos;s return addr eip  = ss:[ebp+4]</div><div class="line">      *                   the calling funciton&apos;s ebp = ss:[ebp]</div><div class="line">      */</div><div class="line">    uint32_t ebp = read_ebp();</div><div class="line">    uint32_t eip = read_eip();</div><div class="line"></div><div class="line">    int i, j;</div><div class="line">    for(i = 0; ebp != 0 &amp;&amp; i &lt; STACKFRAME_DEPTH; i++)</div><div class="line">    &#123;</div><div class="line">        cprintf(&quot;epb:0x%08x eip:0x%08x args:&quot;, ebp, eip);</div><div class="line">        uint32_t *args = (uint32_t *)ebp + 2;</div><div class="line">        for (j = 0; j &lt; 4; j++)</div><div class="line">        &#123;</div><div class="line">            cprintf(&quot;0x%08x &quot;, args[j]);</div><div class="line">        &#125;</div><div class="line">        cprintf(&quot;\n&quot;);</div><div class="line">        print_debuginfo(eip - 1);</div><div class="line">        eip = ((uint32_t *)ebp)[1];</div><div class="line">        ebp = ((uint32_t *)ebp)[0];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>提示还是挺详细的，按照提示一步步写就能写出。首先读取ebp和eip的值，然后将堆栈里的信息打印出来，之后移动eip和ebp。</p>
+<h3 id="u7EC3_u4E605"><a href="#u7EC3_u4E605" class="headerlink" title="练习5"></a>练习5</h3><pre><code>/* *
+ * print_stackframe - print a list of the saved eip values from the nested &#39;call&#39;
+ * instructions that led to the current point of execution
+ *
+ * The x86 stack pointer, namely esp, points to the lowest location on the stack
+ * that is currently in use. Everything below that location in stack is free. Pushing
+ * a value onto the stack will invole decreasing the stack pointer and then writing
+ * the value to the place that stack pointer pointes to. And popping a value do the
+ * opposite.
+ *
+ * The ebp (base pointer) register, in contrast, is associated with the stack
+ * primarily by software convention. On entry to a C function, the function&#39;s
+ * prologue code normally saves the previous function&#39;s base pointer by pushing
+ * it onto the stack, and then copies the current esp value into ebp for the duration
+ * of the function. If all the functions in a program obey this convention,
+ * then at any given point during the program&#39;s execution, it is possible to trace
+ * back through the stack by following the chain of saved ebp pointers and determining
+ * exactly what nested sequence of function calls caused this particular point in the
+ * program to be reached. This capability can be particularly useful, for example,
+ * when a particular function causes an assert failure or panic because bad arguments
+ * were passed to it, but you aren&#39;t sure who passed the bad arguments. A stack
+ * backtrace lets you find the offending function.
+ *
+ * The inline function read_ebp() can tell us the value of current ebp. And the
+ * non-inline function read_eip() is useful, it can read the value of current eip,
+ * since while calling this function, read_eip() can read the caller&#39;s eip from
+ * stack easily.
+ *
+ * In print_debuginfo(), the function debuginfo_eip() can get enough information about
+ * calling-chain. Finally print_stackframe() will trace and print them for debugging.
+ *
+ * Note that, the length of ebp-chain is limited. In boot/bootasm.S, before jumping
+ * to the kernel entry, the value of ebp has been set to zero, that&#39;s the boundary.
+ * */
+void
+print_stackframe(void) {
+     /* LAB1 YOUR CODE : STEP 1 */
+     /* (1) call read_ebp() to get the value of ebp. the type is (uint32_t);
+      * (2) call read_eip() to get the value of eip. the type is (uint32_t);
+      * (3) from 0 .. STACKFRAME_DEPTH
+      *    (3.1) printf value of ebp, eip
+      *    (3.2) (uint32_t)calling arguments [0..4] = the contents in address (unit32_t)ebp +2 [0..4]
+      *    (3.3) cprintf(&quot;\n&quot;);
+      *    (3.4) call print_debuginfo(eip-1) to print the C calling function name and line number, etc.
+      *    (3.5) popup a calling stackframe
+      *           NOTICE: the calling funciton&#39;s return addr eip  = ss:[ebp+4]
+      *                   the calling funciton&#39;s ebp = ss:[ebp]
+      */
+    uint32_t ebp = read_ebp();
+    uint32_t eip = read_eip();
+
+    int i, j;
+    for(i = 0; ebp != 0 &amp;&amp; i &lt; STACKFRAME_DEPTH; i++)
+    {
+        cprintf(&quot;epb:0x%08x eip:0x%08x args:&quot;, ebp, eip);
+        uint32_t *args = (uint32_t *)ebp + 2;
+        for (j = 0; j &lt; 4; j++)
+        {
+            cprintf(&quot;0x%08x &quot;, args[j]);
+        }
+        cprintf(&quot;\n&quot;);
+        print_debuginfo(eip - 1);
+        eip = ((uint32_t *)ebp)[1];
+        ebp = ((uint32_t *)ebp)[0];
+    }
+
+}
+</code></pre><p>提示还是挺详细的，按照提示一步步写就能写出。首先读取ebp和eip的值，然后将堆栈里的信息打印出来，之后移动eip和ebp。</p>
 <h3 id="u7EC3_u4E606"><a href="#u7EC3_u4E606" class="headerlink" title="练习6"></a>练习6</h3><p>1.中断描述符表（也可简称为保护模式下的中断向量表）中一个表项占多少字节？其中哪几位代表中断处理代码的入口？</p>
 <p>通过查看/kern/mm/mmh.h,将struct gatedesc中元素的位相加，共64bit也就是8个字节。另外低16bit和高16bit为段偏移量，查看这个<a href="http://wiki.osdev.org/Interrupt_Descriptor_Table" target="_blank" rel="external">资料</a>,可以知道段选择子是16bit。</p>
 <table>
@@ -552,9 +818,46 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 </tbody>
 </table>
 <p>2.请编程完善kern/trap/trap.c中对中断向量表进行初始化的函数idt_init。在idt_init函数中，依次对所有中断入口进行初始化。使用mmu.h中的SETGATE宏，填充idt数组内容。每个中断的入口由tools/vectors.c生成，使用trap.c中声明的vectors数组即可。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* idt_init - initialize IDT to each of the entry points in kern/trap/vectors.S */</span></div><div class="line"><span class="function"><span class="keyword">void</span></span></div><div class="line"><span class="title">idt_init</span><span class="params">(<span class="keyword">void</span>)</span> &#123;</div><div class="line">     <span class="comment">/* LAB1 YOUR CODE : STEP 2 */</span></div><div class="line">     <span class="comment">/* (1) Where are the entry addrs of each Interrupt Service Routine (ISR)?</span></div><div class="line">      *     All ISR's entry addrs are stored in __vectors. where is uintptr_t __vectors[] ?</div><div class="line">      *     __vectors[] is in kern/trap/vector.S which is produced by tools/vector.c</div><div class="line">      *     (try "make" command in lab1, then you will find vector.S in kern/trap DIR)</div><div class="line">      *     You can use  "extern uintptr_t __vectors[];" to define this extern variable which will be used later.</div><div class="line">      * (2) Now you should setup the entries of ISR in Interrupt Description Table (IDT).</div><div class="line">      *     Can you see idt[256] in this file? Yes, it's IDT! you can use SETGATE macro to setup each item of IDT</div><div class="line">      * (3) After setup the contents of IDT, you will let CPU know where is the IDT by using 'lidt' instruction.</div><div class="line">      *     You don't know the meaning of this instruction? just google it! and check the libs/x86.h to know more.</div><div class="line">      *     Notice: the argument of lidt is idt_pd. try to find it!</div><div class="line">      */</div><div class="line">    <span class="keyword">extern</span> <span class="keyword">uintptr_t</span> __vectors[];</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(idt) / <span class="keyword">sizeof</span>(<span class="keyword">struct</span> gatedesc); i ++) &#123;</div><div class="line">        SETGATE(idt[i], <span class="number">0</span>, GD_KTEXT, __vectors[i], DPL_KERNEL);</div><div class="line">    &#125;</div><div class="line">	<span class="comment">// set for switch from user to kernel</span></div><div class="line">    SETGATE(idt[T_SWITCH_TOK], <span class="number">0</span>, GD_KTEXT, __vectors[T_SWITCH_TOK], DPL_USER);</div><div class="line">	<span class="comment">// load the IDT</span></div><div class="line">    lidt(&amp;idt_pd);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/* idt_init - initialize IDT to each of the entry points in kern/trap/vectors.S */</span>
+<span class="token keyword">void</span>
+<span class="token function">idt_init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true">/* LAB1 YOUR CODE : STEP 2 */</span>
+     <span class="token comment" spellcheck="true">/* (1) Where are the entry addrs of each Interrupt Service Routine (ISR)?
+      *     All ISR's entry addrs are stored in __vectors. where is uintptr_t __vectors[] ?
+      *     __vectors[] is in kern/trap/vector.S which is produced by tools/vector.c
+      *     (try "make" command in lab1, then you will find vector.S in kern/trap DIR)
+      *     You can use  "extern uintptr_t __vectors[];" to define this extern variable which will be used later.
+      * (2) Now you should setup the entries of ISR in Interrupt Description Table (IDT).
+      *     Can you see idt[256] in this file? Yes, it's IDT! you can use SETGATE macro to setup each item of IDT
+      * (3) After setup the contents of IDT, you will let CPU know where is the IDT by using 'lidt' instruction.
+      *     You don't know the meaning of this instruction? just google it! and check the libs/x86.h to know more.
+      *     Notice: the argument of lidt is idt_pd. try to find it!
+      */</span>
+    <span class="token keyword">extern</span> uintptr_t __vectors<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>idt<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> gatedesc<span class="token punctuation">)</span><span class="token punctuation">;</span> i <span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">SETGATE</span><span class="token punctuation">(</span>idt<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> GD_KTEXT<span class="token punctuation">,</span> __vectors<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> DPL_KERNEL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// set for switch from user to kernel</span>
+    <span class="token function">SETGATE</span><span class="token punctuation">(</span>idt<span class="token punctuation">[</span>T_SWITCH_TOK<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> GD_KTEXT<span class="token punctuation">,</span> __vectors<span class="token punctuation">[</span>T_SWITCH_TOK<span class="token punctuation">]</span><span class="token punctuation">,</span> DPL_USER<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// load the IDT</span>
+    <span class="token function">lidt</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>idt_pd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <p>3.请编程完善trap.c中的中断处理函数trap，在对时钟中断进行处理的部分填写trap函数中处理时钟中断的部分，使操作系统每遇到100次时钟中断后，调用print_ticks子程序，向屏幕上打印一行文字”100 ticks”。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">case</span> IRQ_OFFSET + IRQ_TIMER:</div><div class="line">        <span class="comment">/* LAB1 YOUR CODE : STEP 3 */</span></div><div class="line">        <span class="comment">/* handle the timer interrupt */</span></div><div class="line">        <span class="comment">/* (1) After a timer interrupt, you should record this event using a global variable (increase it), such as ticks in kern/driver/clock.c</span></div><div class="line">         * (2) Every TICK_NUM cycle, you can print some info using a funciton, such as print_ticks().</div><div class="line">         * (3) Too Simple? Yes, I think so!</div><div class="line">         */</div><div class="line">        ticks ++;</div><div class="line">        <span class="keyword">if</span> (ticks % TICK_NUM == <span class="number">0</span>) &#123;</div><div class="line">            print_ticks();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">break</span>;</div></pre></td></tr></table></figure>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">case</span> IRQ_OFFSET <span class="token operator">+</span> IRQ_TIMER<span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true">/* LAB1 YOUR CODE : STEP 3 */</span>
+        <span class="token comment" spellcheck="true">/* handle the timer interrupt */</span>
+        <span class="token comment" spellcheck="true">/* (1) After a timer interrupt, you should record this event using a global variable (increase it), such as ticks in kern/driver/clock.c
+         * (2) Every TICK_NUM cycle, you can print some info using a funciton, such as print_ticks().
+         * (3) Too Simple? Yes, I think so!
+         */</span>
+        ticks <span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>ticks <span class="token operator">%</span> TICK_NUM <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">print_ticks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+</code></pre>
 <p>To be continued.</p>
 
     
@@ -713,7 +1016,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -782,7 +1085,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         

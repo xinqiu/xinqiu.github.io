@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -254,13 +254,54 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
             首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考write-up。
 
 Level 0Bufbomb程序运行会读一个字符串，使用一下函数getbuf:
-123456789/* Buffer size for getbuf */#define NORMAL_BUFFER_SIZE 32 int getbuf()&#123;	char buf[NORMAL_BUFFER_SIZE];	Gets(buf);	return 1;&#125;
+/* Buffer size for getbuf */
+#define NORMAL_BUFFER_SIZE 32
+
+int getbuf()
+{
+    char buf[NORMAL_BUFFER_SIZE];
+    Gets(buf);
+    return 1;
+}
+
 Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.
-12345678910080491f4 &lt;getbuf&gt;: 80491f4:	55                   	push   %ebp 80491f5:	89 e5                	mov    %esp,%ebp 80491f7:	83 ec 38             	sub    $0x38,%esp 80491fa:	8d 45 d8             	lea    -0x28(%ebp),%eax 80491fd:	89 04 24             	mov    %eax,(%esp) 8049200:	e8 f5 fa ff ff       	call   8048cfa &lt;Gets&gt; 8049205:	b8 01 00 00 00       	mov    $0x1,%eax 804920a:	c9                   	leave   804920b:	c3                   	ret
+080491f4 &lt;getbuf&gt;:
+ 80491f4:    55                       push   %ebp
+ 80491f5:    89 e5                    mov    %esp,%ebp
+ 80491f7:    83 ec 38                 sub    $0x38,%esp
+ 80491fa:    8d 45 d8                 lea    -0x28(%ebp),%eax
+ 80491fd:    89 04 24                 mov    %eax,(%esp)
+ 8049200:    e8 f5 fa ff ff           call   8048cfa &lt;Gets&gt;
+ 8049205:    b8 01 00 00 00           mov    $0x1,%eax
+ 804920a:    c9                       leave  
+ 804920b:    c3                       ret
 getbuf是由函数test调用:
-123456789101112131415161718void test() &#123;     int val;     /* Put canary on stack to detect possiblecorruption */     volatile int local = uniqueval();        val = getbuf();        /* Check for corruption stack */     if (local != uniqueval()) &#123;       printf("Sabotaged!: the stack has beencorrupted\n");     &#125;     else if (val == cookie) &#123;       printf("Boom!: getbuf returned0x%x\n", val);       validate(3);     &#125; else &#123;       printf("Dud: getbuf returned0x%x\n", val);     &#125;   &#125;
+void test() {   
+  int val;   
+  /* Put canary on stack to detect possiblecorruption */   
+  volatile int local = uniqueval();   
+
+  val = getbuf();   
+
+  /* Check for corruption stack */   
+  if (local != uniqueval()) {   
+    printf(&quot;Sabotaged!: the stack has beencorrupted\n&quot;);   
+  }   
+  else if (val == cookie) {   
+    printf(&quot;Boom!: getbuf returned0x%x\n&quot;, val);   
+    validate(3);   
+  } else {   
+    printf(&quot;Dud: getbuf returned0x%x\n&quot;, val);   
+  }   
+}
+
 其中，Smoke源码： 
-12345void smoke()&#123;     puts("Smoke!: You calledsmoke()");     validate(0);     exit(0);   &#125;
+void smoke(){   
+  puts(&quot;Smoke!: You calledsmoke()&quot;);   
+  validate(0);   
+  exit(0);   
+}
+
 level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。
         
         &nbsp;&nbsp;&nbsp;
@@ -382,13 +423,26 @@ level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不�
 环境安装需要用到CSI tool，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载清华的版本。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。
 需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。
 获取数据cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行
-1sudo ./log_to_file tmp.dat
+sudo ./log_to_file tmp.dat
+
 打开另一个终端，运行
-1ping 192.168.1.1 -i 0.2
+ping 192.168.1.1 -i 0.2
+
 netlink文件夹中的tmp.dat就是采集的原始数据。
 读取数据使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。
 一个例子数据包里包含
-123456789101112timestamp_low: 4            (In the sample trace, timestamp_low is invalid and always 4.)       bfee_count: 72              Nrx: 3              Ntx: 1           rssi_a: 33           rssi_b: 37           rssi_c: 41            noise: -127              agc: 38             perm: [3 2 1]             rate: 256              csi: [1x3x30 double]
+timestamp_low: 4            (In the sample trace, timestamp_low is invalid and always 4.)
+       bfee_count: 72
+              Nrx: 3
+              Ntx: 1
+           rssi_a: 33
+           rssi_b: 37
+           rssi_c: 41
+            noise: -127
+              agc: 38
+             perm: [3 2 1]
+             rate: 256
+              csi: [1x3x30 double]
 其中:
 
 timestamp_low 是时间戳
@@ -537,7 +591,7 @@ csi CSI原始数据，是个Ntx×Nrx×30复数矩阵
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -606,7 +660,7 @@ csi CSI原始数据，是个Ntx×Nrx×30复数矩阵
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         

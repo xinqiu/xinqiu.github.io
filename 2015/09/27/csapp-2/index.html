@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -424,9 +424,19 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <p>在寻址和字节顺序这一块，有一些需要注意的地方。首先是位表示一个数。存在两种表示方法。<code>小端法</code>(little endian)，最低有效字节在最前面的方式。相反，大端法(big endian)，最高有效字节在最前面的方式。</p>
 <p>举个例子，12 34 56 78</p>
 <p>小端法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+----+----+----+</div><div class="line"></div><div class="line">|0x78|0x56|0x34|0x12|</div><div class="line"></div><div class="line">+----+----+----+----+</div></pre></td></tr></table></figure>
+<pre class=" language-html"><code class="language-html">+----+----+----+----+
+
+|0x78|0x56|0x34|0x12|
+
++----+----+----+----+
+</code></pre>
 <p>大端法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+----+----+----+----+</div><div class="line"></div><div class="line">|0x12|0x34|0x56|0x78|</div><div class="line"></div><div class="line">+----+----+----+----+</div></pre></td></tr></table></figure>
+<pre class=" language-html"><code class="language-html">+----+----+----+----+
+
+|0x12|0x34|0x56|0x78|
+
++----+----+----+----+
+</code></pre>
 <h4 id="u79FB_u4F4D_u8FD0_u7B97"><a href="#u79FB_u4F4D_u8FD0_u7B97" class="headerlink" title="移位运算"></a>移位运算</h4><p><code>移位</code>运算就是向左移、向右移。向左移(&lt;&lt;)都是舍弃最高位，右端用0来补。而右移就出现了两种形式：<code>逻辑</code>右移（logical）和<code>算术</code>右移（arithmetic）。<code>逻辑右移</code>是在左端用0来补位。<code>算术右移</code>是在左端用1来补位。其中，算术右移对有有符号整数数据的运算非常有用。对于无符号数据，右移必须是逻辑的。</p>
 <h4 id="u8865_u7801_u7F16_u7801"><a href="#u8865_u7801_u7F16_u7801" class="headerlink" title="补码编码"></a>补码编码</h4><p>有符号数的表示方法比较常见的是<code>补码</code>(two’s-complement)形式。最高有效位是符号为。如果是0就是正数，1是负数。这个最高有效位算是负权(negative weight)，权重为<img src="http://www.zhihu.com/equation?tex=-2^{w-1}" alt="">，其中w为位数。书中<code>Figure 2.12</code>直白的展示了正负数的表示。</p>
 <p>还有其他的表示方法，比如反码(Ones’Complement)、原码(Sign-Magnitude)。</p>
@@ -610,7 +620,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -679,7 +689,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         

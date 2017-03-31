@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -423,30 +423,45 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <h3 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h3><p>首次启动会出现Raspi-config，当然之后也可以使用<code>sudo raspi-config</code>来更改系统设置。<br>第一件事是进入<code>8 Advanced Options</code>-&gt;<code>A4 SSH</code>,选择<code>Enable</code>.这样之后就可以直接在终端里用SSH连接树莓派了。</p>
 <h3 id="u65E0_u7EBF_u7F51_u5361"><a href="#u65E0_u7EBF_u7F51_u5361" class="headerlink" title="无线网卡"></a>无线网卡</h3><p>识别网卡后，要修改网络配置文件。修改<code>/etc/network/interfaces</code>文件。</p>
 <p>使用命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/network/interfaces</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">vi</span> /etc/network/interfaces
+</code></pre>
 <h2 id="u4E00_u4E9B_u5DE5_u5177"><a href="#u4E00_u4E9B_u5DE5_u5177" class="headerlink" title="一些工具"></a>一些工具</h2><h3 id="u770B_u95E8_u72D7"><a href="#u770B_u95E8_u72D7" class="headerlink" title="看门狗"></a>看门狗</h3><p>树莓派的CPU是保护有硬件看门狗的，可以通过安装模块和值守程序来实现看门狗防止树莓派死机。</p>
 <h4 id="u5B89_u88C5_u65B9_u6CD5"><a href="#u5B89_u88C5_u65B9_u6CD5" class="headerlink" title="安装方法"></a>安装方法</h4><p>1.加载看门狗模块，编辑/etc/modules文件，添加一行“bcm2708_wdog”</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo modprobe bcm2708_wdog</div><div class="line">sudo vim /etc/modules</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> modprobe bcm2708_wdog
+<span class="token function">sudo</span> vim /etc/modules
+</code></pre>
 <p>添加一行”bcm2708_wdog”</p>
 <p>2.安装系统配置软件和看门狗程序</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install chkconfig watchdog</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">chkconfig</span> watchdog
+</code></pre>
 <p>3.配置看门狗程序，编辑“/etc/watchdog.conf”文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/watchdog.conf</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> vim /etc/watchdog.conf
+</code></pre>
 <p>去掉 watchdog-device = /dev/watchdog 前的#号，让看门狗设备对应树莓派的硬件看门狗<br>去掉 max-load-1 = 24 前的#号，当1分钟load进程超过24个的时候就会重启</p>
-<p>还可以设置高温复位：<br>去掉<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">temperature-device =</div><div class="line">max-temperature = 120</div></pre></td></tr></table></figure></p>
+<p>还可以设置高温复位：<br>去掉</p>
+<pre class=" language-bash"><code class="language-bash">temperature-device <span class="token operator">=</span>
+max-temperature <span class="token operator">=</span> 120
+</code></pre>
 <p>前的#号，改为</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">temperature-device = /sys/class/thermal/thermal_zone0/temp</div><div class="line">max-temperature = 80000</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash">temperature-device <span class="token operator">=</span> /sys/class/thermal/thermal_zone0/temp
+max-temperature <span class="token operator">=</span> 80000
+</code></pre>
 <p>温度超过80度就会引起重启，保护CPU。<br>配置完后，保存退出。</p>
 <p>4.配置看门狗程序，开机自动运行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig watchdog on</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">chkconfig</span> watchdog on
+</code></pre>
 <p>5.启动看门狗</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/watchdog start</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> /etc/init.d/watchdog start
+</code></pre>
 <h3 id="vsftpd"><a href="#vsftpd" class="headerlink" title="vsftpd"></a>vsftpd</h3><p>1,安装vsftpd服务器 (约400KB)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install vsftpd</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> vsftpd
+</code></pre>
 <p>2,启动ftp服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo service vsftpd start</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">service</span> vsftpd start
+</code></pre>
 <p>3,编辑vsftdp的配置文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/vsftpd.conf</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> vim /etc/vsftpd.conf
+</code></pre>
 <p>找到以下行，定义一下</p>
 <p>anonymous_enable=NO  </p>
 <p>表示：不允许匿名访问</p>
@@ -458,7 +473,8 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <p>设定上传后文件的权限掩码。</p>
 <p>存盘退出</p>
 <p>4, 重启vsftpd服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo service vsftpd restart</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">service</span> vsftpd restart
+</code></pre>
 
     
 
@@ -616,7 +632,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -685,7 +701,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         

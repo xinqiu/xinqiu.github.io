@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -422,9 +422,11 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 </ol>
 <a id="more"></a>
 <h2 id="Java_u73AF_u5883_u642D_u5EFA"><a href="#Java_u73AF_u5883_u642D_u5EFA" class="headerlink" title="Java环境搭建"></a>Java环境搭建</h2><p>可以在Ubuntu自带的软件中心中安装OpenJDK 7 runtime，也可以用apt-get的方式来安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install openjdk-7-jdk</div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> openjdk-7-jdk
+</code></pre>
 <p>在安装完成后输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -version <span class="comment"># 查看版本号</span></div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash">java -version <span class="token comment" spellcheck="true"># 查看版本号</span>
+</code></pre>
 <p>如果显示出了 Java 版本号那就已经安装成功。</p>
 <h2 id="u5B89_u88C5_u6E38_u620F"><a href="#u5B89_u88C5_u6E38_u620F" class="headerlink" title="安装游戏"></a>安装游戏</h2><p>右击MinecraftSP.jar</p>
 <p>点<code>属性</code>-<code>权限</code>，在<code>执行</code>后面的<code>允许作为程序执行文件</code>前打勾选上。</p>
@@ -432,7 +434,8 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <p>待下载完成后就可以玩经典版的了，可以设置为中文。</p>
 <h2 id="u5B89_u88C5MC_1-8"><a href="#u5B89_u88C5MC_1-8" class="headerlink" title="安装MC 1.8"></a>安装MC 1.8</h2><p>必须先运行一次经典版的MC，让其产生一些必要的文件，然后才能继续安装MC 1.8<br>然后将纯净包里的东西覆盖到本机的<code>.Minecraft</code>中。</p>
 <h2 id="HMCL_u7684_u4F7F_u7528"><a href="#HMCL_u7684_u4F7F_u7528" class="headerlink" title="HMCL的使用"></a>HMCL的使用</h2><p>在终端里输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh HMCL-2.2.1.sh <span class="comment">#记得先cd进入HMCL的文件夹</span></div></pre></td></tr></table></figure>
+<pre class=" language-bash"><code class="language-bash">sh HMCL-2.2.1.sh <span class="token comment" spellcheck="true">#记得先cd进入HMCL的文件夹</span>
+</code></pre>
 <p>然后就会出现启动器，在游戏设置里可以安装些资源或游戏下载</p>
 <p>然后就可以玩了</p>
 <p>注意，这时候虽然安装了1.8，但用MinecraftSP来启动仍然是经典版本，想要玩1.8版本必须用启动器</p>
@@ -448,7 +451,33 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <li><p>缺少Java库，缺少lwjgl.jar等等<br>例如</p>
 </li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">*** Hello Minecraft! Launcher 2.1.9 ***</div><div class="line">*** Invoking minecraft main() ***</div><div class="line">ERROR StatusLogger Unable to locate a logging implementation, using SimpleLogger</div><div class="line">Minecraft崩溃了！</div><div class="line">可能是游戏依赖库不完整或解压依赖库时出错。可以通过下载整合包解决问题。</div><div class="line">java.lang.reflect.InvocationTargetException</div><div class="line">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</div><div class="line">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</div><div class="line">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</div><div class="line">at java.lang.reflect.Method.invoke(Method.java:606)</div><div class="line">at org.jackhuang.hellominecraft.launcher.Launcher.main(SourceFile:122)</div><div class="line">Caused by: java.lang.UnsatisfiedLinkError: no lwjgl in java.library.path</div><div class="line">at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1886)</div><div class="line">at java.lang.Runtime.loadLibrary0(Runtime.java:849)</div><div class="line">at java.lang.System.loadLibrary(System.java:1088)</div><div class="line">at org.lwjgl.Sys$1.run(Sys.java:73)</div><div class="line">at java.security.AccessController.doPrivileged(Native Method)</div><div class="line">at org.lwjgl.Sys.doLoadLibrary(Sys.java:66)</div><div class="line">at org.lwjgl.Sys.loadLibrary(Sys.java:95)</div><div class="line">at org.lwjgl.Sys.<span class="tag">&lt;<span class="name">clinit</span>&gt;</span>(Sys.java:112)</div><div class="line">at bss.I(SourceFile:2488)</div><div class="line">at net.minecraft.client.main.Main.main(SourceFile:41)</div><div class="line">... 5 more</div><div class="line"></div><div class="line"></div><div class="line">*** Main class main() finished ***</div></pre></td></tr></table></figure>
+<pre class=" language-html"><code class="language-html">*** Hello Minecraft! Launcher 2.1.9 ***
+*** Invoking minecraft main() ***
+ERROR StatusLogger Unable to locate a logging implementation, using SimpleLogger
+Minecraft崩溃了！
+可能是游戏依赖库不完整或解压依赖库时出错。可以通过下载整合包解决问题。
+java.lang.reflect.InvocationTargetException
+at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.lang.reflect.Method.invoke(Method.java:606)
+at org.jackhuang.hellominecraft.launcher.Launcher.main(SourceFile:122)
+Caused by: java.lang.UnsatisfiedLinkError: no lwjgl in java.library.path
+at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1886)
+at java.lang.Runtime.loadLibrary0(Runtime.java:849)
+at java.lang.System.loadLibrary(System.java:1088)
+at org.lwjgl.Sys$1.run(Sys.java:73)
+at java.security.AccessController.doPrivileged(Native Method)
+at org.lwjgl.Sys.doLoadLibrary(Sys.java:66)
+at org.lwjgl.Sys.loadLibrary(Sys.java:95)
+at org.lwjgl.Sys.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>clinit</span><span class="token punctuation">></span></span>(Sys.java:112)
+at bss.I(SourceFile:2488)
+at net.minecraft.client.main.Main.main(SourceFile:41)
+... 5 more
+
+
+*** Main class main() finished ***
+</code></pre>
 <p>这些问题大部分都是因为bin文件出了问题，或者没装bin文件<br>我一开始用纯净包+启动器，发现各种运行不起来<br>后来排查，还是缺少bin文件，介于网上完整的ubuntu包很少，所以只能用MinecraftSP来进行安装。</p>
 <h4 id="u6682_u65F6_u53EA_u77E5_u9053_u7684ubuntu_u4E0A_u81EA_u5DF1_u770B_u5230_u7684_u4E00_u4E9B_u9519_u8BEF"><a href="#u6682_u65F6_u53EA_u77E5_u9053_u7684ubuntu_u4E0A_u81EA_u5DF1_u770B_u5230_u7684_u4E00_u4E9B_u9519_u8BEF" class="headerlink" title="暂时只知道的ubuntu上自己看到的一些错误"></a>暂时只知道的ubuntu上自己看到的一些错误</h4><p>在Ubuntu服务器端搭建Minecraft server 按照网上的步骤都可以成功搭建的。</p>
 
@@ -608,7 +637,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -677,7 +706,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         

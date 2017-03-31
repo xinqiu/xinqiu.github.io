@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -320,9 +320,9 @@ void mm_free(void *ptr)
 
 前期工作解压缩shlab-handout.tar，执行make clean | make,就可以得到编译好的文件。
 文件夹中的tshref是正确的结果，可以用来验证。与其用
-1./sdriver.pl -t trace01.txt -s ./tsh -a &quot;-p&quot;
+./sdriver.pl -t trace01.txt -s ./tsh -a &quot;-p&quot;
 来测试，我觉得实验手册里提到的另一种方法更好用，
-1make test01
+make test01
 这是对自己写的tsh进行测试，要想对tshref进行测试，只需要在后面的test前面添加一个r即可，也就是make rtest01。
         
         &nbsp;&nbsp;&nbsp;
@@ -412,7 +412,14 @@ Usage: ./csim-ref [-hv] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&
 
 
 所以在 csim.c 里也可以写个打印帮助的函数
-1234567void printUsage()&#123;    printf("Usage: ./csim [-h] [-v] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;\n");    printf("-s: number of set index(2^s sets)\n");    printf("-E: number of lines per set\n");    printf("-b: number of block offset bits\n");    printf("-t: trace file name\n");&#125;
+void printUsage(){
+    printf(&quot;Usage: ./csim [-h] [-v] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;\n&quot;);
+    printf(&quot;-s: number of set index(2^s sets)\n&quot;);
+    printf(&quot;-E: number of lines per set\n&quot;);
+    printf(&quot;-b: number of block offset bits\n&quot;);
+    printf(&quot;-t: trace file name\n&quot;);
+}
+
         
         &nbsp;&nbsp;&nbsp;
         <span>
@@ -472,13 +479,54 @@ Usage: ./csim-ref [-hv] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&
             首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考write-up。
 
 Level 0Bufbomb程序运行会读一个字符串，使用一下函数getbuf:
-123456789/* Buffer size for getbuf */#define NORMAL_BUFFER_SIZE 32 int getbuf()&#123;	char buf[NORMAL_BUFFER_SIZE];	Gets(buf);	return 1;&#125;
+/* Buffer size for getbuf */
+#define NORMAL_BUFFER_SIZE 32
+
+int getbuf()
+{
+    char buf[NORMAL_BUFFER_SIZE];
+    Gets(buf);
+    return 1;
+}
+
 Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.
-12345678910080491f4 &lt;getbuf&gt;: 80491f4:	55                   	push   %ebp 80491f5:	89 e5                	mov    %esp,%ebp 80491f7:	83 ec 38             	sub    $0x38,%esp 80491fa:	8d 45 d8             	lea    -0x28(%ebp),%eax 80491fd:	89 04 24             	mov    %eax,(%esp) 8049200:	e8 f5 fa ff ff       	call   8048cfa &lt;Gets&gt; 8049205:	b8 01 00 00 00       	mov    $0x1,%eax 804920a:	c9                   	leave   804920b:	c3                   	ret
+080491f4 &lt;getbuf&gt;:
+ 80491f4:    55                       push   %ebp
+ 80491f5:    89 e5                    mov    %esp,%ebp
+ 80491f7:    83 ec 38                 sub    $0x38,%esp
+ 80491fa:    8d 45 d8                 lea    -0x28(%ebp),%eax
+ 80491fd:    89 04 24                 mov    %eax,(%esp)
+ 8049200:    e8 f5 fa ff ff           call   8048cfa &lt;Gets&gt;
+ 8049205:    b8 01 00 00 00           mov    $0x1,%eax
+ 804920a:    c9                       leave  
+ 804920b:    c3                       ret
 getbuf是由函数test调用:
-123456789101112131415161718void test() &#123;     int val;     /* Put canary on stack to detect possiblecorruption */     volatile int local = uniqueval();        val = getbuf();        /* Check for corruption stack */     if (local != uniqueval()) &#123;       printf("Sabotaged!: the stack has beencorrupted\n");     &#125;     else if (val == cookie) &#123;       printf("Boom!: getbuf returned0x%x\n", val);       validate(3);     &#125; else &#123;       printf("Dud: getbuf returned0x%x\n", val);     &#125;   &#125;
+void test() {   
+  int val;   
+  /* Put canary on stack to detect possiblecorruption */   
+  volatile int local = uniqueval();   
+
+  val = getbuf();   
+
+  /* Check for corruption stack */   
+  if (local != uniqueval()) {   
+    printf(&quot;Sabotaged!: the stack has beencorrupted\n&quot;);   
+  }   
+  else if (val == cookie) {   
+    printf(&quot;Boom!: getbuf returned0x%x\n&quot;, val);   
+    validate(3);   
+  } else {   
+    printf(&quot;Dud: getbuf returned0x%x\n&quot;, val);   
+  }   
+}
+
 其中，Smoke源码： 
-12345void smoke()&#123;     puts("Smoke!: You calledsmoke()");     validate(0);     exit(0);   &#125;
+void smoke(){   
+  puts(&quot;Smoke!: You calledsmoke()&quot;);   
+  validate(0);   
+  exit(0);   
+}
+
 level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。
         
         &nbsp;&nbsp;&nbsp;
@@ -541,17 +589,30 @@ level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不�
 
 Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
 进入lldb
-1lldb bomb
+lldb bomb
+
 使用disassemble进行反汇编,参考bomb.c文件，可以知道主要的几个函数名。
 首先是Phase_1
-1(lldb) disas -n phase_1
+(lldb) disas -n phase_1
+
 得到以下汇编代码
-123456789bomb`phase_1:bomb[0x400ee0] &lt;+0&gt;:  subq   $0x8, %rspbomb[0x400ee4] &lt;+4&gt;:  movl   $0x402400, %esibomb[0x400ee9] &lt;+9&gt;:  callq  0x401338                  ; strings_not_equalbomb[0x400eee] &lt;+14&gt;: testl  %eax, %eaxbomb[0x400ef0] &lt;+16&gt;: je     0x400ef7                  ; &lt;+23&gt;bomb[0x400ef2] &lt;+18&gt;: callq  0x40143a                  ; explode_bombbomb[0x400ef7] &lt;+23&gt;: addq   $0x8, %rspbomb[0x400efb] &lt;+27&gt;: retq
+bomb`phase_1:
+bomb[0x400ee0] &lt;+0&gt;:  subq   $0x8, %rsp
+bomb[0x400ee4] &lt;+4&gt;:  movl   $0x402400, %esi
+bomb[0x400ee9] &lt;+9&gt;:  callq  0x401338                  ; strings_not_equal
+bomb[0x400eee] &lt;+14&gt;: testl  %eax, %eax
+bomb[0x400ef0] &lt;+16&gt;: je     0x400ef7                  ; &lt;+23&gt;
+bomb[0x400ef2] &lt;+18&gt;: callq  0x40143a                  ; explode_bomb
+bomb[0x400ef7] &lt;+23&gt;: addq   $0x8, %rsp
+bomb[0x400efb] &lt;+27&gt;: retq
+
 这段代码还是挺好理解的，保存Stack pointer,将$0x402400传给%esi,调用位于0x401338的strings_not_equal函数，比较%eax是否为0，不为零则调用explode_bomb函数，为零则返回。
 所以关键要找出字符串是什么。根据上述的汇编代码，可以发现字符串被保存在0x402400这个内存里，所以使用x/s来查看。
-1(lldb) x/s 0x402400
+(lldb) x/s 0x402400
+
 得到
-10x00402400: "Border relations with Canada have never been better."
+0x00402400: &quot;Border relations with Canada have never been better.&quot;
+
 所以第一关的答案是Strings_Not_Equal
         
         &nbsp;&nbsp;&nbsp;
@@ -749,7 +810,7 @@ CSAPP(Computer Systems: A Programmer’s Perspective )，中文书名为深入�
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -818,7 +879,7 @@ CSAPP(Computer Systems: A Programmer’s Perspective )，中文书名为深入�
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         

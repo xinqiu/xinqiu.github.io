@@ -201,7 +201,7 @@
 ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         
     
-</head>
+<link rel="stylesheet" href="/css/prism-coy.css" type="text/css"></head>
 
 
     
@@ -245,6 +245,102 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     
 
         <!-- Post Title -->
+        <p class="article-headline-p"><a href="/2016/06/07/csapp-lab4-cachelab/">CSAPP Lab4 解题分析</a></p>
+    </div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+            
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+
+
+
+
+
+
+
+Lab4 的Cache Lab 的说明资料太少了，csim.c 里面空空的，惊了。身为弱渣的我只好先拿别人的代码来参考参考。这里选取的代码csim.c。
+
+Part A: Writing a Cache Simulator需要些一个Cache模拟器，将 valgrind 内存访问记录作为参数，模拟是否命中缓存。输出命中，不命中，移除。
+lab里提供了一个写好的程序 csim-ref ，使用LRU(least-recently used)替换原则，模拟缓存命中情况。
+实验指导上给出了命令行参数
+Usage: ./csim-ref [-hv] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;
+
+-h: Optional help flag that prints usage info
+
+-v: Optional verbose flag that displays trace info
+
+-s &lt;s&gt;: Number of set index bits ($ S = 2^{s} $ is the number of sets) 
+
+-E &lt;E&gt;: Associativity (number of lines per set)
+
+-b &lt;b&gt;: Number of block bits ($ B = 2^{b} $ is the block size)
+
+-t &lt;tracefile&gt;: Name of the valgrind trace to replay
+
+
+所以在 csim.c 里也可以写个打印帮助的函数
+void printUsage(){
+    printf(&quot;Usage: ./csim [-h] [-v] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;\n&quot;);
+    printf(&quot;-s: number of set index(2^s sets)\n&quot;);
+    printf(&quot;-E: number of lines per set\n&quot;);
+    printf(&quot;-b: number of block offset bits\n&quot;);
+    printf(&quot;-t: trace file name\n&quot;);
+}
+
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2016/06/07/csapp-lab4-cachelab/" target="_self">Continue Reading</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
+            </div>
+            <div>
+                <strong>Xin Qiu</strong>
+                <span>Jun 07, 2016</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                
+            </span>
+
+            
+
+            <!-- Post Views -->
+            <span class="post_entry-views">
+            </span>
+        </div>
+    </div>
+</div>
+
+        
+        
+        
+    
+        
+        
+            <!-- Paradox Thumbnail -->
+            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
+    <!-- Post Thumbnail -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+        
+    
+
+        <!-- Post Title -->
         <p class="article-headline-p"><a href="/2016/06/02/ml-1/">Machine Learning Note 1</a></p>
     </div>
 
@@ -265,7 +361,18 @@ Coursera 上的Machine Learning 算得上是经典的机器学习入门课程，
 
 Supervised learning 监督学习这里存在两种问题 regression 和 classification。前者是预测相关的问题，后者是分类相关的问题。
 首先介绍的是监督学习，notes1中用房屋价格预测来介绍Linear Regression线性回归。这里因为没有数据集，所以我选择用ex1中的ex1data1.txt来做演示。
-1234567891011import matplotlib.pyplot as pltimport numpy as npdata = np.loadtxt('ex1data1.txt', delimiter=',')m = data.shape[0]X = data[:,0]y = data[:, 1]plt.scatter(X, y, c='r', marker='x', linewidths=1)plt.xlim([3, max(X)+3])plt.ylabel('Profit in $10,000s')plt.xlabel('Population of City in 10,000s')plt.show()
+import matplotlib.pyplot as plt
+import numpy as np
+data = np.loadtxt(&#39;ex1data1.txt&#39;, delimiter=&#39;,&#39;)
+m = data.shape[0]
+X = data[:,0]
+y = data[:, 1]
+plt.scatter(X, y, c=&#39;r&#39;, marker=&#39;x&#39;, linewidths=1)
+plt.xlim([3, max(X)+3])
+plt.ylabel(&#39;Profit in $10,000s&#39;)
+plt.xlabel(&#39;Population of City in 10,000s&#39;)
+plt.show()
+
 可以画出数据分布散点图。
         
         &nbsp;&nbsp;&nbsp;
@@ -441,13 +548,54 @@ threadthread算是轻量级的线程模块，它提供较为底层的多线程�
             首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考write-up。
 
 Level 0Bufbomb程序运行会读一个字符串，使用一下函数getbuf:
-123456789/* Buffer size for getbuf */#define NORMAL_BUFFER_SIZE 32 int getbuf()&#123;	char buf[NORMAL_BUFFER_SIZE];	Gets(buf);	return 1;&#125;
+/* Buffer size for getbuf */
+#define NORMAL_BUFFER_SIZE 32
+
+int getbuf()
+{
+    char buf[NORMAL_BUFFER_SIZE];
+    Gets(buf);
+    return 1;
+}
+
 Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.
-12345678910080491f4 &lt;getbuf&gt;: 80491f4:	55                   	push   %ebp 80491f5:	89 e5                	mov    %esp,%ebp 80491f7:	83 ec 38             	sub    $0x38,%esp 80491fa:	8d 45 d8             	lea    -0x28(%ebp),%eax 80491fd:	89 04 24             	mov    %eax,(%esp) 8049200:	e8 f5 fa ff ff       	call   8048cfa &lt;Gets&gt; 8049205:	b8 01 00 00 00       	mov    $0x1,%eax 804920a:	c9                   	leave   804920b:	c3                   	ret
+080491f4 &lt;getbuf&gt;:
+ 80491f4:    55                       push   %ebp
+ 80491f5:    89 e5                    mov    %esp,%ebp
+ 80491f7:    83 ec 38                 sub    $0x38,%esp
+ 80491fa:    8d 45 d8                 lea    -0x28(%ebp),%eax
+ 80491fd:    89 04 24                 mov    %eax,(%esp)
+ 8049200:    e8 f5 fa ff ff           call   8048cfa &lt;Gets&gt;
+ 8049205:    b8 01 00 00 00           mov    $0x1,%eax
+ 804920a:    c9                       leave  
+ 804920b:    c3                       ret
 getbuf是由函数test调用:
-123456789101112131415161718void test() &#123;     int val;     /* Put canary on stack to detect possiblecorruption */     volatile int local = uniqueval();        val = getbuf();        /* Check for corruption stack */     if (local != uniqueval()) &#123;       printf("Sabotaged!: the stack has beencorrupted\n");     &#125;     else if (val == cookie) &#123;       printf("Boom!: getbuf returned0x%x\n", val);       validate(3);     &#125; else &#123;       printf("Dud: getbuf returned0x%x\n", val);     &#125;   &#125;
+void test() {   
+  int val;   
+  /* Put canary on stack to detect possiblecorruption */   
+  volatile int local = uniqueval();   
+
+  val = getbuf();   
+
+  /* Check for corruption stack */   
+  if (local != uniqueval()) {   
+    printf(&quot;Sabotaged!: the stack has beencorrupted\n&quot;);   
+  }   
+  else if (val == cookie) {   
+    printf(&quot;Boom!: getbuf returned0x%x\n&quot;, val);   
+    validate(3);   
+  } else {   
+    printf(&quot;Dud: getbuf returned0x%x\n&quot;, val);   
+  }   
+}
+
 其中，Smoke源码： 
-12345void smoke()&#123;     puts("Smoke!: You calledsmoke()");     validate(0);     exit(0);   &#125;
+void smoke(){   
+  puts(&quot;Smoke!: You calledsmoke()&quot;);   
+  validate(0);   
+  exit(0);   
+}
+
 level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。
         
         &nbsp;&nbsp;&nbsp;
@@ -569,13 +717,26 @@ level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不�
 环境安装需要用到CSI tool，这是一个运行在Ubuntu上的利用Intel Wi-Fi Wireless Link 5300 802.11n来做分析的程序。这里可以使用作者网站中方法来安装，也可以下载清华的版本。清华的版本附带了安装说明书，参考说明书上的方法，安装即可。
 需要注意的是，发射源路由器需要选择单天线支持802.11n的路由器，我使用的是TP-LINK TL-WR742N。
 获取数据cd进入csitools文件夹，进入linux-80211n-csitool-supplementary/netlink，运行
-1sudo ./log_to_file tmp.dat
+sudo ./log_to_file tmp.dat
+
 打开另一个终端，运行
-1ping 192.168.1.1 -i 0.2
+ping 192.168.1.1 -i 0.2
+
 netlink文件夹中的tmp.dat就是采集的原始数据。
 读取数据使用Matlab读取数据，进入linux-80211n-csitool-supplementary/matlab文件夹，使用read_bf_file函数可以读取数据。
 一个例子数据包里包含
-123456789101112timestamp_low: 4            (In the sample trace, timestamp_low is invalid and always 4.)       bfee_count: 72              Nrx: 3              Ntx: 1           rssi_a: 33           rssi_b: 37           rssi_c: 41            noise: -127              agc: 38             perm: [3 2 1]             rate: 256              csi: [1x3x30 double]
+timestamp_low: 4            (In the sample trace, timestamp_low is invalid and always 4.)
+       bfee_count: 72
+              Nrx: 3
+              Ntx: 1
+           rssi_a: 33
+           rssi_b: 37
+           rssi_c: 41
+            noise: -127
+              agc: 38
+             perm: [3 2 1]
+             rate: 256
+              csi: [1x3x30 double]
 其中:
 
 timestamp_low 是时间戳
@@ -649,17 +810,30 @@ csi CSI原始数据，是个Ntx×Nrx×30复数矩阵
 
 Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
 进入lldb
-1lldb bomb
+lldb bomb
+
 使用disassemble进行反汇编,参考bomb.c文件，可以知道主要的几个函数名。
 首先是Phase_1
-1(lldb) disas -n phase_1
+(lldb) disas -n phase_1
+
 得到以下汇编代码
-123456789bomb`phase_1:bomb[0x400ee0] &lt;+0&gt;:  subq   $0x8, %rspbomb[0x400ee4] &lt;+4&gt;:  movl   $0x402400, %esibomb[0x400ee9] &lt;+9&gt;:  callq  0x401338                  ; strings_not_equalbomb[0x400eee] &lt;+14&gt;: testl  %eax, %eaxbomb[0x400ef0] &lt;+16&gt;: je     0x400ef7                  ; &lt;+23&gt;bomb[0x400ef2] &lt;+18&gt;: callq  0x40143a                  ; explode_bombbomb[0x400ef7] &lt;+23&gt;: addq   $0x8, %rspbomb[0x400efb] &lt;+27&gt;: retq
+bomb`phase_1:
+bomb[0x400ee0] &lt;+0&gt;:  subq   $0x8, %rsp
+bomb[0x400ee4] &lt;+4&gt;:  movl   $0x402400, %esi
+bomb[0x400ee9] &lt;+9&gt;:  callq  0x401338                  ; strings_not_equal
+bomb[0x400eee] &lt;+14&gt;: testl  %eax, %eax
+bomb[0x400ef0] &lt;+16&gt;: je     0x400ef7                  ; &lt;+23&gt;
+bomb[0x400ef2] &lt;+18&gt;: callq  0x40143a                  ; explode_bomb
+bomb[0x400ef7] &lt;+23&gt;: addq   $0x8, %rsp
+bomb[0x400efb] &lt;+27&gt;: retq
+
 这段代码还是挺好理解的，保存Stack pointer,将$0x402400传给%esi,调用位于0x401338的strings_not_equal函数，比较%eax是否为0，不为零则调用explode_bomb函数，为零则返回。
 所以关键要找出字符串是什么。根据上述的汇编代码，可以发现字符串被保存在0x402400这个内存里，所以使用x/s来查看。
-1(lldb) x/s 0x402400
+(lldb) x/s 0x402400
+
 得到
-10x00402400: "Border relations with Canada have never been better."
+0x00402400: &quot;Border relations with Canada have never been better.&quot;
+
 所以第一关的答案是Strings_Not_Equal
         
         &nbsp;&nbsp;&nbsp;
@@ -813,66 +987,6 @@ Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
         
         
     
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/11/13/docker+nginx/">云主机下的docker+Nginx搭建</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-之前申请到了腾讯云服务器，所以在上面折腾了一下 Nginx。
-
-准备工作系统配置123456操作系统	Ubuntu Server 14.04.1 LTS 64位CPU	1核内存	1GB系统盘	8GB(本地盘)数据盘	0GB公网带宽	1Mbps
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/11/13/docker+nginx/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Nov 13, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
 
     
     <!-- Index nav -->
@@ -977,7 +1091,7 @@ Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">March 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">February 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">January 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/12/">December 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">August 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">July 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">June 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">May 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/04/">April 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/03/">March 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/02/">February 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/01/">January 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/12/">December 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/11/">November 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/10/">October 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/09/">September 2015<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/08/">August 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/07/">July 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/06/">June 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/05/">May 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/03/">March 2015<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/02/">February 2015<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2015/01/">January 2015<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2014/12/">December 2014<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -1046,7 +1160,7 @@ Phase1在Mac上是默认没有GDB的，可以使用LLDB来代替。
         <li>
             <a href="/archives">
                 Number of articles
-                <span class="sidebar-badge">43</span>
+                <span class="sidebar-badge">44</span>
             </a>
         </li>
         
