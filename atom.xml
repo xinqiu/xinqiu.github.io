@@ -1012,7 +1012,7 @@ _alltraps<span class="token punctuation">:</span>
     <link href="http://xinqiu.me/2016/12/09/MIT-6.828-2/"/>
     <id>http://xinqiu.me/2016/12/09/MIT-6.828-2/</id>
     <published>2016-12-08T16:00:00.000Z</published>
-    <updated>2017-03-31T09:30:10.000Z</updated>
+    <updated>2017-04-23T11:57:19.000Z</updated>
     
     <content type="html"><![CDATA[<p>继续开始Lab2，这部分内容可以回忆以前的CSAPP的malloc lab.</p>
 <a id="more"></a>
@@ -1026,7 +1026,7 @@ _alltraps<span class="token punctuation">:</span>
 <li>kern/kclock.c</li>
 </ul>
 <p>memlayout.h 描述了虚拟地址空间的结构，通过修改pmap.c. memlayout.h 和 pmap.h<br>来实现PageInfo结构，这个是为了记录哪些物理内存的page是空闲的。kclock.c 和 kclock.h 管理PC的时钟和CMOS RAM硬件，这个设备记录了物理内存的数量。pmap.c需要读这个设备来确定内存大小。</p>
-<h2 id="Part_1_3A__u7269_u7406_u9875_u7BA1_u7406"><a href="#Part_1_3A__u7269_u7406_u9875_u7BA1_u7406" class="headerlink" title="Part 1: 物理页管理"></a>Part 1: 物理页管理</h2><h3 id="u7269_u7406_u9875"><a href="#u7269_u7406_u9875" class="headerlink" title="物理页"></a>物理页</h3><p>操作系统需要记录物理RAM哪部分是空闲的哪部分在用。JOS使用page granularity来管理物理内存，因此可是用MMU来映射和保护每一块分配的内存。</p>
+<h2 id="Part_1_3A__u7269_u7406_u9875_u7BA1_u7406"><a href="#Part_1_3A__u7269_u7406_u9875_u7BA1_u7406" class="headerlink" title="Part 1: 物理页管理"></a>Part 1: 物理页管理</h2><h3 id="u7269_u7406_u9875"><a href="#u7269_u7406_u9875" class="headerlink" title="物理页"></a>物理页</h3><p>操作系统需要记录物理RAM哪部分是空闲的哪部分在用。JOS使用page granularity来管理物理内存，因此可以用MMU来映射和保护每一块分配的内存。</p>
 <p>以下内容要配上 <code>inc/memlayout.h</code> 的图。</p>
 <p><img src="1.png" alt=""></p>
 <h4 id="Exercise_1"><a href="#Exercise_1" class="headerlink" title="Exercise 1"></a>Exercise 1</h4><p>实现kern/pmap.c中的函数.</p>
