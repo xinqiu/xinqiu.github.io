@@ -248,7 +248,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TensorFlow__u7EBF_u6027_u56DE_u5F52"><span class="post-toc-number">1.</span> <span class="post-toc-text">TensorFlow 线性回归</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#u5206_u6790_u4EE3_u7801"><span class="post-toc-number">1.0.0.1.</span> <span class="post-toc-text">分析代码</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TensorFlow__u7EBF_u6027_u56DE_u5F52"><span class="post-toc-number">1.</span> <span class="post-toc-text">TensorFlow 线性回归</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#u5206_u6790_u4EE3_u7801"><span class="post-toc-number">1.0.0.1.</span> <span class="post-toc-text">分析代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#u4F18_u5316_u5668_28Optimizers_29"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">优化器(Optimizers)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#Optimizer_u5217_u8868"><span class="post-toc-number">1.0.1.1.</span> <span class="post-toc-text">Optimizer列表</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TensorFlow__u903B_u8F91_u56DE_u5F52"><span class="post-toc-number">2.</span> <span class="post-toc-text">TensorFlow 逻辑回归</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#u603B_u7ED3"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol></li></ol>
 
         <!--
         <li class="mdl-menu__item">
@@ -564,6 +564,106 @@ plt<span class="token punctuation">.</span>legend<span class="token punctuation"
 plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
 <h6 id="u5206_u6790_u4EE3_u7801"><a href="#u5206_u6790_u4EE3_u7801" class="headerlink" title="分析代码"></a>分析代码</h6><p>通过上面的程序会发现，在创建完优化器后，用 ‘sess.run(optimizer, feed_dict={X: x, Y: y})’ 来运行程序。实际上 TensorFlow 将所有操作作为图的一部分来运算，同时 feed_dict 作为输入的数据，而 loss 是根据 w 和 b 计算得到的，其实 TensorFlow 会根据 loss 来自动求梯度。</p>
+<h5 id="u4F18_u5316_u5668_28Optimizers_29"><a href="#u4F18_u5316_u5668_28Optimizers_29" class="headerlink" title="优化器(Optimizers)"></a>优化器(Optimizers)</h5><p>GradientDescentOptimizer 表示更新规则是按照梯度下降的。TensorFlow 可以自动求导，更新权重和偏差来计算损失值。</p>
+<p>优化器默认是训练所有目标函数的可训练变量，当然可以通过设置修改变量为不可训练型。比如以下的例子：</p>
+<pre class=" language-python"><code class="language-python">global_step <span class="token operator">=</span> tf<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> trainable<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>tf<span class="token punctuation">.</span>int32<span class="token punctuation">)</span>
+learning_rate <span class="token operator">=</span> <span class="token number">0.01</span> <span class="token operator">*</span> <span class="token number">0.99</span> <span class="token operator">**</span> tf<span class="token punctuation">.</span>cast<span class="token punctuation">(</span>global_step<span class="token punctuation">,</span> tf<span class="token punctuation">.</span>float32<span class="token punctuation">)</span>
+increment_step <span class="token operator">=</span> global_step<span class="token punctuation">.</span>assign_add<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+optimizer <span class="token operator">=</span> tf<span class="token punctuation">.</span>GradientDescentOptimizer<span class="token punctuation">(</span>learning_rate<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># learning rate can be a tensor</span>
+</code></pre>
+<p>tf.Variable 类的完整定义如下：</p>
+<pre class=" language-python"><code class="language-python">tf<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span>initial_value<span class="token operator">=</span>None<span class="token punctuation">,</span> trainable<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> collections<span class="token operator">=</span>None<span class="token punctuation">,</span> 
+            validate_shape<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> caching_device<span class="token operator">=</span>None<span class="token punctuation">,</span> name<span class="token operator">=</span>None<span class="token punctuation">,</span>
+            variable_def<span class="token operator">=</span>None<span class="token punctuation">,</span> dtype<span class="token operator">=</span>None<span class="token punctuation">,</span> expected_shape<span class="token operator">=</span>None<span class="token punctuation">,</span> 
+            import_scope<span class="token operator">=</span>None<span class="token punctuation">)</span>
+</code></pre>
+<h6 id="Optimizer_u5217_u8868"><a href="#Optimizer_u5217_u8868" class="headerlink" title="Optimizer列表"></a>Optimizer列表</h6><p>目前常见的有:</p>
+<pre><code>tf.train.GradientDescentOptimizer 
+tf.train.AdadeltaOptimizer 
+tf.train.AdagradOptimizer 
+tf.train.AdagradDAOptimizer 
+tf.train.MomentumOptimizer 
+tf.train.AdamOptimizer 
+tf.train.FtrlOptimizer 
+tf.train.ProximalGradientDescentOptimizer 
+tf.train.ProximalAdagradOptimizer 
+tf.train.RMSPropOptimizer
+</code></pre><p>这上面的一些可以参考CS231n中的内容。</p>
+<h3 id="TensorFlow__u903B_u8F91_u56DE_u5F52"><a href="#TensorFlow__u903B_u8F91_u56DE_u5F52" class="headerlink" title="TensorFlow 逻辑回归"></a>TensorFlow 逻辑回归</h3><p>逻辑回归也是很重要的，这里使用逻辑回归来对 MNIST 分类。</p>
+<p>MNIST 是著名的手写数字数据集。其中每个图片是 28 x 28 像素，被平滑成大小为784的1维张量，每个图片都有一个标签。</p>
+<p>使用 TF Learn 可以简洁的读取数据集，同时使用 One-hot 编码。 One-hot 编码 是只有一位是1其他都为0的数组。</p>
+<p>以下的完整代码我并没有测试 括弧哭</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> tensorflow<span class="token punctuation">.</span>examples<span class="token punctuation">.</span>tutorials<span class="token punctuation">.</span>mnist <span class="token keyword">import</span> input_data
+
+MNIST <span class="token operator">=</span> input_data<span class="token punctuation">.</span>read_data_sets<span class="token punctuation">(</span><span class="token string">"/data/mnist"</span><span class="token punctuation">,</span> one_hot<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+</code></pre>
+<p>此时 MNIST 是一个对象，存放 55000 个训练数据和 10000 个测试数据，以及 5000 个验证集。</p>
+<p>因为数据很大，所以为了加速训练，可以使用批量逻辑回归。首先修改 X_placeholder 和 Y_placeholder 的维度来适应 batch_size。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> time
+<span class="token keyword">import</span> numpy  <span class="token keyword">as</span>  np
+<span class="token keyword">import</span> tensorflow  <span class="token keyword">as</span>  tf
+<span class="token keyword">from</span>  tensorflow<span class="token punctuation">.</span>examples<span class="token punctuation">.</span>tutorials<span class="token punctuation">.</span>mnist <span class="token keyword">import</span> input_data
+
+<span class="token comment" spellcheck="true"># Step 1: Read in data</span>
+<span class="token comment" spellcheck="true"># using TF Learn's built in function to load MNIST data to the folder data/mnist</span>
+MNIST <span class="token operator">=</span> input_data<span class="token punctuation">.</span>read_data_sets<span class="token punctuation">(</span><span class="token string">"/data/mnist"</span><span class="token punctuation">,</span> one_hot<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># Step 2: Define parameters for the model</span>
+learning_rate <span class="token operator">=</span> <span class="token number">0.01</span>
+batch_size <span class="token operator">=</span> <span class="token number">128</span>
+n_epochs <span class="token operator">=</span> <span class="token number">25</span>
+
+<span class="token comment" spellcheck="true"># Step 3: create placeholders for features and labels</span>
+<span class="token comment" spellcheck="true"># each image in the MNIST data is of shape 28*28 = 784</span>
+<span class="token comment" spellcheck="true"># therefore, each image is represented with a 1x784 tensor</span>
+<span class="token comment" spellcheck="true"># there are 10 classes for each image, corresponding to digits 0 - 9. # each label is one hot vector.</span>
+X <span class="token operator">=</span> tf<span class="token punctuation">.</span>placeholder<span class="token punctuation">(</span>tf<span class="token punctuation">.</span>float32<span class="token punctuation">,</span> <span class="token punctuation">[</span>batch_size<span class="token punctuation">,</span> <span class="token number">784</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+Y <span class="token operator">=</span> tf<span class="token punctuation">.</span>placeholder<span class="token punctuation">(</span>tf<span class="token punctuation">.</span>float32<span class="token punctuation">,</span> <span class="token punctuation">[</span>batch_size<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># Step 4: create weights and bias</span>
+<span class="token comment" spellcheck="true"># w is initialized to random variables with mean of 0, stddev of 0.01</span>
+<span class="token comment" spellcheck="true"># b is initialized to 0</span>
+<span class="token comment" spellcheck="true"># shape of w depends on the dimension of X and Y so that Y = tf.matmul(X, w)</span>
+<span class="token comment" spellcheck="true"># shape of b depends on Y</span>
+w <span class="token operator">=</span> tf<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span>tf<span class="token punctuation">.</span>random_normal<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">784</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stddev<span class="token operator">=</span><span class="token number">0.01</span><span class="token punctuation">)</span><span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">"weights"</span><span class="token punctuation">)</span>
+b <span class="token operator">=</span> tf<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span>tf<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">"bias"</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># Step 5: predict Y from X and w, b</span>
+<span class="token comment" spellcheck="true"># the model that returns probability distribution of possible label of the image # through the softmax layer</span>
+<span class="token comment" spellcheck="true"># a batch_size x 10 tensor that represents the possibility of the digits</span>
+logits <span class="token operator">=</span> tf<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>X<span class="token punctuation">,</span> w<span class="token punctuation">)</span> <span class="token operator">+</span> b
+
+<span class="token comment" spellcheck="true"># Step 6: define loss function</span>
+<span class="token comment" spellcheck="true"># use softmax cross entropy with logits as the loss function</span>
+<span class="token comment" spellcheck="true"># compute mean cross entropy, softmax is applied internally</span>
+entropy <span class="token operator">=</span> tf<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>softmax_cross_entropy_with_logits<span class="token punctuation">(</span>logits<span class="token punctuation">,</span> Y<span class="token punctuation">)</span>
+loss <span class="token operator">=</span> tf<span class="token punctuation">.</span>reduce_mean<span class="token punctuation">(</span>entropy<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># computes the mean over examples in the batch</span>
+
+<span class="token comment" spellcheck="true"># Step 7: define training op</span>
+<span class="token comment" spellcheck="true"># using gradient descent with learning rate of 0.01 to minimize cost </span>
+optimizer <span class="token operator">=</span> tf<span class="token punctuation">.</span>train<span class="token punctuation">.</span>GradientDescentOptimizer<span class="token punctuation">(</span>learning_rate<span class="token operator">=</span>learning_rate<span class="token punctuation">)</span><span class="token punctuation">.</span>minimize<span class="token punctuation">(</span>loss<span class="token punctuation">)</span>
+init <span class="token operator">=</span> tf<span class="token punctuation">.</span>global_variables_initializer<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">with</span>  tf<span class="token punctuation">.</span>Session<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> sess<span class="token punctuation">:</span>
+    sess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>init<span class="token punctuation">)</span>
+    n_batches <span class="token operator">=</span> int<span class="token punctuation">(</span>MNIST<span class="token punctuation">.</span>train<span class="token punctuation">.</span>num_examples <span class="token operator">/</span> batch_size<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>n_epochs<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment" spellcheck="true"># train the model n_epochs times</span>
+        <span class="token keyword">for</span> _ <span class="token keyword">in</span> range<span class="token punctuation">(</span>n_batches<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            X_batch<span class="token punctuation">,</span> Y_batch <span class="token operator">=</span> MNIST<span class="token punctuation">.</span>train<span class="token punctuation">.</span>next_batch<span class="token punctuation">(</span>batch_size<span class="token punctuation">)</span>
+        sess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span>optimizer<span class="token punctuation">,</span> loss<span class="token punctuation">]</span><span class="token punctuation">,</span> feed_dict<span class="token operator">=</span><span class="token punctuation">{</span>X<span class="token punctuation">:</span> X_batch<span class="token punctuation">,</span> Y<span class="token punctuation">:</span> Y_batch<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># average loss should be around 0.35 after 25 epochs</span>
+
+<span class="token comment" spellcheck="true"># test the model</span>
+n_batches <span class="token operator">=</span> int<span class="token punctuation">(</span>MNIST<span class="token punctuation">.</span>test<span class="token punctuation">.</span>num_examples <span class="token operator">/</span> batch_size<span class="token punctuation">)</span>
+total_correct_preds <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>n_batches<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    X_batch<span class="token punctuation">,</span> Y_batch <span class="token operator">=</span> MNIST<span class="token punctuation">.</span>test<span class="token punctuation">.</span>next_batch<span class="token punctuation">(</span>batch_size<span class="token punctuation">)</span>
+    _<span class="token punctuation">,</span> loss_batch<span class="token punctuation">,</span> logits_batch <span class="token operator">=</span> sess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span>optimizer<span class="token punctuation">,</span> loss<span class="token punctuation">,</span> logits<span class="token punctuation">]</span><span class="token punctuation">,</span> feed_dict<span class="token operator">=</span><span class="token punctuation">{</span>X<span class="token punctuation">:</span> X_batch<span class="token punctuation">,</span> Y<span class="token punctuation">:</span> Y_batch<span class="token punctuation">}</span><span class="token punctuation">)</span>
+    preds <span class="token operator">=</span> tf<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>softmax<span class="token punctuation">(</span>logits_batch<span class="token punctuation">)</span>
+    correct_preds <span class="token operator">=</span> tf<span class="token punctuation">.</span>equal<span class="token punctuation">(</span>tf<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span>preds<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> tf<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span>Y_batch<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    accuracy <span class="token operator">=</span> tf<span class="token punctuation">.</span>reduce_sum<span class="token punctuation">(</span>tf<span class="token punctuation">.</span>cast<span class="token punctuation">(</span>correct_preds<span class="token punctuation">,</span> tf<span class="token punctuation">.</span>float32<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># similar to numpy.count_nonzero(boolarray) :(</span>
+    total_correct_preds <span class="token operator">+=</span> sess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>accuracy<span class="token punctuation">)</span>
+    <span class="token keyword">print</span>   <span class="token string">"Accuracy {0}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>total_correct_preds <span class="token operator">/</span> MNIST<span class="token punctuation">.</span>test<span class="token punctuation">.</span>num_examples<span class="token punctuation">)</span>
+</code></pre>
+<h5 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h5><p>lecture 3 学习了线性回归和逻辑回归，官方笔记里有一些坑，或多或少填完了这个坑，争取在考研的过程中能把这门可和cs229过一遍。</p>
 
     
 
