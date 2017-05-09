@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2017-05-09T13:35:45.000Z</updated>
+  <updated>2017-05-09T13:37:34.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>a-byte-of-go</title>
+    <title>简明 Go 教程</title>
     <link href="http://xinqiu.me/2017/05/09/a-byte-of-go/"/>
     <id>http://xinqiu.me/2017/05/09/a-byte-of-go/</id>
     <published>2017-05-09T11:47:54.000Z</published>
-    <updated>2017-05-09T13:35:45.000Z</updated>
+    <updated>2017-05-09T13:37:34.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="u7B80_u660E_Go__u6559_u7A0B"><a href="#u7B80_u660E_Go__u6559_u7A0B" class="headerlink" title="简明 Go 教程"></a>简明 Go 教程</h2><h3 id="u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C"><a href="#u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C" class="headerlink" title="安装以及运行"></a>安装以及运行</h3><p>关于如何安装 Go ，官网的教程已经非常详细。如果困惑于 GOPATH 的设置，可以使用 JetBrains 家的 Gogland。 只需要将 GOPATH 放在想放的目录，然后在 Gogland 选择上全局 GOPATH 路径即可，剩下的就不去烦心了，同时 Project 可以放在任何地方，而不是考虑 Project 需要放在 src 下面。在 Gogland 中有常见的两种运行方式，一种是直接使用来 <code>go run</code> 来直接运行 <code>.go</code>文件，还有一种是先 build 然后再 run。</p>
 <p>这里有必要提一下 Build 这种方式的运行。正如 Gogland 的 <code>Run/Debug Configurations</code> 中所提到的，Build 会把程序作为一个 Application 来对待，build 命令只生成可执行的文件。</p>
