@@ -10,7 +10,7 @@
     
     <title>
         
-            Archives: 2016/5 | 
+            a-byte-of-go | 
         
         一人Code
     </title>
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Xin Qiu">
     <meta name="description" content="写给自己的Blog">
-    <meta name="keywords" content="一人Code|写给自己的Blog">
+    <meta name="keywords" content="一人Code|写给自己的Blog,go">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -48,9 +48,9 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://xinqiu.me">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Archives: 2016/5 | 一人Code">
+    <meta property="og:title" content="a-byte-of-go | 一人Code">
     <meta property="og:description" content="写给自己的Blog">
-    
+    <meta property="og:article:tag" content="go"> 
 
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
@@ -222,94 +222,320 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
     
-
-    <!-- Normal Post -->
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2016/05/10/python-thread/">Python线程学习</a></p>
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
     </div>
+    -->
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            Python2.7中有两个常用的多线程库Multiprocessing，Threading。在Python中，线程和进程的区别在于线程模块使用线程，进程模块使用进程233，不开玩笑，这是StackOverFlow上的解释。说重点，线程使用相同的内存空间，而进程使用不同的。这也就让进程之间传对象稍有点困难。当然，由于线程共享内存空间，那么必须要考虑线程安全。
-threadthread算是轻量级的线程模块，它提供较为底层的多线程实现方案。使用start_new_thread(function, args[, kwargs])实现线程。使用allocate_lock()可以得到一个锁对象，用acquire()和release()来加锁和释放锁，用locked()来判断释放有锁。一把锁只能被一个线程得到，所以利用锁可以避免多个线程对同一资源的同时操作。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2016/05/10/python-thread/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>May 10, 2016</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u7B80_u660E_Go__u6559_u7A0B"><span class="post-toc-number">1.</span> <span class="post-toc-text">简明 Go 教程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">安装以及运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u57FA_u7840_u8BED_u6CD5"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">基础语法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#u57FA_u672C_u7C7B_u578B"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">基本类型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#u53D8_u91CF"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">变量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#u5E38_u91CF"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">常量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#u51FD_u6570"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#u5305"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">包</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#for"><span class="post-toc-number">1.2.6.</span> <span class="post-toc-text">for</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#u53C2_u8003"><span class="post-toc-number">1.2.7.</span> <span class="post-toc-text">参考</span></a></li></ol></li></ol></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
                 
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://7xjii2.com1.z0.glb.clouddn.com/go.png)">
+    
+            <p class="article-headline-p">
+                a-byte-of-go
+            </p>
         </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Xin Qiu</strong>
+        <span>May 09, 2017</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+            <i class="material-icons" role="presentation">devices other</i>
+            <span class="visuallyhidden">devices other</span>
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+            <li class="mdl-menu__item">Read this article on other device</li>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACY0lEQVR42u3aUXICIRAEUO9/aXMAazfdg4ur9fhKVRR4fATSM4/nT48HHh4eHh4eHh7ezXiPeLx+/nWefxY+mO38t/ne8PDw8Hbykm0lm0g+f84+mifZGx4eHt5+Xr7M0cIJNZlhaW94eHh4N+MdUZMjmJHw8PDwvp2XP6xnR4OHh4f3XbziH/6Fka/+gawFDw8PL+a1BbCdP3+gvoeHh4d3yqtbmkbP7vMN5aWyuukKDw8P7wJe2/aURLT5Y3oWXvwzAx4eHt4W3krbUx5btGWw2Wx4eHh4e3jtYm1jQR7atrEIHh4e3n5e+3ROvrVyBLPGAjw8PLz9vFl0O8PMAuLiaY6Hh4d3MS8vUK0cwSzGzR/9eHh4eDt5sydv0iiQR71tMFG0DuDh4eFdwFsJAmbtArMLqYhI8PDw8Lbw2mbT9pmbl9by48PDw8O7A6+9DNpH8MohFuEFHh4e3sW8HLl+heTXydJB4+Hh4V3MywPZ/GJoo42k+aAooeHh4eFdzIuC0dGf/raNtQ2X8fDw8D7Fa4PUWQScXzwr1wkeHh7eHt67YoVZCJsXt5ae1Hh4eHgX8GZtT+tH8AxG3siFh4eHt4c3Kz4lM+QHsdLmtVQAw8PDwxvx2pGHs7MH9EoJDQ8PD28P7xGPvHxVl6zetBYeHh7eTl6yxWQrSRtB22pwTq3DCDw8PLy38tYD2faT7cDDw8P7Rl4SQ+ThRR5G5JEEHh4e3j15s6LXLBqu4w88PDy8jbwkjGi/OyuJtYUxPDw8vP28NgiYlcGSFdePFQ8PD+9q3u8NPDw8PDw8PDy8G4w/soXEcN/eM6AAAAAASUVORK5CYII=">
+        </ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/go/">go</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2017/05/09/a-byte-of-go/" class="leancloud-views_num" data-flag-title="a-byte-of-go">
+     &nbsp;Views
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=a-byte-of-go&url=http://xinqiu.me//2017/05/09/a-byte-of-go/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Weibo
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=a-byte-of-go&url=http://xinqiu.me//2017/05/09/a-byte-of-go/index.html&via=Xin Qiu" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me//2017/05/09/a-byte-of-go/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://xinqiu.me//2017/05/09/a-byte-of-go/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
 </div>
 
-        
-        
-        
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="u7B80_u660E_Go__u6559_u7A0B"><a href="#u7B80_u660E_Go__u6559_u7A0B" class="headerlink" title="简明 Go 教程"></a>简明 Go 教程</h2><h3 id="u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C"><a href="#u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C" class="headerlink" title="安装以及运行"></a>安装以及运行</h3><p>关于如何安装 Go ，官网的教程已经非常详细。如果困惑于 GOPATH 的设置，可以使用 JetBrains 家的 Gogland。 只需要将 GOPATH 放在想放的目录，然后在 Gogland 选择上全局 GOPATH 路径即可，剩下的就不去烦心了，同时 Project 可以放在任何地方，而不是考虑 Project 需要放在 src 下面。在 Gogland 中有常见的两种运行方式，一种是直接使用来 <code>go run</code> 来直接运行 <code>.go</code>文件，还有一种是先 build 然后再 run。</p>
+<p>这里有必要提一下 Build 这种方式的运行。正如 Gogland 的 <code>Run/Debug Configurations</code> 中所提到的，Build 会把程序作为一个 Application 来对待，build 命令只生成可执行的文件。</p>
+<p>和 C 的思想有点像，如果要生成可执行程序，必须建一个 main 的 package，同时这个 package 中必须包含一个 main()。另外同一个路径下只能存在一个 package 。</p>
+<p>所以一个最基础的 hello world 是这个样子的</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"hello, world\n"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="u57FA_u7840_u8BED_u6CD5"><a href="#u57FA_u7840_u8BED_u6CD5" class="headerlink" title="基础语法"></a>基础语法</h3><h4 id="u57FA_u672C_u7C7B_u578B"><a href="#u57FA_u672C_u7C7B_u578B" class="headerlink" title="基本类型"></a>基本类型</h4><p>Go 的基本类型有 </p>
+<pre class=" language-go"><code class="language-go"><span class="token builtin">bool</span>
+
+<span class="token builtin">string</span>
+
+<span class="token builtin">int</span>  <span class="token builtin">int8</span>  <span class="token builtin">int16</span>  <span class="token builtin">int32</span>  <span class="token builtin">int64</span>
+<span class="token builtin">uint</span> <span class="token builtin">uint8</span> <span class="token builtin">uint16</span> <span class="token builtin">uint32</span> <span class="token builtin">uint64</span> <span class="token builtin">uintptr</span>
+
+<span class="token builtin">byte</span> <span class="token comment" spellcheck="true">// uint8 的别名</span>
+
+<span class="token builtin">rune</span> <span class="token comment" spellcheck="true">// int32 的别名</span>
+     <span class="token comment" spellcheck="true">// 代表一个Unicode码</span>
+
+<span class="token builtin">float32</span> <span class="token builtin">float64</span>
+
+<span class="token builtin">complex64</span> <span class="token builtin">complex128</span>
+</code></pre>
+<p>和 C 语言不同， Go 的在不同类型之间的变量赋值时需要显式转型。</p>
+<h4 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h4><p>Go 定义变量类似 JS 使用 <code>var</code> 关键词，但是在变量名之后需要添上变量类型，在一行中定义多个变量时，最后的类型可代表这多个变量都是这种类型。在定义变量的同时，也可以初始化变量。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">var</span> i <span class="token builtin">int</span>
+<span class="token keyword">var</span> c<span class="token punctuation">,</span> python<span class="token punctuation">,</span> java <span class="token builtin">bool</span>  <span class="token comment" spellcheck="true">// 这三个变量都是 bool 类型</span>
+<span class="token keyword">var</span> i<span class="token punctuation">,</span> j <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span>  <span class="token comment" spellcheck="true">// 初始化 i 为 1, j 为 2</span>
+</code></pre>
+<p>在明确的变量类型赋值时，可以使用 <code>:=</code> 进行简写，Go 会自动推导出变量的类型。 比如 <code>k := 3</code> 就等价于 <code>var k int = 3</code>。</p>
+<p>定义变量但没初始化时，变量会默认为 <strong>零值</strong>。</p>
+<h4 id="u5E38_u91CF"><a href="#u5E38_u91CF" class="headerlink" title="常量"></a>常量</h4><p>常量的定义与变量类似，只不过使用 const 关键字。常量可以是字符、字符串、布尔或数字类型的值。常量不能使用 <code>:=</code> 语法定义。一个未指定类型的常量由上下文来决定其类型。</p>
+<h4 id="u51FD_u6570"><a href="#u51FD_u6570" class="headerlink" title="函数"></a>函数</h4><p>使用 <code>func</code> 关键词来定义函数，这里要注意的是，和 C 不同，参数是先写参数名，再写参数类型。在这之后跟上返回值类型。比如接受两个 int 类型的参数的 <code>add</code> 函数，</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">add</span><span class="token punctuation">(</span>x <span class="token builtin">int</span><span class="token punctuation">,</span> y <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> x <span class="token operator">+</span> y
+<span class="token punctuation">}</span>
+</code></pre>
+<p>参数也可以被缩写成 <code>add(x, y int)</code>。</p>
+<p>Go 和 Python 类似，支持返回多个值，所以在写返回值类型时，用括号将多个返回值的类型括起来即可。</p>
+<p>Go 的返回值可以被命名，这样提高了代码的可读性，在规定返回值类型的地方填上要返回的变量，这样函数体中只需要些上 <code>return</code> 而不需要在最后一行写上需要返回的变量名。</p>
+<h4 id="u5305"><a href="#u5305" class="headerlink" title="包"></a>包</h4><p>Go 的核心是包，每个 Go 程序都是由包组成的。程序运行的入口是包 <code>main</code>。导入包的形式有两种，一种是</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+<span class="token keyword">import</span> <span class="token string">"math"</span>
+</code></pre>
+<p>还有一种是</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"math"</span>
+<span class="token punctuation">)</span>
+</code></pre>
+<p>在 Go 中，首字母大写的名称是被导出的。因此可以通过 <code>math.Pi</code> 来调用 <code>math</code> 包中的 <code>Pi</code> 常量。</p>
+<h4 id="for"><a href="#for" class="headerlink" title="for"></a>for</h4><p>for 循环和 C 很像，只是没有了括号，但循环体是一定要加上 <code>{}</code> 的。</p>
+<h4 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a href="http://studygolang.com/articles/5831" target="_blank" rel="external">golang之package</a></li>
+</ol>
+
     
 
     
+</div>
 
-    
-        <script>
-    var randomNum;
 
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
+                
 
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')')
+                <!-- Post Comments -->
+                
+                    
 
-        locatePost = locatePost.next();
-    }
+
+    <!-- 使用 DISQUS -->
+    <div id="disqus-comment">
+        <div id="disqus_thread"></div>
+<script>
+    queue.offer(function() {
+            var disqus_config = function () {
+                this.page.url = 'http://xinqiu.me/2017/05/09/a-byte-of-go/index.html';  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document;
+                var s = d.createElement('script');
+                s.src = '//xinqiu.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        });
 </script>
 
+    </div>
+    <style>
+        #disqus-comment{
+            background-color: #eee;
+            padding: 2pc;
+        }
+    </style>
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
     
-</div>
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/03/06/cs20si-3/" id="post_nav-older" class="next-content">
+            Older
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     

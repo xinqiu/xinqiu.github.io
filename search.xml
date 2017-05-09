@@ -4,6 +4,73 @@
   
     
     <entry>
+      <title><![CDATA[a-byte-of-go]]></title>
+      <url>http://xinqiu.me/2017/05/09/a-byte-of-go/</url>
+      <content type="html"><![CDATA[<h2 id="u7B80_u660E_Go__u6559_u7A0B"><a href="#u7B80_u660E_Go__u6559_u7A0B" class="headerlink" title="简明 Go 教程"></a>简明 Go 教程</h2><h3 id="u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C"><a href="#u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C" class="headerlink" title="安装以及运行"></a>安装以及运行</h3><p>关于如何安装 Go ，官网的教程已经非常详细。如果困惑于 GOPATH 的设置，可以使用 JetBrains 家的 Gogland。 只需要将 GOPATH 放在想放的目录，然后在 Gogland 选择上全局 GOPATH 路径即可，剩下的就不去烦心了，同时 Project 可以放在任何地方，而不是考虑 Project 需要放在 src 下面。在 Gogland 中有常见的两种运行方式，一种是直接使用来 <code>go run</code> 来直接运行 <code>.go</code>文件，还有一种是先 build 然后再 run。</p>
+<p>这里有必要提一下 Build 这种方式的运行。正如 Gogland 的 <code>Run/Debug Configurations</code> 中所提到的，Build 会把程序作为一个 Application 来对待，build 命令只生成可执行的文件。</p>
+<p>和 C 的思想有点像，如果要生成可执行程序，必须建一个 main 的 package，同时这个 package 中必须包含一个 main()。另外同一个路径下只能存在一个 package 。</p>
+<p>所以一个最基础的 hello world 是这个样子的</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"hello, world\n"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="u57FA_u7840_u8BED_u6CD5"><a href="#u57FA_u7840_u8BED_u6CD5" class="headerlink" title="基础语法"></a>基础语法</h3><h4 id="u57FA_u672C_u7C7B_u578B"><a href="#u57FA_u672C_u7C7B_u578B" class="headerlink" title="基本类型"></a>基本类型</h4><p>Go 的基本类型有 </p>
+<pre class=" language-go"><code class="language-go"><span class="token builtin">bool</span>
+
+<span class="token builtin">string</span>
+
+<span class="token builtin">int</span>  <span class="token builtin">int8</span>  <span class="token builtin">int16</span>  <span class="token builtin">int32</span>  <span class="token builtin">int64</span>
+<span class="token builtin">uint</span> <span class="token builtin">uint8</span> <span class="token builtin">uint16</span> <span class="token builtin">uint32</span> <span class="token builtin">uint64</span> <span class="token builtin">uintptr</span>
+
+<span class="token builtin">byte</span> <span class="token comment" spellcheck="true">// uint8 的别名</span>
+
+<span class="token builtin">rune</span> <span class="token comment" spellcheck="true">// int32 的别名</span>
+     <span class="token comment" spellcheck="true">// 代表一个Unicode码</span>
+
+<span class="token builtin">float32</span> <span class="token builtin">float64</span>
+
+<span class="token builtin">complex64</span> <span class="token builtin">complex128</span>
+</code></pre>
+<p>和 C 语言不同， Go 的在不同类型之间的变量赋值时需要显式转型。</p>
+<h4 id="u53D8_u91CF"><a href="#u53D8_u91CF" class="headerlink" title="变量"></a>变量</h4><p>Go 定义变量类似 JS 使用 <code>var</code> 关键词，但是在变量名之后需要添上变量类型，在一行中定义多个变量时，最后的类型可代表这多个变量都是这种类型。在定义变量的同时，也可以初始化变量。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">var</span> i <span class="token builtin">int</span>
+<span class="token keyword">var</span> c<span class="token punctuation">,</span> python<span class="token punctuation">,</span> java <span class="token builtin">bool</span>  <span class="token comment" spellcheck="true">// 这三个变量都是 bool 类型</span>
+<span class="token keyword">var</span> i<span class="token punctuation">,</span> j <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span>  <span class="token comment" spellcheck="true">// 初始化 i 为 1, j 为 2</span>
+</code></pre>
+<p>在明确的变量类型赋值时，可以使用 <code>:=</code> 进行简写，Go 会自动推导出变量的类型。 比如 <code>k := 3</code> 就等价于 <code>var k int = 3</code>。</p>
+<p>定义变量但没初始化时，变量会默认为 <strong>零值</strong>。</p>
+<h4 id="u5E38_u91CF"><a href="#u5E38_u91CF" class="headerlink" title="常量"></a>常量</h4><p>常量的定义与变量类似，只不过使用 const 关键字。常量可以是字符、字符串、布尔或数字类型的值。常量不能使用 <code>:=</code> 语法定义。一个未指定类型的常量由上下文来决定其类型。</p>
+<h4 id="u51FD_u6570"><a href="#u51FD_u6570" class="headerlink" title="函数"></a>函数</h4><p>使用 <code>func</code> 关键词来定义函数，这里要注意的是，和 C 不同，参数是先写参数名，再写参数类型。在这之后跟上返回值类型。比如接受两个 int 类型的参数的 <code>add</code> 函数，</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">func</span> <span class="token function">add</span><span class="token punctuation">(</span>x <span class="token builtin">int</span><span class="token punctuation">,</span> y <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> x <span class="token operator">+</span> y
+<span class="token punctuation">}</span>
+</code></pre>
+<p>参数也可以被缩写成 <code>add(x, y int)</code>。</p>
+<p>Go 和 Python 类似，支持返回多个值，所以在写返回值类型时，用括号将多个返回值的类型括起来即可。</p>
+<p>Go 的返回值可以被命名，这样提高了代码的可读性，在规定返回值类型的地方填上要返回的变量，这样函数体中只需要些上 <code>return</code> 而不需要在最后一行写上需要返回的变量名。</p>
+<h4 id="u5305"><a href="#u5305" class="headerlink" title="包"></a>包</h4><p>Go 的核心是包，每个 Go 程序都是由包组成的。程序运行的入口是包 <code>main</code>。导入包的形式有两种，一种是</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+<span class="token keyword">import</span> <span class="token string">"math"</span>
+</code></pre>
+<p>还有一种是</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"math"</span>
+<span class="token punctuation">)</span>
+</code></pre>
+<p>在 Go 中，首字母大写的名称是被导出的。因此可以通过 <code>math.Pi</code> 来调用 <code>math</code> 包中的 <code>Pi</code> 常量。</p>
+<h4 id="for"><a href="#for" class="headerlink" title="for"></a>for</h4><p>for 循环和 C 很像，只是没有了括号，但循环体是一定要加上 <code>{}</code> 的。</p>
+<h4 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a href="http://studygolang.com/articles/5831" target="_blank" rel="external">golang之package</a></li>
+</ol>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Tensorflow for Deep Learning 3]]></title>
       <url>http://xinqiu.me/2017/03/06/cs20si-3/</url>
       <content type="html"><![CDATA[<blockquote>
