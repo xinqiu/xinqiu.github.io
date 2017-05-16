@@ -62,7 +62,7 @@
     <span class="token string">"math"</span>
 <span class="token punctuation">)</span>
 </code></pre>
-<p>在 Go 中，首字母大写的名称是被导出的。因此可以通过 <code>math.Pi</code> 来调用 <code>math</code> 包中的 <code>Pi</code> 常量。</p>
+<p>在 Go 中，首字母<strong>大写</strong>的名称是被导出的。因此可以通过 <code>math.Pi</code> 来调用 <code>math</code> 包中的 <code>Pi</code> 常量。</p>
 <h4 id="if"><a href="#if" class="headerlink" title="if"></a>if</h4><p>if 循环和 C 很像，只是没有了括号，但一定要加上 <code>{}</code> 的。 Go 的 if 有个特殊用法，就是在判断之前先执行一条语句，当然这条语句产生的变量它的作用域只能是 if 中，在 if 外是无法访问。</p>
 <h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><p>switch 功能类似于 C 的switch，它是一个结构体（<code>struct</code>）就是一个字段的集合。除非以 fallthrough 语句结束，否则分支会自动终止。switch 默认相当于每个 case 最后带有 break，匹配成功后不会自动向下执行其他 case。</p>
 <h4 id="for"><a href="#for" class="headerlink" title="for"></a>for</h4><p>for 和 if 的约束类似，比如 1 加到 100</p>
@@ -86,9 +86,32 @@
 </code></pre>
 <p>上面 defer 语句只有在 main() 即将执行完才会运行。</p>
 <p>当一个函数体中有多个 defer ，遵从后进先出的原则(和堆栈一样)，对被延迟函数进行调用。</p>
+<h4 id="u6307_u9488"><a href="#u6307_u9488" class="headerlink" title="指针"></a>指针</h4><p>指针和 C 一样， &amp; 是取地址， * 是解引用。</p>
+<h4 id="u7ED3_u6784_u4F53"><a href="#u7ED3_u6784_u4F53" class="headerlink" title="结构体"></a>结构体</h4><p>同样和 C 语言一样，一般用 <code>type 结构名 struct</code>，通过 <code>.</code> 可以访问结构体里的字段。这里有个细节是，如果直接输出结构体，会有 <code>{}</code> 包住内含的字段，字段之间用空格分割。</p>
+<h4 id="u6570_u7EC4"><a href="#u6570_u7EC4" class="headerlink" title="数组"></a>数组</h4><p><code>[n]T</code> 代表 <code>n</code> 个 <code>T</code> 类型的数组。要注意的是数组的长度是不能随意改变的。在定义的时候，如果直接进行初始化赋值，可以省略 <code>n</code> 让 Go 自行判断。</p>
+<p>数组可以进行切片，切片和 Python 有点类似，但 Go 切片不能从尾部开始切，也就是说索引必须是正的。 Go 的切片是得到的原数组的引用，索引修改切片对象就是修改了原数组。</p>
+<p>创建数组也可用 <code>make()</code> 来构造。 <code>len()</code> 是长度， <code>cap</code> 是容量。关于容量这个概念，其他很多语言都没有。长度是指已经被赋过值的最大下标+1，可通过内置函数len()获得。容量是指切片目前可容纳的最多元素个数，可通过内置函数cap()获得。切片是引用类型，因此在当传递切片时将引用同一指针，修改值将会影响其他的对象。一般数组的 len 和 cap 是一样的。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    s <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">}</span>
+    a <span class="token operator">:=</span> s<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">:</span><span class="token number">6</span><span class="token punctuation">]</span>
+    b <span class="token operator">:=</span> a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>
+    <span class="token function">printSlice</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">// len=3 cap=7 [3 4 5]</span>
+    <span class="token function">printSlice</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">// len=1 cap=6 [4]</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">printSlice</span><span class="token punctuation">(</span>s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"len=%d cap=%d %v\n"</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">cap</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> s<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>a, b 的容量比长度都要大，这里cap的改变规则为原cap值减掉起始下标。</p>
+<p>使用 <code>append</code> 可以对切片进行添加。</p>
+<p>关于切片，细节可以看<a href="https://blog.golang.org/go-slices-usage-and-internals" target="_blank" rel="external">Slices: usage and internals</a></p>
 <h4 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h4><ol>
 <li><a href="http://studygolang.com/articles/5831" target="_blank" rel="external">golang之package</a></li>
 <li><a href="http://studygolang.com/topics/9" target="_blank" rel="external">Go中的switch fallthrough</a></li>
+<li><a href="http://www.cnblogs.com/howDo/archive/2013/04/25/GoLang-Array-Slice.html" target="_blank" rel="external">老虞学GoLang笔记-数组和切片</a></li>
 </ol>
 ]]></content>
     </entry>
