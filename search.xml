@@ -108,6 +108,68 @@
 <p>a, b 的容量比长度都要大，这里cap的改变规则为原cap值减掉起始下标。</p>
 <p>使用 <code>append</code> 可以对切片进行添加。</p>
 <p>关于切片，细节可以看<a href="https://blog.golang.org/go-slices-usage-and-internals" target="_blank" rel="external">Slices: usage and internals</a></p>
+<h4 id="Maps"><a href="#Maps" class="headerlink" title="Maps"></a>Maps</h4><p>这里的 map 和 Python 中不同，这个有点像 Python 中的 dict。 map 需要用 <code>make</code> 初始化其对应类型。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">type</span> Vertex <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    Lat<span class="token punctuation">,</span> Long <span class="token builtin">float64</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> m <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span>Vertex
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    m <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span>Vertex<span class="token punctuation">)</span>
+    m<span class="token punctuation">[</span><span class="token string">"Bell Labs"</span><span class="token punctuation">]</span> <span class="token operator">=</span> Vertex<span class="token punctuation">{</span>
+        <span class="token number">40.68433</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">74.39967</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>m<span class="token punctuation">[</span><span class="token string">"Bell Labs"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>语法上类似 struct，可以省去 make ，直接对 map 进行赋值。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">var</span> m <span class="token operator">=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span>Vertex<span class="token punctuation">{</span>
+    <span class="token string">"Bell Labs"</span><span class="token punctuation">:</span> Vertex<span class="token punctuation">{</span>
+        <span class="token number">40.68433</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">74.39967</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">"Google"</span><span class="token punctuation">:</span> Vertex<span class="token punctuation">{</span>
+        <span class="token number">37.42202</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">122.08408</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>或者</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">var</span> m <span class="token operator">=</span> <span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span>Vertex<span class="token punctuation">{</span>
+    <span class="token string">"Bell Labs"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token number">40.68433</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">74.39967</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">"Google"</span><span class="token punctuation">:</span>    <span class="token punctuation">{</span><span class="token number">37.42202</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">122.08408</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>通过上面几段代码可以感受到， map 不算是一个函数，更像是一种类型。map 后面加 [] 之后加上返回类型，括号里的是键的类型。</p>
+<p>对于 map 的插入和更新，和使用 Python 的 dict 类似。 对于访问 map ，当访问的键不存在时，默认值是0，其实在访问键时，map 会返回两个值，第一个值是键对应的值，第二个值是这个键是否在 map 中。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    m <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">map</span><span class="token punctuation">[</span><span class="token builtin">string</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span>
+
+    m<span class="token punctuation">[</span><span class="token string">"Answer"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">42</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"The value:"</span><span class="token punctuation">,</span> m<span class="token punctuation">[</span><span class="token string">"Answer"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    m<span class="token punctuation">[</span><span class="token string">"Answer"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">48</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"The value:"</span><span class="token punctuation">,</span> m<span class="token punctuation">[</span><span class="token string">"Answer"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token function">delete</span><span class="token punctuation">(</span>m<span class="token punctuation">,</span> <span class="token string">"Answer"</span><span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"The value:"</span><span class="token punctuation">,</span> m<span class="token punctuation">[</span><span class="token string">"Answer"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    v<span class="token punctuation">,</span> ok <span class="token operator">:=</span> m<span class="token punctuation">[</span><span class="token string">"Answer"</span><span class="token punctuation">]</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"The value:"</span><span class="token punctuation">,</span> v<span class="token punctuation">,</span> <span class="token string">"Present?"</span><span class="token punctuation">,</span> ok<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h4><p><code>Range</code> 是对于切片或者 map 的迭代。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">var</span> pow <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">64</span><span class="token punctuation">,</span> <span class="token number">128</span><span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> pow <span class="token punctuation">{</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"2**%d = %d\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h4 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h4><ol>
 <li><a href="http://studygolang.com/articles/5831" target="_blank" rel="external">golang之package</a></li>
 <li><a href="http://studygolang.com/topics/9" target="_blank" rel="external">Go中的switch fallthrough</a></li>
