@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2017-05-28T12:20:10.000Z</updated>
+  <updated>2017-06-15T15:17:59.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://xinqiu.me/2017/05/09/a-byte-of-go/"/>
     <id>http://xinqiu.me/2017/05/09/a-byte-of-go/</id>
     <published>2017-05-08T16:00:00.000Z</published>
-    <updated>2017-05-28T12:20:10.000Z</updated>
+    <updated>2017-06-15T15:17:59.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="u7B80_u660E_Go__u6559_u7A0B"><a href="#u7B80_u660E_Go__u6559_u7A0B" class="headerlink" title="简明 Go 教程"></a>简明 Go 教程</h2><h3 id="u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C"><a href="#u5B89_u88C5_u4EE5_u53CA_u8FD0_u884C" class="headerlink" title="安装以及运行"></a>安装以及运行</h3><p>关于如何安装 Go ，官网的教程已经非常详细。如果困惑于 GOPATH 的设置，可以使用 JetBrains 家的 Gogland。 只需要将 GOPATH 放在想放的目录，然后在 Gogland 选择上全局 GOPATH 路径即可，剩下的就不去烦心了，同时 Project 可以放在任何地方，而不是考虑 Project 需要放在 src 下面。在 Gogland 中有常见的两种运行方式，一种是直接使用来 <code>go run</code> 来直接运行 <code>.go</code>文件，还有一种是先 build 然后再 run。</p>
 <p>这里有必要提一下 Build 这种方式的运行。正如 Gogland 的 <code>Run/Debug Configurations</code> 中所提到的，Build 会把程序作为一个 Application 来对待，build 命令只生成可执行的文件。</p>
@@ -183,6 +183,48 @@
 <span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">for</span> i<span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> pow <span class="token punctuation">{</span>
         fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"2**%d = %d\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="u95ED_u5305"><a href="#u95ED_u5305" class="headerlink" title="闭包"></a>闭包</h4><p>通俗的说，闭包就是函数中包含了一些内部变量，闭包函数 return 的也是一个函数，在这个返回函数中需要用到闭包函数里存放的变量。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">adder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    sum <span class="token operator">:=</span> <span class="token number">0</span>
+    <span class="token keyword">return</span> <span class="token keyword">func</span><span class="token punctuation">(</span>x <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+        sum <span class="token operator">+=</span> x
+        <span class="token keyword">return</span> sum
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    pos<span class="token punctuation">,</span> neg <span class="token operator">:=</span> <span class="token function">adder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">adder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>
+            <span class="token function">pos</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token function">neg</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token operator">*</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>上面的这个例子就是 adder() 函数中有一个变量 sum，可以被 adder() 返回的函数所访问修改，函数外部是看不到这个 sum 变量的。 </p>
+<p>比如基于闭包的斐波那契数列就可以这样写</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">fibonacci</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> a<span class="token punctuation">,</span> b <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span>
+
+    <span class="token keyword">return</span> <span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+        ret <span class="token operator">:=</span> a
+        a<span class="token punctuation">,</span> b <span class="token operator">=</span> b<span class="token punctuation">,</span> a<span class="token operator">+</span>b
+        <span class="token keyword">return</span> ret
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    f <span class="token operator">:=</span> <span class="token function">fibonacci</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
