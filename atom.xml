@@ -251,7 +251,7 @@
     <link href="http://xinqiu.me/2017/03/06/cs20si-3/"/>
     <id>http://xinqiu.me/2017/03/06/cs20si-3/</id>
     <published>2017-03-05T16:00:00.000Z</published>
-    <updated>2017-05-09T13:41:25.000Z</updated>
+    <updated>2017-07-11T23:34:40.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>笔记3: 用 TensorFlow 实现线性回归和逻辑回归</p>
@@ -511,7 +511,7 @@ total_correct_preds <span class="token operator">=</span> <span class="token num
     total_correct_preds <span class="token operator">+=</span> sess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>accuracy<span class="token punctuation">)</span>
     <span class="token keyword">print</span>   <span class="token string">"Accuracy {0}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>total_correct_preds <span class="token operator">/</span> MNIST<span class="token punctuation">.</span>test<span class="token punctuation">.</span>num_examples<span class="token punctuation">)</span>
 </code></pre>
-<h5 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h5><p>lecture 3 学习了线性回归和逻辑回归，官方笔记里有一些坑，或多或少填完了这个坑，争取在考研的过程中能把这门可和cs229过一遍。</p>
+<h5 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h5><p>lecture 3 学习了线性回归和逻辑回归，官方笔记里有一些坑，或多或少填完了这个坑，争取在考研的过程中能把这门课和cs229过一遍。</p>
 ]]></content>
     
     <summary type="html">

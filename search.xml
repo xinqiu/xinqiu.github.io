@@ -481,7 +481,7 @@ total_correct_preds <span class="token operator">=</span> <span class="token num
     total_correct_preds <span class="token operator">+=</span> sess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>accuracy<span class="token punctuation">)</span>
     <span class="token keyword">print</span>   <span class="token string">"Accuracy {0}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>total_correct_preds <span class="token operator">/</span> MNIST<span class="token punctuation">.</span>test<span class="token punctuation">.</span>num_examples<span class="token punctuation">)</span>
 </code></pre>
-<h5 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h5><p>lecture 3 学习了线性回归和逻辑回归，官方笔记里有一些坑，或多或少填完了这个坑，争取在考研的过程中能把这门可和cs229过一遍。</p>
+<h5 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h5><p>lecture 3 学习了线性回归和逻辑回归，官方笔记里有一些坑，或多或少填完了这个坑，争取在考研的过程中能把这门课和cs229过一遍。</p>
 ]]></content>
     </entry>
     
