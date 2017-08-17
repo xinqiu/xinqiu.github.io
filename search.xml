@@ -212,6 +212,28 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<h4 id="u65B9_u6CD5"><a href="#u65B9_u6CD5" class="headerlink" title="方法"></a>方法</h4><p>Go 是没有类这种说法的，所以可以通过在函数上指定一个接收者将一个方法与一个类型绑定。其实类似于 Python 的类函数，Python 通过 self 变量将自身的类进行传参。</p>
+<pre><code>import (
+    &quot;fmt&quot;
+    &quot;math&quot;
+)
+
+type Vertex struct {
+    X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+    return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func main() {
+    v := Vertex{3, 4}
+    fmt.Println(v.Abs())
+}
+</code></pre><p>当然也可以在声明常规函数的时候将接收者作为参数传入以实现同样的绑定效果。方法不一定要与结构体绑定，也可以与一个变量类型绑定。</p>
+<h5 id="u6307_u9488_u63A5_u6536_u8005"><a href="#u6307_u9488_u63A5_u6536_u8005" class="headerlink" title="指针接收者"></a>指针接收者</h5><p>这里有个细节，当指针作为接收者时，调用这个方法会对这个类型进行操作，而不是对这个类型的副本进行操作。另外，当变量是地址时，调用的方法的接收者为值类型是，Go 会自动解引用。</p>
+<p>使用指针接收者来声明方法，可以避免每个调用方法时的拷贝值的损耗，这一点尤其在接收者是个非常大的结构体时。</p>
+<h4 id="u63A5_u53E3"><a href="#u63A5_u53E3" class="headerlink" title="接口"></a>接口</h4><p>接口就是包含一组方法的标记。接口的值可以是任何实现这个方法的值。接口是隐性规定了相关类型必须要实现接口里的方法。这样做的使程序能够解耦并且很规范。</p>
 <h4 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h4><ol>
 <li><a href="http://studygolang.com/articles/5831" target="_blank" rel="external">golang之package</a></li>
 <li><a href="http://studygolang.com/topics/9" target="_blank" rel="external">Go中的switch fallthrough</a></li>
