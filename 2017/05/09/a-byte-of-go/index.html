@@ -612,27 +612,108 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 <span class="token punctuation">}</span>
 </code></pre>
 <h4 id="u65B9_u6CD5"><a href="#u65B9_u6CD5" class="headerlink" title="方法"></a>方法</h4><p>Go 是没有类这种说法的，所以可以通过在函数上指定一个接收者将一个方法与一个类型绑定。其实类似于 Python 的类函数，Python 通过 self 变量将自身的类进行传参。</p>
-<pre><code>import (
-    &quot;fmt&quot;
-    &quot;math&quot;
-)
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"math"</span>
+<span class="token punctuation">)</span>
 
-type Vertex struct {
-    X, Y float64
-}
+<span class="token keyword">type</span> Vertex <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    X<span class="token punctuation">,</span> Y <span class="token builtin">float64</span>
+<span class="token punctuation">}</span>
 
-func (v Vertex) Abs() float64 {
-    return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+<span class="token keyword">func</span> <span class="token punctuation">(</span>v Vertex<span class="token punctuation">)</span> <span class="token function">Abs</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token builtin">float64</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> math<span class="token punctuation">.</span><span class="token function">Sqrt</span><span class="token punctuation">(</span>v<span class="token punctuation">.</span>X<span class="token operator">*</span>v<span class="token punctuation">.</span>X <span class="token operator">+</span> v<span class="token punctuation">.</span>Y<span class="token operator">*</span>v<span class="token punctuation">.</span>Y<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 
-func main() {
-    v := Vertex{3, 4}
-    fmt.Println(v.Abs())
-}
-</code></pre><p>当然也可以在声明常规函数的时候将接收者作为参数传入以实现同样的绑定效果。方法不一定要与结构体绑定，也可以与一个变量类型绑定。</p>
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    v <span class="token operator">:=</span> Vertex<span class="token punctuation">{</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">}</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>v<span class="token punctuation">.</span><span class="token function">Abs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>当然也可以在声明常规函数的时候将接收者作为参数传入以实现同样的绑定效果。方法不一定要与结构体绑定，也可以与一个变量类型绑定。</p>
 <h5 id="u6307_u9488_u63A5_u6536_u8005"><a href="#u6307_u9488_u63A5_u6536_u8005" class="headerlink" title="指针接收者"></a>指针接收者</h5><p>这里有个细节，当指针作为接收者时，调用这个方法会对这个类型进行操作，而不是对这个类型的副本进行操作。另外，当变量是地址时，调用的方法的接收者为值类型是，Go 会自动解引用。</p>
 <p>使用指针接收者来声明方法，可以避免每个调用方法时的拷贝值的损耗，这一点尤其在接收者是个非常大的结构体时。</p>
 <h4 id="u63A5_u53E3"><a href="#u63A5_u53E3" class="headerlink" title="接口"></a>接口</h4><p>接口就是包含一组方法的标记。接口的值可以是任何实现这个方法的值。接口是隐性规定了相关类型必须要实现接口里的方法。这样做的使程序能够解耦并且很规范。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">type</span> I <span class="token keyword">interface</span> <span class="token punctuation">{</span>
+    <span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> T <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    S <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// This method means type T implements the interface I,</span>
+<span class="token comment" spellcheck="true">// but we don't need to explicitly declare that it does so.</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>t T<span class="token punctuation">)</span> <span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>S<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> i I <span class="token operator">=</span> T<span class="token punctuation">{</span><span class="token string">"hello"</span><span class="token punctuation">}</span>
+    i<span class="token punctuation">.</span><span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>下面这个程序重点在于方法的类型，会发现输出的类型都会以 <code>main.</code>作为前缀，比如第一个的输出是 <code>(&amp;{Hello}, *main.T)</code> ,第二个是 <code>(3.141592653589793, main.F)</code></p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"math"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">type</span> I <span class="token keyword">interface</span> <span class="token punctuation">{</span>
+    <span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> T <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+    S <span class="token builtin">string</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>t <span class="token operator">*</span>T<span class="token punctuation">)</span> <span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>S<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> F <span class="token builtin">float64</span>
+
+<span class="token keyword">func</span> <span class="token punctuation">(</span>f F<span class="token punctuation">)</span> <span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> i I
+
+    i <span class="token operator">=</span> <span class="token operator">&amp;</span>T<span class="token punctuation">{</span><span class="token string">"Hello"</span><span class="token punctuation">}</span>
+    <span class="token function">describe</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    i<span class="token punctuation">.</span><span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    i <span class="token operator">=</span> <span class="token function">F</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span>Pi<span class="token punctuation">)</span>
+    <span class="token function">describe</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    i<span class="token punctuation">.</span><span class="token function">M</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">describe</span><span class="token punctuation">(</span>i I<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"(%v, %T)\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>若变量的方法是 nil ，在调用接口规定的方法时，是以nil作为接收者，其值为 <nil> 。若变量本身没有值，则调用方法时会出错。</nil></p>
+<p>这里有一种操作是空接口，其类型是任意类型。空接口被用来处理不知道类型的值。</p>
+<pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token string">"fmt"</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> i <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token function">describe</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+
+    i <span class="token operator">=</span> <span class="token number">42</span>
+    <span class="token function">describe</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+
+    i <span class="token operator">=</span> <span class="token string">"hello"</span>
+    <span class="token function">describe</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">describe</span><span class="token punctuation">(</span>i <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"(%v, %T)\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
 <h4 id="u53C2_u8003"><a href="#u53C2_u8003" class="headerlink" title="参考"></a>参考</h4><ol>
 <li><a href="http://studygolang.com/articles/5831" target="_blank" rel="external">golang之package</a></li>
 <li><a href="http://studygolang.com/topics/9" target="_blank" rel="external">Go中的switch fallthrough</a></li>
