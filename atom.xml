@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2017-08-18T12:39:36.000Z</updated>
+  <updated>2018-01-25T11:53:28.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -14,6 +14,85 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CSI 数据二进制文件探究</title>
+    <link href="http://xinqiu.me/2018/01/25/csi-data/"/>
+    <id>http://xinqiu.me/2018/01/25/csi-data/</id>
+    <published>2018-01-24T16:00:00.000Z</published>
+    <updated>2018-01-25T11:53:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>考研一年多没有看相关的东西，现在又要重新拾起之前的知识，作为开始，从CSI数据角度切入，探寻之前一直忽略的内容。也是为了用Python来慢慢替代MATLAB。</p>
+</blockquote>
+<h3 id="u5206_u6279_u8BFB_u53D6"><a href="#u5206_u6279_u8BFB_u53D6" class="headerlink" title="分批读取"></a>分批读取</h3><p>在仔细阅读了 <code>csitools</code> 中的 <code>read_bfee.c</code> 和 <code>read_bf_file.m</code> 文件，慢慢理解数据是如何储存的。</p>
+<p>从 <code>read_bf_file.m</code> 可知，读取数据是分批次进行的，每个批次又去调用 <code>read_bfee</code> 这个函数将二进制数据转化为需要的数据。首先在每个批次的开始是有一个验证码，来检查数据是否可靠，然后再判断数据的长度是否对齐，之后才会进行数据解码。</p>
+<h3 id="u6570_u636E_u89E3_u7801"><a href="#u6570_u636E_u89E3_u7801" class="headerlink" title="数据解码"></a>数据解码</h3><p>原始数据是二进制的数据块，需要通过解码来得到相应的数据。这个数据块里首先是个 <code>unsigned long</code> 的时间戳，接着是 <code>bfee_count</code>， <code>Nrx</code>，<code>Ntx</code>，<code>rssi_a</code>，<code>rssi_b</code>，<code>rssi_c</code>， <code>noise</code>， <code>agc</code>，<code>antenna_sel</code>，<code>perm</code>，<code>length</code>，<code>fake_rate_n_flags</code> 和最关键的 CSI 原始数据。 关于这些变量，在我之前的文章里有详细介绍。取数据比较麻烦的是要知道不同变量的类型以及其字节位数。其中CSI是有实部和虚部构成，它们都是 <code>unsigned char</code> 类型，这一步的转换用 Python 来转型让我思考了好久。<code>csi</code> 其实是 <code>beamforming matrix</code>(通过查阅802.11n的相关文档可以详细了解其构成)。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">read_bfee</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># print buffer</span>
+    timestamp_low <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'uintne:32'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print timestamp_low</span>
+    bfee_count <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'uintne:32'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print bfee_count</span>
+    Nrx <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print Nrx</span>
+    Ntx <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print Ntx</span>
+    rssi_a <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print rssi_a</span>
+    rssi_b <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print rssi_b</span>
+    rssi_c <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print rssi_c</span>
+    noise <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print noise</span>
+    agc <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print agc</span>
+    antenna_sel <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intbe:8'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print antenna_sel</span>
+    perm <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token punctuation">(</span>antenna_sel<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">(</span>antenna_sel <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">(</span>antenna_sel <span class="token operator">>></span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x3</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true"># print perm</span>
+    length <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intle:16'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print length</span>
+    fake_rate_n_flags <span class="token operator">=</span> buffer<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">'intle:16'</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># print fake_rate_n_flags</span>
+    index <span class="token operator">=</span> <span class="token number">0</span>
+
+    csiR <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    csiI <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    payload <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>map<span class="token punctuation">(</span>str<span class="token punctuation">,</span>map<span class="token punctuation">(</span>int<span class="token punctuation">,</span>buffer<span class="token punctuation">[</span><span class="token number">160</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    payload <span class="token operator">=</span> map<span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span>int<span class="token punctuation">(</span>x<span class="token punctuation">,</span>base<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">[</span>payload<span class="token punctuation">[</span>i<span class="token punctuation">:</span>i<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">(</span>payload<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> xrange<span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        index <span class="token operator">+=</span> <span class="token number">3</span>
+        remainder <span class="token operator">=</span> index <span class="token operator">%</span> <span class="token number">8</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> xrange<span class="token punctuation">(</span>Nrx<span class="token operator">*</span>Ntx<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            t <span class="token operator">=</span> int<span class="token punctuation">(</span>bin<span class="token punctuation">(</span>payload<span class="token punctuation">[</span>index <span class="token operator">/</span> <span class="token number">8</span><span class="token punctuation">]</span> <span class="token operator">>></span> remainder<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">|</span> int<span class="token punctuation">(</span>bin<span class="token punctuation">(</span>payload<span class="token punctuation">[</span>index <span class="token operator">/</span> <span class="token number">8</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span><span class="token number">8</span> <span class="token operator">-</span> remainder<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">.</span>zfill<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+            tmp <span class="token operator">=</span> t <span class="token operator">-</span> <span class="token number">256</span> <span class="token keyword">if</span> t <span class="token operator">></span> <span class="token number">127</span> <span class="token keyword">else</span> t
+            csiR<span class="token punctuation">.</span>append<span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
+            t <span class="token operator">=</span> <span class="token punctuation">(</span>payload<span class="token punctuation">[</span>index <span class="token operator">/</span> <span class="token number">8</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">>></span> remainder<span class="token punctuation">)</span> <span class="token operator">|</span> int<span class="token punctuation">(</span>bin<span class="token punctuation">(</span>payload<span class="token punctuation">[</span>index <span class="token operator">/</span> <span class="token number">8</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span><span class="token number">8</span> <span class="token operator">-</span> remainder<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">.</span>zfill<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+            tmp <span class="token operator">=</span> t <span class="token operator">-</span> <span class="token number">256</span> <span class="token keyword">if</span> t <span class="token operator">></span> <span class="token number">127</span> <span class="token keyword">else</span> t
+            csiI<span class="token punctuation">.</span>append<span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
+            index <span class="token operator">+=</span> <span class="token number">16</span>
+</code></pre>
+<p>以上是 <code>read_bfee</code> 的简单demo，函数的返回值可以自定。在一般的研究中，只需要获取 csi 的原始值即可。当然，查询天线的排列可以通过检查 <code>perm</code> 变量来做的。</p>
+<h3 id="u540E_u7EED_u5DE5_u4F5C"><a href="#u540E_u7EED_u5DE5_u4F5C" class="headerlink" title="后续工作"></a>后续工作</h3><ul>
+<li>数据转储</li>
+<li>性能调优</li>
+<li>封装成函数</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      CSI data
+    
+    </summary>
+    
+    
+      <category term="csi" scheme="http://xinqiu.me/tags/csi/"/>
+    
+  </entry>
   
   <entry>
     <title>简明 Go 教程</title>
@@ -5276,33 +5355,6 @@ bomb[0x401241] <span class="token tag"><span class="token tag"><span class="toke
     
     
       <category term="csapp" scheme="http://xinqiu.me/tags/csapp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2016的第一篇日记</title>
-    <link href="http://xinqiu.me/2016/01/01/Dairy-5/"/>
-    <id>http://xinqiu.me/2016/01/01/Dairy-5/</id>
-    <published>2015-12-31T16:00:00.000Z</published>
-    <updated>2016-02-11T05:11:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天是2016年的第一天，想起来本该在昨天做一个年终总结的，没想到被耽搁了。今天就简单做个总结并记录一些新年的计划吧。</p>
-<p>突然发现自己对2015年的玩乐记忆不是很多，留在心里的就是吃了两次比较好吃的日料(原谅我是个吃货)。</p>
-<p>其实细细想想，这一年已经让我与名校的学生拉开了很大的差距，说实话，我并没做到挑灯夜战到凌晨一两点。我仅仅能做到几乎不晚游戏和坚持除周末外的早起背单词。曾经的热血方刚如今变成靠毅力来坚持走实现理想的路。编程这块真的是有个大牛带才会轻松一点，一个人的路真心不好走。</p>
-<p>随着python的学习越来越深入，说实话我挺喜欢这个语言的。人生苦短，我用python。无奈学校的路线是Java，为了应付学校的课程安排，只得将学python的一部分尽量稍微用在了点Java上。</p>
-<p>过去的一年，收获是有，但总觉得不足。</p>
-<p>只希望新的一年里，能看完CSAPP并刷一遍labs，看点SICP和CLRS，刷一遍Leetcode。C++可以再拿起来看看了。业余小活动，就花在点iOS开发上吧。</p>
-<p>以上。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      Hello 2016
-    
-    </summary>
-    
-    
-      <category term="MyLife" scheme="http://xinqiu.me/tags/MyLife/"/>
     
   </entry>
   
