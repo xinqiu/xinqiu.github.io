@@ -5693,34 +5693,6 @@ max-temperature <span class="token operator">=</span> 80000
     </entry>
     
     <entry>
-      <title><![CDATA[LeetCode - Convert Sorted Array to Binary Search Tree]]></title>
-      <url>http://xinqiu.me/2015/07/18/LeetCode-108/</url>
-      <content type="html"><![CDATA[<blockquote>
-<p>Given an array where elements are sorted in ascending order, convert it to a height balanced BST.</p>
-</blockquote>
-<p>这道题思路有点像二分查找。</p>
-<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */</span>
-<span class="token keyword">struct</span> TreeNode<span class="token operator">*</span> <span class="token function">sortedArrayToBST</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> nums<span class="token punctuation">,</span> <span class="token keyword">int</span> numsSize<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>numsSize <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
-        <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-    <span class="token keyword">struct</span> TreeNode <span class="token operator">*</span>Root <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> TreeNode<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> TreeNode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    Root<span class="token operator">-></span>val <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>nums <span class="token operator">+</span> numsSize <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    Root<span class="token operator">-></span>left <span class="token operator">=</span> <span class="token function">sortedArrayToBST</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> numsSize <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    Root<span class="token operator">-></span>right <span class="token operator">=</span> <span class="token function">sortedArrayToBST</span><span class="token punctuation">(</span>nums <span class="token operator">+</span> numsSize <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> numsSize<span class="token operator">-</span>numsSize<span class="token operator">/</span><span class="token number">2</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> Root<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[想有一个不一样的暑假]]></title>
       <url>http://xinqiu.me/2015/07/09/Dairy-3/</url>
       <content type="html"><![CDATA[<p>今年的高考，却已与我无关。直到7、8、9过后，才意识到一年是如此的快。说起来，这一年，在风吹日晒中，磨去了一些锐气和年少轻狂，沉淀了些特立独行的沉默。曾经的豪言壮语，如今想想有点可笑，又有点想哭，毕竟自己选择的路，跪着也要走完。我也有想过为什么我要选择孤独的一个人坚持在敲代码的路上，谁都知道吃喝玩乐才是大学正道。正是因为一路上失去了太多，才会更加珍惜现在的所得；正是因为经历了这些，才能学会沉淀，才能变得不在患得患失，不再无理取闹。前年的选择还是正确的，至少如今的我，没有在一个更堕落的地方。</p>
@@ -5730,35 +5702,6 @@ max-temperature <span class="token operator">=</span> 80000
 <p>我尝试开始做开源翻译，因为是刚开始，选择了比较简单的Gitbook上的Learn Javascript开始翻译，同时也正好可以学习JS。欢迎来纠错[<a href="https://www.gitbook.com/book/xinqiu/learn-javascript-cn/details" target="_blank" rel="external">Click</a>]。还参与《Pro Git》第二版的审校。<br>只有真正参与了翻译，才意识到翻译的难。</p>
 <p>第二件大事，会是什么呢？</p>
 <p>(To be continued)</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[LeetCode - Same Tree]]></title>
-      <url>http://xinqiu.me/2015/07/07/LeetCode-100/</url>
-      <content type="html"><![CDATA[<blockquote>
-<p>Given two binary trees, write a function to check if they are equal or not.</p>
-<p>Two binary trees are considered equal if they are structurally identical and the nodes have the same value.</p>
-</blockquote>
-<pre class=" language-c"><code class="language-c">
-<span class="token comment" spellcheck="true">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */</span>
-bool <span class="token function">isSameTree</span><span class="token punctuation">(</span><span class="token keyword">struct</span> TreeNode<span class="token operator">*</span> p<span class="token punctuation">,</span> <span class="token keyword">struct</span> TreeNode<span class="token operator">*</span> q<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>p <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token operator">&amp;&amp;</span> q <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> 
-        <span class="token keyword">return</span> true<span class="token punctuation">;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>p <span class="token operator">!=</span> <span class="token constant">NULL</span> <span class="token operator">&amp;&amp;</span> q <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token operator">||</span><span class="token punctuation">(</span>p <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token operator">&amp;&amp;</span> q <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-        <span class="token keyword">return</span> false<span class="token punctuation">;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>p<span class="token operator">-></span>val <span class="token operator">!=</span> q<span class="token operator">-></span>val<span class="token punctuation">)</span>
-        <span class="token keyword">return</span> false<span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token function">isSameTree</span><span class="token punctuation">(</span>p<span class="token operator">-></span>left<span class="token punctuation">,</span>q<span class="token operator">-></span>left<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isSameTree</span><span class="token punctuation">(</span>p<span class="token operator">-></span>right<span class="token punctuation">,</span>q<span class="token operator">-></span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
 ]]></content>
     </entry>
     
@@ -6390,35 +6333,6 @@ obj<span class="token operator">=</span>main.o func1.o func2.o func3.o
     </entry>
     
     <entry>
-      <title><![CDATA[LeetCode - Maximum Depth of Binary Tree]]></title>
-      <url>http://xinqiu.me/2015/02/28/LeetCode-104/</url>
-      <content type="html"><![CDATA[<h1 id="Maximum_Depth_of_Binary_Tree"><a href="#Maximum_Depth_of_Binary_Tree" class="headerlink" title="Maximum Depth of Binary Tree"></a>Maximum Depth of Binary Tree</h1><blockquote>
-<p>Given a binary tree, find its maximum depth.</p>
-<p>The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
-</blockquote>
-<pre class=" language-c++"><code class="language-c++">
-/**
- * Definition for binary tree
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-    int maxDepth(TreeNode *root) {
-        if(root == NULL)
-            return 0;
-        return max(maxDepth(root->left),maxDepth(root->right))+1;
-    }
-};
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Play Minecraft on Ubuntu]]></title>
       <url>http://xinqiu.me/2015/02/11/Linux+MC/</url>
       <content type="html"><![CDATA[<h1 id="u5728Ubuntu_u4E0A_u73A9Linux"><a href="#u5728Ubuntu_u4E0A_u73A9Linux" class="headerlink" title="在Ubuntu上玩Linux"></a>在Ubuntu上玩Linux</h1><h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>windows上的MC玩起来方便，不管是服务器端还是客户端，都有很多大神打造的启动器，开服器，可在Linux上，这些工具就少了些，并且经常会出错。网上的很多资料大多是针对经典的旧版，我会介绍一种简单的方法在Ubuntu Linux上玩起MC1.8。</p>
@@ -6488,159 +6402,6 @@ at net.minecraft.client.main.Main.main(SourceFile:41)
 </code></pre>
 <p>这些问题大部分都是因为bin文件出了问题，或者没装bin文件<br>我一开始用纯净包+启动器，发现各种运行不起来<br>后来排查，还是缺少bin文件，介于网上完整的ubuntu包很少，所以只能用MinecraftSP来进行安装。</p>
 <h4 id="u6682_u65F6_u53EA_u77E5_u9053_u7684ubuntu_u4E0A_u81EA_u5DF1_u770B_u5230_u7684_u4E00_u4E9B_u9519_u8BEF"><a href="#u6682_u65F6_u53EA_u77E5_u9053_u7684ubuntu_u4E0A_u81EA_u5DF1_u770B_u5230_u7684_u4E00_u4E9B_u9519_u8BEF" class="headerlink" title="暂时只知道的ubuntu上自己看到的一些错误"></a>暂时只知道的ubuntu上自己看到的一些错误</h4><p>在Ubuntu服务器端搭建Minecraft server 按照网上的步骤都可以成功搭建的。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[HDOJ - 1002  A + B Problem II]]></title>
-      <url>http://xinqiu.me/2015/02/03/A+B-Problem-II/</url>
-      <content type="html"><![CDATA[<h1 id="A_+_B_Problem_II"><a href="#A_+_B_Problem_II" class="headerlink" title="A + B Problem II"></a>A + B Problem II</h1><p>AC了半天，老是一些细节没注意。</p>
-<h2 id="Problem_Description"><a href="#Problem_Description" class="headerlink" title="Problem Description"></a>Problem Description</h2><p>I have a very simple problem for you. Given two integers A and B, your job is to calculate the Sum of A + B.</p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The first line of the input contains an integer T(1&lt;=T&lt;=20) which means the number of test cases. Then T lines follow, each line consists of two positive integers, A and B. Notice that the integers are very large, that means you should not process them by using 32-bit integer. You may assume the length of each integer will not exceed 1000.</p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each test case, you should output two lines. The first line is “Case #:”, # means the number of the test case. The second line is the an equation “A + B = Sum”, Sum means the result of A + B. Note there are some spaces int the equation. Output a blank line between two test cases.</p>
-<a id="more"></a>
-<h2 id="Sample_Input"><a href="#Sample_Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><p>2</p>
-<p>1 2</p>
-<p>112233445566778899 998877665544332211</p>
-<h2 id="Sample_Output"><a href="#Sample_Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><p>Case 1:</p>
-<p>1 + 2 = 3</p>
-<p>Case 2:</p>
-<p>112233445566778899 + 998877665544332211 = 1111111111111111110</p>
-<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;string.h></span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">char</span> s1<span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">]</span><span class="token punctuation">,</span>s2<span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> a<span class="token punctuation">[</span><span class="token number">1001</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> i<span class="token punctuation">,</span>j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span>n<span class="token punctuation">,</span>n1<span class="token punctuation">,</span>n2<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> len<span class="token punctuation">;</span>
-    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>n<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%s %s"</span><span class="token punctuation">,</span>s1<span class="token punctuation">,</span>s2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Case %d:\n"</span><span class="token punctuation">,</span>j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s + %s = "</span><span class="token punctuation">,</span>s1<span class="token punctuation">,</span>s2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        n1 <span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token function">strlen</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-        n2 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token function">strlen</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-        len <span class="token operator">=</span> <span class="token punctuation">(</span>n1<span class="token operator">></span>n2<span class="token operator">?</span>n1<span class="token punctuation">:</span>n2<span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> n1 <span class="token operator">>=</span> <span class="token number">0</span> <span class="token operator">||</span> n2 <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">,</span>n1<span class="token operator">--</span><span class="token punctuation">,</span>n2<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>n1<span class="token operator">>=</span><span class="token number">0</span><span class="token operator">&amp;&amp;</span>n2<span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>s1<span class="token punctuation">[</span>n1<span class="token punctuation">]</span><span class="token operator">+</span>s2<span class="token punctuation">[</span>n2<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">48</span><span class="token operator">-</span><span class="token number">48</span><span class="token punctuation">;</span><span class="token punctuation">}</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>n1<span class="token operator">>=</span><span class="token number">0</span><span class="token operator">&amp;&amp;</span>n2<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>s1<span class="token punctuation">[</span>n1<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">48</span><span class="token punctuation">;</span><span class="token punctuation">}</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>n1<span class="token operator">&lt;</span><span class="token number">0</span><span class="token operator">&amp;&amp;</span>n2<span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>s2<span class="token punctuation">[</span>n2<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">48</span><span class="token punctuation">;</span><span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>len<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">>=</span> <span class="token number">10</span><span class="token punctuation">)</span>
-            <span class="token punctuation">{</span>
-                a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span><span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
-                a<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>len<span class="token punctuation">]</span> <span class="token operator">==</span><span class="token number">1</span> <span class="token punctuation">)</span>
-            len <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        <span class="token keyword">while</span> <span class="token punctuation">(</span>len<span class="token operator">--</span><span class="token punctuation">)</span>
-            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span>len<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span>
-            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"\n\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">else</span>
-            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Raspberry Pi GPIO Test]]></title>
-      <url>http://xinqiu.me/2015/01/31/RPi-GPIO-Test/</url>
-      <content type="html"><![CDATA[<p>每次看python，都想利用树莓派的GPIO玩LED小灯，果然是寒假无聊，买了GPIO的扩展版和小灯。RPi.GPIO是Python库，简单测试有用。因为有了T型扩展版，方便了不少，可以直接在面包板上设置电路了。之后再慢慢研究这个库。嗯，就是这样。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[HDOJ - 1089  A+B for Input-Output Practice (I)]]></title>
-      <url>http://xinqiu.me/2015/01/22/A+B+for+Input-Output+Practice(I)/</url>
-      <content type="html"><![CDATA[<h1 id="A+B_for_Input-Output_Practice__28I_29"><a href="#A+B_for_Input-Output_Practice__28I_29" class="headerlink" title="A+B for Input-Output Practice (I)"></a>A+B for Input-Output Practice (I)</h1><h2 id="Problem_Description"><a href="#Problem_Description" class="headerlink" title="Problem Description"></a>Problem Description</h2><p>Your task is to Calculate a + b.<br>Too easy?! Of course! I specially designed the problem for acm beginners.<br>You must have found that some problems have the same titles with this one, yes, all these problems were designed for the same aim. </p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input will consist of a series of pairs of integers a and b, separated by a space, one pair of integers per line. </p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each pair of input integers a and b you should output the sum of a and b in one line, and with one line of output for each line in input. </p>
-<a id="more"></a>
-<h2 id="Sample_Input"><a href="#Sample_Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><p>1 5</p>
-<p>10 20</p>
-<h2 id="Sample_Output"><a href="#Sample_Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><p>6</p>
-<p>30</p>
-<pre class=" language-c"><code class="language-c"><span class="token macro property"># <span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> a<span class="token punctuation">,</span>b<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d %d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span><span class="token operator">&amp;</span>b<span class="token punctuation">)</span><span class="token operator">!=</span><span class="token constant">EOF</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token operator">+</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span> 
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[HDOJ - 1001  Sum Problem]]></title>
-      <url>http://xinqiu.me/2015/01/05/Sum-Problem/</url>
-      <content type="html"><![CDATA[<h1 id="Sum_Problem"><a href="#Sum_Problem" class="headerlink" title="Sum Problem"></a>Sum Problem</h1><h2 id="Problem_Description"><a href="#Problem_Description" class="headerlink" title="Problem Description"></a>Problem Description</h2><p>Hey, welcome to HDOJ(Hangzhou Dianzi University Online Judge).</p>
-<p>In this problem, your task is to calculate SUM(n) = 1 + 2 + 3 + … + n.</p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input will consist of a series of integers n, one integer per line.</p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each case, output SUM(n) in one line, followed by a blank line. You may assume the result will be in the range of 32-bit signed integer.</p>
- <a id="more"></a>
-<h2 id="Sample_Input"><a href="#Sample_Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><p>1<br>100</p>
-<h2 id="Sample_Output"><a href="#Sample_Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><p>1</p>
-<p>5050</p>
-<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//递归</span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token keyword">int</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span>
-        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token keyword">else</span>
-        <span class="token keyword">return</span> n<span class="token operator">+</span><span class="token function">sum</span><span class="token punctuation">(</span>n<span class="token number">-1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> n<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>n<span class="token punctuation">)</span><span class="token operator">!=</span><span class="token constant">EOF</span><span class="token punctuation">)</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n\n"</span><span class="token punctuation">,</span><span class="token function">sum</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">//公式</span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> n<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>n<span class="token punctuation">)</span><span class="token operator">!=</span><span class="token constant">EOF</span><span class="token punctuation">)</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%f\n\n"</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">+</span>n<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2.0</span><span class="token operator">*</span>n<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>公式的方法要判断n的奇偶性，因为n*(n+1)可能数字太大。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[HDOJ - 1000  A + B Problem]]></title>
-      <url>http://xinqiu.me/2015/01/04/A+B-Problem/</url>
-      <content type="html"><![CDATA[<h1 id="A_+_B_Problem"><a href="#A_+_B_Problem" class="headerlink" title="A + B Problem"></a>A + B Problem</h1><p>Calculate a + b</p>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input will consist of a series of pairs of integers a and b,separated by a space, one pair of integers per line.</p>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each pair of input integers a and b you should output the sum of a and b in one line,and with one line of output for each line in input.</p>
-<a id="more"></a>
-<h2 id="Sample_Input"><a href="#Sample_Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><p>1 1</p>
-<h2 id="Sample_Output"><a href="#Sample_Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><p>2</p>
-<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> a<span class="token punctuation">,</span>b<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d %d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span><span class="token operator">&amp;</span>b<span class="token punctuation">)</span><span class="token operator">!=</span><span class="token constant">EOF</span><span class="token punctuation">)</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token operator">+</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
 ]]></content>
     </entry>
     
