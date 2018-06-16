@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2018-06-16T02:23:58.000Z</updated>
+  <updated>2018-06-16T02:36:12.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://xinqiu.me/2018/04/20/widance/"/>
     <id>http://xinqiu.me/2018/04/20/widance/</id>
     <published>2018-04-20T08:59:41.000Z</published>
-    <updated>2018-06-16T02:23:58.000Z</updated>
+    <updated>2018-06-16T02:36:12.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>毕设自己挖坑选择了以前科研的方向，所以继续开始看CSI。这次也是去复现清华的钱堃大佬论文，不同于之前的PADS，WiDance这篇论文要难上好几个数量级。</p>
@@ -172,7 +172,7 @@ ante_pairs <span class="token operator">=</span> <span class="token function">ze
         <span class="token keyword">end</span>
     <span class="token keyword">end</span>
 </code></pre>
-<h2 id="u52A8_u4F5C_u8BC6_u522B"><a href="#u52A8_u4F5C_u8BC6_u522B" class="headerlink" title="动作识别"></a>动作识别</h2><p>动作识别是整个论文最关键的地方，准确的说，应该是方向识别。引入两个接收端，来同时计算出多普勒频移，通过比对动作对两个接收端的多普勒频移，来进行动作识别。这种方法无需训练，可以即时的计算出方向。</p>
+<h2 id="u52A8_u4F5C_u8BC6_u522B"><a href="#u52A8_u4F5C_u8BC6_u522B" class="headerlink" title="动作识别"></a>动作识别</h2><p>动作识别是整个论文最关键的地方，准确的说，应该是方向识别。引入两个接收端，来同时计算出多普勒频移，通过比对动作对两个接收端的多普勒频移，来进行动作识别。这种方法无需训练，可以即时的计算出方向。正如论文提到的，动作识别分为两类，以第一象限为例子，理论上是0°，45°，90°为三类，但实际上这个是需要修正的，因为真实情况中，并不会如此精确，所以论文中以0-30°，30-60°，60-90°来划分三类，按照这样来划分，实际上360°可以划分为8个区块(0-30°和-30-0°是一个区块)。接着进行第二次识别，第二次识别就用到了两个设备的数据。</p>
 <pre class=" language-matlab"><code class="language-matlab"><span class="token comment" spellcheck="true">%% Recognition..</span>
     <span class="token keyword">for</span> kk <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span><span class="token function">size</span><span class="token punctuation">(</span>prof_cent<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
         <span class="token function">prof_cent</span><span class="token punctuation">(</span><span class="token operator">:</span><span class="token punctuation">,</span>kk<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">smooth</span><span class="token punctuation">(</span><span class="token function">prof_cent</span><span class="token punctuation">(</span><span class="token operator">:</span><span class="token punctuation">,</span>kk<span class="token punctuation">)</span><span class="token punctuation">,</span> samp_rate<span class="token operator">/</span><span class="token number">4</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'moving'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
