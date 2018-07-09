@@ -4,6 +4,58 @@
   
     
     <entry>
+      <title><![CDATA[Vibora 填坑笔记]]></title>
+      <url>http://xinqiu.me/2018/07/09/learn-vibora/</url>
+      <content type="html"><![CDATA[<h1 id="vibora__u586B_u5751_u7B14_u8BB0"><a href="#vibora__u586B_u5751_u7B14_u8BB0" class="headerlink" title="vibora 填坑笔记"></a>vibora 填坑笔记</h1><blockquote>
+<p>学习 asyncio 时无意间发现的高性能 Web 框架，正好 Django 学累了，换换口味。</p>
+</blockquote>
+<h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p>Vibora 是一个基于 python 3.6+的高性能简洁的异步 http C/S 框架，因为是才出来的项目，这里面还有不少坑。</p>
+<p>首先是安装，<code>python3.6+</code> 才能体验完整的特性。这里使用的是 Vibora 0.06。</p>
+<pre class=" language-bash"><code class="language-bash">pip <span class="token function">install</span> vibora<span class="token punctuation">[</span>fast<span class="token punctuation">]</span>
+</code></pre>
+<p>启动 Vibora 非常的简单，新建一个 <code>main.py</code> 并填写以下代码，运行 <code>python main.py</code> 即可运行一个经典的 <code>Hello World</code> Web 服务器。简洁性非常类似 Flask。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> vibora <span class="token keyword">import</span> Vibora
+<span class="token keyword">from</span> vibora<span class="token punctuation">.</span>responses <span class="token keyword">import</span> Response
+
+
+app <span class="token operator">=</span> Vibora<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">home</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> Response<span class="token punctuation">(</span>b<span class="token string">"Hello  World!"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>debug<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">8000</span><span class="token punctuation">)</span>
+</code></pre>
+<p>这里要注意的是， <code>Response(b&quot;Hello  World!&quot;)</code> 中的 <strong>b</strong> 是万万不能少的，Response 里传递的是 bytes 对象，所以只能是英文字符，那么问题来了，如果想传中文怎么办？将其改成 <code>Response(f&#39;你好，世界&#39;.encode(&#39;utf-8&#39;))</code>，其中<code>&#39;utf-8&#39;</code>是省略可以不写的。</p>
+<h2 id="u8DEF_u7531"><a href="#u8DEF_u7531" class="headerlink" title="路由"></a>路由</h2><p>类似 Flask 的方式，使用装饰器的方式来快速设置路由，其中 methods 默认为 GET 。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">"/home"</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'GET'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">home</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> Response<span class="token punctuation">(</span>b<span class="token string">'123'</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="URL_u8BF7_u6C42_u53C2_u6570"><a href="#URL_u8BF7_u6C42_u53C2_u6570" class="headerlink" title="URL请求参数"></a>URL请求参数</h3><p>除了上面的静态路由，也有动态的路由。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/&lt;page_id>'</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">page</span><span class="token punctuation">(</span>page_id<span class="token punctuation">:</span> int<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> Response<span class="token punctuation">(</span>f<span class="token string">'Page {page_id}'</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>尖括号中的是变量名字，传入函数时一定要加上类型， Vibora 在某种程度上对类型的要求比较严格，在字符串中，使用花括号将变量包裹可以由 Response 之后进行转义。</p>
+<h3 id="u8DEF_u7531_u903B_u8F91"><a href="#u8DEF_u7531_u903B_u8F91" class="headerlink" title="路由逻辑"></a>路由逻辑</h3><p>Vibora 有三种路由逻辑：</p>
+<ul>
+<li><strong>Strict</strong> 严格要求ULR，路径缺少<code>/</code>会跳转到404</li>
+<li><strong>Redirect (默认的方式)</strong> 路径缺少<code>/</code>会进行302跳转</li>
+<li><strong>Clone</strong> 类似重定向，但不会是302</li>
+</ul>
+<p>可以在应用运行前设置。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> vibora <span class="token keyword">import</span> Vibora
+<span class="token keyword">from</span> vibora<span class="token punctuation">.</span>router <span class="token keyword">import</span> RouterStrategy
+
+app <span class="token operator">=</span> Vibora<span class="token punctuation">(</span>router_strategy<span class="token operator">=</span>RouterStrategy<span class="token punctuation">.</span>STRICT<span class="token punctuation">)</span>
+</code></pre>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[WiDance论文学习]]></title>
       <url>http://xinqiu.me/2018/04/20/widance/</url>
       <content type="html"><![CDATA[<blockquote>

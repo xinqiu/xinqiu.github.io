@@ -10,7 +10,7 @@
     
     <title>
         
-            Archives: 2015 | 
+            Vibora 填坑笔记 | 
         
         一人Code
     </title>
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Xin Qiu">
     <meta name="description" content="写给自己的Blog">
-    <meta name="keywords" content="一人Code|写给自己的Blog">
+    <meta name="keywords" content="一人Code|写给自己的Blog,python,vibora">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -48,9 +48,9 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://xinqiu.me">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Archives: 2015 | 一人Code">
+    <meta property="og:title" content="Vibora 填坑笔记 | 一人Code">
     <meta property="og:description" content="写给自己的Blog">
-    
+    <meta property="og:article:tag" content="python"> <meta property="og:article:tag" content="vibora"> 
 
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
@@ -222,631 +222,305 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
     
-
-    <!-- Normal Post -->
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/12/21/Learn-Flask/">Flask补坑记录</a></p>
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
     </div>
+    -->
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            前言不得不说，Flask是个不错的框架，它很简洁，然而却不失强大。在我阅读 &lt;&lt; Flask Web Development &gt;&gt; 这本书的过程中，我觉得最好是这本书的配套源码和issues。在这些帮助下，一步步从完全不了解Flask到稍微知道Flask的工作原理。这过程中有好多次因为一些小细节的错误debug个很久。在此，我记录了一些我遇到的问题，方便大家看看。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/12/21/Learn-Flask/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Dec 21, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#vibora__u586B_u5751_u7B14_u8BB0"><span class="post-toc-number">1.</span> <span class="post-toc-text">vibora 填坑笔记</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u7B80_u4ECB"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u8DEF_u7531"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">路由</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#URL_u8BF7_u6C42_u53C2_u6570"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">URL请求参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u8DEF_u7531_u903B_u8F91"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">路由逻辑</span></a></li></ol></li></ol></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
                 
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://raw.githubusercontent.com/vibora-io/vibora/master/docs/logo.png)">
+    
+            <p class="article-headline-p">
+                Vibora 填坑笔记
+            </p>
         </div>
-    </div>
-</div>
 
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/11/13/docker+nginx/">云主机下的docker+Nginx搭建</a></p>
-    </div>
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-之前申请到了腾讯云服务器，所以在上面折腾了一下 Nginx。
 
-准备工作系统配置操作系统    Ubuntu Server 14.04.1 LTS 64位
-CPU    1核
-内存    1GB
-系统盘    8GB(本地盘)
-数据盘    0GB
-公网带宽    1Mbps
 
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/11/13/docker+nginx/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Nov 13, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
                 
-            </span>
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
 
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Xin Qiu</strong>
+        <span>Jul 09, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+            <i class="material-icons" role="presentation">devices other</i>
+            <span class="visuallyhidden">devices other</span>
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+            <li class="mdl-menu__item">Read this article on other device</li>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACdElEQVR42u3aQW7jQAwEQP//07vXBQLL3RzNyBuUTkGiWFM8iDTJ159ffb3w8PDw8PDw8PC+jPeKr3/v//m/bx92eX/y1/xseHh4eCd5H161bw6UHDr5TRLK5Gx4eHh453krj0lSxSyRtGfDw8PD+zbedTk7w18/Cw8PD+9/5103Mu4tx/Hw8PC+n1d84b98WNFyjcvrQ70WPDw8vJi3MgDb/fPD8z08PDy8H7x6pekyGeSBmzV5oxPi4eHhbea1a0/54CoppvOWbnJaPDw8vPO8WZugZeQN3+GCFx4eHt5mXvs6Ttq7+SfnxXreCMbDw8PbzWuXU2fUNnzt+hceHh7eSd46KR+S5Q3ivJjGw8PDe4qXN23zcVf+6p+V6W9PiIeHh7eZ1w6rdiyYzlJOsTqAh4eHt4GXfNVvi+Z88J8HLroTDw8P7wgvWe5vF+6TxDBbEcDDw8N7lrdeFuev+6RYT0I8bOPi4eHh3cqbfVA+HmuL71k6wcPDw3uK1zYU8hDkq1dLJTseHh7eZl7bCMiTQbIcsJJsitUBPDw8vG28Ng20YWrXAoahx8PDw9vMa8vfu4rm+nUfD97w8PDwzvBma0/54D9n5EEvEgMeHh7erbz2ZZ2vtK4EZWMbFw8PD++mAdjsBb1efM/K7g934uHh4W3mveJrZcTVpoQ8WHh4eHhP8ZJkkI/BkqAkBXoSMjw8PLxnee1QPw9NnmDy5DTcjMDDw8M7zpuVxe2QbJao8PDw8L6f165JzdYC8mIaDw8P7zwveREnD25L8LY1/OFseHh4eEd4tzUCFkZiKyQ8PDy8k7zfd+Hh4eHh4eHh4X3B9RevekoV9+b7HAAAAABJRU5ErkJggg==">
+        </ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/python/">python</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/vibora/">vibora</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2018/07/09/learn-vibora/" class="leancloud-views_num" data-flag-title="Vibora 填坑笔记">
+     &nbsp;Views
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Vibora 填坑笔记&url=http://xinqiu.me//2018/07/09/learn-vibora/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Weibo
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Vibora 填坑笔记&url=http://xinqiu.me//2018/07/09/learn-vibora/index.html&via=Xin Qiu" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me//2018/07/09/learn-vibora/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://xinqiu.me//2018/07/09/learn-vibora/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
 </div>
 
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/11/07/python-math/">Python科学计算学习</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-之前参加数学建模比赛都是用的 MatLab，然而电脑每次运行 MatLab 都烫的要命，所以决定用自己比较熟悉的 python 来进行科学计算。
-
-
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/11/07/python-math/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Nov 07, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
                 
-            </span>
 
-            
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h1 id="vibora__u586B_u5751_u7B14_u8BB0"><a href="#vibora__u586B_u5751_u7B14_u8BB0" class="headerlink" title="vibora 填坑笔记"></a>vibora 填坑笔记</h1><blockquote>
+<p>学习 asyncio 时无意间发现的高性能 Web 框架，正好 Django 学累了，换换口味。</p>
+</blockquote>
+<h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p>Vibora 是一个基于 python 3.6+的高性能简洁的异步 http C/S 框架，因为是才出来的项目，这里面还有不少坑。</p>
+<p>首先是安装，<code>python3.6+</code> 才能体验完整的特性。这里使用的是 Vibora 0.06。</p>
+<pre class=" language-bash"><code class="language-bash">pip <span class="token function">install</span> vibora<span class="token punctuation">[</span>fast<span class="token punctuation">]</span>
+</code></pre>
+<p>启动 Vibora 非常的简单，新建一个 <code>main.py</code> 并填写以下代码，运行 <code>python main.py</code> 即可运行一个经典的 <code>Hello World</code> Web 服务器。简洁性非常类似 Flask。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> vibora <span class="token keyword">import</span> Vibora
+<span class="token keyword">from</span> vibora<span class="token punctuation">.</span>responses <span class="token keyword">import</span> Response
 
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
+
+app <span class="token operator">=</span> Vibora<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">home</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> Response<span class="token punctuation">(</span>b<span class="token string">"Hello  World!"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>debug<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">8000</span><span class="token punctuation">)</span>
+</code></pre>
+<p>这里要注意的是， <code>Response(b&quot;Hello  World!&quot;)</code> 中的 <strong>b</strong> 是万万不能少的，Response 里传递的是 bytes 对象，所以只能是英文字符，那么问题来了，如果想传中文怎么办？将其改成 <code>Response(f&#39;你好，世界&#39;.encode(&#39;utf-8&#39;))</code>，其中<code>&#39;utf-8&#39;</code>是省略可以不写的。</p>
+<h2 id="u8DEF_u7531"><a href="#u8DEF_u7531" class="headerlink" title="路由"></a>路由</h2><p>类似 Flask 的方式，使用装饰器的方式来快速设置路由，其中 methods 默认为 GET 。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">"/home"</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'GET'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">home</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> Response<span class="token punctuation">(</span>b<span class="token string">'123'</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="URL_u8BF7_u6C42_u53C2_u6570"><a href="#URL_u8BF7_u6C42_u53C2_u6570" class="headerlink" title="URL请求参数"></a>URL请求参数</h3><p>除了上面的静态路由，也有动态的路由。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/&lt;page_id>'</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">page</span><span class="token punctuation">(</span>page_id<span class="token punctuation">:</span> int<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> Response<span class="token punctuation">(</span>f<span class="token string">'Page {page_id}'</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>尖括号中的是变量名字，传入函数时一定要加上类型， Vibora 在某种程度上对类型的要求比较严格，在字符串中，使用花括号将变量包裹可以由 Response 之后进行转义。</p>
+<h3 id="u8DEF_u7531_u903B_u8F91"><a href="#u8DEF_u7531_u903B_u8F91" class="headerlink" title="路由逻辑"></a>路由逻辑</h3><p>Vibora 有三种路由逻辑：</p>
+<ul>
+<li><strong>Strict</strong> 严格要求ULR，路径缺少<code>/</code>会跳转到404</li>
+<li><strong>Redirect (默认的方式)</strong> 路径缺少<code>/</code>会进行302跳转</li>
+<li><strong>Clone</strong> 类似重定向，但不会是302</li>
+</ul>
+<p>可以在应用运行前设置。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> vibora <span class="token keyword">import</span> Vibora
+<span class="token keyword">from</span> vibora<span class="token punctuation">.</span>router <span class="token keyword">import</span> RouterStrategy
+
+app <span class="token operator">=</span> Vibora<span class="token punctuation">(</span>router_strategy<span class="token operator">=</span>RouterStrategy<span class="token punctuation">.</span>STRICT<span class="token punctuation">)</span>
+</code></pre>
+
+    
+
+    
 </div>
 
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/10/21/Dairy-4/">感觉挺伤的</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            之前在edx上学习MIT6.001x,辛辛苦苦一大半，已经是拿到B了，就差最后的quiz就能拿A，结果现在连课程记录都没了。没想到毁在照片当初拍的不...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/10/21/Dairy-4/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Oct 21, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
                 
-            </span>
 
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/09/27/csapp-2/">读书笔记——CSAPP第二章</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-CSAPP(Computer Systems: A Programmer’s Perspective )，中文书名为深入理解计算机系统。这本书的好不需多言。为了锻炼英文阅读能力，我特地买的是英文原版。第一章比较简短，简单的从一段Hello World C程序，慢慢深入计算机底层的运行机制。可以说这一章就是本书的框架。以下是从第二章开始，记录了我遇到的困惑，一些简单的就不再介绍，书上已经写的很详细。
-
-
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/09/27/csapp-2/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Sep 27, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
+                <!-- Post Comments -->
                 
-            </span>
+                    
 
-            
 
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
+    <!-- 使用 DISQUS -->
+    <div id="disqus-comment">
+        <div id="disqus_thread"></div>
+<script>
+    queue.offer(function() {
+            var disqus_config = function () {
+                this.page.url = 'http://xinqiu.me/2018/07/09/learn-vibora/index.html';  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
 
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/09/11/Me/">Me</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/09/11/Me/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Sep 11, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/AboutMe/">AboutMe</a>
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/08/31/CLRS-1/">算法导论第2章算法基础练习</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-2.1-1Using Figure 2.2 as a model, illustrate the operation of INSERTION-SORT on the array A = &lt;31, 41, 59, 26, 41, 58&gt;.
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/08/31/CLRS-1/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Aug 31, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/07/26/Raspberry-Pi-2/">Raspberry Pi 2 上手</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-家里的1代内存小，性能渣，所以入了新的2代。
-
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/07/26/Raspberry-Pi-2/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Jul 26, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/07/09/Dairy-3/">想有一个不一样的暑假</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            今年的高考，却已与我无关。直到7、8、9过后，才意识到一年是如此的快。说起来，这一年，在风吹日晒中，磨去了一些锐气和年少轻狂，沉淀了些特立独行的沉默...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/07/09/Dairy-3/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Jul 09, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/06/09/C-Pointers/">&lt;&lt;深入理解C指针&gt;&gt;读书笔记</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-指针可以说是C的灵魂，C语言入门很容易，但想精通，就必须要对指针有很透彻的理解。大一上学期学了一遍C语言，然而指针这个最重要的地方，却没有好好的深入研究。这本&lt;&lt;深入理解C指针&gt;&gt;虽然谈不上讲到多少指针的奇巧淫技，但作为复习指针的相关知识，还是可以稍微读读。
-
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/06/09/C-Pointers/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Jun 09, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-
-    
-    <!-- Index nav -->
-        <nav class="material-nav mdl-cell mdl-cell--12-col">
-            <span class="page-number current">1</span><a class="page-number" href="/archives/2015/page/2/">2</a><a class="extend next" rel="next" href="/archives/2015/page/2/"><button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"><i class="material-icons" role="presentation">arrow_forward</i></button></a>
-        </nav>
-    
-
-    
-        <script>
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')')
-
-        locatePost = locatePost.next();
-    }
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document;
+                var s = d.createElement('script');
+                s.src = '//xinqiu.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        });
 </script>
 
+    </div>
+    <style>
+        #disqus-comment{
+            background-color: #eee;
+            padding: 2pc;
+        }
+    </style>
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
     
-</div>
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/04/20/widance/" id="post_nav-older" class="next-content">
+            Older
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
