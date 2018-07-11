@@ -248,7 +248,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#vibora__u586B_u5751_u7B14_u8BB0"><span class="post-toc-number">1.</span> <span class="post-toc-text">vibora 填坑笔记</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u7B80_u4ECB"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u8DEF_u7531"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">路由</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#URL_u8BF7_u6C42_u53C2_u6570"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">URL请求参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u8DEF_u7531_u903B_u8F91"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">路由逻辑</span></a></li></ol></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#vibora__u586B_u5751_u7B14_u8BB0"><span class="post-toc-number">1.</span> <span class="post-toc-text">vibora 填坑笔记</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u7B80_u4ECB"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u8DEF_u7531"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">路由</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#URL_u8BF7_u6C42_u53C2_u6570"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">URL请求参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u8DEF_u7531_u903B_u8F91"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">路由逻辑</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u9759_u6001_u6587_u4EF6"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">静态文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u8BF7_u6C42_u56DE_u5E94"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">请求回应</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JSON_Response"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">JSON Response</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Streaming_Response"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">Streaming Response</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u6E32_u67D3_u6A21_u677F"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">渲染模板</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u8868_u5355"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">表单</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u4F7F_u7528_Schema"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">使用 Schema</span></a></li></ol></li></ol></li></ol>
 
         <!--
         <li class="mdl-menu__item">
@@ -451,6 +451,93 @@ app <span class="token operator">=</span> Vibora<span class="token punctuation">
 
 app <span class="token operator">=</span> Vibora<span class="token punctuation">(</span>router_strategy<span class="token operator">=</span>RouterStrategy<span class="token punctuation">.</span>STRICT<span class="token punctuation">)</span>
 </code></pre>
+<h3 id="u9759_u6001_u6587_u4EF6"><a href="#u9759_u6001_u6587_u4EF6" class="headerlink" title="静态文件"></a>静态文件</h3><p>Vibora提供了静态文件的特性，通过设置目录。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> vibora<span class="token punctuation">.</span>static <span class="token keyword">import</span> StaticHandler
+
+app <span class="token operator">=</span> Vibora<span class="token punctuation">(</span>
+    static<span class="token operator">=</span>StaticHandler<span class="token punctuation">(</span>
+        paths<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'/your_static_dir'</span><span class="token punctuation">,</span> <span class="token string">'/second_static_dir'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        host<span class="token operator">=</span><span class="token string">'static.vibora.io'</span><span class="token punctuation">,</span>
+        url_prefix<span class="token operator">=</span><span class="token string">'/static'</span><span class="token punctuation">,</span>
+        max_cache_size<span class="token operator">=</span><span class="token number">1</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+</code></pre>
+<h2 id="u8BF7_u6C42_u56DE_u5E94"><a href="#u8BF7_u6C42_u56DE_u5E94" class="headerlink" title="请求回应"></a>请求回应</h2><h3 id="JSON_Response"><a href="#JSON_Response" class="headerlink" title="JSON Response"></a>JSON Response</h3><p>除了简介里提到的普通回应，这里还有一种 Json 回应，非常适合做成 restful api。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> vibora <span class="token keyword">import</span> Vibora
+<span class="token keyword">from</span> vibora<span class="token punctuation">.</span>responses <span class="token keyword">import</span> JsonResponse
+
+
+app <span class="token operator">=</span> Vibora<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/api'</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">api</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> JsonResponse<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'Hello'</span><span class="token punctuation">:</span> <span class="token string">'world'</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>debug<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">8000</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="Streaming_Response"><a href="#Streaming_Response" class="headerlink" title="Streaming Response"></a>Streaming Response</h3><p>如果客户端发来请求，服务器需要一些耗时操作之后才能返回结果，为了不阻塞其他的客户端请求，这里构造了一个异步操作，使用流式回应，可以等服务端处理好时，及时返回给客户端，客户端并不需要端口连接。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/home'</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'GET'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">home</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">stream_builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> x <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">yield</span> str<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> StreamingResponse<span class="token punctuation">(</span>stream_builder<span class="token punctuation">,</span> chunk_timeout<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> complete_timeout<span class="token operator">=</span><span class="token number">30</span><span class="token punctuation">)</span>
+</code></pre>
+<p>其中，<code>StreamingResponse</code> 第一个参数必须是一个可回调的函数， <code>chunk_timeout</code> 的机制我还没摸索透，阅读源码会发现，应该是指传输这个流的时间限制，其调用的是 <code>stream_chunked_response</code> 这个函数，这里面会发现， <code>chunk_timeout</code> 就是这里异步传送 chunk 的时限。 <code>complete_timeout</code> 很好理解，就是启用这个流的时间，如果流数据传送时间超过这个 timeout，这个回应就会关闭，这样操作可以有效的防止DDoS。</p>
+<h3 id="u6E32_u67D3_u6A21_u677F"><a href="#u6E32_u67D3_u6A21_u677F" class="headerlink" title="渲染模板"></a>渲染模板</h3><p>其实模板引擎算是单独的一个章节，但很多情况下，Response是用于api的访问，而页面访问，大多是进行渲染传递特殊的数据。渲染操作非常类似 Jinja2。</p>
+<p>这里是需要将模板页面放在模板文件夹里的，默认的模板路径是python脚本的同一层级，也就是</p>
+<pre><code>.
+├── main.py
+└── templates
+    └── index.html
+</code></pre><p>这里 <code>index.html</code> 就是简单的模板 HTML</p>
+<pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Title<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+这是第 {{ tmp }} 页
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>使用 await app.render 来进行渲染页面，后面的参数即为需要传递的参数，在上面的模板中，使用 <code></code> 将传递的变量名包裹，这样就能显示由后端传递到前端的变量值。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/&lt;page_id>'</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">home</span><span class="token punctuation">(</span>page_id<span class="token punctuation">:</span> int<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token keyword">await</span> app<span class="token punctuation">.</span>render<span class="token punctuation">(</span><span class="token string">'index.html'</span><span class="token punctuation">,</span> tmp<span class="token operator">=</span>page_id<span class="token punctuation">)</span>
+</code></pre>
+<p>因为和 Jinja2 几乎是一样的，所以完全可以用 Jinja2 的思路来写模板，确实减少了不少学习成本。</p>
+<h2 id="u8868_u5355"><a href="#u8868_u5355" class="headerlink" title="表单"></a>表单</h2><p>目前 Vibora 貌似只提供了部分简单的表单功能。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/form'</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'POST'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">form</span><span class="token punctuation">(</span>request<span class="token punctuation">:</span> Request<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    form <span class="token operator">=</span> <span class="token keyword">await</span> request<span class="token punctuation">.</span>form<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> JsonResponse<span class="token punctuation">(</span>form<span class="token punctuation">)</span>
+</code></pre>
+<p> 以上实现了将读到的表单以JSON的形式返回。这里就牵扯到一个使用curl测试的问题，之前测试了半天，发现后端一直无法得到post的数据，换了Postman却有用，查了半天才知道原来是curl的参数使用错了，以为使用 -d 然后写json就可以发送，其实curl会以application/x-www-url-encoded格式上传参数，真正需要用-F才行，使用-F参数，curl会以multipart/form-data的方式发送POST请求。</p>
+<h3 id="u4F7F_u7528_Schema"><a href="#u4F7F_u7528_Schema" class="headerlink" title="使用 Schema"></a>使用 Schema</h3><p> 之前介绍了简单的表单功能，实际情况中，表单的格式是需要固定的，这里就引入了 Schema。Schema 可以来约定表单的格式。</p>
+<pre class=" language-python"><code class="language-python"> <span class="token keyword">from</span> vibora<span class="token punctuation">.</span>schemas <span class="token keyword">import</span> Schema
+
+ <span class="token keyword">class</span> <span class="token class-name">SimpleSchema</span><span class="token punctuation">(</span>Schema<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name<span class="token punctuation">:</span> str
+</code></pre>
+<p>在自定义的 Schema 类中，需要填写变量名和类型，这种没有用到 fields 的方式是用来接收 JSON 格式的表单。</p>
+<pre class=" language-python"><code class="language-python">@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/form'</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'POST'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">form</span><span class="token punctuation">(</span>request<span class="token punctuation">:</span> Request<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    schema <span class="token operator">=</span> <span class="token keyword">await</span> SimpleSchema<span class="token punctuation">.</span>load_json<span class="token punctuation">(</span>request<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> JsonResponse<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'name'</span><span class="token punctuation">:</span> schema<span class="token punctuation">.</span>name<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>使用 <code>.load_json()</code> 可以将 request 转化为上面定义的 Schema 格式。</p>
+<p>介绍完简单的 JSON 方式，普通的表单方式， Schema 里则需要一些修改，必须告诉 Schema 更多详细的字段。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">SimpleSchema</span><span class="token punctuation">(</span>Schema<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name<span class="token punctuation">:</span> str <span class="token operator">=</span> fields<span class="token punctuation">.</span>String<span class="token punctuation">(</span>required<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+</code></pre>
+<p>这样就简单的定义了一个正常 form 的 Schema，其中 <code>required</code> 字段默认为 True，也就是说如果 POST 没有提交这个数据，就会引起错误，如果是 False，那么如果没有提交这个数据，这个变量的值就默认为 null。<code>fields.String</code> 里还有 <code>load_from</code>, <code>default</code>, <code>validators</code> 这些参数， <code>validators</code> 在当前 <code>Vibora 0.0.6</code> 还不能用，所以这几个参数之后再细细研究。 正常 form 变成 Scheme 也很类似 JSON的方式，将 <code>SimpleSchema.load_json</code> 修改为 <code>SimpleSchema.load_form</code> 即可。</p>
 
     
 
