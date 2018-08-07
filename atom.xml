@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2018-07-11T01:53:45.000Z</updated>
+  <updated>2018-08-07T08:40:38.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -14,6 +14,140 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在Python中使用gRPC</title>
+    <link href="http://xinqiu.me/2018/08/07/learn-grpc/"/>
+    <id>http://xinqiu.me/2018/08/07/learn-grpc/</id>
+    <published>2018-08-06T16:00:00.000Z</published>
+    <updated>2018-08-07T08:40:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p><img src="https://grpc.io/img/landing-2.svg" alt=""></p>
+<p>使用Protocol Buffers的跨平台RPC系统。</p>
+<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><p>使用 pip</p>
+<pre class=" language-bash"><code class="language-bash">pip <span class="token function">install</span> grpcio
+pip <span class="token function">install</span> grpcio-tools googleapis-common-protos
+</code></pre>
+<p>gRPC由两个部分构成，grpcio 和 gRPC 工具， 后者是编译 protocol buffer 以及提供生成代码的插件。</p>
+<h2 id="u4F7F_u7528"><a href="#u4F7F_u7528" class="headerlink" title="使用"></a>使用</h2><h3 id="u7F16_u5199protocol_buffer"><a href="#u7F16_u5199protocol_buffer" class="headerlink" title="编写protocol buffer"></a>编写protocol buffer</h3><p>使用 gRPC 首先需要做的是设计 protocol buffer。新建一个 <code>msg.proto</code>文件。</p>
+<pre><code>syntax = &quot;proto3&quot;;
+
+service MsgService {
+  rpc GetMsg (MsgRequest) returns (MsgResponse){}
+}
+
+message MsgRequest {
+    string name = 1;
+}
+
+message MsgResponse {
+    string msg = 1;
+}
+</code></pre><p>以上面的这个消息服务为例，首先是规定语法，这里使用的是 <code>proto3</code> 的语法。接着使用 <code>service</code> 关键字定义服务，gRPC  提供4种 RPC 类型的服务，这里定义的是第一种单一请求单一回应，类似普通的函数调用，其他的使用到了 <code>stream</code> 关键字，将其放在括号里，代表这个数据是流数据。这个以后再来研究，本次先设计一个简单的RPC。</p>
+<p>之后定义两个 <code>message</code>，一个是请求的结构，一个是回应的结果。 这里表示这个数据结构是字符串，protocol buffer 还可以定义为 int32，int64，double，float 等等。这里赋予的初值可以随便填写，实际使用中，会被赋予新的值。</p>
+<h3 id="u751F_u6210_u63A5_u53E3_u4EE3_u7801"><a href="#u751F_u6210_u63A5_u53E3_u4EE3_u7801" class="headerlink" title="生成接口代码"></a>生成接口代码</h3><p>因为之前安装好了一些辅助插件，使用这里直接可以生成。</p>
+<pre class=" language-bash"><code class="language-bash">python -m grpc_tools.protoc -I <span class="token keyword">.</span> --pythoout<span class="token operator">=</span>. --grpc_python_out<span class="token operator">=</span>. msg.proto
+</code></pre>
+<p>这里会生成两个文件，<code>msg_pb2.py</code> 和 <code>msg_pb2_grpc.py</code>。这两个文件是为后续的服务端和客户端所用。前者是定义了一些变量，例如 <code>_MSGREQUEST</code> 中就包含了请求函数的名字，可接受的变量，实际上还是 <code>msg.proto</code> 里定义的东西。</p>
+<h3 id="u521B_u5EFA_u670D_u52A1_u7AEF"><a href="#u521B_u5EFA_u670D_u52A1_u7AEF" class="headerlink" title="创建服务端"></a>创建服务端</h3><p>首先需要导入 RPC 必备的包，以及刚才生成的两个文件。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> grpc
+<span class="token keyword">import</span> msg_pb2
+<span class="token keyword">import</span> msg_pb2_grpc
+</code></pre>
+<p>因为 RPC 应该长时间运行，考虑到性能，还需要用到并发的库。</p>
+<pre><code>from concurrent import futures
+import time
+
+_ONE_DAY_IN_SECONDS = 60 * 60 * 24
+</code></pre><p>在 Server 中，主要是实现服务，按照 <code>msg.proto</code> 定义的，这里需要写一个服务类 <code>MsgServicer</code>，这个类需要实现之前定义的 <code>GetMsg</code>。 </p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">MsgServicer</span><span class="token punctuation">(</span>msg_pb2_grpc<span class="token punctuation">.</span>MsgServiceServicer<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">GetMsg</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Received name: %s"</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> msg_pb2<span class="token punctuation">.</span>MsgResponse<span class="token punctuation">(</span>msg<span class="token operator">=</span><span class="token string">'Hello, %s!'</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+</code></pre>
+<p>GetMsg 接收到的请求是在 <code>request</code> 中，<code>msg.proto</code> 中定义的 <code>name</code> 就是 <code>request.name</code>，接着在 GetMsg 中设计 <code>msg.proto</code> 中定义的 <code>MsgResponse</code>。</p>
+<p>之后实现启动服务的部分即可。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">serve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    server <span class="token operator">=</span> grpc<span class="token punctuation">.</span>server<span class="token punctuation">(</span>futures<span class="token punctuation">.</span>ThreadPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    msg_pb2_grpc<span class="token punctuation">.</span>add_MsgServiceServicer_to_server<span class="token punctuation">(</span>MsgServicer<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> server<span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>add_insecure_port<span class="token punctuation">(</span><span class="token string">'[::]:50051'</span><span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>_ONE_DAY_IN_SECONDS<span class="token punctuation">)</span>
+    <span class="token keyword">except</span> KeyboardInterrupt<span class="token punctuation">:</span>
+        server<span class="token punctuation">.</span>stop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+</code></pre>
+<p>通过并发库，将服务端放到多进程里运行。</p>
+<p>完整 <code>msg_server.py</code> 代码如下</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> grpc
+<span class="token keyword">import</span> msg_pb2
+<span class="token keyword">import</span> msg_pb2_grpc
+
+<span class="token keyword">from</span> concurrent <span class="token keyword">import</span> futures
+<span class="token keyword">import</span> time
+
+_ONE_DAY_IN_SECONDS <span class="token operator">=</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">24</span>
+
+
+<span class="token keyword">class</span> <span class="token class-name">MsgServicer</span><span class="token punctuation">(</span>msg_pb2_grpc<span class="token punctuation">.</span>MsgServiceServicer<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">GetMsg</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Received name: %s"</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> msg_pb2<span class="token punctuation">.</span>MsgResponse<span class="token punctuation">(</span>msg<span class="token operator">=</span><span class="token string">'Hello, %s!'</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">serve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    server <span class="token operator">=</span> grpc<span class="token punctuation">.</span>server<span class="token punctuation">(</span>futures<span class="token punctuation">.</span>ThreadPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    msg_pb2_grpc<span class="token punctuation">.</span>add_MsgServiceServicer_to_server<span class="token punctuation">(</span>MsgServicer<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> server<span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>add_insecure_port<span class="token punctuation">(</span><span class="token string">'[::]:50051'</span><span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>_ONE_DAY_IN_SECONDS<span class="token punctuation">)</span>
+    <span class="token keyword">except</span> KeyboardInterrupt<span class="token punctuation">:</span>
+        server<span class="token punctuation">.</span>stop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    serve<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="u521B_u5EFA_u5BA2_u6237_u7AEF"><a href="#u521B_u5EFA_u5BA2_u6237_u7AEF" class="headerlink" title="创建客户端"></a>创建客户端</h3><p>客户端相对简单一些，这里我写了一个简单的客户端。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> grpc
+
+<span class="token keyword">import</span> msg_pb2
+<span class="token keyword">import</span> msg_pb2_grpc
+
+<span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># NOTE(gRPC Python Team): .close() is possible on a channel and should be</span>
+    <span class="token comment" spellcheck="true"># used in circumstances in which the with statement does not fit the needs</span>
+    <span class="token comment" spellcheck="true"># of the code.</span>
+    <span class="token keyword">with</span> grpc<span class="token punctuation">.</span>insecure_channel<span class="token punctuation">(</span><span class="token string">'localhost:50051'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> channel<span class="token punctuation">:</span>
+        stub <span class="token operator">=</span> msg_pb2_grpc<span class="token punctuation">.</span>MsgServiceStub<span class="token punctuation">(</span>channel<span class="token punctuation">)</span>
+        response <span class="token operator">=</span> stub<span class="token punctuation">.</span>GetMsg<span class="token punctuation">(</span>msg_pb2<span class="token punctuation">.</span>MsgRequest<span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">'world'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Client received: "</span> <span class="token operator">+</span> response<span class="token punctuation">.</span>msg<span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    run<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>使用 <code>grpc.insecure_channel(&#39;localhost:50051&#39;)</code> 进行连接 服务端， 接着在这个 <code>channel</code> 上创建 <code>stub</code>， 在 <code>msg_pb2_grpc</code> 里可以找到 <code>MsgServiceStub</code> 这个类相关信息。这个 <code>stub</code> 可以调用远程的 <code>GetMsg</code> 函数。 <code>MsgRequest</code> 中的 <code>name</code> 即 <code>msg.proto</code> 中定义的数据。在回应里可以得到 <code>msg.proto</code> 中定义的 <code>msg</code>。</p>
+<h3 id="u8FD0_u884C"><a href="#u8FD0_u884C" class="headerlink" title="运行"></a>运行</h3><p>首先运行 <code>python msg_server.py</code> 启动服务端，接着运行 <code>python msg_client.py</code> 机会看到客户端接收到了服务端传来的消息。以上就是一个简单的 RPC 的使用。</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>这里只是简单的用了一下 gRPC，关于另外三种模式，还在摸索。比起gRPC，我感觉简单 RestFul 更讨我喜欢。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      学习gRPC
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://xinqiu.me/tags/python/"/>
+    
+      <category term="grpc" scheme="http://xinqiu.me/tags/grpc/"/>
+    
+  </entry>
   
   <entry>
     <title>Vibora 填坑笔记</title>
@@ -4957,472 +5091,6 @@ e8 2f 68 55
     
     
       <category term="csapp" scheme="http://xinqiu.me/tags/csapp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>清华操作系统课程学习</title>
-    <link href="http://xinqiu.me/2016/03/17/ucore/"/>
-    <id>http://xinqiu.me/2016/03/17/ucore/</id>
-    <published>2016-03-16T16:00:00.000Z</published>
-    <updated>2016-04-28T14:27:09.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>因为学习操作系统，因为还有一些其他事情要做，所以没有直接上MIT 6.828,选择了清华的操作系统课和配套的ucore。</p>
-</blockquote>
-<h2 id="u4ECE_u673A_u5668_u542F_u52A8_u5230_u64CD_u4F5C_u7CFB_u7EDF_u8FD0_u884C_u7684_u8FC7_u7A0B"><a href="#u4ECE_u673A_u5668_u542F_u52A8_u5230_u64CD_u4F5C_u7CFB_u7EDF_u8FD0_u884C_u7684_u8FC7_u7A0B" class="headerlink" title="从机器启动到操作系统运行的过程"></a>从机器启动到操作系统运行的过程</h2><p>在机器接通电源后， 会向主板发送一个信号。一旦主板收到电源妥协信号后，主板会尝试启动CPU，CPU复位寄存器里的所有数据， 设置预定值给每个寄存器。同时执行系统初始化软件完成基本IO初始化和引导加载功能。为最终调用操作系统内核准备好正确的环境。最终引导加载程序把操作系统内核映像加载到RAM中，并将系统控制权传递给它。</p>
-<p>以Intel 80386为例，计算机加电后，CPU从物理地址0xFFFFFFF0(由初始化的CS：EIP确定，此时CS和IP的值分别是0xF000和0xFFF0)开始执行。8086 处理器有一个20位寻址总线，这意味着它可以对0到 2^20 位地址空间进行操作（ 1Mb ）。不过它只有16位的寄存器，通过这个16位寄存器最大寻址是 2^16 即 0xffff （64 Kb）。实模式使用分段机制来管理整个内存空间。所有内存被分成固定的 64KB 大小的小块。由于我们不能用16位寄存器寻址大于 64KB 的内存，一种替代的方法被设计出来了。一个地址包括两个部分：数据段起始地址和从该数据段起的偏移量。为了得到内存中的物理地址，我们要让数据段乘16并加上偏移量：</p>
-<pre><code>PhysicalAddress = Segment * 16 + Offset
-</code></pre><p>通过阅读 kernel boot protocol，在内核被引导如内存后，内存使用情况将入下表所示：</p>
-<pre><code>         | Protected-mode kernel  |
-100000   +------------------------+
-         | I/O memory hole        |
-0A0000   +------------------------+
-         | Reserved for BIOS      | Leave as much as possible unused
-         ~                        ~
-         | Command line           | (Can also be below the X+10000 mark)
-X+10000  +------------------------+
-         | Stack/heap             | For use by the kernel real-mode code.
-X+08000  +------------------------+
-         | Kernel setup           | The kernel real-mode code.
-         | Kernel boot sector     | The kernel legacy boot sector.
-       X +------------------------+
-         | Boot loader            | &lt;- Boot sector entry point 0x7C00
-001000   +------------------------+
-         | Reserved for MBR/BIOS  |
-000800   +------------------------+
-         | Typically used by MBR  |
-000600   +------------------------+
-         | BIOS use only          |
-000000   +------------------------+
-</code></pre><p>所以当 bootloader 完成任务，将执行权移交给 kernel，kernel 的代码从以下地址开始执行：</p>
-<pre><code>0x1000 + X + sizeof(KernelBootSector) + 1
-</code></pre><p>上面的公式中， X 是 kernel bootsector 被引导如内存的位置。</p>
-<h2 id="Lab_1"><a href="#Lab_1" class="headerlink" title="Lab 1"></a>Lab 1</h2><h3 id="u7EC3_u4E601"><a href="#u7EC3_u4E601" class="headerlink" title="练习1"></a>练习1</h3><p>1.操作系统镜像文件ucore.img是如何一步一步生成的？</p>
-<p>在进行 <code>make V=</code>后，通过显示的信息，可以知道先对C文件进行了编译。分别编译了一下文件:</p>
-<ul>
-<li>cc kern/init/init.c 初始化系统</li>
-<li>cc kern/libs/readline.c 从输入中读取一行</li>
-<li>cc kern/libs/stdio.c 标准化IO</li>
-<li>cc kern/debug/kdebug.c debug支撑文件</li>
-<li>cc kern/debug/kmonitor.c 命令行显示器</li>
-<li>cc kern/debug/panic.c 显示错误警告</li>
-<li>cc kern/driver/clock.c 时钟相关</li>
-<li>cc kern/driver/console.c 控制台显示</li>
-<li>cc kern/driver/intr.c 中断请求</li>
-<li>cc kern/driver/picirq.c 中断控制器</li>
-<li>cc kern/trap/trap.c 中断处理</li>
-<li>cc kern/trap/trapentry.S 中断预处理</li>
-<li>cc kern/trap/vectors.S 中断向量表</li>
-<li>cc kern/mm/pmm.c 全局描述符表</li>
-<li>cc libs/printfmt.c 输出格式</li>
-<li>cc libs/string.c 字符串操作</li>
-<li>cc boot/bootasm.S Boot Loader程序</li>
-<li>cc boot/bootmain.c Boot Loader程序</li>
-<li>cc tools/sign.c 硬盘主引导扇区检测</li>
-</ul>
-<p>接着 <code>ld</code> 命令对编译好的 <code>.o</code> 文件进行链接，生成了引导扇区。</p>
-<p>之后用 <code>dd</code> 创建了一块空间，并将 <code>bootblock</code> 放入这块空间做成 <code>img</code> 硬盘。</p>
-<p>2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么？</p>
-<p>从 <code>tools/sign.c</code> 源文件中可以得知， </p>
-<pre class=" language-C"><code class="language-C">
-.....
-if (st.st_size > 510) {
-        fprintf(stderr, "%lld >> 510!!\n", (long long)st.st_size);
-        return -1;
-}
-char buf[512];
-......
-buf[510] = 0x55;
-buf[511] = 0xAA;
-......
-if (size != 512) {
-    fprintf(stderr, "write '%s' error, size is %d.\n", argv[2], size);
-    return -1;
-}
-fclose(ofp);
-printf("build 512 bytes boot sector: '%s' success!\n", argv[2]);
-......
-</code></pre>
-<p>规范的硬盘主引导扇区大小为512， 并且最后两位必须是 <code>0x55AA</code>.</p>
-<h3 id="u7EC3_u4E602"><a href="#u7EC3_u4E602" class="headerlink" title="练习2"></a>练习2</h3><p>使用qemu执行并调试lab1中的软件，要做一下几个操作：</p>
-<ol>
-<li><p>从CPU加电后执行的第一条指令开始，单步跟踪BIOS的执行。</p>
-</li>
-<li><p>在初始化位置0x7c00设置实地址断点,测试断点正常。</p>
-</li>
-<li><p>从0x7c00开始跟踪代码运行,将单步跟踪反汇编得到的代码与bootasm.S和 bootblock.asm进行比较。</p>
-</li>
-<li><p>自己找一个bootloader或内核中的代码位置，设置断点并进行测试。</p>
-</li>
-</ol>
-<p>根据参考的提示，在 <code>.PHONY: qemu qemu-nox debug debug-nox</code> 下添加</p>
-<pre><code>lab1-mon: $(UCOREIMG)
-    $(V)$(TERMINAL) -e &quot;$(QEMU) -S -s -d in_asm -D $(BINDIR)/q.log -monitor stdio -hda $&lt; -serial null&quot;
-    $(V)sleep 2
-    $(V)$(TERMINAL) -e &quot;gdb -q -x tools/lab1init&quot;
-</code></pre><p>在调用qemu时添加-d in_asm -D q.log参数可以将运行的汇编指令保存在q.log中。</p>
-<p>另外需要先在<code>lab1/tools/</code>文件夹下新建一个<code>lab1init</code>文件。添加以下内容</p>
-<pre><code>file bin/kernel
-target remote :1234
-set architecture i8086
-break *0x7c00
-continue
-x /2i $pc
-</code></pre><p>分别代表加载kernel， 与qemu链接， BIOS是i8086 16位实模式， 在0x7c00处设置断点， 继续运行， 显示指令寄存器上的两条指令。</p>
-<p>make lab1-mon 产生的汇编代码还是稍微有点区别，主要在0x7c1e开始有点区别。</p>
-<p>#####gdb的单步命令</p>
-<p>在gdb中，有next, nexti, step, stepi等指令来单步调试程序，他们功能各不相同，区别在于单步的“跨度”上。</p>
-<ul>
-<li>next 单步到程序源代码的下一行，不进入函数。</li>
-<li>nexti 单步一条机器指令，不进入函数。</li>
-<li>step 单步到下一个不同的源代码行（包括进入函数）。</li>
-<li>stepi 单步一条机器指令。</li>
-</ul>
-<h3 id="u7EC3_u4E603"><a href="#u7EC3_u4E603" class="headerlink" title="练习3"></a>练习3</h3><p>参考<a href="http://blog.csdn.net/xiaocainiaoshangxiao/article/details/22417237" target="_blank" rel="external">MIT6.828 boot.S文件分析</a>这篇文章。</p>
-<pre><code>#include &lt;asm.h&gt;
-
-# Start the CPU: switch to 32-bit protected mode, jump into C.
-# The BIOS loads this code from the first sector of the hard disk into
-# memory at physical address 0x7c00 and starts executing in real mode
-# with %cs=0 %ip=7c00.
-
-#启动CPU，切换到32位保护模式，跳转到C代码  
-#BIOS从硬盘的第一个扇区加载这个代码到  
-#物理内存地址为0x7c00的地方，cs=0,ip=7c00  
-
-#下面的3条.set指令类似于宏定义  
-#内核代码段选择子
-.set PROT_MODE_CSEG,        0x8                     # kernel code segment selector
-#内核数据段选择子 
-.set PROT_MODE_DSEG,        0x10                    # kernel data segment selector
-#保护模式使能标志
-.set CR0_PE_ON,             0x1                     # protected mode enable flag
-
-# start address should be 0:7c00, in real mode, the beginning address of the running bootloader
-#开始地址在实模式下是0:7c00，这个开始地址就是运行bootloader的地址
-
-#定义一个全局名字start 
-.globl start
-start:
-#CPU启动为16位模式 
-.code16                                             # Assemble for 16-bit mode
-    #关中断
-    cli                                             # Disable interrupts
-    #清除方向标志 
-    cld                                             # String operations increment
-
-    # Set up the important data segment registers (DS, ES, SS).
-    #设置重要的数据段寄存器  
-    #ax,ds, es, ss清零
-    xorw %ax, %ax                                   # Segment number zero
-    movw %ax, %ds                                   # -&gt; Data Segment
-    movw %ax, %es                                   # -&gt; Extra Segment
-    movw %ax, %ss                                   # -&gt; Stack Segment
-
-    # Enable A20:
-    #  For backwards compatibility with the earliest PCs, physical
-    #  address line 20 is tied low, so that addresses higher than
-    #  1MB wrap around to zero by default. This code undoes this.
-    #打开A20地址线  
-    #为了兼容早期的PC机，第20根地址线在实模式下不能使用  
-    #所以超过1MB的地址，默认就会返回到地址0，重新从0循环计数，  
-    #下面的代码打开A20地址线 
-seta20.1:
-    #从0x64端口读入一个字节的数据到al中 
-    inb $0x64, %al                                  # Wait for not busy(8042 input buffer empty).
-    testb $0x2, %al
-    #如果上面的测试中发现al的第2位为0，就不执行该指令  
-    #否则就循环检查
-    jnz seta20.1
-
-    #将0xd1写入到al中
-    movb $0xd1, %al                                 # 0xd1 -&gt; port 0x64
-    #将al中的数据写入到端口0x64中,也就是8042的P2端口
-    outb %al, $0x64                                 # 0xd1 means: write data to 8042&#39;s P2 port
-
-seta20.2:
-    inb $0x64, %al                                  # Wait for not busy(8042 input buffer empty).
-    #测试al的第2位是否为0
-    testb $0x2, %al
-    jnz seta20.2
-
-    #将0xdf写入到al中 
-    movb $0xdf, %al                                 # 0xdf -&gt; port 0x60
-    #将al中的数据写入到0x60端口中，也就是让P2端口的A20位设置为1
-    outb %al, $0x60                                 # 0xdf = 11011111, means set P2&#39;s A20 bit(the 1 bit) to 1
-
-    # Switch from real to protected mode, using a bootstrap GDT
-    # and segment translation that makes virtual addresses
-    # identical to physical addresses, so that the
-    # effective memory map does not change during the switch.
-    #将全局描述符表描述符加载到全局描述符表寄存器
-    lgdt gdtdesc
-    #cr0中的第0位为1表示处于保护模式  
-    #cr0中的第0位为0，表示处于实模式  
-    #把控制寄存器cr0加载到eax中 
-    movl %cr0, %eax
-    #将eax中的第0位设置为1
-    orl $CR0_PE_ON, %eax
-    #将eax中的值装入cr0中 
-    movl %eax, %cr0
-
-    # Jump to next instruction, but in 32-bit code segment.
-    # Switches processor into 32-bit mode.
-    ljmp $PROT_MODE_CSEG, $protcseg
-    #跳转到32位模式中的下一条指令  
-    #将处理器切换为32位工作模式  
-    #下面这条指令执行的结果会将$PROT_MODE_CSEG加载到cs中，cs对应的高速缓冲存储器会加载代码段描述符  
-    #同样将$protcseg加载到ip中
-
-.code32                                             # Assemble for 32-bit mode
-protcseg:
-    # Set up the protected-mode data segment registers
-    #设置保护模式下的数据寄存器  
-    #将数据段选择子装入到ax中
-    movw $PROT_MODE_DSEG, %ax                       # Our data segment selector
-    #将ax装入到其他数据段寄存器中，在装入的同时，  
-    #数据段描述符会自动的加入到这些段寄存器对应的高速缓冲寄存器中 
-    movw %ax, %ds                                   # -&gt; DS: Data Segment
-    movw %ax, %es                                   # -&gt; ES: Extra Segment
-    movw %ax, %fs                                   # -&gt; FS
-    movw %ax, %gs                                   # -&gt; GS
-    movw %ax, %ss                                   # -&gt; SS: Stack Segment
-
-    # Set up the stack pointer and call into C. The stack region is from 0--start(0x7c00)
-    #设置栈指针，并且调用c函数 
-    movl $0x0, %ebp
-    #调用main.c中的bootmain函数 
-    movl $start, %esp
-    call bootmain
-
-    # If bootmain returns (it shouldn&#39;t), loop.
-    #如果bootmain返回的话，就一直循环
-spin:
-    jmp spin
-
-# Bootstrap GDT
-#强制4字节对齐
-.p2align 2                                          # force 4 byte alignment
-#全局描述符表
-gdt:
-    SEG_NULLASM                                     # null seg
-    #代码段描述符
-    SEG_ASM(STA_X|STA_R, 0x0, 0xffffffff)           # code seg for bootloader and kernel
-    #数据段描述符
-    SEG_ASM(STA_W, 0x0, 0xffffffff)                 # data seg for bootloader and kernel
-
-#全局描述符表对应的描述符 
-gdtdesc:
-    .word 0x17                                      # sizeof(gdt) - 1
-    .long gdt                                       # address gdt
-</code></pre><h3 id="u7EC3_u4E604"><a href="#u7EC3_u4E604" class="headerlink" title="练习4"></a>练习4</h3><p>通过分析源代码和通过qemu来运行并调试bootloader&amp;OS，</p>
-<ul>
-<li>bootloader如何读取硬盘扇区的？</li>
-<li>bootloader是如何加载ELF格式的OS？</li>
-</ul>
-<p>在bootmain.c中有介绍。</p>
-<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/* readsect - read a single sector at @secno into @dst */</span>
-<span class="token keyword">static</span> <span class="token keyword">void</span>
-<span class="token function">readsect</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>dst<span class="token punctuation">,</span> uint32_t secno<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// wait for disk to be ready</span>
-    <span class="token function">waitdisk</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                         <span class="token comment" spellcheck="true">// count = 1</span>
-    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F3</span><span class="token punctuation">,</span> secno <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F4</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>secno <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F5</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>secno <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F6</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>secno <span class="token operator">>></span> <span class="token number">24</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xF</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token number">0xE0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">outb</span><span class="token punctuation">(</span><span class="token number">0x1F7</span><span class="token punctuation">,</span> <span class="token number">0x20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                      <span class="token comment" spellcheck="true">// cmd 0x20 - read sectors</span>
-
-    <span class="token comment" spellcheck="true">// wait for disk to be ready</span>
-    <span class="token function">waitdisk</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// read a sector</span>
-    <span class="token function">insl</span><span class="token punctuation">(</span><span class="token number">0x1F0</span><span class="token punctuation">,</span> dst<span class="token punctuation">,</span> SECTSIZE <span class="token operator">/</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>读一个扇区的流程大致如下：</p>
-<ol>
-<li>等待磁盘准备好</li>
-<li>发出读取扇区的命令</li>
-<li>等待磁盘准备好</li>
-<li>把磁盘扇区数据读到指定内存</li>
-</ol>
-<p>通过readseg函数将OS读取到ELFHDR所指示的地址（0x10000）。<br>判断头部是否合法，如不合法直接跳出。<br>把kernel的每一个程序段都载入内存。<br>通过程序入口地址加载作为ELF可执行文件的kernel。</p>
-<h3 id="u7EC3_u4E605"><a href="#u7EC3_u4E605" class="headerlink" title="练习5"></a>练习5</h3><pre><code>/* *
- * print_stackframe - print a list of the saved eip values from the nested &#39;call&#39;
- * instructions that led to the current point of execution
- *
- * The x86 stack pointer, namely esp, points to the lowest location on the stack
- * that is currently in use. Everything below that location in stack is free. Pushing
- * a value onto the stack will invole decreasing the stack pointer and then writing
- * the value to the place that stack pointer pointes to. And popping a value do the
- * opposite.
- *
- * The ebp (base pointer) register, in contrast, is associated with the stack
- * primarily by software convention. On entry to a C function, the function&#39;s
- * prologue code normally saves the previous function&#39;s base pointer by pushing
- * it onto the stack, and then copies the current esp value into ebp for the duration
- * of the function. If all the functions in a program obey this convention,
- * then at any given point during the program&#39;s execution, it is possible to trace
- * back through the stack by following the chain of saved ebp pointers and determining
- * exactly what nested sequence of function calls caused this particular point in the
- * program to be reached. This capability can be particularly useful, for example,
- * when a particular function causes an assert failure or panic because bad arguments
- * were passed to it, but you aren&#39;t sure who passed the bad arguments. A stack
- * backtrace lets you find the offending function.
- *
- * The inline function read_ebp() can tell us the value of current ebp. And the
- * non-inline function read_eip() is useful, it can read the value of current eip,
- * since while calling this function, read_eip() can read the caller&#39;s eip from
- * stack easily.
- *
- * In print_debuginfo(), the function debuginfo_eip() can get enough information about
- * calling-chain. Finally print_stackframe() will trace and print them for debugging.
- *
- * Note that, the length of ebp-chain is limited. In boot/bootasm.S, before jumping
- * to the kernel entry, the value of ebp has been set to zero, that&#39;s the boundary.
- * */
-void
-print_stackframe(void) {
-     /* LAB1 YOUR CODE : STEP 1 */
-     /* (1) call read_ebp() to get the value of ebp. the type is (uint32_t);
-      * (2) call read_eip() to get the value of eip. the type is (uint32_t);
-      * (3) from 0 .. STACKFRAME_DEPTH
-      *    (3.1) printf value of ebp, eip
-      *    (3.2) (uint32_t)calling arguments [0..4] = the contents in address (unit32_t)ebp +2 [0..4]
-      *    (3.3) cprintf(&quot;\n&quot;);
-      *    (3.4) call print_debuginfo(eip-1) to print the C calling function name and line number, etc.
-      *    (3.5) popup a calling stackframe
-      *           NOTICE: the calling funciton&#39;s return addr eip  = ss:[ebp+4]
-      *                   the calling funciton&#39;s ebp = ss:[ebp]
-      */
-    uint32_t ebp = read_ebp();
-    uint32_t eip = read_eip();
-
-    int i, j;
-    for(i = 0; ebp != 0 &amp;&amp; i &lt; STACKFRAME_DEPTH; i++)
-    {
-        cprintf(&quot;epb:0x%08x eip:0x%08x args:&quot;, ebp, eip);
-        uint32_t *args = (uint32_t *)ebp + 2;
-        for (j = 0; j &lt; 4; j++)
-        {
-            cprintf(&quot;0x%08x &quot;, args[j]);
-        }
-        cprintf(&quot;\n&quot;);
-        print_debuginfo(eip - 1);
-        eip = ((uint32_t *)ebp)[1];
-        ebp = ((uint32_t *)ebp)[0];
-    }
-
-}
-</code></pre><p>提示还是挺详细的，按照提示一步步写就能写出。首先读取ebp和eip的值，然后将堆栈里的信息打印出来，之后移动eip和ebp。</p>
-<h3 id="u7EC3_u4E606"><a href="#u7EC3_u4E606" class="headerlink" title="练习6"></a>练习6</h3><p>1.中断描述符表（也可简称为保护模式下的中断向量表）中一个表项占多少字节？其中哪几位代表中断处理代码的入口？</p>
-<p>通过查看/kern/mm/mmh.h,将struct gatedesc中元素的位相加，共64bit也就是8个字节。另外低16bit和高16bit为段偏移量，查看这个<a href="http://wiki.osdev.org/Interrupt_Descriptor_Table" target="_blank" rel="external">资料</a>,可以知道段选择子是16bit。</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th style="text-align:center">Bit</th>
-<th style="text-align:left">Full Name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Offset</td>
-<td style="text-align:center">48..63</td>
-<td style="text-align:left">Offset 16..31</td>
-</tr>
-<tr>
-<td>P</td>
-<td style="text-align:center">47</td>
-<td style="text-align:left">Present</td>
-</tr>
-<tr>
-<td>DPL</td>
-<td style="text-align:center">45,46</td>
-<td style="text-align:left">Descriptor Privilege Level</td>
-</tr>
-<tr>
-<td>S</td>
-<td style="text-align:center">44</td>
-<td style="text-align:left">Storage Segment</td>
-</tr>
-<tr>
-<td>Type</td>
-<td style="text-align:center">40..43</td>
-<td style="text-align:left">Gate Type 0..3</td>
-</tr>
-<tr>
-<td>0</td>
-<td style="text-align:center">32..39</td>
-<td style="text-align:left">Unused 0..7</td>
-</tr>
-<tr>
-<td>Selector</td>
-<td style="text-align:center">16..31</td>
-<td style="text-align:left">Selector 0..15</td>
-</tr>
-<tr>
-<td>Offset</td>
-<td style="text-align:center">0..15</td>
-<td style="text-align:left">Offset 0..15</td>
-</tr>
-</tbody>
-</table>
-<p>2.请编程完善kern/trap/trap.c中对中断向量表进行初始化的函数idt_init。在idt_init函数中，依次对所有中断入口进行初始化。使用mmu.h中的SETGATE宏，填充idt数组内容。每个中断的入口由tools/vectors.c生成，使用trap.c中声明的vectors数组即可。</p>
-<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/* idt_init - initialize IDT to each of the entry points in kern/trap/vectors.S */</span>
-<span class="token keyword">void</span>
-<span class="token function">idt_init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-     <span class="token comment" spellcheck="true">/* LAB1 YOUR CODE : STEP 2 */</span>
-     <span class="token comment" spellcheck="true">/* (1) Where are the entry addrs of each Interrupt Service Routine (ISR)?
-      *     All ISR's entry addrs are stored in __vectors. where is uintptr_t __vectors[] ?
-      *     __vectors[] is in kern/trap/vector.S which is produced by tools/vector.c
-      *     (try "make" command in lab1, then you will find vector.S in kern/trap DIR)
-      *     You can use  "extern uintptr_t __vectors[];" to define this extern variable which will be used later.
-      * (2) Now you should setup the entries of ISR in Interrupt Description Table (IDT).
-      *     Can you see idt[256] in this file? Yes, it's IDT! you can use SETGATE macro to setup each item of IDT
-      * (3) After setup the contents of IDT, you will let CPU know where is the IDT by using 'lidt' instruction.
-      *     You don't know the meaning of this instruction? just google it! and check the libs/x86.h to know more.
-      *     Notice: the argument of lidt is idt_pd. try to find it!
-      */</span>
-    <span class="token keyword">extern</span> uintptr_t __vectors<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>idt<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> gatedesc<span class="token punctuation">)</span><span class="token punctuation">;</span> i <span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">SETGATE</span><span class="token punctuation">(</span>idt<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> GD_KTEXT<span class="token punctuation">,</span> __vectors<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> DPL_KERNEL<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// set for switch from user to kernel</span>
-    <span class="token function">SETGATE</span><span class="token punctuation">(</span>idt<span class="token punctuation">[</span>T_SWITCH_TOK<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> GD_KTEXT<span class="token punctuation">,</span> __vectors<span class="token punctuation">[</span>T_SWITCH_TOK<span class="token punctuation">]</span><span class="token punctuation">,</span> DPL_USER<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// load the IDT</span>
-    <span class="token function">lidt</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>idt_pd<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>3.请编程完善trap.c中的中断处理函数trap，在对时钟中断进行处理的部分填写trap函数中处理时钟中断的部分，使操作系统每遇到100次时钟中断后，调用print_ticks子程序，向屏幕上打印一行文字”100 ticks”。</p>
-<pre class=" language-c"><code class="language-c"><span class="token keyword">case</span> IRQ_OFFSET <span class="token operator">+</span> IRQ_TIMER<span class="token punctuation">:</span>
-        <span class="token comment" spellcheck="true">/* LAB1 YOUR CODE : STEP 3 */</span>
-        <span class="token comment" spellcheck="true">/* handle the timer interrupt */</span>
-        <span class="token comment" spellcheck="true">/* (1) After a timer interrupt, you should record this event using a global variable (increase it), such as ticks in kern/driver/clock.c
-         * (2) Every TICK_NUM cycle, you can print some info using a funciton, such as print_ticks().
-         * (3) Too Simple? Yes, I think so!
-         */</span>
-        ticks <span class="token operator">++</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>ticks <span class="token operator">%</span> TICK_NUM <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token function">print_ticks</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">break</span><span class="token punctuation">;</span>
-</code></pre>
-<p>To be continued.</p>
-]]></content>
-    
-    <summary type="html">
-    
-      ucore
-    
-    </summary>
-    
-    
-      <category term="os" scheme="http://xinqiu.me/tags/os/"/>
     
   </entry>
   

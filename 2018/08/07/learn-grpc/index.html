@@ -10,7 +10,7 @@
     
     <title>
         
-            Tag: raspberrypi | 
+            在Python中使用gRPC | 
         
         一人Code
     </title>
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Xin Qiu">
     <meta name="description" content="写给自己的Blog">
-    <meta name="keywords" content="一人Code|写给自己的Blog">
+    <meta name="keywords" content="一人Code|写给自己的Blog,python,grpc">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -48,9 +48,9 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://xinqiu.me">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Tag: raspberrypi | 一人Code">
+    <meta property="og:title" content="在Python中使用gRPC | 一人Code">
     <meta property="og:description" content="写给自己的Blog">
-    
+    <meta property="og:article:tag" content="python"> <meta property="og:article:tag" content="grpc"> 
 
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
@@ -222,95 +222,371 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
     
-
-    <!-- Normal Post -->
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2015/07/26/Raspberry-Pi-2/">Raspberry Pi 2 上手</a></p>
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
     </div>
+    -->
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-家里的1代内存小，性能渣，所以入了新的2代。
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
 
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2015/07/26/Raspberry-Pi-2/" target="_self">Continue Reading</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="Xin Qiu's avatar">
-            </div>
-            <div>
-                <strong>Xin Qiu</strong>
-                <span>Jul 26, 2015</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u7B80_u4ECB"><span class="post-toc-number">1.</span> <span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u5B89_u88C5"><span class="post-toc-number">2.</span> <span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u4F7F_u7528"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u7F16_u5199protocol_buffer"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">编写protocol buffer</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u751F_u6210_u63A5_u53E3_u4EE3_u7801"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">生成接口代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u521B_u5EFA_u670D_u52A1_u7AEF"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">创建服务端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u521B_u5EFA_u5BA2_u6237_u7AEF"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">创建客户端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u8FD0_u884C"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">运行</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u603B_u7ED3"><span class="post-toc-number">4.</span> <span class="post-toc-text">总结</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
                 
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://grpc.io/img/grpc_inverse.svg)">
+    
+            <p class="article-headline-p">
+                在Python中使用gRPC
+            </p>
         </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Xin Qiu</strong>
+        <span>Aug 07, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+            <i class="material-icons" role="presentation">devices other</i>
+            <span class="visuallyhidden">devices other</span>
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+            <li class="mdl-menu__item">Read this article on other device</li>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYklEQVR42u3aS3KDMBAFQO5/6eQAieHN6AOmWiuXwYbWQqN6muPn1ePAw8PDw8PDw8N7GO+Ixz9/FN/z9/7zfxt5Nzw8PLw9vIultnVP8k3v+4un4OHh4W3kfVpwP33OF/TexFXfDQ8PD+/JvHzbfT4R59OHh4eH9z5ewkhI5wUGDw8P78m8fGubfx65ekPWgoeHhxfz8kOm/Z+3nu/h4eHhBbzq6G2F84aDpBhcvCEeHh7eYl4vos0bp5J4ovqriygEDw8Pbwuvt0znE5FEDFVwM4zAw8PDG+b14tRkia+yR7bpeHh4eHfxkhgiwYwUnnziyoUBDw8Pbyqvty2utp/mG+gchoeHh7ef12uByptWZ4W/hcACDw8PbzEvX7Lnbn+TA63q9h0PDw9vJ6+6OW4u2cUwt1mQ8PDw8Dbyqm0B1XCht1nPiwceHh7eTl4vhJ210OdlY8L5Hh4eHt4k3lEcSXtB9CrFMCL6FR4eHt5iXrUtII9xz0tLFdxsusLDw8NbzGseOOXtUAMNWMl04+Hh4e3knS/TedTbu5o8vRlG4OHh4S3mJVvnvJz0Skjv2AwPDw/vXt5IqFptUR1p9sLDw8N7Aq8aTFSjivH7J4QReHh4eMO86siPxPJgotdG8PFZeHh4eIt5vUW/iqyWgXxjXT7fw8PDw5vEy4tBdcM9t0EBDw8P72m8XhSbLPe96duateDh4eEt5uXRQ7KUj5ciPDw8vG/hjR+PVacpmho8PDy8jbzqoVcSMSSk3pTh4eHh3cvL/653NT9Uqz4LDw8Pbz/vfQMPDw8PDw8PD+8B4xfRYYaSdD3g+wAAAABJRU5ErkJggg==">
+        </ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/grpc/">grpc</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/python/">python</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2018/08/07/learn-grpc/" class="leancloud-views_num" data-flag-title="在Python中使用gRPC">
+     &nbsp;Views
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=在Python中使用gRPC&url=http://xinqiu.me//2018/08/07/learn-grpc/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Weibo
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=在Python中使用gRPC&url=http://xinqiu.me//2018/08/07/learn-grpc/index.html&via=Xin Qiu" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me//2018/08/07/learn-grpc/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://xinqiu.me//2018/08/07/learn-grpc/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                Share to Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
 </div>
 
-        
-        
-        
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p><img src="https://grpc.io/img/landing-2.svg" alt=""></p>
+<p>使用Protocol Buffers的跨平台RPC系统。</p>
+<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><p>使用 pip</p>
+<pre class=" language-bash"><code class="language-bash">pip <span class="token function">install</span> grpcio
+pip <span class="token function">install</span> grpcio-tools googleapis-common-protos
+</code></pre>
+<p>gRPC由两个部分构成，grpcio 和 gRPC 工具， 后者是编译 protocol buffer 以及提供生成代码的插件。</p>
+<h2 id="u4F7F_u7528"><a href="#u4F7F_u7528" class="headerlink" title="使用"></a>使用</h2><h3 id="u7F16_u5199protocol_buffer"><a href="#u7F16_u5199protocol_buffer" class="headerlink" title="编写protocol buffer"></a>编写protocol buffer</h3><p>使用 gRPC 首先需要做的是设计 protocol buffer。新建一个 <code>msg.proto</code>文件。</p>
+<pre><code>syntax = &quot;proto3&quot;;
+
+service MsgService {
+  rpc GetMsg (MsgRequest) returns (MsgResponse){}
+}
+
+message MsgRequest {
+    string name = 1;
+}
+
+message MsgResponse {
+    string msg = 1;
+}
+</code></pre><p>以上面的这个消息服务为例，首先是规定语法，这里使用的是 <code>proto3</code> 的语法。接着使用 <code>service</code> 关键字定义服务，gRPC  提供4种 RPC 类型的服务，这里定义的是第一种单一请求单一回应，类似普通的函数调用，其他的使用到了 <code>stream</code> 关键字，将其放在括号里，代表这个数据是流数据。这个以后再来研究，本次先设计一个简单的RPC。</p>
+<p>之后定义两个 <code>message</code>，一个是请求的结构，一个是回应的结果。 这里表示这个数据结构是字符串，protocol buffer 还可以定义为 int32，int64，double，float 等等。这里赋予的初值可以随便填写，实际使用中，会被赋予新的值。</p>
+<h3 id="u751F_u6210_u63A5_u53E3_u4EE3_u7801"><a href="#u751F_u6210_u63A5_u53E3_u4EE3_u7801" class="headerlink" title="生成接口代码"></a>生成接口代码</h3><p>因为之前安装好了一些辅助插件，使用这里直接可以生成。</p>
+<pre class=" language-bash"><code class="language-bash">python -m grpc_tools.protoc -I <span class="token keyword">.</span> --pythoout<span class="token operator">=</span>. --grpc_python_out<span class="token operator">=</span>. msg.proto
+</code></pre>
+<p>这里会生成两个文件，<code>msg_pb2.py</code> 和 <code>msg_pb2_grpc.py</code>。这两个文件是为后续的服务端和客户端所用。前者是定义了一些变量，例如 <code>_MSGREQUEST</code> 中就包含了请求函数的名字，可接受的变量，实际上还是 <code>msg.proto</code> 里定义的东西。</p>
+<h3 id="u521B_u5EFA_u670D_u52A1_u7AEF"><a href="#u521B_u5EFA_u670D_u52A1_u7AEF" class="headerlink" title="创建服务端"></a>创建服务端</h3><p>首先需要导入 RPC 必备的包，以及刚才生成的两个文件。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> grpc
+<span class="token keyword">import</span> msg_pb2
+<span class="token keyword">import</span> msg_pb2_grpc
+</code></pre>
+<p>因为 RPC 应该长时间运行，考虑到性能，还需要用到并发的库。</p>
+<pre><code>from concurrent import futures
+import time
+
+_ONE_DAY_IN_SECONDS = 60 * 60 * 24
+</code></pre><p>在 Server 中，主要是实现服务，按照 <code>msg.proto</code> 定义的，这里需要写一个服务类 <code>MsgServicer</code>，这个类需要实现之前定义的 <code>GetMsg</code>。 </p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">MsgServicer</span><span class="token punctuation">(</span>msg_pb2_grpc<span class="token punctuation">.</span>MsgServiceServicer<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">GetMsg</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Received name: %s"</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> msg_pb2<span class="token punctuation">.</span>MsgResponse<span class="token punctuation">(</span>msg<span class="token operator">=</span><span class="token string">'Hello, %s!'</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+</code></pre>
+<p>GetMsg 接收到的请求是在 <code>request</code> 中，<code>msg.proto</code> 中定义的 <code>name</code> 就是 <code>request.name</code>，接着在 GetMsg 中设计 <code>msg.proto</code> 中定义的 <code>MsgResponse</code>。</p>
+<p>之后实现启动服务的部分即可。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">serve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    server <span class="token operator">=</span> grpc<span class="token punctuation">.</span>server<span class="token punctuation">(</span>futures<span class="token punctuation">.</span>ThreadPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    msg_pb2_grpc<span class="token punctuation">.</span>add_MsgServiceServicer_to_server<span class="token punctuation">(</span>MsgServicer<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> server<span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>add_insecure_port<span class="token punctuation">(</span><span class="token string">'[::]:50051'</span><span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>_ONE_DAY_IN_SECONDS<span class="token punctuation">)</span>
+    <span class="token keyword">except</span> KeyboardInterrupt<span class="token punctuation">:</span>
+        server<span class="token punctuation">.</span>stop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+</code></pre>
+<p>通过并发库，将服务端放到多进程里运行。</p>
+<p>完整 <code>msg_server.py</code> 代码如下</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> grpc
+<span class="token keyword">import</span> msg_pb2
+<span class="token keyword">import</span> msg_pb2_grpc
+
+<span class="token keyword">from</span> concurrent <span class="token keyword">import</span> futures
+<span class="token keyword">import</span> time
+
+_ONE_DAY_IN_SECONDS <span class="token operator">=</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">24</span>
+
+
+<span class="token keyword">class</span> <span class="token class-name">MsgServicer</span><span class="token punctuation">(</span>msg_pb2_grpc<span class="token punctuation">.</span>MsgServiceServicer<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">GetMsg</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Received name: %s"</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> msg_pb2<span class="token punctuation">.</span>MsgResponse<span class="token punctuation">(</span>msg<span class="token operator">=</span><span class="token string">'Hello, %s!'</span> <span class="token operator">%</span> request<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">serve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    server <span class="token operator">=</span> grpc<span class="token punctuation">.</span>server<span class="token punctuation">(</span>futures<span class="token punctuation">.</span>ThreadPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    msg_pb2_grpc<span class="token punctuation">.</span>add_MsgServiceServicer_to_server<span class="token punctuation">(</span>MsgServicer<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> server<span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>add_insecure_port<span class="token punctuation">(</span><span class="token string">'[::]:50051'</span><span class="token punctuation">)</span>
+    server<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>_ONE_DAY_IN_SECONDS<span class="token punctuation">)</span>
+    <span class="token keyword">except</span> KeyboardInterrupt<span class="token punctuation">:</span>
+        server<span class="token punctuation">.</span>stop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    serve<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="u521B_u5EFA_u5BA2_u6237_u7AEF"><a href="#u521B_u5EFA_u5BA2_u6237_u7AEF" class="headerlink" title="创建客户端"></a>创建客户端</h3><p>客户端相对简单一些，这里我写了一个简单的客户端。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> grpc
+
+<span class="token keyword">import</span> msg_pb2
+<span class="token keyword">import</span> msg_pb2_grpc
+
+<span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># NOTE(gRPC Python Team): .close() is possible on a channel and should be</span>
+    <span class="token comment" spellcheck="true"># used in circumstances in which the with statement does not fit the needs</span>
+    <span class="token comment" spellcheck="true"># of the code.</span>
+    <span class="token keyword">with</span> grpc<span class="token punctuation">.</span>insecure_channel<span class="token punctuation">(</span><span class="token string">'localhost:50051'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> channel<span class="token punctuation">:</span>
+        stub <span class="token operator">=</span> msg_pb2_grpc<span class="token punctuation">.</span>MsgServiceStub<span class="token punctuation">(</span>channel<span class="token punctuation">)</span>
+        response <span class="token operator">=</span> stub<span class="token punctuation">.</span>GetMsg<span class="token punctuation">(</span>msg_pb2<span class="token punctuation">.</span>MsgRequest<span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">'world'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Client received: "</span> <span class="token operator">+</span> response<span class="token punctuation">.</span>msg<span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    run<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>使用 <code>grpc.insecure_channel(&#39;localhost:50051&#39;)</code> 进行连接 服务端， 接着在这个 <code>channel</code> 上创建 <code>stub</code>， 在 <code>msg_pb2_grpc</code> 里可以找到 <code>MsgServiceStub</code> 这个类相关信息。这个 <code>stub</code> 可以调用远程的 <code>GetMsg</code> 函数。 <code>MsgRequest</code> 中的 <code>name</code> 即 <code>msg.proto</code> 中定义的数据。在回应里可以得到 <code>msg.proto</code> 中定义的 <code>msg</code>。</p>
+<h3 id="u8FD0_u884C"><a href="#u8FD0_u884C" class="headerlink" title="运行"></a>运行</h3><p>首先运行 <code>python msg_server.py</code> 启动服务端，接着运行 <code>python msg_client.py</code> 机会看到客户端接收到了服务端传来的消息。以上就是一个简单的 RPC 的使用。</p>
+<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>这里只是简单的用了一下 gRPC，关于另外三种模式，还在摸索。比起gRPC，我感觉简单 RestFul 更讨我喜欢。</p>
+
     
 
     
+</div>
 
-    
-        <script>
-    var randomNum;
 
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
+                
 
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')')
+                <!-- Post Comments -->
+                
+                    
 
-        locatePost = locatePost.next();
-    }
+
+    <!-- 使用 DISQUS -->
+    <div id="disqus-comment">
+        <div id="disqus_thread"></div>
+<script>
+    queue.offer(function() {
+            var disqus_config = function () {
+                this.page.url = 'http://xinqiu.me/2018/08/07/learn-grpc/index.html';  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document;
+                var s = d.createElement('script');
+                s.src = '//xinqiu.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        });
 </script>
 
+    </div>
+    <style>
+        #disqus-comment{
+            background-color: #eee;
+            padding: 2pc;
+        }
+    </style>
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
     
-</div>
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/07/09/learn-vibora/" id="post_nav-older" class="next-content">
+            Older
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
@@ -507,6 +783,14 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 
