@@ -4,6 +4,7 @@
   
     
     <entry>
+<<<<<<< HEAD
       <title><![CDATA[在ECNU的新生活]]></title>
       <url>http://xinqiu.me/2018/09/21/xin-start/</url>
       <content type="html"><![CDATA[<h2 id="u56DE_u5FC6"><a href="#u56DE_u5FC6" class="headerlink" title="回忆"></a>回忆</h2><p>仔细想想，其实已经很久没有写关于生活的日志了，一方面是因为懒，另一方面还是因为懒。自准备考研到如今开学半个月以来，心态上一直在变化。其实当初一开始的选择是五角场的复旦，我怀念那个努力拼搏的自己，怀念那个低调内敛的自己，怀念那个很有冲劲的自己，但最终还是败给了父母的劝告。有担心发挥不好，有在乎年岁已高，因为没有二战的身体了，所以在最后的一天改了志愿。</p>
@@ -56,6 +57,8 @@
     </entry>
     
     <entry>
+=======
+>>>>>>> parent of 838863d... 先写了回忆试看看
       <title><![CDATA[在Python中使用gRPC]]></title>
       <url>http://xinqiu.me/2018/08/07/learn-grpc/</url>
       <content type="html"><![CDATA[<h2 id="u7B80_u4ECB"><a href="#u7B80_u4ECB" class="headerlink" title="简介"></a>简介</h2><p><img src="https://grpc.io/img/landing-2.svg" alt=""></p>
