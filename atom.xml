@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://xinqiu.me/"/>
-  <updated>2018-09-25T08:49:45.000Z</updated>
+  <updated>2018-10-20T14:41:45.000Z</updated>
   <id>http://xinqiu.me/</id>
   
   <author>
@@ -14,6 +14,125 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>USTC Hackergame 2018 Writeup</title>
+    <link href="http://xinqiu.me/2018/10/20/ustc-hackergame-2018/"/>
+    <id>http://xinqiu.me/2018/10/20/ustc-hackergame-2018/</id>
+    <published>2018-10-20T12:45:36.000Z</published>
+    <updated>2018-10-20T14:41:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>被室友拉来打 CTF ，感觉还挺好玩的。最后是停留在了2400分，总排名81名，第一次打，已经满足了。</p>
+</blockquote>
+<h2 id="u7B7E_u5230_u9898"><a href="#u7B7E_u5230_u9898" class="headerlink" title="签到题"></a>签到题</h2><p>查看源码发现有个 maxlength 属性，修改一下就能提交了。</p>
+<p>flag{Hackergame2018_Have_Fun!}</p>
+<h2 id="u732B_u54AA_u95EE_u7B54"><a href="#u732B_u54AA_u95EE_u7B54" class="headerlink" title="猫咪问答"></a>猫咪问答</h2><p>其实这就是道搜索的题目，第一题第五题就是直接百度的题目。第四题········、去中科大的图书网搜索即可。第二题可以通过谷歌搜索 1992年中科大研究生名单，发现有个百度文库的中科大数学系名单，可以查看到92年数学系的学号，通过简单修改就可以得到需要的学号。第三题直接用 python 写了个爆破脚本。</p>
+<p>flag{Hackergame2018_Have_Fun!}</p>
+<h2 id="u6E38_u56ED_u4F1A_u7684_u96C6_u7AE0_u5361_u7247"><a href="#u6E38_u56ED_u4F1A_u7684_u96C6_u7AE0_u5361_u7247" class="headerlink" title="游园会的集章卡片"></a>游园会的集章卡片</h2><p>拼图找 flag ，我是直接在 keynote 里拼的，很快。</p>
+<p><img src="1.png" alt=""></p>
+<p>flag{H4PPY_1M4GE_PR0CE551NG}</p>
+<h2 id="u732B_u54AA_u548C_u952E_u76D8"><a href="#u732B_u54AA_u548C_u952E_u76D8" class="headerlink" title="猫咪和键盘"></a>猫咪和键盘</h2><p>使用vim进行多列选择剪切。这里有个 trick 是他使用了 ZJU Lambda <a href="https://zju-lambda.tech/cppdt-printf/" target="_blank" rel="external">nicekingwei</a>的代码，在开头url里藏了base64的地址，可以复制他的代码，在main函数里简单几行修改就可以了。</p>
+<p>flag{FfQ47if9Zxw9jXE68VtGAJDk6Y6Xc88UrUtpK3iF8p7BMs4y2gzdG8Ao2gv6aiJ125typed_printf95}</p>
+<h2 id="Word__u6587_u6863"><a href="#Word__u6587_u6863" class="headerlink" title="Word 文档"></a>Word 文档</h2><p>想了半天的题，因为是第一次，没有意识，后来查资料才想起来， docx 文件其实是个 zip 文件，通过改后缀名解压缩即可得到 flag 。</p>
+<p>flag{xlsx,pptx,docx_are_just_zip_files}</p>
+<h2 id="u732B_u54AA_u94F6_u884C"><a href="#u732B_u54AA_u94F6_u884C" class="headerlink" title="猫咪银行"></a>猫咪银行</h2><p>一开始没想到，其实就是个整数溢出的问题。买入 222222222222222222222222222222222 分钟，1个份额即可。</p>
+<p>flag{Evil_Integer._Evil_Overflow.}</p>
+<h2 id="u9ED1_u66DC_u77F3_u6D4F_u89C8_u5668"><a href="#u9ED1_u66DC_u77F3_u6D4F_u89C8_u5668" class="headerlink" title="黑曜石浏览器"></a>黑曜石浏览器</h2><p>很容易想到是在 User-Agent 这边做文章，一开始以为直接把头写成 HEICORE 就行，但结果失败了。通过搜索 HEICORE ，发现了 heicore.com 。这个网站很会玩，不能右击，不能F12。所以只能通过 curl 来获取源码。通过审查源码发现 UA 是藏在 js 代码里的，使用 python 构造请求获得 flag。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> requests
+
+r <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'http://202.38.95.46:12001/'</span><span class="token punctuation">,</span> headers<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">'User-Agent'</span><span class="token punctuation">:</span><span class="token string">'"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) HEICORE/49.1.2623.213 Safari/537.36'</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> r<span class="token punctuation">.</span>content
+</code></pre>
+<p>flag{H3ic0re_49.1.2623.213_sai_kou}</p>
+<h2 id="u56DE_u5230_u8FC7_u53BB"><a href="#u56DE_u5230_u8FC7_u53BB" class="headerlink" title="回到过去"></a>回到过去</h2><p>简单看一下manual，可以知道基本操作，然后一行行输入就可以了，用 w 来保存文件。</p>
+<p>flag{t4a2b8c44039f93345a3d9b2}</p>
+<h2 id="u6211_u662F_u8C01"><a href="#u6211_u662F_u8C01" class="headerlink" title="我是谁"></a>我是谁</h2><h3 id="u54F2_u5B66_u601D_u8003"><a href="#u54F2_u5B66_u601D_u8003" class="headerlink" title="哲学思考"></a>哲学思考</h3><p>同样是直觉，打开控制台，也没跳转了一次以后就在网络状态那儿发现了 flag，我也是有点意外。 提交 TEAPOT ，就能得到 flag。</p>
+<p>flag{i_canN0t_BReW_c0ffEE!}</p>
+<h3 id="Can_I_help_me_3F"><a href="#Can_I_help_me_3F" class="headerlink" title="Can I help me?"></a>Can I help me?</h3><p>点击链接会发现要尝试其他的方法，使用 POST 请求以后，会提示要去查阅 RFC-7168 ， 里面提到了要用 BREW 请求，头里要有 Content-Type: message/teapot 就能访问。我在之后的一步卡了很久，测试了很多，不知道哪里错，就是不能得到答案，后来 url 那里试了一下 black_tea 结果就拿到了 flag， 真是直觉拿 flag 。后来才知道，回应头里藏了 Alternates，这里面告诉了 url。</p>
+<p>flag{delivering_tea_to_DaLa0}</p>
+<h2 id="u79D8_u7C4D_u6B8B_u7BC7"><a href="#u79D8_u7C4D_u6B8B_u7BC7" class="headerlink" title="秘籍残篇"></a>秘籍残篇</h2><p>这题只会第一问</p>
+<h3 id="u6ED1_u7A3D_Art"><a href="#u6ED1_u7A3D_Art" class="headerlink" title="滑稽 Art"></a>滑稽 Art</h3><p>用文本打开发现，代码有被格式化的感觉，有点像那个花式代码里的藏图代码，于是用 safari 打开，把显示比调到最小，再添加 font-size 这个css，通过移动会发现藏的图。</p>
+<p><img src="2.png" alt=""></p>
+<p>flxg{University_of_Ridiculous}</p>
+<h2 id="u5979_u7684_u8BD7"><a href="#u5979_u7684_u8BD7" class="headerlink" title="她的诗"></a>她的诗</h2><p>查阅资料发现是 uuencoding ，使用 <a href="http://web.chacuo.net/charsetuuencode" target="_blank" rel="external">http://web.chacuo.net/charsetuuencode</a> 进行解码，发现每句的末尾藏了flag。</p>
+<p>flag{STegAn0grAPhy_w1tH_uUeNc0DE_I5_50_fun}</p>
+<h2 id="u732B_u54AA_u514B_u661F"><a href="#u732B_u54AA_u514B_u661F" class="headerlink" title="猫咪克星"></a>猫咪克星</h2><p>使用 python 的 eval 来计算，这里面有个 trick 是，他在50次之后，会加一下干扰的东西，需要用正则匹配掉这些。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> socket
+<span class="token keyword">import</span> re
+
+
+<span class="token keyword">class</span> <span class="token class-name">Netcat</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">""" Python 'netcat like' module """</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> ip<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>buff <span class="token operator">=</span> <span class="token string">""</span>
+        self<span class="token punctuation">.</span>socket <span class="token operator">=</span> socket<span class="token punctuation">.</span>socket<span class="token punctuation">(</span>socket<span class="token punctuation">.</span>AF_INET<span class="token punctuation">,</span> socket<span class="token punctuation">.</span>SOCK_STREAM<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>socket<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token punctuation">(</span>ip<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">read</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> length<span class="token operator">=</span><span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">""" Read 1024 bytes off the socket """</span>
+
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>socket<span class="token punctuation">.</span>recv<span class="token punctuation">(</span>length<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">read_until</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">""" Read data into the buffer until we have data """</span>
+
+        <span class="token keyword">while</span> <span class="token operator">not</span> data <span class="token keyword">in</span> self<span class="token punctuation">.</span>buff<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>buff <span class="token operator">+=</span> self<span class="token punctuation">.</span>socket<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">)</span>
+
+        pos <span class="token operator">=</span> self<span class="token punctuation">.</span>buff<span class="token punctuation">.</span>find<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+        rval <span class="token operator">=</span> self<span class="token punctuation">.</span>buff<span class="token punctuation">[</span><span class="token punctuation">:</span>pos <span class="token operator">+</span> len<span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>buff <span class="token operator">=</span> self<span class="token punctuation">.</span>buff<span class="token punctuation">[</span>pos <span class="token operator">+</span> len<span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+
+        <span class="token keyword">return</span> rval
+
+    <span class="token keyword">def</span> <span class="token function">write</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>socket<span class="token punctuation">.</span>send<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">close</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>socket<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+nc <span class="token operator">=</span> Netcat<span class="token punctuation">(</span><span class="token string">'202.38.95.46'</span><span class="token punctuation">,</span> <span class="token number">12009</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span> nc<span class="token punctuation">.</span>read_until<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+count <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> xrange<span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    content <span class="token operator">=</span> nc<span class="token punctuation">.</span>read_until<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+    content <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">"__import__\(\'time\'\).sleep\(100\)"</span><span class="token punctuation">,</span> <span class="token string">"0"</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+    content <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">"__import__\(\'os\'\).system\(\'find ~\'\)"</span><span class="token punctuation">,</span> <span class="token string">"0"</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+    content <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">"print\(.*?\)"</span><span class="token punctuation">,</span> <span class="token string">'0'</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+    content <span class="token operator">=</span> re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">"exit\(\)"</span><span class="token punctuation">,</span> <span class="token string">"0"</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span>
+
+    nc<span class="token punctuation">.</span>write<span class="token punctuation">(</span>str<span class="token punctuation">(</span>eval<span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+
+
+r <span class="token operator">=</span> nc<span class="token punctuation">.</span>read_until<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> r
+nc<span class="token punctuation">.</span>write<span class="token punctuation">(</span>raw_input<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+r <span class="token operator">=</span> nc<span class="token punctuation">.</span>read_until<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> r
+</code></pre>
+<p>flag 是以错误的形式展现，有点创意的。</p>
+<p>flag{‘Life_1s_sh0rt_use_PYTH0N’*1000}</p>
+<h2 id="u732B_u54AA_u7535_u8DEF"><a href="#u732B_u54AA_u7535_u8DEF" class="headerlink" title="猫咪电路"></a>猫咪电路</h2><p>玩一下 Minecraft，还挺好玩的&gt; &lt;.</p>
+<p>flag{0110101000111100101111111111111111111010}</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;被室友拉来打 CTF ，感觉还挺好玩的。最后是停留在了2400分，总排名81名，第一次打，已经满足了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;u7B7E_u5230_u9898&quot;&gt;&lt;a href=&quot;#u7B7E_u5230_u9898
+    
+    </summary>
+    
+    
+      <category term="ctf" scheme="http://xinqiu.me/tags/ctf/"/>
+    
+  </entry>
   
   <entry>
     <title>在ECNU的新生活</title>
@@ -4814,46 +4933,6 @@ t2<span class="token punctuation">.</span>start<span class="token punctuation">(
     
     
       <category term="python" scheme="http://xinqiu.me/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我与北京与WOT 2016</title>
-    <link href="http://xinqiu.me/2016/04/15/WOT2016/"/>
-    <id>http://xinqiu.me/2016/04/15/WOT2016/</id>
-    <published>2016-04-14T16:00:00.000Z</published>
-    <updated>2016-04-17T03:29:22.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>从小到大，之前都没去过北京。一是对故宫长城并没有什么兴趣(毕竟只对吃感兴趣括弧笑)，二是总觉得北京那算是大都市，自己还是太Low了。机缘巧合，得到了张WOT 2016的票，再三犹豫之后还是毅然决定踏上旅程。唉，还是准备不重复，当初还以为北京的火车票应该不是那么难买，结果就先买了去的车票，几天以后才买回程的票，结果因为买迟了，足足少在北京玩2个小时。</p>
-<a id="more"></a>
-<p>关于请假还是有个小插曲，感觉被书记故意刁难了。我先向班主任请假，班主任说要请示书记。书记一开始不同意，我就搞不懂了，大学生不出去走走，怎么才能了解外面的世界？然后又说去问专业老师或院长的意见。我就屁颠屁颠的去问了专业老师，专业老师觉得如果我想去就去玩玩好了，回头和书记说，却被驳回说要向院长申请。我又找专业老师，让他联系一下院长。倒是院长同意了，让我按照请假流程请假。回来请假的时候，书记又说要院长和专业老师的签字。我真的无语了，难怪我们学校信息学院这么烂，大部分老师都是认为学生这么垃圾，还是安心读书到时候大四去参加培训班之后找个外包公司安度晚年异或争取考研考公考事业编什么的。</p>
-<p>第一次一个人出这么远的门，感觉爸妈都有点不是很放心。开始的紧张在脚踏北京的地上时就已经不在紧张了。感觉只要有手机，基本上就什么都不怕了。不管是买早饭还是用地图。</p>
-<p>早早的来到了北京珠三角JW万豪酒店</p>
-<p><img src="JW.jpg" alt=""></p>
-<p>看到了广告牌</p>
-<p><img src="1.jpg" alt=""></p>
-<p>随后签到拿到了嘉宾牌，场外的人还挺多的。</p>
-<p><img src="2.jpg" alt=""></p>
-<p>第一次感受了这种氛围，大部分人都是工作的人，学生还是挺少的。大一曾经憧憬过运维这个职业，现在比较火的是DevOps。在开会之前的一段时间，我就开始闲逛时间，顺便各种关注微信公众号抽奖什么的233。一路的不少公司展区都被我搜刮了小礼品。AWS抽到的笔意外的好写。</p>
-<p><img src="3.jpg" alt=""></p>
-<p>这是主会场开会前每个座位上放的广告大礼包233.之后就是会议开始， 早上的是集中会议，虽然离我很遥远，但一些思想我觉得还是正确的。</p>
-<p><img src="4.jpg" alt=""></p>
-<p>中午在KFC用了次Apple Pay，小额免密，圆了一次绑上银行卡后一直没用的遗憾。</p>
-<p>下午本来想去听C会场，结果一脸懵逼，全是人。只好去了人不是很多的B安全会场。看到了道哥，真的年轻。这些公司的PPT真的不是盖的，演讲的档次真的不一样，想到当年参加锐聘的比赛做的Keynote，简直黑历史。</p>
-<p>之后因为要约一约北京的同学，就提前离开了会场。走前问了主办方才知道，原来我这个票是可以看两天的，被送票方骗了&gt; &lt;,不然就可以在北京多玩一天了。和同学吃了北京的烧烤，还挺有特色，果然每个地方的烧烤口味都是有区别的。</p>
-<p><img src="5.jpg" alt=""></p>
-<p><img src="6.jpg" alt=""></p>
-<p>好想有机会再去北京玩玩，这次还有个遗憾是没吃炸酱面。北京之旅让我深有感触，加深了要更加努力的决心。在最近最不想学习的时候来了次北京打了针鸡血，但愿能维持长一段时间。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      仓促的北京之旅
-    
-    </summary>
-    
-    
-      <category term="Life" scheme="http://xinqiu.me/tags/Life/"/>
     
   </entry>
   
