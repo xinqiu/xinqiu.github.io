@@ -10,7 +10,7 @@
     
     <title>
         
-            Tensorflow for Deep Learning 1 | 
+            2019-summary | 
         
         一人Code
     </title>
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="Xin Qiu">
     <meta name="description" content="写给自己的Blog">
-    <meta name="keywords" content="一人Code|写给自己的Blog,deep-learning">
+    <meta name="keywords" content="一人Code|写给自己的Blog,Life">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -48,9 +48,9 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://xinqiu.me">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Tensorflow for Deep Learning 1 | 一人Code">
+    <meta property="og:title" content="2019-summary | 一人Code">
     <meta property="og:description" content="写给自己的Blog">
-    <meta property="og:article:tag" content="deep-learning"> 
+    <meta property="og:article:tag" content="Life"> 
 
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
@@ -248,7 +248,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow"><span class="post-toc-number">1.</span> <span class="post-toc-text">笔记1: 介绍TensorFlow</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#u4E00-_u5F00_u59CB_u5199Tensorflow_u4EE3_u7801"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">一.开始写Tensorflow代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-_TF_Learn__28tf-contrib-learn_29"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">1. TF Learn (tf.contrib.learn)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-_TF-Slim__28tf-contrib-slim_29"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">2. TF-Slim (tf.contrib.slim)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-_TensorFlow_u4E4B_u4E0A_u7684_u9AD8_u7EA7APIs"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">3. TensorFlow之上的高级APIs</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Data_Flow_Graph__28_u6570_u636E_u6D41_u56FE_29"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Data Flow Graph (数据流图)</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u518D_u89C12018"><span class="post-toc-number">1.</span> <span class="post-toc-text">再见2018</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u56DE_u987E2019"><span class="post-toc-number">2.</span> <span class="post-toc-text">回顾2019</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#u5C55_u671B2020"><span class="post-toc-number">3.</span> <span class="post-toc-text">展望2020</span></a></li></ol>
 
         <!--
         <li class="mdl-menu__item">
@@ -272,11 +272,19 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
                 
     <!-- Paradox Post Header -->
     
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(img/tf.jpg)">
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script>
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')');
+</script>
+
+        
     
             <p class="article-headline-p">
-                Tensorflow for Deep Learning 1
+                2019-summary
             </p>
         </div>
 
@@ -295,7 +303,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     <!-- Author Name & Date -->
     <div>
         <strong>Xin Qiu</strong>
-        <span>Jan 20, 2017</span>
+        <span>Feb 14, 2020</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -316,7 +324,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
         </button>
         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
             <li class="mdl-menu__item">Read this article on other device</li>
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACWUlEQVR42u3aQU7EMBAEwP3/p+GKhFi6PbETQeWE0OJN+eAZ2vP6+NPPCw8PDw8PDw8P72G8V/x8/fz7Fb7//vvfvl9n7d3w8PDwTvJ+OWovJf20WvK90bvh4eHhHeS1xaAlTYpQ8W54eHh4D+PNW+33RzweHh7ef+D9Eg3EkURefvDw8PCew0v+4Z+T2q08mrXg4eHhxbxJQLD759vu9/Dw8PAuGrrKC8NkE2+bKcPDw8MLeMm1fTIokFyJrY0g1FuJh4eHt5nXXlnlR/k8sMg3Gg8PD+8k79oYNz/E82LwfgU8PDy887zJtVPS4LYbl69WxLh4eHh4m3nzS6l8C9rLtmh9PDw8vM285PBda4vby7PJ6BUeHh7eSV5eBubHehvjrjXceHh4eGd4OaYtGEmpWGvui8KAh4eHt403aazz2Pfa0oKHh4f3BF4+UJWHFJMiVL8bHh4e3mbe/Corf5IQpP08Hh4e3r289oBewyet9uTBw8PD281rI4O2qLSYLTNleHh4eJvnOdsXnUTA+eaOWmo8PDy8S3lrAUE7CjAfR0i+Cw8PD+8uXtvCtsi1QYEiBMHDw8PbzLuskR3EuO112mJKjYeHh3cRr75eKl83LzPzoQE8PDy8M7z2OM6P7DzCWNsgPDw8vHt5bbiQf2USzuYte7QaHh4e3kHePJhIisE8kqhjXDw8PLxbeYuXUkux7Fp7jYeHh/dM3vw37XBA0vrj4eHhnee1YcRaMcgHDtqrLzw8PLyTvDYCaMOL9pNrhQQPDw/vDO/vPXh4eHh4eHh4eA94PgGli7+DUmc7YQAAAABJRU5ErkJggg==">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYUlEQVR42u3aQY7jMAwEwPz/07vXBRZxukVL8QzKp8DRKCodJA7J159f/bzw8PDw8PDw8PAexnvFz9vp/vn2/5Hv5rl+P1kbHh4e3hneh6P2zU++e5PMM3l/PQYPDw/vJK89rK/fROHv5da0a8PDw8N7Mm8y/ho2+S08PDy8Z/LWEg0JIx+Dh4eH9xxe8Q//IL2bh+NfyLXg4eHhxby8yHT+89H6Hh4eHl7Aq1uaynLX2qVyW9MVHh4e3gbeva0DSdNVlFCIZ8PDw8P7Lq9tVG2TuWvgtokWDw8PbzcvX2h7bURLKduzkqAcDw8PbzevbXuaNxDctVl4eHh43+XlQW1CXUtnrLUO4OHh4Z3nJcfxPLW6dgmt/SIeHh7eGd5didd5oSsZ/+ESwsPDw9vMy8PovEi2FiIn80RbhoeHh7eZlxzZRfGpLP+vffth5Xh4eHibeW3SoR3TbkG+6Xh4eHhP4K1Nl2zTJBCvA3o8PDy8zbx7G7Dm5f958xYeHh7eGd68xao9+vPtuDnXgoeHh7chz7kWOrdHf7KGfOPw8PDwzvOSSZOltOnXvJxW/BUeHh7eQd6kfNWG5nmzV50OxsPDwzvCW2tLzcPieVKjaHHAw8PD28xrnzb8TQL0PCURJXbx8PDwNvNe8TMv9k8Kb0XjAh4eHt4R3rxk1ZavJindxVwLHh4e3gZeEvi2b9rtm1xReHh4eD+Fl48vilhl8wEeHh7ez+LljQVrpbI2BMfDw8M7yZsXvdbmbK+B7WlcPDw8vFsLYGuFsTNhNx4eHt4Z3u978PDw8PDw8PDwHvD8BaD5oJQLBStzAAAAAElFTkSuQmCC">
         </ul>
     
 
@@ -328,7 +336,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/deep-learning/">deep-learning</a>
+        <a class="post_tag-link" href="/tags/Life/">Life</a>
     </ul>
     
 
@@ -342,7 +350,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/2017/01/20/cs20si-1/" class="leancloud-views_num" data-flag-title="Tensorflow for Deep Learning 1">
+                <span id="/2020/02/14/2019-summary/" class="leancloud-views_num" data-flag-title="2019-summary">
      &nbsp;Views
 </span>
 
@@ -354,7 +362,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Tensorflow for Deep Learning 1&url=http://xinqiu.me//2017/01/20/cs20si-1/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=2019-summary&url=http://xinqiu.me//2020/02/14/2019-summary/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 Share to Weibo
             </li>
@@ -363,7 +371,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Tensorflow for Deep Learning 1&url=http://xinqiu.me//2017/01/20/cs20si-1/index.html&via=Xin Qiu" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=2019-summary&url=http://xinqiu.me//2020/02/14/2019-summary/index.html&via=Xin Qiu" target="_blank">
             <li class="mdl-menu__item">
                 Share to Twitter
             </li>
@@ -372,7 +380,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me//2017/01/20/cs20si-1/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://xinqiu.me//2020/02/14/2019-summary/index.html" target="_blank">
             <li class="mdl-menu__item">
                 Share to Facebook
             </li>
@@ -381,7 +389,7 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://xinqiu.me//2017/01/20/cs20si-1/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://xinqiu.me//2020/02/14/2019-summary/index.html" target="_blank">
             <li class="mdl-menu__item">
                 Share to Google+
             </li>
@@ -405,42 +413,14 @@ ga('create', 'UA-57881840-1', 'auto'); ga('send', 'pageview'); </script>
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h2 id="u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow"><a href="#u7B14_u8BB01_3A__u4ECB_u7ECDTensorFlow" class="headerlink" title="笔记1: 介绍TensorFlow"></a>笔记1: 介绍TensorFlow</h2><p>“CS 20SI: TensorFlow for Deep Learning Research” (<a href="http://cs20si.stanford.edu" target="_blank" rel="external">http://cs20si.stanford.edu</a>) 这门课是由Chip Huyen(huyenn@stanford.edu)老师上的，我就简单的做做笔记整理&gt; &lt;.</p>
-<p>Tensorflow是什么，它很火，哪些公司在用它，它是如何安装的，我这里就不啰嗦了，这些内容网上一大把。</p>
-<h3 id="u4E00-_u5F00_u59CB_u5199Tensorflow_u4EE3_u7801"><a href="#u4E00-_u5F00_u59CB_u5199Tensorflow_u4EE3_u7801" class="headerlink" title="一.开始写Tensorflow代码"></a>一.开始写Tensorflow代码</h3><p>这部分内容是可以跳过的，讲的是简单的一个tf程序。(我添加了导入一些包，不然运行不了)</p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true"># iris.py</span>
-<span class="token comment" spellcheck="true"># </span>
-<span class="token comment" spellcheck="true"># Load dataset.</span>
-<span class="token keyword">import</span> tensorflow <span class="token keyword">as</span> tf
-<span class="token keyword">from</span> sklearn <span class="token keyword">import</span> cross_validation
-<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
-<span class="token keyword">from</span> sklearn <span class="token keyword">import</span> metrics
-
-iris <span class="token operator">=</span> tf<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>datasets<span class="token punctuation">.</span>load_dataset<span class="token punctuation">(</span><span class="token string">'iris'</span><span class="token punctuation">)</span>
-
-x_train<span class="token punctuation">,</span> x_test<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> y_test <span class="token operator">=</span> cross_validation<span class="token punctuation">.</span>train_test_split<span class="token punctuation">(</span>iris<span class="token punctuation">.</span>data<span class="token punctuation">,</span> iris<span class="token punctuation">.</span>target<span class="token punctuation">,</span> test_size<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">,</span> random_state<span class="token operator">=</span><span class="token number">42</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true"># Build 3 layer DNN with 10, 20, 10 units respectively.</span>
-feature_columns <span class="token operator">=</span> tf<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>infer_real_valued_columns_from_input<span class="token punctuation">(</span>x_train<span class="token punctuation">)</span>
-
-classifier <span class="token operator">=</span> tf<span class="token punctuation">.</span>contrib<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>DNNClassifier<span class="token punctuation">(</span>feature_columns<span class="token operator">=</span>feature_columns<span class="token punctuation">,</span> hidden_units<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span> n_classes<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true"># Fit and predict.</span>
-classifier<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>x_train<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> steps<span class="token operator">=</span><span class="token number">200</span><span class="token punctuation">)</span>
-
-predictions <span class="token operator">=</span> list<span class="token punctuation">(</span>classifier<span class="token punctuation">.</span>predict<span class="token punctuation">(</span>x_test<span class="token punctuation">,</span> as_iterable<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-score <span class="token operator">=</span> metrics<span class="token punctuation">.</span>accuracy_score<span class="token punctuation">(</span>y_test<span class="token punctuation">,</span> predictions<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Accuracy: {0:f}'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>score<span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre>
-<p>运行结果 Accuracy: 0.933333</p>
-<h4 id="1-_TF_Learn__28tf-contrib-learn_29"><a href="#1-_TF_Learn__28tf-contrib-learn_29" class="headerlink" title="1. TF Learn (tf.contrib.learn)"></a>1. TF Learn (tf.contrib.learn)</h4><p>TensorFlow的简单接口，TF Learn (tensorflow.contrib.learn)，提供已经实现的模型可供使用者简单的调用。类似scikit learn，通过简单的几行代码就可以开始深度学习。事实上TF Learn期初是Scikit Flow (SKFlow)这个独立的项目。</p>
-<p>TF Learn可以导入数据，构造模型，模型拟合，评估准确性。很多模型可以调用，比如线性分类，线性回归，DNN分类器。</p>
-<h4 id="2-_TF-Slim__28tf-contrib-slim_29"><a href="#2-_TF-Slim__28tf-contrib-slim_29" class="headerlink" title="2. TF-Slim (tf.contrib.slim)"></a>2. TF-Slim (tf.contrib.slim)</h4><p>TF-Slim可以用来简单构建、训练、评估神经网络。</p>
-<h4 id="3-_TensorFlow_u4E4B_u4E0A_u7684_u9AD8_u7EA7APIs"><a href="#3-_TensorFlow_u4E4B_u4E0A_u7684_u9AD8_u7EA7APIs" class="headerlink" title="3. TensorFlow之上的高级APIs"></a>3. TensorFlow之上的高级APIs</h4><p>有很多基于TensorFlow的APIs， 比如Keras (keras@GitHub), TFLearn (tflearn@GitHub), 和 Pretty Tensor (prettytensor@GitHub)。现在据说Keras准备作为官方默认API了，Keras真的超级好用&gt; &lt;.</p>
-<p>TFLearn支持ConvNets, LSTM, BiRNN, ResNets, Generative networks以及一些特征BatchNorm, PReLU.</p>
-<p>当然啦，TensorFlow的目的不是提供开箱即用的机器学习工具箱，而是希望能够针对不同场景不同需求，更灵活的搭建合适的架构来自己使用。</p>
-<h3 id="Data_Flow_Graph__28_u6570_u636E_u6D41_u56FE_29"><a href="#Data_Flow_Graph__28_u6570_u636E_u6D41_u56FE_29" class="headerlink" title="Data Flow Graph (数据流图)"></a>Data Flow Graph (数据流图)</h3><p>TF使用数据流图，所有的计算都在图(graphs)中。session(这个我也不知道中文该怎么称呼，感觉英文就挺好的)用来分配给变量内存。参考这篇文章什么是tensorflow session。总之就是图是用来定义计算的，session是执行图里的计算的。</p>
-<p>note 1 结束了，感觉有点少，算是入坑的开头吧&gt; &lt;</p>
+        <blockquote>
+<p>要不是因为突然发现自己的域名过期了，可能真的快忘了属于自己的Blog。</p>
+</blockquote>
+<h2 id="u518D_u89C12018"><a href="#u518D_u89C12018" class="headerlink" title="再见2018"></a>再见2018</h2><p>没想到是在2020年才准备些2019年的总结，其实去年的时候也想写2018年的总结，结果咕的太厉害一直咕到现在。在读研前就一直想做深度学习方向，结果研一刚开学先是玩了玩CTF，结果之后在安全上参加了不少比赛，这期间旅游打比赛成了最美好的回忆，总是去一个城市可以品尝到一些美食。</p>
+<h2 id="u56DE_u987E2019"><a href="#u56DE_u987E2019" class="headerlink" title="回顾2019"></a>回顾2019</h2><p>读研期间确实让人经历了很多事情，有快乐过有痛苦过，最难受的可能莫过于有一段失眠的经历，那段突然消沉的感觉真的不敢回想，本以为读研是在做想做的正确的方向，没想到却跑偏在做可解释性相关的研究，自始至终我都觉得我做的方向有点问题，以至于做了很久却没有一点点感觉。</p>
+<p>抛开科研的不顺利，CTF虽然练习的少，但每次需要出门打比赛的时候都跟着队友们，体验了公费旅游，虽然想起来西安的是自费的，北京的报销也没下来，但是收获了很多。</p>
+<p>在美食的路上，19年也是收获满满，吃吃吃了半年，认识了一些朋友，甚至拍摄技巧也有所了提高。</p>
+<h2 id="u5C55_u671B2020"><a href="#u5C55_u671B2020" class="headerlink" title="展望2020"></a>展望2020</h2><p>本以为没有寒假的我，竟然会在家待了快一个月了，过年期间的休息摸鱼真的太舒服了。在发现域名挂了的一瞬间，我的思绪重新拉回到当年本科时努力的自己身上，突然开始认真思考起未来要做什么，去年一年的科研路渐渐让我放弃了想走算法工程师的路线，尽管内心还有一丝丝挂念，但我知道留给我的时间不多了。</p>
 
     
 
@@ -461,7 +441,7 @@ score <span class="token operator">=</span> metrics<span class="token punctuatio
 <script>
     queue.offer(function() {
             var disqus_config = function () {
-                this.page.url = 'http://xinqiu.me/2017/01/20/cs20si-1/index.html';  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.url = 'http://xinqiu.me/2020/02/14/2019-summary/index.html';  // Replace PAGE_URL with your page's canonical URL variable
                 this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
             };
 
@@ -492,21 +472,13 @@ score <span class="token operator">=</span> metrics<span class="token punctuatio
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2017/02/02/cs20si-2/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Newer
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2017/01/17/MIT-6.828-3/" id="post_nav-older" class="next-content">
+        <a href="/2018/10/20/ustc-hackergame-2018/" id="post_nav-older" class="next-content">
             Older
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
