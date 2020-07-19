@@ -1,0 +1,13 @@
+// SCUT LINK UNSTYLED
+// http://davidtheclark.github.io/scut/#link-unstyled
+
+@mixin scut-link-unstyled() {
+
+  text-decoration: none;
+  color: inherit;
+
+}
+
+%scut-link-unstyled {
+  @include scut-link-unstyled();
+}

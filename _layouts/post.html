@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+<article class="post" lang="{{ page.lang | default: site.lang | default: "en" }}" itemscope itemtype="http://schema.org/BlogPosting" >
+
+  {% include header.html %}
+
+  <div class="post-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  {% if page.music-id %}
+  <center>
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id={{ page.music-id }}&auto=1&height=66">
+    </iframe>
+  </center>
+  {% endif %}
+
+
+  <footer class="post-footer">
+    <div class="post-meta">
+      {% if page.date %} <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time> {% endif %}
+      {% if page.author %} by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author | escape }}</span></span> {% endif %}
+    </div>
+
+    {% if page.tags.size > 0 %}
+    <ul class="post-tags" aria-label="TagList">
+      {% for tag in page.tags %}
+      <li><a class="tag-link" href="{{ tag | url_encode | prepend: "/tags/" | relative_url }}">{{ tag | escape }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </footer>
+
+  {% if jekyll.environment == 'production' and site.disqus_shortname and page.comments != false %}
+  {% include disqus.html %}
+  {% endif %}
+</article>
