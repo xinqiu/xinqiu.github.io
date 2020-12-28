@@ -4,7 +4,7 @@ title: About
 lang: zh-Hans
 navlevel: header
 navtitle: About
-cover_url: https://s2.banana.moe/unsplash_colle/amador-loureiro-779.jpg
+cover_url: https://images.unsplash.com/reserve/uZYSV4nuQeyq64azfVIn_15130980706_64134efc6e_o.jpg
 cover_meta: >
   Photo by [Amador Loureiro](https://unsplash.com/@amadorloureiroblanco)
 ---

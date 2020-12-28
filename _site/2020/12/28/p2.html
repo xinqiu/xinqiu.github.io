@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>MIT 6.824 Lab1 MapReduce - Blog</title>
+  <meta name="description" content="">
+
+  
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20201228182823">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20201228182823">
+  <link rel="stylesheet" href="/assets/styles/highlighting/github.css?v=20201228182823">
+
+  <link rel="canonical" href="http://localhost:4000/2020/12/28/p2.html">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>.MathJax_ExBox { font-family: serif; }</style>
+  
+
+  
+</head>
+
+  <body>
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <article class="post" lang="zh-Hans" itemscope itemtype="http://schema.org/BlogPosting" >
+
+  <header class="post-header">
+  <a class="site-title" href="/">Blog</a>
+  <h1 class="post-title" itemprop="name headline">MIT 6.824 Lab1 MapReduce</h1>
+</header>
+
+
+
+
+  <div class="post-content" itemprop="articleBody">
+    <blockquote>
+
+</blockquote>
+
+<p class="side-note">MIT yyds，真的爱了爱了</p>
+
+<p>MIT 6.824真的是我拖了很久都一直想做的Project，以前本科的时候做完CSAPP以后，就挖坑做<a href="https://xinqiu.me/old-blog/2016/10/15/MIT-6.828-1/">MIT 6.828</a>，另一个目标就是做6.824。当时奈何Go并没怎么学，所以一直拖着连Lab1都没有认真做完。终于弄完毕业论文，找完工作以后这段摸鱼时光，想起年少的理想还没实现，于是赶紧打论文，看lecture，参考了一堆<a href="#ref">资料</a>，开始写<a href="https://github.com/xinqiu/6.824">Project</a>。</p>
+
+<h2 id="准备">准备</h2>
+
+<p>首先是阅读论文，2020版的作业相比以前，需要自己实现RPC部分，因此相对于以前只需要实现MapF和ReduceF，首先需要设计好RPC交互。</p>
+
+<p><img src="https://pic3.zhimg.com/80/v2-3d07dd78da8061c0d6b5b06b8d83e0ba_1440w.jpg" alt="MapReduce流程" /></p>
+
+<p>RPC主要是Master和Worker之间的通信，Master负责调度任务，Worker的注册以及将任务给Worker进行运行。Worker首先上线以后会去Master注册，获取workID，之后不断的获取任务，执行任务，反馈任务执行信息。如果Worker执行某个Task失败，会通知给Master，让其找其他可以运行的Worker重新执行该Task。</p>
+
+<h2 id="ref">Ref</h2>
+
+<p id="ref"><a href="https://pdos.csail.mit.edu/6.824/papers/mapreduce.pdf">MapReduce: Simplified Data Processing on Large Clusters</a></p>
+
+<p><a href="https://www.notion.so/MapReduce-60f0a525680b4a38b3a9183325377647#1bc3f8738ebd4dd4a9699de2ecfc1fd7">MIT 6.824 Lab1 MapReduce 2020 攻略</a></p>
+
+<p><a href="https://www.pianshen.com/article/1545934704/">6.824 Spring 2020 – Lab 1: MapReduce</a></p>
+
+<p><a href="https://keleqnma.github.io/2020/09/28/2020-Spring-6-824-Lab1-MapReduce笔记/">2020 Spring 6.824 Lab1: MapReduce笔记</a></p>
+
+<p><a href="https://zhuanlan.zhihu.com/p/260752052">MIT 6.824 分布式系统 Lab 1：MapReduce</a></p>
+
+
+  </div>
+
+  
+
+
+  <footer class="post-footer">
+    <div class="post-meta">
+       <time datetime="2020-12-28T00:00:00+08:00" itemprop="datePublished">Dec 28, 2020</time> 
+      
+    </div>
+
+    
+    <ul class="post-tags" aria-label="TagList">
+      
+      <li><a class="tag-link" href="/tags/Program">Program</a></li>
+      
+    </ul>
+    
+  </footer>
+
+  
+</article>
+
+    </div>
+    <script type="text/javascript">
+  (function () {
+    var resize = function () {
+      this.width = 0.5 * (this.naturalWidth || this.width);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".half-size, .retina2x"), function(el) {
+      if (el.naturalWidth) {
+        resize.call(el);
+      } else {
+        el.onload = resize;
+      }
+    });
+  })();
+</script>
+
+  </main>
+
+  <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="social-links">
+      <a class="social-link social-github" href="https://github.com/xinqiu">
+        <i class="icon-github"></i>
+      </a>
+      <a class="social-link social-twitter" href="https://twitter.com/xinqiu_bot">
+        <i class="icon-twitter"></i>
+      </a>
+      <a class="social-link social-instagram" href="https://instagram.com/xinqiu_bot">
+        <i class="icon-instagram"></i>
+      </a>
+      <a class="social-link social-rss" href="/feed.xml" target="_blank">
+        <i class="icon-rss"></i>
+      </a>
+    </div>
+    <div class="credits">
+      <i class="icon-heart"></i> by xinqiu
+    </div>
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
