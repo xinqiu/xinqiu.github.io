@@ -5,7 +5,7 @@ description: > # this means to ignore newlines until "baseurl:"
   My new Blog.
 # baseurl: "/jekyll-theme-kagami"
 lang: zh-Hans # site language (en/ja/zh-Hans/zh-Hant)
-color_scheme: github # this specifies color scheme for syntax highlighting
+color_scheme: manni # this specifies color scheme for syntax highlighting
 github_username: xinqiu
 twitter_username: xinqiu_bot
 instagram_username: xinqiu_bot

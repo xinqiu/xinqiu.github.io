@@ -9,9 +9,9 @@
   <meta name="description" content="">
 
   
-  <link rel="stylesheet" href="/assets/styles/core.css?v=20201228182823">
-  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20201228182823">
-  <link rel="stylesheet" href="/assets/styles/highlighting/github.css?v=20201228182823">
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20210106163314">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20210106163314">
+  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20210106163314">
 
   <link rel="canonical" href="http://localhost:4000/2020/12/28/p2.html">
   <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
@@ -51,15 +51,101 @@
 
 <p>首先是阅读论文，2020版的作业相比以前，需要自己实现RPC部分，因此相对于以前只需要实现MapF和ReduceF，首先需要设计好RPC交互。</p>
 
-<p><img src="https://pic3.zhimg.com/80/v2-3d07dd78da8061c0d6b5b06b8d83e0ba_1440w.jpg" alt="MapReduce流程" /></p>
+<p><img src="https://pic3.zhimg.com/80/v2-3d07dd78da8061c0d6b5b06b8d83e0ba_1440w.jpg" alt="MapReduce流程" id="fig1" /></p>
 
 <p>RPC主要是Master和Worker之间的通信，Master负责调度任务，Worker的注册以及将任务给Worker进行运行。Worker首先上线以后会去Master注册，获取workID，之后不断的获取任务，执行任务，反馈任务执行信息。如果Worker执行某个Task失败，会通知给Master，让其找其他可以运行的Worker重新执行该Task。</p>
+
+<h2 id="worker">Worker</h2>
+
+<p>在复盘Lab 1时，感觉先写Worker会比较好理解，Master负责调度以及使用Worker来进行工作。Worker的几个工作相对好理解。对于MapReduce来说，Worker是不需要考虑map函数和reduce函数具体细节，更多是关注如何将map的结果写到本地磁盘，以及reduce函数如何读取数据进行合并输出结果。</p>
+
+<h3 id="注册">注册</h3>
+
+<p>当worker上线后，第一步是发消息给Master进行注册自己的信息。</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//</span>
+<span class="c">// main/mrworker.go calls this function.</span>
+<span class="c">//</span>
+<span class="k">func</span> <span class="n">Worker</span><span class="p">(</span><span class="n">mapf</span> <span class="k">func</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="kt">string</span><span class="p">)</span> <span class="p">[]</span><span class="n">KeyValue</span><span class="p">,</span>
+	<span class="n">reducef</span> <span class="k">func</span><span class="p">(</span><span class="kt">string</span><span class="p">,</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+
+	<span class="c">// Your worker implementation here.</span>
+	<span class="n">w</span> <span class="o">:=</span> <span class="n">worker</span><span class="p">{}</span>
+	<span class="n">w</span><span class="o">.</span><span class="n">mapf</span> <span class="o">=</span> <span class="n">mapf</span>
+	<span class="n">w</span><span class="o">.</span><span class="n">reducef</span> <span class="o">=</span> <span class="n">reducef</span>
+
+	<span class="c">// uncomment to send the Example RPC to the master.</span>
+	<span class="c">//CallExample()</span>
+
+	<span class="n">w</span><span class="o">.</span><span class="n">register</span><span class="p">()</span>
+	<span class="n">w</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>刚才说了，Master负责全部资源的调度和任务分配，因此Worker去注册自己的身份，主要是为了获得自己的workerID，这样后续的相应操作Master都可以知道是哪个Worker进行的请求。</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span><span class="n">worker</span><span class="p">)</span> <span class="n">register</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">args</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="n">RegArgs</span><span class="p">{}</span>
+	<span class="n">reply</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="n">RegReply</span><span class="p">{}</span>
+
+	<span class="k">if</span> <span class="n">ok</span> <span class="o">:=</span> <span class="n">call</span><span class="p">(</span><span class="s">"Master.RegWorker"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">reply</span><span class="p">);</span> <span class="o">!</span><span class="n">ok</span><span class="p">{</span>
+		<span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="s">"Register worker fail."</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="n">w</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">reply</span><span class="o">.</span><span class="n">WorkerId</span>
+	<span class="n">display</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"worker %+v register</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="请求任务">请求任务</h3>
+
+<p>Worker向Master请求，获取当前需要执行的任务信息。</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span><span class="n">worker</span><span class="p">)</span> <span class="n">reqTask</span><span class="p">()</span> <span class="n">Task</span> <span class="p">{</span>
+	<span class="n">args</span> <span class="o">:=</span> <span class="n">TaskArgs</span><span class="p">{}</span>
+	<span class="n">args</span><span class="o">.</span><span class="n">WorkerId</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">id</span>
+	<span class="n">reply</span> <span class="o">:=</span> <span class="n">ReqTaskReply</span><span class="p">{}</span>
+
+	<span class="k">if</span> <span class="n">ok</span> <span class="o">:=</span> <span class="n">call</span><span class="p">(</span><span class="s">"Master.ReqTask"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">reply</span><span class="p">);</span> <span class="o">!</span><span class="n">ok</span> <span class="p">{</span>
+		<span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="s">"request for task fail..."</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="o">*</span><span class="n">reply</span><span class="o">.</span><span class="n">Task</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="运行阶段">运行阶段</h3>
+
+<p>Worker在运行的阶段，实际上是一直轮询，从Master获取需要执行的任务，直到所有任务都结束。</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span><span class="n">worker</span><span class="p">)</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="n">t</span> <span class="o">:=</span> <span class="n">w</span><span class="o">.</span><span class="n">reqTask</span><span class="p">()</span>
+		<span class="k">if</span> <span class="o">!</span><span class="n">t</span><span class="o">.</span><span class="n">Alive</span> <span class="p">{</span>
+			<span class="n">display</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"worker get task not alive, worker %d exit..</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+		<span class="n">w</span><span class="o">.</span><span class="n">doTask</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="执行任务">执行任务</h3>
+
+<p><a href="#fig1">之前的图</a>中可以看到，Worker实际上也是有两个阶段的，一个是Map阶段，一个是Reduce阶段。每个任务不同阶段，因此在执行的时候，要根据任务的阶段执行不同的操作。</p>
+
+<h4 id="map任务与reduce任务">Map任务与Reduce任务</h4>
+
+<p>Map阶段使用mapf对内容构建出键值对，将所有的kvs通过hash放到中间文件中。按照Task的任务量(lab里也就是文件数量)和Reduce块数构建成中间文件矩阵。</p>
+
+<p>Reduce阶段分为两部分，首先是读取文件，将本地的中间文件读取出来，之后进行reduce操作，其结果最后会写到本地的分块文件中。</p>
+
+<h2 id="master">Master</h2>
 
 <h2 id="ref">Ref</h2>
 
 <p id="ref"><a href="https://pdos.csail.mit.edu/6.824/papers/mapreduce.pdf">MapReduce: Simplified Data Processing on Large Clusters</a></p>
 
-<p><a href="https://www.notion.so/MapReduce-60f0a525680b4a38b3a9183325377647#1bc3f8738ebd4dd4a9699de2ecfc1fd7">MIT 6.824 Lab1 MapReduce 2020 攻略</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/149324226">MIT 6.824 Lab1 MapReduce 2020 攻略</a></p>
 
 <p><a href="https://www.pianshen.com/article/1545934704/">6.824 Spring 2020 – Lab 1: MapReduce</a></p>
 
