@@ -9,9 +9,9 @@
   <meta name="description" content="">
 
   
-  <link rel="stylesheet" href="/assets/styles/core.css?v=20210106163314">
-  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20210106163314">
-  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20210106163314">
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20210108171228">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20210108171228">
+  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20210108171228">
 
   <link rel="canonical" href="http://localhost:4000/2020/12/28/p2.html">
   <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
@@ -140,6 +140,59 @@
 <p>Reduce阶段分为两部分，首先是读取文件，将本地的中间文件读取出来，之后进行reduce操作，其结果最后会写到本地的分块文件中。</p>
 
 <h2 id="master">Master</h2>
+
+<p>Master的职责就比较多，自顶向下来看，<code class="highlighter-rouge">MakeMaster</code> 是Master的入口，这里包含初始化Master节点，初始化Map任务相关状态然后启动Master的服务。</p>
+
+<p>对于刚开始的任务，是处于Map阶段，从任务状态里将所有的Task添加到Task队列中，方便Worker获取Task进行执行。在运行阶段，通过计算任务执行之间来进行超时控制，当超过一段时间并没完成后，会将该任务重新塞回任务队列。通过不断的循环，当所有任务的Map阶段都完成好后，转为Reduce阶段。</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// schedule task</span>
+<span class="k">func</span> <span class="p">(</span><span class="n">m</span> <span class="o">*</span><span class="n">Master</span><span class="p">)</span> <span class="n">schedule</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c">//fmt.Println("Processing ...")</span>
+
+	<span class="c">// check all task status</span>
+	<span class="n">flag</span> <span class="o">:=</span> <span class="no">true</span>
+
+	<span class="n">m</span><span class="o">.</span><span class="n">mu</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="k">defer</span> <span class="n">m</span><span class="o">.</span><span class="n">mu</span><span class="o">.</span><span class="n">Unlock</span><span class="p">()</span>
+
+	<span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">done</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="n">id</span><span class="p">,</span> <span class="n">taskStat</span> <span class="o">:=</span> <span class="k">range</span> <span class="n">m</span><span class="o">.</span><span class="n">taskStats</span> <span class="p">{</span>
+		<span class="c">//fmt.Printf("Task %d : %v", id, taskStat.Status)</span>
+		<span class="k">switch</span> <span class="n">taskStat</span><span class="o">.</span><span class="n">Status</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="n">TaskStatusReady</span><span class="o">:</span>
+			<span class="n">flag</span> <span class="o">=</span> <span class="no">false</span>
+			<span class="n">m</span><span class="o">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+		<span class="k">case</span> <span class="n">TaskStatusQueue</span><span class="o">:</span>
+			<span class="n">flag</span> <span class="o">=</span> <span class="no">false</span>
+		<span class="k">case</span> <span class="n">TaskStatusRunning</span><span class="o">:</span>
+			<span class="n">flag</span> <span class="o">=</span> <span class="no">false</span>
+			<span class="n">m</span><span class="o">.</span><span class="n">checkBreak</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+		<span class="k">case</span> <span class="n">TaskStatusFinished</span><span class="o">:</span>
+		<span class="c">//	只有全部任务都是完成，才不会对flag变量进行修改，</span>
+		<span class="c">//	进入reduce环节</span>
+		<span class="k">case</span> <span class="n">TaskStatusErr</span><span class="o">:</span>
+			<span class="n">flag</span> <span class="o">=</span> <span class="no">false</span>
+			<span class="n">m</span><span class="o">.</span><span class="n">addTask</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+		<span class="k">default</span><span class="o">:</span>
+			<span class="nb">panic</span><span class="p">(</span><span class="s">"Tasks status schedule error..."</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="n">flag</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">taskPhase</span> <span class="o">==</span> <span class="n">MapPhase</span> <span class="p">{</span>
+			<span class="n">m</span><span class="o">.</span><span class="n">initReduceTasks</span><span class="p">()</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="n">m</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="no">true</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>当Worker向Master请求任务后，从任务队列中获取一个Task，然后将该Task的相关信息传给Worker，并且在Master处注册该任务，也就是修改维护的任务状态信息。Worker在执行的过程中，也会不断反馈任务相关执行状态。</p>
 
 <h2 id="ref">Ref</h2>
 
