@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>MIT 6.824 Lab2A - Blog</title>
+  <meta name="description" content="这门课的关键就是Raft，Lab2 A就能看出相对于MapReduce，需要阅读的材料和理解更加的多，也用到了一些平时开发没怎么注意到的思路。">
+
+  
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20210303163621">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20210303163621">
+  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20210303163621">
+
+  <link rel="canonical" href="http://localhost:4000/2021/01/31/p3.html">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>.MathJax_ExBox { font-family: serif; }</style>
+  
+
+  
+</head>
+
+  <body>
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <article class="post" lang="zh-Hans" itemscope itemtype="http://schema.org/BlogPosting" >
+
+  <header class="post-header">
+  <a class="site-title" href="/">Blog</a>
+  <h1 class="post-title" itemprop="name headline">MIT 6.824 Lab2A</h1>
+</header>
+
+
+
+
+  <div class="post-content" itemprop="articleBody">
+    <blockquote>
+  <p>这门课的关键就是Raft，Lab2 A就能看出相对于MapReduce，需要阅读的材料和理解更加的多，也用到了一些平时开发没怎么注意到的思路。</p>
+</blockquote>
+
+<h2 id="raft">Raft</h2>
+
+<h3 id="leader选举">Leader选举</h3>
+
+<p>实验的开始是实现选举机制，首先需要理解选举的流程。在<code class="highlighter-rouge">raft.go</code>文件中实际上屏蔽了一些底层信息，比如加入Server，维护Server的状态等相关信息，这部分内容实际上是在<code class="highlighter-rouge">config.go</code>文件中的。既然不考虑一些底层的具体实现，只需要考虑Raft的算法本身。</p>
+
+<p><code class="highlighter-rouge">TestInitialElection2A</code>中创建了3个Server，也就是说1个会成为Leader，其他两个应该是处于Follower的状态。首先每个Server是处于Follower状态，但这时候的Follower并没有follow任何Leader，Follower有一个属于自己的随机timeout，也就是Election Timeout，通常timeout设置为150~300ms。当该timeout结束后，这个Server就会从Follower切换到Candidate状态，同时会开始进入election term。这部分阶段做了一些工作，其中最主要的工作应该算是<ruby>
+  拉票 <rp>(</rp><rt>RequestVote</rt><rp>)</rp>
+</ruby>。选举阶段，转为Candidate状态的节点执行了以下几个操作：</p>
+
+<ul>
+  <li>增加currentTerm</li>
+  <li>给自己投票</li>
+  <li>重置选举计时器</li>
+  <li>发送RequestVote给其他节点</li>
+</ul>
+
+<p>当该节点收到过半的赞成票时，即可从Candidate转为Leader。</p>
+
+<h3 id="requestvote">RequestVote</h3>
+
+<p>这部分内容参考论文 Figure 2 上的部分进行编码即可，这里要注意的是，除了 <code class="highlighter-rouge">RequestVote RPC</code> 里提到的规则，所有 Servers 都需要遵循一个规则</p>
+
+<blockquote>
+  <p>If RPC request or response contains term T &gt; currentTerm: set currentTerm = T, convert to follower</p>
+</blockquote>
+
+<p>因此 <code class="highlighter-rouge">RequestVote</code> 函数可以初步实现。</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">rf</span> <span class="o">*</span><span class="n">Raft</span><span class="p">)</span> <span class="n">RequestVote</span><span class="p">(</span><span class="n">args</span> <span class="o">*</span><span class="n">RequestVoteArgs</span><span class="p">,</span> <span class="n">reply</span> <span class="o">*</span><span class="n">RequestVoteReply</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c">// Your code here (2A, 2B).</span>
+
+	<span class="n">rf</span><span class="o">.</span><span class="n">mu</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="k">defer</span> <span class="n">rf</span><span class="o">.</span><span class="n">mu</span><span class="o">.</span><span class="n">Unlock</span><span class="p">()</span>
+
+	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">Term</span> <span class="o">&lt;</span> <span class="n">rf</span><span class="o">.</span><span class="n">currentTerm</span> <span class="p">{</span>
+		<span class="n">reply</span><span class="o">.</span><span class="n">VoteGranted</span> <span class="o">=</span> <span class="no">false</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">Term</span> <span class="o">&gt;</span> <span class="n">rf</span><span class="o">.</span><span class="n">currentTerm</span> <span class="p">{</span>
+		<span class="n">rf</span><span class="o">.</span><span class="n">currentTerm</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">Term</span>
+		<span class="n">rf</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">FOLLOWER</span>
+		<span class="n">rf</span><span class="o">.</span><span class="n">votedFor</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">CandidateId</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">Term</span> <span class="o">==</span> <span class="n">rf</span><span class="o">.</span><span class="n">currentTerm</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">rf</span><span class="o">.</span><span class="n">votedFor</span> <span class="o">==</span> <span class="n">args</span><span class="o">.</span><span class="n">CandidateId</span> <span class="o">||</span> <span class="n">rf</span><span class="o">.</span><span class="n">votedFor</span> <span class="o">==</span> <span class="o">-</span><span class="m">1</span> <span class="p">{</span>
+			<span class="n">rf</span><span class="o">.</span><span class="n">votedFor</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">CandidateId</span>
+			<span class="n">reply</span><span class="o">.</span><span class="n">VoteGranted</span> <span class="o">=</span> <span class="no">true</span>
+			<span class="n">rf</span><span class="o">.</span><span class="n">elapseReset</span> <span class="o">&lt;-</span> <span class="k">struct</span><span class="p">{}{}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">reply</span><span class="o">.</span><span class="n">Term</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">currentTerm</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+  </div>
+
+  
+
+
+  <footer class="post-footer">
+    <div class="post-meta">
+       <time datetime="2021-01-31T00:00:00+08:00" itemprop="datePublished">Jan 31, 2021</time> 
+      
+    </div>
+
+    
+    <ul class="post-tags" aria-label="TagList">
+      
+      <li><a class="tag-link" href="/tags/Program">Program</a></li>
+      
+    </ul>
+    
+  </footer>
+
+  
+</article>
+
+    </div>
+    <script type="text/javascript">
+  (function () {
+    var resize = function () {
+      this.width = 0.5 * (this.naturalWidth || this.width);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".half-size, .retina2x"), function(el) {
+      if (el.naturalWidth) {
+        resize.call(el);
+      } else {
+        el.onload = resize;
+      }
+    });
+  })();
+</script>
+
+  </main>
+
+  <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="social-links">
+      <a class="social-link social-github" href="https://github.com/xinqiu">
+        <i class="icon-github"></i>
+      </a>
+      <a class="social-link social-twitter" href="https://twitter.com/xinqiu_bot">
+        <i class="icon-twitter"></i>
+      </a>
+      <a class="social-link social-instagram" href="https://instagram.com/xinqiu_bot">
+        <i class="icon-instagram"></i>
+      </a>
+      <a class="social-link social-rss" href="/feed.xml" target="_blank">
+        <i class="icon-rss"></i>
+      </a>
+    </div>
+    <div class="credits">
+      <i class="icon-heart"></i> by xinqiu
+    </div>
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
