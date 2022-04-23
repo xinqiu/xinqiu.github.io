@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>GETH 本地多节点私链docker搭建手册 - Blog</title>
+  <meta name="description" content="到底有多久没有沉下心来学点有意思的技术了？可能是一年吧。上班以后的热情都被工作磨灭了，希望这次能够重新拾起年轻时的梦想和热血。">
+
+  
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20220423195110">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20220423195110">
+  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20220423195110">
+
+  <link rel="canonical" href="/2022/04/23/p4.html">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>.MathJax_ExBox { font-family: serif; }</style>
+  
+
+  
+</head>
+
+  <body>
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <article class="post" lang="zh-Hans" itemscope itemtype="http://schema.org/BlogPosting" >
+
+  <header class="post-header">
+  <a class="site-title" href="/">Blog</a>
+  <h1 class="post-title" itemprop="name headline">GETH 本地多节点私链docker搭建手册</h1>
+</header>
+
+
+<div class="post-cover" aria-label="Cover">
+  <div class="post-cover-wrapper">
+    <img src="https://miro.medium.com/max/1400/0*gVQXZtBZGvmBHvgQ.png" alt="" />
+  </div>
+  <div class="cover-meta"><p>Photo by <a href="https://uxdesign.cc/web3-crash-course-the-essentials-7b5f47cfa3c1">Taylor Green</a></p>
+</div>
+</div>
+
+
+
+  <div class="post-content" itemprop="articleBody">
+    <blockquote>
+  <p>到底有多久没有沉下心来学点有意思的技术了？可能是一年吧。上班以后的热情都被工作磨灭了，希望这次能够重新拾起年轻时的梦想和热血。</p>
+</blockquote>
+
+<p>最近NFT比较火，背后的智能合约逐渐成熟，Web3似乎到了即将快速发展时期。为了能够研究一下底层的技术，在本地搭建私链并进行调试最容易接触到整个智能合约运作的原理。我这里并没有选择直接本地安装<code class="highlighter-rouge">GETH</code>，为了更加真实的模拟多个节点的情况，使用<code class="highlighter-rouge">docker</code>来搭建多个容器部署<code class="highlighter-rouge">GETH</code>节点会更加的有意思些。同时除了建立本地私链，还可以接入本地的区块浏览器和监控进行观察。编写合约的流程就放到下一篇<ruby>文章 <rp>(</rp><rt>才不是因为懒</rt><rp>)</rp></ruby>吧。</p>
+
+<h2 id="前期准备">前期准备</h2>
+
+<h3 id="环境">环境</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">-</span> <span class="s">Mac OS Big Sur </span><span class="m">11.4</span>
+<span class="pi">-</span> <span class="s">Python </span><span class="m">3.9</span>
+
+<span class="pi">-</span> <span class="na">Docker Client</span><span class="pi">:</span>
+   <span class="pi">-</span> <span class="na">Cloud integration</span><span class="pi">:</span> <span class="s">v1.0.22</span>
+   <span class="pi">-</span> <span class="na">Version</span><span class="pi">:</span>           <span class="s">20.10.13</span>
+
+<span class="pi">-</span> <span class="na">Docker Server</span><span class="pi">:</span> <span class="s">Docker Desktop 4.6.1 (76265)</span>
+  <span class="pi">-</span> <span class="na">Engine</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">Version</span><span class="pi">:</span>          <span class="s">20.10.13</span>
+    <span class="pi">-</span> <span class="na">Go version</span><span class="pi">:</span>       <span class="s">go1.16.15</span>
+  <span class="pi">-</span> <span class="na">containerd</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">Version</span><span class="pi">:</span>          <span class="s">1.5.10</span>
+  <span class="pi">-</span> <span class="na">runc</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">Version</span><span class="pi">:</span>          <span class="s">1.0.3</span>
+  <span class="pi">-</span> <span class="na">docker-init</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">Version</span><span class="pi">:</span>          <span class="s">0.19.0</span>
+</code></pre></div></div>
+
+<h3 id="docker-image">Docker image</h3>
+
+<ul>
+  <li>ethereum/client-go:latest</li>
+  <li>kamael/eth-netstats:latest</li>
+  <li>alethio/ethereum-lite-explorer:latest</li>
+</ul>
+
+<h3 id="git-repo">Git repo</h3>
+
+<ul>
+  <li>eth-net-intelligence-api</li>
+</ul>
+
+<h2 id="搭建流程">搭建流程</h2>
+
+<h3 id="节点初始化">节点初始化</h3>
+
+<p>首先需要起2+个docker容器，其中一个作为<code class="highlighter-rouge">Main</code>节点，其他的作为<code class="highlighter-rouge">Slave</code>节点，将<code class="highlighter-rouge">Slave</code>节点连接到<code class="highlighter-rouge">Main</code>节点即可完成多peers的私链状态。</p>
+
+<ul>
+  <li>启动<code class="highlighter-rouge">Main</code>节点容器</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--entrypoint</span> /bin/sh <span class="nt">-p</span> 30303:30303 <span class="nt">-p</span> 30303:30303/udp <span class="nt">-p</span> 8545:8545 <span class="nt">-it</span> <span class="nt">-v</span> <span class="si">$(</span>PATH<span class="si">)</span>:/root <span class="nt">--privileged</span><span class="o">=</span><span class="nb">true </span>ethereum/client-go
+</code></pre></div></div>
+<p>其中，<code class="highlighter-rouge">-p 30303:30303/udp</code>是不可或缺的，节点的发现与连接是通过UDP进行的通信，不加上这一条就会导致无法<code class="highlighter-rouge">addPeers</code>。<code class="highlighter-rouge">8545</code>则作为RPC通信端口。挂载的目的是为了之后方便修改配置和查看log。这里容器的启动，都没有选择容器自带的entrypoint来启动<code class="highlighter-rouge">GETH</code>，主要是为了定制化的启动想要的<code class="highlighter-rouge">GETH</code>。</p>
+
+<ul>
+  <li>启动<code class="highlighter-rouge">Slave</code>节点容器</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --entrypoint /bin/sh -p -it -v $(PATH):/root --privileged=true ethereum/client-go
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">Slave</code>节点则不需要额外暴露端口，通过docker内部的网桥可以直接互联，当然也可能建立新的<code class="highlighter-rouge">docker network</code>。对了，这两个容器的挂载文件夹最好的不同的。</p>
+
+<ul>
+  <li>启动<code class="highlighter-rouge">GETH</code>节点</li>
+</ul>
+
+<p>为了创建自定义的本地Private Network，需要创建<code class="highlighter-rouge">genesis.json</code>。</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+        </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"chainId"</span><span class="p">:</span><span class="w"> </span><span class="mi">2333</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"homesteadBlock"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"eip150Block"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"eip155Block"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"eip158Block"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"byzantiumBlock"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"constantinopleBlock"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"coinbase"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0000000000000000000000000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"difficulty"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"10"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"extraData"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"gasLimit"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0xffffffff"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"nonce"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0000000000000042"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mixhash"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0000000000000000000000000000000000000000000000000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"parentHash"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0000000000000000000000000000000000000000000000000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"timestamp"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"0x00"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"alloc"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> 
+                </span><span class="nl">"a65cf03166298503d8e81053167bb8d97213f4a2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"balance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100000000"</span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p>这里面主要需要修改的是<code class="highlighter-rouge">chainId</code>，每个网络都有唯一的id，节点之间的发现也是通过这个完成。其他<code class="highlighter-rouge">config</code>里的参数尽量保持，之前漏配上一个参数会导致无法进行创世块的初始化。<code class="highlighter-rouge">difficulty</code>则决定了<ruby>挖矿<rp>(</rp><rt>PoW</rt><rp>)</rp></ruby>的难度，因为是本地测试，可以小一点。<code class="highlighter-rouge">gasLimit</code>可以设置大一点，方便跑复杂的合约。<code class="highlighter-rouge">coinbase</code>是挖矿获得收益存入的钱包地址。<code class="highlighter-rouge">alloc</code>是可以通过设定一些初始钱包的余额。</p>
+
+<p>再完成了<code class="highlighter-rouge">genesis.json</code>的编辑后，需要进行初始化。这一步在<code class="highlighter-rouge">Main</code>和<code class="highlighter-rouge">Slave</code>里都需要操作。需要把同一份配置文件放到每个容器挂载的目录里，保证初始化的信息是一致，不然之后节点之间因为hash不同无法互联。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>geth <span class="nt">--datadir</span> /root/data init genesis.json
+</code></pre></div></div>
+
+<h3 id="启动节点">启动节点</h3>
+
+<blockquote>
+  <p>启动 <code class="highlighter-rouge">Main</code> 节点</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>geth <span class="nt">--networkid</span> 2333 <span class="nt">--http</span> <span class="nt">--http</span>.addr<span class="o">=</span>0.0.0.0 <span class="nt">--http</span>.port<span class="o">=</span>8545 <span class="nt">--http</span>.api <span class="s2">"web3,eth,debug,personal,net,admin,txpool"</span> <span class="nt">--http</span>.corsdomain <span class="s2">"*"</span> <span class="nt">--allow-insecure-unlock</span> <span class="nt">--datadir</span> data <span class="nt">--nodiscover</span> <span class="nt">--nat</span> extip:172.17.0.2 <span class="nt">-verbosity</span> 10 <span class="nt">--ipcdisable</span> <span class="nt">--vmdebug</span> <span class="nt">--ws</span> <span class="nt">--ws</span>.addr<span class="o">=</span>0.0.0.0 <span class="nt">--ws</span>.origins<span class="o">=</span><span class="k">*</span> <span class="nt">--graphql</span> <span class="nt">--graphql</span>.corsdomain<span class="o">=</span><span class="k">*</span> <span class="nt">--graphql</span>.vhosts<span class="o">=</span><span class="k">*</span> <span class="nt">--txpool</span>.lifetime 0h5m0s <span class="nt">--rpc</span>.allow-unprotected-txs <span class="nt">--identity</span> <span class="s2">"Main"</span> console 2&gt;&gt; main.log
+</code></pre></div></div>
+
+<blockquote>
+  <p>启动 <code class="highlighter-rouge">Slave</code> 节点</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>geth --networkid 2333 --http --http.addr=0.0.0.0 --http.port=8545 --http.api "web3,eth,debug,personal,net" --http.corsdomain "*" --allow-insecure-unlock --datadir data --nodiscover --nat extip:172.17.0.3 -verbosity 10 --ipcdisable --vmdebug --ws --ws.addr=0.0.0.0 --ws.origins=* --graphql --graphql.corsdomain=* --graphql.vhosts=* --miner.threads 1 --txpool.lifetime 0h5m0s --rpc.allow-unprotected-txs --identity "Slave" console 2&gt;&gt; slave.log
+</code></pre></div></div>
+
+<p><img src="/assets/pic/geth-1.png" alt="img" /></p>
+
+<p>这两个启动命令真的是又臭又长，主要是增加了很多配置，可以将其保存下来写到<code class="highlighter-rouge">bash脚本</code>里进行启动。接下来解释一下相关参数的作用：</p>
+
+<ol>
+  <li>–networkid: 和<code class="highlighter-rouge">genesis.json</code>里的保持一致</li>
+  <li>–http: 支持http接口调用，后面的相关参数都是为了配置http接口</li>
+  <li>–allow-insecure-unlock: 允许不安全的解锁账户，方便调试</li>
+  <li>–datadir: 之前初始化的节点数据位置</li>
+  <li>–nodiscover: 如果不加上这个，在节点启动后，会有大量外部节点进行探测</li>
+  <li>–nat: 开启NAT模式，不然容器节点无法互联，后面的地址是docker容器的地址。在容器启动这里非常关键，很多情况的节点无法<code class="highlighter-rouge">addPeers</code>就是这个原因</li>
+  <li>–verbosity: 日志等级，方便排查问题</li>
+  <li>–ipcdisable: 节点之间的互联没有通过ipc的方式，这里使用网络通信的方式</li>
+  <li>–ws: 启用websocket方便之后搭建节点监控，–graphql也是一样的作用</li>
+  <li>–rpc.allow-unprotected-txs: 常规情况不会需要开启这个，由于ERC1820协议需要注册固定地址，需要开启这个配置，之后在部署合约的时候会详细讲解相关内容</li>
+  <li>–identity: 定义节点名称</li>
+  <li>–txpool.lifetime: 对于一些交易，如果长时间没有回应，自动终结，避免一些tx卡住</li>
+  <li>–miner.threads: <code class="highlighter-rouge">Slave</code>节点用来控制miner线程</li>
+</ol>
+
+<ul>
+  <li>AddPeers</li>
+</ul>
+
+<p>刚才虽然启动了节点，但是由于开启了<code class="highlighter-rouge">--nodiscover</code>，节点无法直接通过发现的方式自动互联，因此需要手动进行添加节点。通过查询node的信息，然后使用<code class="highlighter-rouge">admin.addPeers()</code>添加节点。</p>
+
+<p><img src="/assets/pic/geth-2.png" alt="img" /></p>
+
+<p>实际上，即使<code class="highlighter-rouge">admin.addPeers()</code>返回<code class="highlighter-rouge">True</code>也不代表真的就添加节点成功，需要通过<code class="highlighter-rouge">admin.peers</code>进行检查。</p>
+
+<p>通过以下的<code class="highlighter-rouge">curl</code>也可以验证节点是否成功添加，以及http接口是否正常。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">--location</span> <span class="nt">--request</span> POST <span class="s1">'localhost:8545'</span> <span class="nt">--header</span> <span class="s1">'Content-Type: application/json'</span> <span class="nt">--data-raw</span> <span class="s1">'{    "jsonrpc": "2.0",    "id": 1,   "method": "admin_peers",    "params": []}'</span>
+</code></pre></div></div>
+
+<h3 id="挖矿">挖矿</h3>
+
+<p>首先确保要有account，不然需要先去创建。然后选择其中一个节点作为挖矿收益汇入的钱包。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> miner.setEtherbase<span class="o">(</span>eth.accounts[0]<span class="o">)</span>
+</code></pre></div></div>
+
+<p>通过这种方式，可以挖到一个<code class="highlighter-rouge">block</code>就停止。这里是保持每一笔交易都需要手动确认挖矿。另一种也可以将<code class="highlighter-rouge">Slave</code>节点启动</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> miner.start<span class="o">()</span><span class="p">;</span>admin.sleepBlocks<span class="o">(</span>1<span class="o">)</span>,miner.stop<span class="o">()</span>
+</code></pre></div></div>
+
+<h2 id="监控">监控</h2>
+
+<h3 id="本地区块浏览器">本地区块浏览器</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-d</span> <span class="nt">-p</span> 8000:80 <span class="nt">-e</span> <span class="nv">APP_NODE_URL</span><span class="o">=</span><span class="s2">"http://0.0.0.0:8545"</span> alethio/ethereum-lite-explorer
+</code></pre></div></div>
+
+<p><img src="/assets/pic/geth-5.png" alt="img" /></p>
+
+<h3 id="节点状态dashboard">节点状态Dashboard</h3>
+
+<p>启动监控</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">-p</span> 3000:3000 <span class="nt">-e</span> <span class="nv">WS_SECRET</span><span class="o">=</span>mysecret <span class="nt">--name</span> eth-netstats kamael/eth-netstats
+
+<span class="nv">$ </span>git clone https://github.com/cubedro/eth-net-intelligence-api
+
+</code></pre></div></div>
+
+<p><img src="/assets/pic/geth-3.png" alt="img" /></p>
+
+<p><img src="/assets/pic/geth-4.png" alt="img" /></p>
+
+<h2 id="常见问题">常见问题</h2>
+
+<p>Q1: 无法成功addPeers</p>
+
+<p>A1: 网络配置问题，或者启动参数没有配置正确</p>
+
+<p>Q2: tx交易一直pending</p>
+
+<p>A2: 退出<code class="highlighter-rouge">Geth</code>节点终端，进入<code class="highlighter-rouge">data/geth</code>删去<code class="highlighter-rouge">transactions.rlp</code>然后重新启动节点即可，每个节点都需要删去这个文件</p>
+
+<h2 id="一些玩法">一些玩法</h2>
+
+<p>至此已经可以成功的在本地搭建起ETH Private Network了，之后就可以在上面随心所欲的玩耍了。结合<code class="highlighter-rouge">remix</code>在本地进行编写合约以及运行合约会更加的容易些。之后再来补上关于本地跑合约，创建自己的Token，以及部署ERC1820在本地私链。</p>
+
+  </div>
+
+  
+
+
+  <footer class="post-footer">
+    <div class="post-meta">
+       <time datetime="2022-04-23T00:00:00+08:00" itemprop="datePublished">Apr 23, 2022</time> 
+      
+    </div>
+
+    
+    <ul class="post-tags" aria-label="TagList">
+      
+      <li><a class="tag-link" href="/tags/Web3">Web3</a></li>
+      
+    </ul>
+    
+  </footer>
+
+  
+</article>
+
+    </div>
+    <script type="text/javascript">
+  (function () {
+    var resize = function () {
+      this.width = 0.5 * (this.naturalWidth || this.width);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".half-size, .retina2x"), function(el) {
+      if (el.naturalWidth) {
+        resize.call(el);
+      } else {
+        el.onload = resize;
+      }
+    });
+  })();
+</script>
+
+  </main>
+
+  <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="social-links">
+      <a class="social-link social-github" href="https://github.com/xinqiu">
+        <i class="icon-github"></i>
+      </a>
+      <a class="social-link social-twitter" href="https://twitter.com/xinqiu_bot">
+        <i class="icon-twitter"></i>
+      </a>
+      <a class="social-link social-instagram" href="https://instagram.com/xinqiu_bot">
+        <i class="icon-instagram"></i>
+      </a>
+      <a class="social-link social-rss" href="/feed.xml" target="_blank">
+        <i class="icon-rss"></i>
+      </a>
+    </div>
+    <div class="credits">
+      <i class="icon-heart"></i> by xinqiu
+    </div>
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
