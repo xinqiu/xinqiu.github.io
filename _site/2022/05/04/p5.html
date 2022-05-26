@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>智能合约开发初探 - Blog</title>
+  <meta name="description" content="智能合约">
+
+  
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20220526221655">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20220526221655">
+  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20220526221655">
+
+  <link rel="canonical" href="http://localhost:4000/2022/05/04/p5.html">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>.MathJax_ExBox { font-family: serif; }</style>
+  
+
+  
+</head>
+
+  <body>
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <article class="post" lang="zh-Hans" itemscope itemtype="http://schema.org/BlogPosting" >
+
+  <header class="post-header">
+  <a class="site-title" href="/">Blog</a>
+  <h1 class="post-title" itemprop="name headline">智能合约开发初探</h1>
+</header>
+
+
+<div class="post-cover" aria-label="Cover">
+  <div class="post-cover-wrapper">
+    <img src="https://www.ledger.com/wp-content/uploads/2021/04/cover-4.png" alt="" />
+  </div>
+  <div class="cover-meta"><p>Photo by <a href="https://www.ledger.com/es/academy/blockchain/what-is-a-smart-contract">ledger</a></p>
+</div>
+</div>
+
+
+
+  <div class="post-content" itemprop="articleBody">
+    <h2 id="智能合约">智能合约</h2>
+
+<p>上一篇讲了如何在本地搭建以太坊本地私链，这次就聊聊如何在自己搭建的私链上部署合约以及运行合约。本地搭建合约的好处在于，一方面可以自定义挖矿难度以及控制挖矿情况，另一方面实际上是可以对部署的合约进行断点调试，熟悉合约执行的每一步，观察存储的数据情况。</p>
+
+<h3 id="主流协议">主流协议</h3>
+
+<p>由于有了<a href="https://docs.openzeppelin.com/contracts/4.x/wizard">openzeppelin</a>的存在，写合约容易了很多，只需要选择好相应的协议，直接复用其实现就好，真可谓无脑发币和NFT，难怪近期的NFT项目越来越多。</p>
+
+<h4 id="erc20">ERC20</h4>
+
+<p>最为使用最广泛的token合约，仅需几行代码就可以快速发币，以下就是最基础的发币代码。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="dl">"</span><span class="s2">@openzeppelin/contracts/token/ERC20/ERC20.sol</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">MyToken</span> <span class="nx">is</span> <span class="nx">ERC20</span> <span class="p">{</span>
+    <span class="kd">constructor</span><span class="p">(</span><span class="nx">uint256</span> <span class="nx">initialSupply</span><span class="p">)</span> <span class="nx">ERC20</span><span class="p">(</span><span class="dl">"</span><span class="s2">MyToken</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">MTK</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_mint</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">sender</span><span class="p">,</span> <span class="nx">initialSupply</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>OpenZeppelin的ERC20协议以包含了以下接口：</p>
+
+<ul>
+  <li>totalSupply：规定了代币的总量，外部可以通过调用这个函数来获得代币总量是多少</li>
+  <li>balanceOf：获取某地址的代币余额</li>
+  <li>transfer：调用transfer函数将自己的token转账给_to地址，_value为转账个数
+*approve：批准_spender账户从自己的账户转移_value个token。可以分多次转移</li>
+  <li>transferFrom：用于第三方（_spender）从被授权的账户转账到目标账户</li>
+  <li>allowance：返回_spender还能提取token的个数</li>
+</ul>
+
+<p>属实非常贴心，看上去只需要确定名字，就可以上手。而这里的allowance概念有点意思，他是允许第三方从账上划转token，借这个功能就可以做一个swap。另外要注意的一点是，不要直接往代币合约地址直接转账(transfer)。透过合约代码也可以发现，ERC20在链上维护了一个address&lt;-&gt;Balance的Map结构，记录了每个地址的余额情况。</p>
+
+<h4 id="erc721">ERC721</h4>
+
+<p>最近炒得很火的NFT基本上都是基于ERC721协议实现的，ERC721和ERC20不同的点在于，每一个token都是非同质的，即独一无二的，因此在链上的储存信息是不同的，ERC721记录的虽然也是维护了一个Map结构，但这里是维护token&lt;-&gt;address的信息，记录每个token的owner。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="dl">"</span><span class="s2">@openzeppelin/contracts/token/ERC721/ERC721.sol</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">"</span><span class="s2">@openzeppelin/contracts/access/Ownable.sol</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">MyToken</span> <span class="nx">is</span> <span class="nx">ERC721</span><span class="p">,</span> <span class="nx">Ownable</span> <span class="p">{</span>
+    <span class="kd">constructor</span><span class="p">()</span> <span class="nx">ERC721</span><span class="p">(</span><span class="dl">"</span><span class="s2">MyToken</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">MTK</span><span class="dl">"</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="kd">function</span> <span class="nx">safeMint</span><span class="p">(</span><span class="nx">address</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">uint256</span> <span class="nx">tokenId</span><span class="p">)</span> <span class="kr">public</span> <span class="nx">onlyOwner</span> <span class="p">{</span>
+        <span class="nx">_safeMint</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">tokenId</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>最关键的部分即<code class="highlighter-rouge">mint</code>操作，<code class="highlighter-rouge">mint</code>完成了创建出一个NFT给对应的address。</p>
+
+<h3 id="开发工具">开发工具</h3>
+
+<h4 id="remix">Remix</h4>
+
+<h4 id="truffle">Truffle</h4>
+
+<h4 id="hardhat">Hardhat</h4>
+
+<h3 id="部署合约">部署合约</h3>
+
+<h3 id="高级玩法">高级玩法</h3>
+
+<h3 id="erc721a项目部署">ERC721A项目部署</h3>
+
+<h4 id="erc777本地私链部署流程">ERC777本地私链部署流程</h4>
+
+<h4 id="nba-nft-本地部署">NBA NFT 本地部署</h4>
+
+
+  </div>
+
+  
+
+
+  <footer class="post-footer">
+    <div class="post-meta">
+       <time datetime="2022-05-04T00:00:00+08:00" itemprop="datePublished">May 4, 2022</time> 
+      
+    </div>
+
+    
+    <ul class="post-tags" aria-label="TagList">
+      
+      <li><a class="tag-link" href="/tags/Program">Program</a></li>
+      
+    </ul>
+    
+  </footer>
+
+  
+</article>
+
+    </div>
+    <script type="text/javascript">
+  (function () {
+    var resize = function () {
+      this.width = 0.5 * (this.naturalWidth || this.width);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".half-size, .retina2x"), function(el) {
+      if (el.naturalWidth) {
+        resize.call(el);
+      } else {
+        el.onload = resize;
+      }
+    });
+  })();
+</script>
+
+  </main>
+
+  <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="social-links">
+      <a class="social-link social-github" href="https://github.com/xinqiu">
+        <i class="icon-github"></i>
+      </a>
+      <a class="social-link social-twitter" href="https://twitter.com/xinqiu_bot">
+        <i class="icon-twitter"></i>
+      </a>
+      <a class="social-link social-instagram" href="https://instagram.com/xinqiu_bot">
+        <i class="icon-instagram"></i>
+      </a>
+      <a class="social-link social-rss" href="/feed.xml" target="_blank">
+        <i class="icon-rss"></i>
+      </a>
+    </div>
+    <div class="credits">
+      <i class="icon-heart"></i> by xinqiu
+    </div>
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
