@@ -9,9 +9,9 @@
   <meta name="description" content="到底有多久没有沉下心来学点有意思的技术了？可能是一年吧。上班以后的热情都被工作磨灭了，希望这次能够重新拾起年轻时的梦想和热血。">
 
   
-  <link rel="stylesheet" href="/assets/styles/core.css?v=20220612012413">
-  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20220612012413">
-  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20220612012413">
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20220612012614">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20220612012614">
+  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20220612012614">
 
   <link rel="canonical" href="http://localhost:4000/2022/04/23/p4.html">
   <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
@@ -87,7 +87,7 @@
 <h3 id="git-repo">Git repo</h3>
 
 <ul>
-  <li>eth-net-intelligence-api</li>
+  <li><a href="https://github.com/cubedro/eth-net-intelligence-api">eth-net-intelligence-api</a></li>
 </ul>
 
 <h2 id="搭建流程">搭建流程</h2>
@@ -100,7 +100,7 @@
   <li>启动<code class="highlighter-rouge">Main</code>节点容器</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--entrypoint</span> /bin/sh <span class="nt">-p</span> 30303:30303 <span class="nt">-p</span> 30303:30303/udp <span class="nt">-p</span> 8545:8545 <span class="nt">-it</span> <span class="nt">-v</span> <span class="si">$(</span>PATH<span class="si">)</span>:/root <span class="nt">--privileged</span><span class="o">=</span><span class="nb">true </span>ethereum/client-go
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--entrypoint</span> /bin/sh <span class="nt">-p</span> 30303:30303 <span class="nt">-p</span> 30303:30303/udp <span class="nt">-p</span> 8545:8545 <span class="nt">-it</span> <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/root <span class="nt">--privileged</span><span class="o">=</span><span class="nb">true</span> <span class="nt">--name</span> eth-main ethereum/client-go
 </code></pre></div></div>
 <p>其中，<code class="highlighter-rouge">-p 30303:30303/udp</code>是不可或缺的，节点的发现与连接是通过UDP进行的通信，不加上这一条就会导致无法<code class="highlighter-rouge">addPeers</code>。<code class="highlighter-rouge">8545</code>则作为RPC通信端口。挂载的目的是为了之后方便修改配置和查看log。这里容器的启动，都没有选择容器自带的entrypoint来启动<code class="highlighter-rouge">GETH</code>，主要是为了定制化的启动想要的<code class="highlighter-rouge">GETH</code>。</p>
 
@@ -108,7 +108,7 @@
   <li>启动<code class="highlighter-rouge">Slave</code>节点容器</li>
 </ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --entrypoint /bin/sh -p -it -v $(PATH):/root --privileged=true ethereum/client-go
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --entrypoint /bin/sh -it -v $(pwd):/root --privileged=true --name eth-slave ethereum/client-go
 </code></pre></div></div>
 
 <p><code class="highlighter-rouge">Slave</code>节点则不需要额外暴露端口，通过docker内部的网桥可以直接互联，当然也可能建立新的<code class="highlighter-rouge">docker network</code>。对了，这两个容器的挂载文件夹最好的不同的。</p>
@@ -189,11 +189,11 @@
   <li>AddPeers</li>
 </ul>
 
-<p>刚才虽然启动了节点，但是由于开启了<code class="highlighter-rouge">--nodiscover</code>，节点无法直接通过发现的方式自动互联，因此需要手动进行添加节点。通过查询node的信息，然后使用<code class="highlighter-rouge">admin.addPeers()</code>添加节点。</p>
+<p>刚才虽然启动了节点，但是由于开启了<code class="highlighter-rouge">--nodiscover</code>，节点无法直接通过发现的方式自动互联，因此需要手动进行添加节点。通过查询node的信息，然后使用<code class="highlighter-rouge">admin.addPeer()</code>添加节点。</p>
 
 <p><img src="/assets/pic/geth-2.png" alt="img" /></p>
 
-<p>实际上，即使<code class="highlighter-rouge">admin.addPeers()</code>返回<code class="highlighter-rouge">True</code>也不代表真的就添加节点成功，需要通过<code class="highlighter-rouge">admin.peers</code>进行检查。</p>
+<p>实际上，即使<code class="highlighter-rouge">admin.addPeer()</code>返回<code class="highlighter-rouge">True</code>也不代表真的就添加节点成功，需要通过<code class="highlighter-rouge">admin.peers</code>进行检查。</p>
 
 <p>通过以下的<code class="highlighter-rouge">curl</code>也可以验证节点是否成功添加，以及http接口是否正常。</p>
 
