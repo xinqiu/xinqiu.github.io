@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>智能合约开发初探 - Blog</title>
+  <meta name="description" content="智能合约">
+
+  
+  <link rel="stylesheet" href="/assets/styles/core.css?v=20220612012413">
+  <link rel="stylesheet" href="/assets/styles/fontello.css?v=20220612012413">
+  <link rel="stylesheet" href="/assets/styles/highlighting/manni.css?v=20220612012413">
+
+  <link rel="canonical" href="http://localhost:4000/2022/05/04/p5.html">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="/feed.xml">
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style>.MathJax_ExBox { font-family: serif; }</style>
+  
+
+  
+</head>
+
+  <body>
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <article class="post" lang="zh-Hans" itemscope itemtype="http://schema.org/BlogPosting" >
+
+  <header class="post-header">
+  <a class="site-title" href="/">Blog</a>
+  <h1 class="post-title" itemprop="name headline">智能合约开发初探</h1>
+</header>
+
+
+<div class="post-cover" aria-label="Cover">
+  <div class="post-cover-wrapper">
+    <img src="https://www.ledger.com/wp-content/uploads/2021/04/cover-4.png" alt="" />
+  </div>
+  <div class="cover-meta"><p>Photo by <a href="https://www.ledger.com/es/academy/blockchain/what-is-a-smart-contract">ledger</a></p>
+</div>
+</div>
+
+
+
+  <div class="post-content" itemprop="articleBody">
+    <h2 id="智能合约">智能合约</h2>
+
+<p>上一篇讲了如何在本地搭建以太坊本地私链，这次就聊聊如何在自己搭建的私链上部署合约以及运行合约。本地搭建合约的好处在于，一方面可以自定义挖矿难度以及控制挖矿情况，另一方面实际上是可以对部署的合约进行断点调试，熟悉合约执行的每一步，观察存储的数据情况。</p>
+
+<h3 id="主流协议">主流协议</h3>
+
+<p>由于有了<a href="https://docs.openzeppelin.com/contracts/4.x/wizard">openzeppelin</a>的存在，写合约容易了很多，只需要选择好相应的协议，直接复用其实现就好，真可谓无脑发币和 NFT，难怪近期的 NFT 项目越来越多。</p>
+
+<h4 id="erc20">ERC20</h4>
+
+<p>最为使用最广泛的 token 合约，仅需几行代码就可以快速发币，以下就是最基础的发币代码。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="dl">"</span><span class="s2">@openzeppelin/contracts/token/ERC20/ERC20.sol</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">MyToken</span> <span class="nx">is</span> <span class="nx">ERC20</span> <span class="p">{</span>
+    <span class="kd">constructor</span><span class="p">(</span><span class="nx">uint256</span> <span class="nx">initialSupply</span><span class="p">)</span> <span class="nx">ERC20</span><span class="p">(</span><span class="dl">"</span><span class="s2">MyToken</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">MTK</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_mint</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">sender</span><span class="p">,</span> <span class="nx">initialSupply</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>OpenZeppelin 的 ERC20 协议以包含了以下接口：</p>
+
+<ul>
+  <li>totalSupply：规定了代币的总量，外部可以通过调用这个函数来获得代币总量是多少</li>
+  <li>balanceOf：获取某地址的代币余额</li>
+  <li>transfer：调用 transfer 函数将自己的 token 转账给_to 地址，_value 为转账个数
+*approve：批准_spender 账户从自己的账户转移_value 个 token。可以分多次转移</li>
+  <li>transferFrom：用于第三方（_spender）从被授权的账户转账到目标账户</li>
+  <li>allowance：返回_spender 还能提取 token 的个数</li>
+</ul>
+
+<p>属实非常贴心，看上去只需要确定名字，就可以上手。而这里的 allowance 概念有点意思，他是允许第三方从账上划转 token，借这个功能就可以做一个 swap。另外要注意的一点是，不要直接往代币合约地址直接转账(transfer)。透过合约代码也可以发现，ERC20 在链上维护了一个 address&lt;-&gt;Balance 的 Map 结构，记录了每个地址的余额情况。</p>
+
+<h4 id="erc721">ERC721</h4>
+
+<p>最近炒得很火的 NFT 基本上都是基于 ERC721 协议实现的，ERC721 和 ERC20 不同的点在于，每一个 token 都是非同质的，即独一无二的，因此在链上的储存信息是不同的，ERC721 记录的虽然也是维护了一个 Map 结构，但这里是维护 token&lt;-&gt;address 的信息，记录每个 token 的 owner。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SPDX-License-Identifier: MIT</span>
+<span class="nx">pragma</span> <span class="nx">solidity</span> <span class="o">^</span><span class="mf">0.8</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="dl">"</span><span class="s2">@openzeppelin/contracts/token/ERC721/ERC721.sol</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">"</span><span class="s2">@openzeppelin/contracts/access/Ownable.sol</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="nx">contract</span> <span class="nx">MyToken</span> <span class="nx">is</span> <span class="nx">ERC721</span><span class="p">,</span> <span class="nx">Ownable</span> <span class="p">{</span>
+    <span class="kd">constructor</span><span class="p">()</span> <span class="nx">ERC721</span><span class="p">(</span><span class="dl">"</span><span class="s2">MyToken</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">MTK</span><span class="dl">"</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="kd">function</span> <span class="nx">safeMint</span><span class="p">(</span><span class="nx">address</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">uint256</span> <span class="nx">tokenId</span><span class="p">)</span> <span class="kr">public</span> <span class="nx">onlyOwner</span> <span class="p">{</span>
+        <span class="nx">_safeMint</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">tokenId</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>最关键的部分即<code class="highlighter-rouge">mint</code>操作，<code class="highlighter-rouge">mint</code>完成了创建出一个 NFT 给对应的 address。上述只是一个简单的例子，ERC721 有很多扩展，常规的 NFT 都是使用<code class="highlighter-rouge">ERC721URIStorage</code>储存 NFT 的<code class="highlighter-rouge">baseURI</code>，在这里储存了每个 NFT 不同的 metadata。这一块可以后面细细讲解。</p>
+
+<h3 id="开发工具">开发工具</h3>
+
+<p>在常规的开发中，remix 算是比较好用的 Web IDE，更适合部署合约并调试合约，之前也试用过<a href="https://github.com/ObsidianLabs/Black-IDE">Black-IDE</a>，从编辑效果上还是 VS Code 会更加的好用。部署合约的工具可以选择使用 Truffle 或 HardHat。Truffle 里有 box 这种概念，能够提供一些常规的模板。VS Code 一定要装一下 Tabnine 和 Copilot，由于合约大部分代码都是相似的，利用自动补全，基本上可以无脑写出很多想要的代码= =。</p>
+
+<h4 id="remix">Remix</h4>
+
+<p><a href="https://remix.ethereum.org/">remix</a> 使用在线的更方便部署到 JVM 中进行模拟测试，另一方面，使用<code class="highlighter-rouge">Inject Web3</code>的方式直接吊起 Metamask 进行操作授权。</p>
+
+<p>另一方面，可以在 VS Code 可以装<a href="https://marketplace.visualstudio.com/items?itemName=RemixProject.ethereum-remix">ethereum-remix</a>插件，也可以做到类似 Web IDE 的效果。</p>
+
+<p><img src="/assets/pic/2022-5-4-p5/1.png" alt="img" /></p>
+
+<h4 id="truffle">Truffle</h4>
+
+<p>Truffle 算是一个开发合约的脚手架，通过这个工具可以初始化一个合约项目，结合 VS Code 上的<a href="https://marketplace.visualstudio.com/items?itemName=trufflesuite-csi.truffle-vscode">Truffle</a>插件，可以快速的部署在本地私链或公链。</p>
+
+<p>truffle 还有一个工具非常好用——truffle dashboard，通过这种方式可以在浏览器里吊起 Metamask 进行支付授权。可以参考以下的配置<code class="highlighter-rouge">truffle-config.js</code>，development 是本地私链的基本配置，需要使用下面的 dashboard 配置，从体验上可以认为是一个类似 Remix Inject Web3 的工具，通过这种方式，避免需要解锁钱包。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1">// Uncommenting the defaults below</span>
+  <span class="c1">// provides for an easier quick-start with Ganache.</span>
+  <span class="c1">// You can also follow this format for other networks.</span>
+  <span class="c1">// See details at: https://trufflesuite.com/docs/truffle/reference/configuration</span>
+  <span class="c1">// on how to specify configuration options!</span>
+  <span class="c1">//</span>
+  <span class="na">networks</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">development</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">host</span><span class="p">:</span> <span class="dl">"</span><span class="s2">127.0.0.1</span><span class="dl">"</span><span class="p">,</span>
+      <span class="na">port</span><span class="p">:</span> <span class="mi">8545</span><span class="p">,</span>
+      <span class="na">network_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">*</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">truffle-dashboard</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://localhost:24012/rpc</span><span class="dl">"</span><span class="p">,</span> <span class="c1">// where truffle dashboard run</span>
+      <span class="na">network_id</span><span class="p">:</span> <span class="dl">"</span><span class="s2">77895176</span><span class="dl">"</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><img src="/assets/pic/2022-5-4-p5/2.png" alt="img" /></p>
+
+<h3 id="部署合约">部署合约</h3>
+
+<p>刚才介绍了很多合约的背景知识和一些工具的使用，现在就可以尝试去部署一个<ruby>
+合约 <rp>(</rp><rt>可以使用上述提到的 MyToken</rt><rp>)</rp>
+</ruby>
+。部署合约的方式有多种，可以通过 remix 也可以通过 truffle 的方式，另外也可以通过<code class="highlighter-rouge">truffle migration</code>的方式，后者更像是多个合约的部署。</p>
+
+<ul>
+  <li>通过 truffle for VS code 部署单个合约</li>
+</ul>
+
+<p><img src="/assets/pic/2022-5-4-p5/3.png" alt="img" /></p>
+
+<ul>
+  <li>通过 remix for VS Code 部署单个合约</li>
+</ul>
+
+<p><img src="/assets/pic/2022-5-4-p5/4.png" alt="img" /></p>
+
+<p>这里使用了 dashboard 而不是直接的 development 地址进行部署，在<code class="highlighter-rouge">http://localhost:24012/</code>就能看到
+部署操作发起的请求。</p>
+
+<h3 id="合约交互">合约交互</h3>
+
+<p>部署完合约就可以进行交互了，可以使用 VS Code 里的
+remix 进行交互，也可以使用 Web IDE 进行交互，
+还有一种方法是使用<code class="highlighter-rouge">web3.py</code>或<code class="highlighter-rouge">web3.js</code>进行应用层的调用。这里就暂时先不展开了，之后会进行一些案例的分析。</p>
+
+  </div>
+
+  
+
+
+  <footer class="post-footer">
+    <div class="post-meta">
+       <time datetime="2022-05-04T00:00:00+08:00" itemprop="datePublished">May 4, 2022</time> 
+      
+    </div>
+
+    
+    <ul class="post-tags" aria-label="TagList">
+      
+      <li><a class="tag-link" href="/tags/Program">Program</a></li>
+      
+    </ul>
+    
+  </footer>
+
+  
+</article>
+
+    </div>
+    <script type="text/javascript">
+  (function () {
+    var resize = function () {
+      this.width = 0.5 * (this.naturalWidth || this.width);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".half-size, .retina2x"), function(el) {
+      if (el.naturalWidth) {
+        resize.call(el);
+      } else {
+        el.onload = resize;
+      }
+    });
+  })();
+</script>
+
+  </main>
+
+  <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="social-links">
+      <a class="social-link social-github" href="https://github.com/xinqiu">
+        <i class="icon-github"></i>
+      </a>
+      <a class="social-link social-twitter" href="https://twitter.com/xinqiu_bot">
+        <i class="icon-twitter"></i>
+      </a>
+      <a class="social-link social-instagram" href="https://instagram.com/xinqiu_bot">
+        <i class="icon-instagram"></i>
+      </a>
+      <a class="social-link social-rss" href="/feed.xml" target="_blank">
+        <i class="icon-rss"></i>
+      </a>
+    </div>
+    <div class="credits">
+      <i class="icon-heart"></i> by xinqiu
+    </div>
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
